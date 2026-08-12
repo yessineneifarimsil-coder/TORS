@@ -1,0 +1,71 @@
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ============================================================
+# Virtual environments / IDE
+# ============================================================
+.venv/
+venv/
+env/
+.vscode/
+.idea/
+
+# ============================================================
+# OS files
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# Generated benchmark data
+# ============================================================
+data/generated/*
+data/processed/*
+data/audit/*
+
+# Keep folders in Git
+!data/generated/.gitkeep
+!data/processed/.gitkeep
+!data/audit/.gitkeep
+
+# ============================================================
+# Generated research outputs
+# ============================================================
+results/models/*
+results/weights/*
+results/diagnostics/*
+results/logs/*
+
+!results/models/.gitkeep
+!results/weights/.gitkeep
+!results/diagnostics/.gitkeep
+!results/logs/.gitkeep
+
+# ============================================================
+# Temporary files
+# ============================================================
+*.tmp
+*.bak
+*.log
+~$*.xlsx
+
+# ============================================================
+# LaTeX auxiliary files
+# ============================================================
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
