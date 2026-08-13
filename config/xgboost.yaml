@@ -115,6 +115,7 @@ tree_shap:
   model_output: "raw"
 
   background:
+
     source_partition: "fit"
 
     selection: "random_without_replacement"
@@ -126,10 +127,28 @@ tree_shap:
     candidate_sizes:
       - 25
       - 50
-      - 100
+      - 75
+
+    feasibility:
+
+      require_all_candidates_feasible_at_smallest_primary_sample: true
+
+      smallest_primary_context_count: 25
+
+      fit_fraction: 0.60
+
+      fit_contexts_at_smallest_primary_sample: 15
+
+      alternatives_per_context: 6
+
+      available_fit_rows_at_smallest_primary_sample: 90
+
+      selection_unit: "alternative_context_row"
+
+      selection_without_replacement: true
 
     if_target_exceeds_available_rows:
-      rule: "use_all_available_rows"
+      rule: "raise_error"
 
   explanation_partition: "weight"
 
@@ -137,6 +156,7 @@ tree_shap:
     definition: "mean_absolute_shap"
 
   local_accuracy_test:
+
     enabled: true
 
     absolute_tolerance: 1.0e-5
@@ -242,6 +262,9 @@ parallelisation:
     to avoid nested-thread oversubscription.
 
   replication_parallelism:
+
     library: "joblib"
+
     enabled_during_pilot: false
+
     enabled_during_full_experiment: true
