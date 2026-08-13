@@ -1,0 +1,590 @@
+# ============================================================
+# Controlled XAI-MCDM Benchmark for ITS Prioritisation
+# Benchmark specification V2
+# ============================================================
+
+project:
+  name: "SWFC"
+  title: "Validating SHAP-Derived Decision Weights for ITS Prioritisation under Data Scarcity"
+  benchmark_version: "2.0-development"
+  synthetic_benchmark: true
+  empirical_dataset: false
+
+dimensions:
+  alternatives: 6
+  criteria: 10
+  latent_context_factors: 5
+
+numerical:
+  epsilon: 1.0e-12
+  clip_lower: 0.0
+  clip_upper: 1.0
+
+
+# ============================================================
+# 1. ITS alternatives
+# ============================================================
+
+alternatives:
+
+  ATSC:
+    id: "A1"
+    name: "Adaptive Traffic Signal Control"
+
+    capability:
+      C1: "D"
+      C2: "D"
+      C3: "D"
+      C4: "I"
+      C5: "I"
+      C6: "I"
+      C7: "I"
+
+    readiness_class: "M"
+    interoperability_class: "H"
+    burden_class: "M"
+
+  TSP:
+    id: "A2"
+    name: "Transit Signal Priority"
+
+    capability:
+      C1: "I"
+      C2: "D"
+      C3: "D"
+      C4: "I"
+      C5: "0"
+      C6: "I"
+      C7: "D"
+
+    readiness_class: "M"
+    interoperability_class: "H"
+    burden_class: "L-M"
+
+  TIDM:
+    id: "A3"
+    name: "Traffic Incident Detection and Management"
+
+    capability:
+      C1: "I"
+      C2: "D"
+      C3: "I"
+      C4: "D"
+      C5: "D"
+      C6: "I"
+      C7: "I"
+
+    readiness_class: "M"
+    interoperability_class: "H"
+    burden_class: "M"
+
+  RMTI-DRG:
+    id: "A4"
+    name: "Real-Time Multimodal Traveller Information and Dynamic Route Guidance"
+
+    capability:
+      C1: "I"
+      C2: "I"
+      C3: "I"
+      C4: "I"
+      C5: "D"
+      C6: "I"
+      C7: "D"
+
+    readiness_class: "L-M"
+    interoperability_class: "H"
+    burden_class: "L-M"
+
+  V2X-CS:
+    id: "A5"
+    name: "V2X Cooperative Safety Services"
+
+    # Adaptive signal timing and transit priority are excluded
+    # from this alternative by design.
+    capability:
+      C1: "I"
+      C2: "I"
+      C3: "0"
+      C4: "D"
+      C5: "I"
+      C6: "I"
+      C7: "I"
+
+    readiness_class: "H"
+    interoperability_class: "H"
+    burden_class: "H"
+
+  DSM:
+    id: "A6"
+    name: "Dynamic Speed Management"
+
+    capability:
+      C1: "D"
+      C2: "D"
+      C3: "I"
+      C4: "D"
+      C5: "D"
+      C6: "I"
+      C7: "I"
+
+    readiness_class: "M-H"
+    interoperability_class: "H"
+    burden_class: "M-H"
+
+
+# ============================================================
+# 2. Criteria
+# ============================================================
+
+criteria:
+
+  C1:
+    index: 1
+    name: "Mobility-efficiency improvement"
+    direction: "benefit"
+
+  C2:
+    index: 2
+    name: "Travel-time reliability improvement"
+    direction: "benefit"
+
+  C3:
+    index: 3
+    name: "Person-throughput improvement"
+    direction: "benefit"
+
+  C4:
+    index: 4
+    name: "Safety-surrogate improvement"
+    direction: "benefit"
+
+  C5:
+    index: 5
+    name: "Non-recurring-congestion resilience"
+    direction: "benefit"
+
+  C6:
+    index: 6
+    name: "Environmental-efficiency improvement"
+    direction: "benefit"
+
+  C7:
+    index: 7
+    name: "User and accessibility benefit"
+    direction: "benefit"
+
+  C8:
+    index: 8
+    name: "Infrastructure and data readiness"
+    direction: "benefit"
+
+  C9:
+    index: 9
+    name: "Interoperability and scalability"
+    direction: "benefit"
+
+  C10:
+    index: 10
+    name: "Annualised lifecycle deployment burden"
+    direction: "cost"
+
+
+# ============================================================
+# 3. Latent context generator
+# ============================================================
+
+context_generator:
+
+  latent_factors:
+    - "h_D"
+    - "h_I"
+    - "h_T"
+    - "h_E"
+    - "h_R"
+
+  marginal_distribution: "uniform_0_1"
+
+  copula:
+    family: "gaussian"
+    correlation_structure: "equicorrelation"
+
+    # Common-random-number construction:
+    #
+    # h_tilde_k =
+    # sqrt(rho) * z_shared
+    # + sqrt(1-rho) * z_k
+    #
+    # where all z variables are iid N(0,1).
+    #
+    crn_formula: "sqrt_rho_shared_plus_sqrt_one_minus_rho_idiosyncratic"
+
+    transform_to_uniform: "standard_normal_cdf"
+
+  opportunity_functions:
+
+    C1:
+      h_D: 1.00
+
+    C2:
+      h_D: 0.60
+      h_I: 0.40
+
+    C3:
+      h_D: 0.60
+      h_T: 0.40
+
+    C4:
+      h_D: 0.50
+      h_I: 0.50
+
+    C5:
+      h_I: 1.00
+
+    C6:
+      h_D: 0.60
+      h_E: 0.40
+
+    C7:
+      h_D: 0.40
+      h_T: 0.60
+
+
+# ============================================================
+# 4. Technology response generation
+# ============================================================
+
+technology_response:
+
+  effect_bands:
+
+    "0":
+      distribution: "fixed"
+      value: 0.0
+
+    "I":
+      distribution: "uniform"
+      low: 0.05
+      high: 0.20
+
+    "D":
+      distribution: "uniform"
+      low: 0.20
+      high: 0.40
+
+  response_exponent:
+    reference_value: 1.0
+
+  criterion_noise:
+    distribution: "normal"
+    mean: 0.0
+    sigma_x: 0.02
+
+  clipping:
+    lower: 0.0
+    upper: 1.0
+
+
+# ============================================================
+# 5. Deployment classes
+# ============================================================
+
+deployment_classes:
+
+  base:
+
+    L:
+      distribution: "uniform"
+      low: 0.25
+      high: 0.40
+
+    M:
+      distribution: "uniform"
+      low: 0.45
+      high: 0.60
+
+    H:
+      distribution: "uniform"
+      low: 0.65
+      high: 0.80
+
+  compound:
+
+    "L-M":
+      distribution: "equal_mixture"
+      components:
+        - "L"
+        - "M"
+      probabilities:
+        - 0.50
+        - 0.50
+
+    "M-H":
+      distribution: "equal_mixture"
+      components:
+        - "M"
+        - "H"
+      probabilities:
+        - 0.50
+        - 0.50
+
+
+# ============================================================
+# 6. Technical criteria C8-C10
+# ============================================================
+
+technical_criteria:
+
+  C8:
+    name: "readiness_compatibility"
+    rule: "one_sided_shortfall"
+
+    # x8 =
+    # clip(
+    #   1 - max(0, readiness_requirement - h_R) + eta,
+    #   0,
+    #   1
+    # )
+
+  C9:
+    name: "interoperability"
+    readiness_coefficient: 0.10
+
+    # x9 =
+    # clip(iota_a + 0.10*h_R + eta, 0, 1)
+
+  C10:
+    name: "lifecycle_burden"
+    low_readiness_penalty: 0.20
+
+    # x10 =
+    # clip(
+    #   kappa_a
+    #   + 0.20*(1-h_R)*readiness_requirement
+    #   + eta,
+    #   0,
+    #   1
+    # )
+
+
+# ============================================================
+# 7. Direction orientation
+# ============================================================
+
+orientation:
+
+  benefit:
+    - "C1"
+    - "C2"
+    - "C3"
+    - "C4"
+    - "C5"
+    - "C6"
+    - "C7"
+    - "C8"
+    - "C9"
+
+  cost:
+    - "C10"
+
+  supervised_transform:
+    C10: "one_minus_x"
+
+
+# ============================================================
+# 8. Oracle nonlinear transformation
+# ============================================================
+
+oracle:
+
+  transform:
+    family: "normalized_log1p"
+    reference_zeta: 2.0
+
+  # ----------------------------------------------------------
+  # Primary heterogeneous alpha structure
+  # ----------------------------------------------------------
+  #
+  # The spectrum was fixed before primary simulation.
+  # The criterion assignment was generated once from the
+  # frozen alpha-assignment seed and is explicitly recorded
+  # here to avoid any implementation ambiguity.
+  #
+  main_effects:
+
+    primary_structure: "heterogeneous_fixed"
+
+    values:
+      C1: 0.10
+      C2: 0.13
+      C3: 0.16
+      C4: 0.04
+      C5: 0.05
+      C6: 0.12
+      C7: 0.11
+      C8: 0.14
+      C9: 0.08
+      C10: 0.07
+
+    expected_sum: 1.0
+
+    source_spectrum:
+      - 0.16
+      - 0.14
+      - 0.13
+      - 0.12
+      - 0.11
+      - 0.10
+      - 0.08
+      - 0.07
+      - 0.05
+      - 0.04
+
+    assignment_seed: 71001
+
+  # ----------------------------------------------------------
+  # Interaction graph
+  # ----------------------------------------------------------
+
+  interactions:
+
+    - criteria:
+        - "C1"
+        - "C2"
+      label: "mobility_reliability"
+      beta: 0.20
+
+    - criteria:
+        - "C3"
+        - "C7"
+      label: "person_throughput_user_benefit"
+      beta: 0.20
+
+    - criteria:
+        - "C4"
+        - "C5"
+      label: "safety_resilience"
+      beta: 0.20
+
+    - criteria:
+        - "C6"
+        - "C10"
+      label: "environment_deployment_efficiency"
+      beta: 0.20
+
+    - criteria:
+        - "C8"
+        - "C9"
+      label: "readiness_interoperability"
+      beta: 0.20
+
+
+# ============================================================
+# 9. Alpha-structure stress test
+# ============================================================
+
+alpha_stress_test:
+
+  enabled: true
+  primary_factorial: false
+  reference_condition_only: true
+
+  structures:
+    - "balanced"
+    - "dispersion_aligned"
+    - "dispersion_anti_aligned"
+
+  balanced:
+    value_per_criterion: 0.10
+
+  heterogeneous_spectrum:
+    - 0.16
+    - 0.14
+    - 0.13
+    - 0.12
+    - 0.11
+    - 0.10
+    - 0.08
+    - 0.07
+    - 0.05
+    - 0.04
+
+  dispersion_measure:
+    preprocessing: "minmax"
+    statistic: "standard_deviation"
+
+  assignment_source:
+    type: "independent_design_pool"
+    contexts: 5000
+    exclude_from_model_training: true
+    exclude_from_weight_calibration: true
+    exclude_from_testing: true
+
+
+# ============================================================
+# 10. Oracle Shapley reference
+# ============================================================
+
+oracle_shapley:
+
+  definition: "interventional"
+
+  implementation:
+    primary: "closed_form_pairwise"
+    validation: "exhaustive_enumeration_small_subset"
+
+  background:
+    source: "fit_partition"
+
+  moments:
+
+    mu_j:
+      definition: "mean_q_j_over_joint_background_rows"
+
+    mu_jk:
+      definition: "mean_q_j_times_q_k_over_same_joint_background_rows"
+      preserve_joint_rows: true
+      use_product_of_marginal_means: false
+
+  validation:
+    absolute_tolerance: 1.0e-10
+    check_efficiency: true
+
+
+# ============================================================
+# 11. Weighting-method preprocessing
+# ============================================================
+
+objective_weighting:
+
+  CRITIC:
+    preprocessing: "minmax"
+    data_source: "weight_partition"
+
+  Entropy:
+    preprocessing: "minmax"
+    data_source: "weight_partition"
+    zero_log_zero_convention: true
+
+  Equal:
+    value_per_criterion: 0.10
+
+
+# ============================================================
+# 12. Scientific constraints
+# ============================================================
+
+scientific_constraints:
+
+  tune_capability_mask_after_results: false
+  tune_response_bands_after_results: false
+  tune_oracle_after_results: false
+  tune_alpha_assignment_after_results: false
+  replace_unfavourable_seeds: false
+
+  synthetic_is_empirical_data: false
+  oracle_is_causal_ground_truth: false
+  oracle_is_stakeholder_preference: false
+  shap_is_causal_importance: false
+
+  preferred_ITS_required_to_win: false
+  preferred_weighting_method_required_to_win: false

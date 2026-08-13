@@ -1,0 +1,104 @@
+# ============================================================
+# Frozen random seed registry
+# ============================================================
+
+primary:
+
+  - 11001
+  - 11002
+  - 11003
+  - 11004
+  - 11005
+  - 11006
+  - 11007
+  - 11008
+  - 11009
+  - 11010
+  - 11011
+  - 11012
+  - 11013
+  - 11014
+  - 11015
+  - 11016
+  - 11017
+  - 11018
+  - 11019
+  - 11020
+  - 11021
+  - 11022
+  - 11023
+  - 11024
+  - 11025
+  - 11026
+  - 11027
+  - 11028
+  - 11029
+  - 11030
+
+
+development:
+
+  - 21001
+  - 21002
+  - 21003
+  - 21004
+  - 21005
+
+
+bootstrap:
+
+  master_seed: 31001
+
+  child_generation: "numpy.random.SeedSequence"
+
+  children: 200
+
+
+generator_ensemble:
+
+  master_seed: 41001
+
+  child_generation: "numpy.random.SeedSequence"
+
+  children: 50
+
+
+covariate_shift:
+
+  master_seed: 51001
+
+
+robustness:
+
+  master_seed: 61001
+
+
+alpha_assignment:
+
+  seed: 71001
+
+
+alpha_stress_design_pool:
+
+  master_seed: 72001
+
+
+random_weight_reference:
+
+  master_seed: 81001
+
+  child_generation: "numpy.random.SeedSequence"
+
+
+partition_assignment:
+
+  master_seed_offset: 91000
+
+  rule: >
+    For replication seed r, derive the nested context-partition
+    random stream deterministically from r and this namespace.
+
+
+software_tests:
+
+  smoke_test_seed: 12345

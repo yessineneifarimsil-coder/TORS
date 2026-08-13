@@ -1,0 +1,580 @@
+# ============================================================
+# Primary Experimental Protocol V2
+# ============================================================
+
+experiment:
+
+  status: "development_before_final_freeze"
+
+  independent_unit: "context"
+
+  alternatives_per_context: 6
+
+  design: "full_factorial"
+
+
+# ============================================================
+# 1. Context partition
+# ============================================================
+
+partition:
+
+  method: "nested_grouped_context_partition"
+
+  fit_fraction: 0.60
+  weight_fraction: 0.20
+  test_fraction: 0.20
+
+  labels:
+    - "fit"
+    - "weight"
+    - "test"
+
+  leakage_rules:
+
+    same_context_single_partition: true
+
+    test_used_for_model_fitting: false
+    test_used_for_hyperparameter_selection: false
+    test_used_for_weight_estimation: false
+    test_used_for_shap_background: false
+
+  nested_assignment:
+
+    enabled: true
+
+    maximum_contexts: 1000
+
+    block_size: 5
+
+    roles_per_block:
+      - "fit"
+      - "fit"
+      - "fit"
+      - "weight"
+      - "test"
+
+    randomize_roles_within_each_block: true
+
+    reuse_assignment_across_sample_sizes: true
+
+
+# ============================================================
+# 2. Primary experimental factors
+# ============================================================
+
+factors:
+
+  sample_size:
+    symbol: "N"
+
+    # Development pilot must verify that the lower end is
+    # genuinely informative before final specification freeze.
+    values:
+      - 25
+      - 50
+      - 100
+      - 250
+      - 1000
+
+  relative_target_noise:
+    symbol: "c"
+
+    values:
+      - 0.10
+      - 0.30
+      - 0.60
+
+    definition: "sigma_noise_equals_c_times_oracle_sd"
+
+  predictor_dependence:
+    symbol: "rho"
+
+    values:
+      - 0.0
+      - 0.4
+      - 0.8
+
+  interaction_strength:
+    symbol: "lambda"
+
+    values:
+      - 0.0
+      - 0.5
+      - 1.0
+
+
+# ============================================================
+# 3. Relative-noise construction
+# ============================================================
+
+target_noise:
+
+  base_distribution: "standard_normal"
+
+  equation: "epsilon_equals_c_times_sU_times_e"
+
+  signal_sd:
+    symbol: "s_U"
+
+    source: "noise_free_master_pool_for_condition"
+
+    computed_before_sample_size_subsetting: true
+
+  common_random_numbers:
+    reuse_standard_normal_noise_draw: true
+
+  diagnostics:
+    record_signal_sd: true
+    record_noise_sd: true
+    record_realized_snr: true
+
+
+# ============================================================
+# 4. Reference condition
+# ============================================================
+
+reference_condition:
+
+  N: 250
+  c: 0.30
+  rho: 0.4
+  lambda: 0.5
+
+  alpha_structure: "heterogeneous_fixed"
+
+
+# ============================================================
+# 5. Replications
+# ============================================================
+
+replications:
+
+  primary_seeds: 30
+
+  expected_factorial_conditions: 135
+
+  expected_primary_replications: 4050
+
+
+# ============================================================
+# 6. Common random numbers
+# ============================================================
+
+common_random_numbers:
+
+  enabled: true
+
+  master_context_size_per_seed: 1000
+
+  reuse_across_N: true
+  reuse_across_rho: true
+  reuse_across_noise: true
+  reuse_across_lambda: true
+
+  reuse_technology_response_parameters: true
+  reuse_deployment_parameters: true
+  reuse_criterion_noise_base_draws: true
+  reuse_target_noise_base_draws: true
+
+  correlation_construction:
+
+    method: "shared_plus_idiosyncratic_normals"
+
+    formula: >
+      h_tilde_k =
+      sqrt(rho)*z_shared +
+      sqrt(1-rho)*z_k
+
+    same_base_normals_across_rho: true
+
+
+# ============================================================
+# 7. Development protocol
+# ============================================================
+
+development:
+
+  use_primary_seeds: false
+
+  use_development_seeds_only: true
+
+  stages:
+
+    - "software_unit_tests"
+
+    - "single_reference_seed"
+
+    - "five_seed_reference_pilot"
+
+    - "sample_size_difficulty_pilot"
+
+    - "noise_snr_pilot"
+
+    - "winner_diversity_pilot"
+
+    - "random_weight_pilot"
+
+    - "reduced_factorial_pilot"
+
+  before_final_freeze:
+
+    verify_sample_size_range: true
+    verify_noise_range: true
+    verify_non_degenerate_decisions: true
+    verify_multiple_oracle_winners: true
+    verify_random_weights_not_equivalent_to_method_weights: true
+
+  degeneracy_diagnostics:
+
+    distinct_oracle_winners: true
+
+    modal_oracle_winner_share: true
+
+    oracle_winner_entropy: true
+
+    oracle_decision_margin_distribution: true
+
+    random_weight_kendall_distribution: true
+
+    random_weight_regret_distribution: true
+
+  diagnostic_flags:
+
+    # These trigger inspection; they are NOT automatic
+    # post-hoc rejection rules.
+    modal_winner_share_above: 0.85
+
+    median_random_weight_kendall_above: 0.85
+
+    fewer_than_distinct_oracle_winners: 3
+
+
+# ============================================================
+# 8. Predictive evaluation
+# ============================================================
+
+prediction_metrics:
+
+  pooled_test_rows:
+    - "R2"
+    - "MAE"
+    - "RMSE"
+
+  context_aggregated:
+    - "MeanContextMAE"
+    - "MeanContextRMSE"
+
+  uncertainty_unit: "context"
+
+
+# ============================================================
+# 9. Attribution evaluation
+# ============================================================
+
+attribution_metrics:
+
+  - "MAE_w"
+  - "TV_w"
+  - "Spearman"
+  - "Top3Overlap"
+  - "Top5Overlap"
+
+
+# ============================================================
+# 10. Decision evaluation
+# ============================================================
+
+decision_metrics:
+
+  kendall_variant: "tau_b"
+
+  metrics:
+    - "KendallTauB"
+    - "Top1Accuracy"
+    - "NormalizedOracleRegret"
+    - "OracleDecisionMargin"
+
+  regret_summary:
+    - "mean"
+    - "median"
+    - "p95"
+
+  tie_handling:
+    use_average_ranks_for_score_ties: true
+
+
+# ============================================================
+# 11. Direct-model reference
+# ============================================================
+
+direct_model_reference:
+
+  enabled: true
+
+  model: "XGBoost"
+
+  method:
+    predict_each_test_alternative: true
+    rank_predictions_within_context: true
+
+  compare_against_oracle:
+    - "KendallTauB"
+    - "Top1Accuracy"
+    - "NormalizedOracleRegret"
+
+
+# ============================================================
+# 12. Random-weight diagnostic
+# ============================================================
+
+random_weight_reference:
+
+  enabled: true
+
+  distribution: "Dirichlet"
+
+  concentration:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+
+  draws_per_replication: 200
+
+  primary_role: "diagnostic_lower_reference"
+
+
+# ============================================================
+# 13. Majority-winner reference
+# ============================================================
+
+majority_winner_reference:
+
+  enabled: true
+
+  winner_estimation_source: "weight_partition"
+
+  evaluate_on: "test_partition"
+
+  metric: "Top1Accuracy"
+
+
+# ============================================================
+# 14. MCDM
+# ============================================================
+
+mcdm:
+
+  primary: "MOORA"
+
+  robustness:
+    - "TOPSIS"
+
+  weighting_methods:
+
+    - "OracleAttribution"
+    - "SHAP"
+    - "PermutationImportance"
+    - "RidgePlus"
+    - "CRITIC"
+    - "Entropy"
+    - "Equal"
+
+  diagnostic_references:
+
+    - "DirectXGBoost"
+    - "RandomWeights"
+    - "MajorityWinner"
+
+
+# ============================================================
+# 15. Stage-wise fidelity analysis
+# ============================================================
+
+stagewise_fidelity:
+
+  enabled: true
+
+  claim_additive_error_decomposition: false
+
+  stages:
+
+    - "OracleUtility"
+
+    - "OracleMainEffectReference"
+
+    - "OracleGlobalAttributionRepresentation"
+
+    - "OracleWeightMOORA"
+
+    - "SHAPWeightMOORA"
+
+    - "DirectXGBoost"
+
+  purpose: >
+    Diagnose where decision fidelity is lost without claiming
+    that predictive, attribution and aggregation errors form
+    a single additive decomposition.
+
+
+# ============================================================
+# 16. Bootstrap
+# ============================================================
+
+bootstrap:
+
+  enabled: true
+
+  reference_condition_only: true
+
+  replications: 200
+
+  resampling_unit: "context"
+
+  repeat_full_pipeline:
+    refit_xgboost: true
+    recompute_shap: true
+    recompute_weights: true
+    recompute_moora: true
+
+  report:
+
+    - "SHAPWeightCI"
+    - "TVWeightCI"
+    - "KendallTauBCI"
+    - "MeanRegretCI"
+
+  global_ITS_rank_probability: false
+
+
+# ============================================================
+# 17. Alpha-structure stress test
+# ============================================================
+
+alpha_stress_test:
+
+  enabled: true
+
+  reference_condition_only: true
+
+  structures:
+
+    - "balanced"
+    - "dispersion_aligned"
+    - "dispersion_anti_aligned"
+
+
+# ============================================================
+# 18. Generator ensemble
+# ============================================================
+
+generator_ensemble:
+
+  enabled: true
+
+  generators: 50
+
+  condition: "reference"
+
+  alpha_distribution:
+    family: "Dirichlet"
+    concentration_per_criterion: 5.0
+
+  zeta_distribution:
+    family: "uniform"
+    low: 0.5
+    high: 3.0
+
+  interaction_graph:
+    source: "prespecified_semantic_pair_pool"
+
+
+# ============================================================
+# 19. Covariate shift
+# ============================================================
+
+covariate_shift:
+
+  enabled: true
+
+  demand_shift:
+
+    variable: "h_D"
+
+    fit_weight_region: "lower_80_percent"
+
+    test_region: "upper_20_percent"
+
+  readiness_shift:
+
+    variable: "h_R"
+
+    fit_weight_region: "upper_80_percent"
+
+    test_region: "lower_20_percent"
+
+
+# ============================================================
+# 20. Sensitivity
+# ============================================================
+
+criterion_removal:
+
+  enabled: true
+
+  one_at_a_time: true
+
+weight_perturbation:
+
+  enabled: true
+
+  percentages:
+    - 0.10
+    - 0.20
+    - 0.30
+
+  directions:
+    - -1
+    - 1
+
+  renormalize: true
+
+leave_one_alternative_out:
+
+  enabled: true
+
+  alternatives:
+    - "ATSC"
+    - "TSP"
+    - "TIDM"
+    - "RMTI-DRG"
+    - "V2X-CS"
+    - "DSM"
+
+
+# ============================================================
+# 21. Runtime
+# ============================================================
+
+runtime:
+
+  record_wall_clock: true
+
+  record_python_version: true
+
+  record_package_versions: true
+
+  record_cpu: true
+
+  record_memory_when_available: true
+
+  record_git_commit: true
+
+  record_seed: true

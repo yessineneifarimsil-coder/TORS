@@ -1,0 +1,247 @@
+# ============================================================
+# XGBoost + TreeSHAP configuration V2
+# ============================================================
+
+model:
+
+  library: "xgboost"
+
+  estimator: "XGBRegressor"
+
+  objective: "reg:squarederror"
+
+  n_jobs: 1
+
+  verbosity: 0
+
+
+# ============================================================
+# 1. Development calibration
+# ============================================================
+
+development:
+
+  enabled: true
+
+  data_partition: "fit"
+
+  grouping_variable: "context_id"
+
+  cross_validation:
+    method: "GroupKFold"
+    folds: 5
+
+  optimization_metric: "RMSE"
+
+  search:
+    method: "RandomizedSearchCV"
+    number_of_candidates: 60
+
+  search_space:
+
+    n_estimators:
+      - 200
+      - 400
+      - 600
+
+    max_depth:
+      - 2
+      - 3
+      - 5
+
+    learning_rate:
+      - 0.03
+      - 0.05
+      - 0.10
+
+    subsample:
+      - 0.80
+      - 1.00
+
+    colsample_bytree:
+      - 0.80
+      - 1.00
+
+    min_child_weight:
+      - 1
+      - 5
+
+    reg_alpha:
+      - 0.0
+      - 0.1
+
+    reg_lambda:
+      - 1.0
+      - 5.0
+
+
+# ============================================================
+# 2. Frozen parameters
+# ============================================================
+#
+# These remain NULL until development calibration is complete.
+# They are filled ONCE and committed before the primary runs.
+# ============================================================
+
+frozen_parameters:
+
+  calibrated: false
+
+  n_estimators: null
+
+  max_depth: null
+
+  learning_rate: null
+
+  subsample: null
+
+  colsample_bytree: null
+
+  min_child_weight: null
+
+  reg_alpha: null
+
+  reg_lambda: null
+
+
+# ============================================================
+# 3. TreeSHAP
+# ============================================================
+
+tree_shap:
+
+  feature_perturbation: "interventional"
+
+  model_output: "raw"
+
+  background:
+    source_partition: "fit"
+
+    selection: "random_without_replacement"
+
+    calibrated: false
+
+    frozen_target_size: null
+
+    candidate_sizes:
+      - 25
+      - 50
+      - 100
+
+    if_target_exceeds_available_rows:
+      rule: "use_all_available_rows"
+
+  explanation_partition: "weight"
+
+  global_importance:
+    definition: "mean_absolute_shap"
+
+  local_accuracy_test:
+    enabled: true
+
+    absolute_tolerance: 1.0e-5
+
+    relative_tolerance: 1.0e-5
+
+
+# ============================================================
+# 4. Permutation importance
+# ============================================================
+
+permutation_importance:
+
+  model: "fitted_xgboost"
+
+  evaluation_partition: "weight"
+
+  loss: "mean_squared_error"
+
+  repeats: 20
+
+  permutation_unit: "context_block"
+
+  preserve_alternative_order_within_block: true
+
+  negative_importance:
+    rule: "truncate_to_zero"
+
+  normalization:
+    rule: "divide_by_sum"
+
+
+# ============================================================
+# 5. Non-negative Ridge baseline
+# ============================================================
+
+ridge_plus:
+
+  data_partition: "fit"
+
+  standardize_X: true
+
+  standardize_y: true
+
+  solver: "scipy_optimize_nnls_augmented_design"
+
+  coefficient_constraint: "nonnegative"
+
+  regularization_selection:
+
+    method: "GroupKFold"
+
+    folds: 5
+
+    grouping_variable: "context_id"
+
+    candidate_tau:
+      - 0.0001
+      - 0.001
+      - 0.01
+      - 0.1
+      - 1.0
+      - 10.0
+      - 100.0
+
+    optimization_metric: "RMSE"
+
+  weight_normalization:
+    rule: "coefficient_divided_by_sum"
+
+  zero_sum_fallback:
+    rule: "equal_weights"
+
+
+# ============================================================
+# 6. Prediction reporting
+# ============================================================
+
+evaluation:
+
+  primary_partition: "test"
+
+  pooled_metrics:
+    - "R2"
+    - "MAE"
+    - "RMSE"
+
+  context_metrics:
+    - "MeanContextMAE"
+    - "MeanContextRMSE"
+
+
+# ============================================================
+# 7. Parallelisation
+# ============================================================
+
+parallelisation:
+
+  xgboost_n_jobs: 1
+
+  reason: >
+    Replication-level parallelism will be handled externally
+    to avoid nested-thread oversubscription.
+
+  replication_parallelism:
+    library: "joblib"
+    enabled_during_pilot: false
+    enabled_during_full_experiment: true
