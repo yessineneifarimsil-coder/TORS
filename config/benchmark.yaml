@@ -414,16 +414,16 @@ oracle:
     primary_structure: "heterogeneous_fixed"
 
     values:
-      C1: 0.10
-      C2: 0.13
-      C3: 0.16
-      C4: 0.04
-      C5: 0.05
-      C6: 0.12
-      C7: 0.11
-      C8: 0.14
+      C1: 0.11
+      C2: 0.04
+      C3: 0.05
+      C4: 0.07
+      C5: 0.10
+      C6: 0.14
+      C7: 0.12
+      C8: 0.16
       C9: 0.08
-      C10: 0.07
+      C10: 0.13
 
     expected_sum: 1.0
 
@@ -439,7 +439,7 @@ oracle:
       - 0.05
       - 0.04
 
-    assignment_seed: 71001
+    assignment_seed: 73001
 
   # ----------------------------------------------------------
   # Interaction graph
