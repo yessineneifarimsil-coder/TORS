@@ -469,29 +469,179 @@ The purpose of the random permutation is to introduce meaningful heterogeneity w
 
 # 16. Alpha-Dispersion Alignment Stress Test
 
-A secondary diagnostic at the reference experimental condition tests whether information-based weighting succeeds merely because criterion importance happens to align with criterion dispersion.
+A secondary controlled diagnostic tests whether information-based weighting
+methods benefit from accidental alignment between oracle relevance and
+criterion dispersion.
 
-Using the same coefficient multiset as Section 15, define for the fit partition:
+The frozen heterogeneous alpha mapping defined in Section 15 remains the
+primary oracle structure. It is not altered by this stress test.
+
+At the reference experimental condition only, three additional stress
+structures are evaluated:
+
+1. **Balanced:** \(\alpha_j=0.10\) for all ten criteria.
+2. **Dispersion-aligned:** assign the largest coefficient in the frozen
+   heterogeneous alpha multiset to the criterion with the largest estimated
+   dispersion, the second-largest coefficient to the criterion with the
+   second-largest dispersion, and so forth.
+3. **Dispersion-anti-aligned:** assign the largest coefficient to the
+   criterion with the smallest estimated dispersion, the second-largest
+   coefficient to the criterion with the second-smallest dispersion, and
+   so forth.
+
+## Independent design pool
+
+The dispersion ordering used to construct the aligned and anti-aligned
+structures is estimated once from a dedicated independent design pool.
+
+The pool contains:
+
+\[
+N_{\mathrm{design}}=5000
+\]
+
+independent contexts. Every design context is evaluated under all six ITS
+alternatives, exactly as in the primary benchmark. Therefore the dispersion
+calculation uses:
+
+\[
+5000\times6=30000
+\]
+
+alternative-context observations per criterion.
+
+Dispersion is calculated directly over these 30,000 alternative-context
+observations. Criterion values are not averaged across alternatives or
+collapsed to one context-level mean before dispersion is calculated. Every
+design context contributes its complete six-alternative decision matrix.
+
+Because this is a reference-condition stress test, the independent design
+pool uses the reference predictor-dependence condition:
+
+\[
+\rho=0.4.
+\]
+
+Interaction strength and target-noise conditions do not enter this
+calculation because criterion dispersion is estimated from the generated
+direction-adjusted criterion matrix \(\mathbf g\), before construction of
+the oracle learning target.
+
+The dedicated `alpha_stress_design_pool` master seed namespace (`72001`)
+is used only for this design pool. Deterministic child streams derived
+through `numpy.random.SeedSequence` generate all stochastic quantities
+required by the pool, including:
+
+- independent latent-context draws;
+- alternative-specific capability amplitudes;
+- readiness requirements;
+- interoperability parameters;
+- lifecycle-burden parameters;
+- criterion-response base-noise draws.
+
+The independent technology-response parameters are sampled once for the
+design pool and then frozen. The design contexts, technology-response
+parameters, and response-noise realizations are therefore generated once
+and remain fixed for the complete alpha-dispersion stress-test design.
+
+They are not regenerated for individual primary replication seeds.
+
+Consequently, the criterion-dispersion ordering, the dispersion-aligned
+alpha assignment, and the dispersion-anti-aligned alpha assignment are
+calculated once and frozen before any weighting-method comparison.
+
+The independent design pool is excluded from:
+
+- FIT;
+- WEIGHT;
+- TEST;
+- XGBoost training;
+- hyperparameter calibration;
+- SHAP background construction;
+- global weight estimation;
+- and final decision evaluation.
+
+It therefore provides design information only and cannot contribute
+observations to the benchmark evaluation samples.
+
+## Dispersion definition
+
+Dispersion is calculated from the direction-adjusted higher-is-better
+criterion scores:
+
+\[
+g_{asj}.
+\]
+
+For every criterion \(j\), its minimum and maximum are estimated exclusively
+from the 30,000 observations belonging to the independent design pool.
+
+No FIT, WEIGHT, or TEST observation contributes to these min-max parameters.
+
+Define:
+
+\[
+\widetilde g_{asj}
+=
+\frac{
+g_{asj}
+-
+\min_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
+}{
+\max_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
+-
+\min_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
++
+\varepsilon
+}.
+\]
+
+Criterion dispersion is then:
 
 \[
 D_j
 =
-\frac{1}{n_{fit}}
-\sum_{i\in fit}
-\left|q_j(g_i)-\overline{q_j(g)}\right|.
+\operatorname{sd}_{ddof=0}
+\left(
+\widetilde g_{\cdot\cdot j}
+\right).
 \]
 
-Three oracle structures are compared:
+The use of `ddof=0` is a deterministic implementation convention rather
+than an experimental factor. Because every criterion is evaluated on the
+same number of observations, changing from population to sample standard
+deviation would multiply every \(D_j\) by the same positive factor and
+would therefore leave the dispersion ordering unchanged.
 
-1. **Neutral heterogeneous:** the frozen primary mapping in Section 15.
-2. **Dispersion-aligned:** assign the largest \(\alpha\) to the criterion with the largest \(D_j\), descending thereafter.
-3. **Dispersion-anti-aligned:** assign the largest \(\alpha\) to the criterion with the smallest \(D_j\), descending thereafter.
+For the dispersion-aligned structure, coefficients and criteria are both
+ordered from largest to smallest and paired accordingly.
 
-Ties are broken by criterion index.
+For the dispersion-anti-aligned structure, the coefficient order remains
+largest to smallest while the criterion-dispersion order is reversed.
 
-This is a secondary controlled stress test, not an additional factor in the full 4050-run factorial experiment.
+If two dispersion values are numerically tied, criterion index is used as a
+deterministic tie-breaking rule. This rule exists solely for reproducibility
+and has no substantive interpretation.
 
-For every primary replication, also log the Spearman correlation between \(\boldsymbol\alpha\) and the realized criterion-dispersion vector.
+The balanced, dispersion-aligned, and dispersion-anti-aligned structures
+are secondary diagnostics evaluated only at the reference experimental
+condition. They are not crossed with the full 4050-run primary factorial
+experiment.
+
+## Descriptive realized-dispersion diagnostic
+
+For each primary replication, the Spearman correlation between the frozen
+primary alpha vector and the realized criterion-dispersion vector may also
+be recorded as a descriptive diagnostic.
+
+For this diagnostic only, realized dispersion is calculated from that
+replication's FIT partition using the same direction-adjusted,
+criterion-wise min-max and `ddof=0` standard-deviation convention.
+
+This realized-dispersion diagnostic does not determine or update the
+aligned or anti-aligned structures. It must never alter the primary alpha
+mapping, the generator, any weighting method, or any other component of the
+experimental design.
 
 ---
 

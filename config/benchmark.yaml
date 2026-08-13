@@ -485,9 +485,16 @@ oracle:
 alpha_stress_test:
 
   enabled: true
+
+  # Secondary diagnostic only.
   primary_factorial: false
   reference_condition_only: true
 
+  # The frozen heterogeneous mapping under oracle.main_effects
+  # remains the primary oracle structure.
+  primary_structure_reference: "oracle.main_effects"
+
+  # Additional structures evaluated only at the reference condition.
   structures:
     - "balanced"
     - "dispersion_aligned"
@@ -508,17 +515,109 @@ alpha_stress_test:
     - 0.05
     - 0.04
 
-  dispersion_measure:
-    preprocessing: "minmax"
-    statistic: "standard_deviation"
-
   assignment_source:
-    type: "independent_design_pool"
-    contexts: 5000
-    exclude_from_model_training: true
-    exclude_from_weight_calibration: true
-    exclude_from_testing: true
 
+    type: "independent_design_pool"
+
+    # Resolved through config/seeds.yaml:
+    # alpha_stress_design_pool.master_seed = 72001
+    seed_namespace: "alpha_stress_design_pool"
+
+    contexts: 5000
+    alternatives_per_context: 6
+    observations_per_criterion: 30000
+
+    complete_alternative_set_per_context: true
+    aggregate_to_context_mean_before_dispersion: false
+
+    # Reference-condition predictor dependence.
+    predictor_dependence_rho: 0.4
+
+    random_generation:
+      mechanism: "numpy.random.SeedSequence"
+      deterministic_child_streams: true
+      generate_once_and_freeze: true
+      vary_with_primary_replication_seed: false
+
+      child_streams:
+        - "latent_contexts"
+        - "technology_response_parameters"
+        - "criterion_response_noise"
+
+    technology_response_parameters:
+      sampled_once: true
+      frozen: true
+      quantities:
+        - "capability_amplitudes"
+        - "readiness_requirements"
+        - "interoperability_parameters"
+        - "lifecycle_burden_parameters"
+
+    criterion_response_noise:
+      sampled_once: true
+      frozen: true
+
+    exclude_from_fit: true
+    exclude_from_weight: true
+    exclude_from_test: true
+
+    exclude_from_model_training: true
+    exclude_from_hyperparameter_calibration: true
+    exclude_from_shap_background: true
+    exclude_from_weight_calibration: true
+    exclude_from_final_evaluation: true
+
+  dispersion_measure:
+
+    input: "direction_adjusted_g"
+    observation_unit: "alternative_context"
+
+    context_aggregation: false
+
+    preprocessing: "criterion_wise_minmax"
+    minmax_source: "independent_design_pool_only"
+
+    statistic: "standard_deviation"
+    ddof: 0
+
+    epsilon_source: "numerical.epsilon"
+
+  assignment_rules:
+
+    dispersion_aligned:
+      alpha_order: "descending"
+      dispersion_order: "descending"
+      rule: "largest_alpha_to_largest_dispersion"
+
+    dispersion_anti_aligned:
+      alpha_order: "descending"
+      dispersion_order: "ascending"
+      rule: "largest_alpha_to_smallest_dispersion"
+
+    tie_breaker: "criterion_index"
+    tie_breaker_role: "reproducibility_only"
+
+    calculate_once: true
+    freeze_before_method_comparison: true
+    vary_with_primary_replication_seed: false
+
+  diagnostics:
+
+    spearman_primary_alpha_vs_realized_dispersion:
+      enabled: true
+
+      alpha_source: "frozen_primary_heterogeneous"
+      dispersion_source: "fit_partition_realized"
+
+      input: "direction_adjusted_g"
+      preprocessing: "criterion_wise_minmax"
+      minmax_source: "fit_partition_only"
+
+      statistic: "standard_deviation"
+      ddof: 0
+
+      descriptive_only: true
+      may_modify_design: false
 
 # ============================================================
 # 10. Oracle Shapley reference
