@@ -6,15 +6,31 @@ channels:
 
 dependencies:
   - python=3.11
+
+  # Numerical computing
   - numpy
   - pandas
   - scipy
+
+  # Machine learning and statistics
   - scikit-learn
-  - matplotlib
-  - seaborn
+  - statsmodels
+
+  # Research utilities
+  - pyyaml
+  - pytest
+  - joblib
+  - tqdm
+  - psutil
+
+  # Data and figures
   - openpyxl
+  - matplotlib
+
+  # Interactive development
   - jupyter
   - ipykernel
+
   - pip
   - pip:
       - xgboost
