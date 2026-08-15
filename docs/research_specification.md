@@ -1515,22 +1515,53 @@ The development validation is split into two dependency-correct pilots. Primary 
 
 Run after the generator, oracle and relative-noise implementation exist, but before model-dependent diagnostics.
 
-Using the five reserved development seeds at the reference condition, record:
+Use the five reserved development seeds at the frozen reference condition
+
+\[
+(N,c,\rho,\lambda)=(250,0.30,0.4,0.5).
+\]
+
+Pilot A uses only the first 250 estimation/calibration contexts from each development seed, giving 1250 pooled development contexts. The fixed external TEST pool is excluded from every Pilot-A diagnostic and warning calculation.
+
+For each context, define the oracle winner as the alternative with the largest noise-free \(U^\star\). Exact score ties are resolved deterministically by ascending `alternative_id`, and the tie rate is recorded separately.
+
+The primary oracle decision margin is
+
+\[
+\Delta_s
+=
+U^\star_{(1),s}
+-
+U^\star_{(2),s},
+\]
+
+where \(U^\star_{(1),s}\) and \(U^\star_{(2),s}\) are the largest and second-largest oracle utilities in context \(s\). As a secondary scale-free diagnostic, also report
+
+\[
+\Delta^{norm}_s
+=
+\frac{\Delta_s}
+{\max_a U^\star_{as}-\min_a U^\star_{as}+10^{-12}}.
+\]
+
+The signal scale \(s_U\) remains defined from the complete 1000-context estimation master pool for the same \((\rho,\lambda)\), excluding external TEST, exactly as specified for relative observation noise. Realized SNR for Pilot A is reported on the \(N=250\) estimation contexts at \(c=0.30\).
+
+Record both per-seed diagnostics and the pooled five-seed summary:
 
 - criterion distributions and clipping diagnostics;
 - \(s_U\) and realized SNR;
 - number of distinct oracle winners;
 - modal oracle-winner share;
-- winner entropy;
+- normalized winner entropy;
 - oracle decision-margin distribution;
-- structural/Pareto dominance diagnostics.
+- structural/Pareto dominance diagnostics on the direction-adjusted \(G\) matrix.
 
-Pre-specified early-warning flags are:
+Pre-specified early-warning flags are evaluated on the pooled 1250 development contexts:
 
 - modal winner share above 0.60;
 - fewer than three distinct oracle winners across the development pilot.
 
-These two numerical flags trigger investigation but are not, by themselves, automatic rejection rules.
+Per-seed values remain secondary diagnostics. These two numerical flags trigger investigation but are not, by themselves, automatic rejection rules. Pilot A therefore does not create a new hard-stop threshold and must not be used to redesign the generator in order to favour a preferred ITS or weighting method.
 
 ## Pilot B — End-to-end decision-sensitivity gate
 

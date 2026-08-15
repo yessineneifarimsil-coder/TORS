@@ -258,6 +258,40 @@ development:
 
     model_independent: true
 
+    reference_scope:
+      N: 250
+      c: 0.30
+      rho: 0.4
+      lambda: 0.5
+      development_seeds: 5
+      contexts_per_seed: 250
+      pooled_contexts: 1250
+      use_estimation_contexts_only: true
+      use_external_test: false
+
+    oracle_winner:
+      score: "U_star"
+      rule: "maximum_within_context"
+      tie_break: "alternative_id_ascending"
+      record_tie_rate: true
+
+    decision_margin:
+      primary: "top1_U_star_minus_top2_U_star"
+      secondary_normalized: "primary_divided_by_within_context_U_star_range_plus_epsilon"
+      epsilon: 1.0e-12
+
+    signal_sd:
+      source: "complete_1000_context_estimation_master_pool"
+      exclude_external_test: true
+
+    realized_snr:
+      evaluation_scope: "reference_N250_estimation_contexts_only"
+
+    structural_pareto:
+      input: "direction_adjusted_g"
+      unit: "context"
+      ordered_alternative_pairs: true
+
     diagnostics:
       criterion_geometry: true
       signal_sd_and_realized_snr: true
@@ -266,10 +300,13 @@ development:
       oracle_winner_entropy: true
       oracle_decision_margin_distribution: true
       structural_pareto_dominance: true
+      per_seed_secondary_diagnostics: true
+      pooled_five_seed_diagnostics: true
 
     warning_flags:
       modal_winner_share_above: 0.60
       fewer_than_distinct_oracle_winners: 3
+      evaluation_scope: "pooled_five_development_seeds_reference_contexts"
 
     warning_flags_are_automatic_rejection_rules: false
 
