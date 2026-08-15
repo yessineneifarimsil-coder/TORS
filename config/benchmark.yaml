@@ -569,17 +569,32 @@ alpha_stress_test:
 
   dispersion_measure:
 
+    role: "defines_dispersion_aligned_and_anti_aligned_assignments"
+
     input: "direction_adjusted_g"
     observation_unit: "alternative_context"
 
     context_aggregation: false
 
+    preprocessing: "none"
+
+    transform:
+      function: "oracle_reference_q"
+      zeta: 2.0
+      equation: "log(1_plus_zeta_times_g)_div_log(1_plus_zeta)"
+
+    statistic: "mean_absolute_deviation_from_mean"
+
+  secondary_shape_dispersion_diagnostic:
+
+    enabled: true
+    may_define_alpha_assignment: false
+
+    input: "direction_adjusted_g"
     preprocessing: "criterion_wise_minmax"
     minmax_source: "independent_design_pool_only"
-
     statistic: "standard_deviation"
     ddof: 0
-
     epsilon_source: "numerical.epsilon"
 
   assignment_rules:
@@ -610,11 +625,13 @@ alpha_stress_test:
       dispersion_source: "fit_partition_realized"
 
       input: "direction_adjusted_g"
-      preprocessing: "criterion_wise_minmax"
-      minmax_source: "fit_partition_only"
+      preprocessing: "none"
 
-      statistic: "standard_deviation"
-      ddof: 0
+      transform:
+        function: "oracle_reference_q"
+        zeta: 2.0
+
+      statistic: "mean_absolute_deviation_from_mean"
 
       descriptive_only: true
       may_modify_design: false
@@ -658,10 +675,12 @@ objective_weighting:
   CRITIC:
     preprocessing: "minmax"
     data_source: "weight_partition"
+    robustness_data_source: "fit_plus_weight"
 
   Entropy:
     preprocessing: "minmax"
     data_source: "weight_partition"
+    robustness_data_source: "fit_plus_weight"
     zero_log_zero_convention: true
 
   Equal:

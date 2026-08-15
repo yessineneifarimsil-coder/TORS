@@ -56,6 +56,9 @@ results/logs/*
 *.bak
 *.log
 ~$*.xlsx
+SWFC_handoff_*.zip
+SWFC_protocol_v2_1_probe.zip
+protocol_v2_1_migration.py
 
 # ============================================================
 # LaTeX auxiliary files

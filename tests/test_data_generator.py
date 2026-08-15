@@ -92,18 +92,25 @@ def generate(
 
 
 def test_master_context_dimensions() -> None:
-    """Master pool must contain exactly 1000 contexts."""
+    """v2.1 master pool must contain exactly 1200 contexts."""
 
-    contexts, audit = generate(
-        rho=0.4
-    )
+    contexts, audit = generate(rho=0.4)
 
-    assert len(contexts) == 1000
-    assert len(audit) == 1000
+    assert len(contexts) == 1200
+    assert len(audit) == 1200
+    assert contexts["context_id"].nunique() == 1200
 
-    assert len(
-        contexts["context_id"].unique()
-    ) == 1000
+    estimation = contexts.loc[
+        contexts["partition"].isin(["fit", "weight"])
+    ]
+    external_test = contexts.loc[contexts["partition"].eq("test")]
+
+    assert len(estimation) == 1000
+    assert len(external_test) == 200
+    assert estimation["context_number"].min() == 1
+    assert estimation["context_number"].max() == 1000
+    assert external_test["context_number"].min() == 1001
+    assert external_test["context_number"].max() == 1200
 
 
 def test_context_factor_domains() -> None:
@@ -125,105 +132,83 @@ def test_context_factor_domains() -> None:
 
 
 @pytest.mark.parametrize(
-    "n_contexts",
+    "n_contexts,expected_fit,expected_weight",
     [
-        25,
-        50,
-        100,
-        250,
-        1000,
+        (25, 20, 5),
+        (50, 40, 10),
+        (100, 80, 20),
+        (250, 200, 50),
+        (1000, 800, 200),
     ],
 )
-def test_exact_partition_proportions(
+def test_fixed_external_test_partition_counts(
     n_contexts: int,
+    expected_fit: int,
+    expected_weight: int,
 ) -> None:
-    """
-    Every configured nested N must have an exact
-    60/20/20 context split.
-    """
+    """Every N has 80/20 FIT/WEIGHT plus the same 200 TEST contexts."""
 
-    contexts_master, audit_master = (
-        generate(
-            rho=0.4
-        )
+    contexts_master, audit_master = generate(rho=0.4)
+    contexts, _ = generator.extract_nested_sample(
+        contexts_master,
+        audit_master,
+        n_contexts,
     )
 
-    contexts, _ = (
-        generator.extract_nested_sample(
+    counts = contexts["partition"].value_counts().to_dict()
+    assert counts["fit"] == expected_fit
+    assert counts["weight"] == expected_weight
+    assert counts["test"] == 200
+    assert len(contexts) == n_contexts + 200
+
+
+def test_nested_estimation_samples_and_fixed_test_pool() -> None:
+    """Estimation samples are nested; external TEST is identical across N."""
+
+    contexts_master, audit_master = generate(rho=0.4)
+    sample_sizes = [25, 50, 100, 250, 1000]
+    samples: dict[int, pd.DataFrame] = {}
+
+    for n_contexts in sample_sizes:
+        subset, _ = generator.extract_nested_sample(
             contexts_master,
             audit_master,
             n_contexts,
         )
+        samples[n_contexts] = subset
+
+    reference_test = (
+        samples[25].loc[samples[25]["partition"].eq("test")]
+        .reset_index(drop=True)
     )
-
-    counts = (
-        contexts["partition"]
-        .value_counts()
-        .to_dict()
-    )
-
-    assert counts["fit"] == int(
-        n_contexts * 0.60
-    )
-
-    assert counts["weight"] == int(
-        n_contexts * 0.20
-    )
-
-    assert counts["test"] == int(
-        n_contexts * 0.20
-    )
-
-
-def test_nested_samples_are_exact_prefixes() -> None:
-    """
-    S25 must be contained unchanged in S50,
-    S50 in S100, etc.
-    """
-
-    contexts_master, audit_master = (
-        generate(
-            rho=0.4
-        )
-    )
-
-    sample_sizes = [
-        25,
-        50,
-        100,
-        250,
-        1000,
-    ]
-
-    samples: dict[
-        int,
-        pd.DataFrame,
-    ] = {}
 
     for n_contexts in sample_sizes:
-
-        subset, _ = (
-            generator.extract_nested_sample(
-                contexts_master,
-                audit_master,
-                n_contexts,
-            )
+        sample = samples[n_contexts]
+        estimation = (
+            sample.loc[sample["partition"].isin(["fit", "weight"])]
+            .reset_index(drop=True)
+        )
+        external_test = (
+            sample.loc[sample["partition"].eq("test")]
+            .reset_index(drop=True)
+        )
+        assert len(estimation) == n_contexts
+        pd.testing.assert_frame_equal(
+            external_test,
+            reference_test,
+            check_exact=True,
         )
 
-        samples[
-            n_contexts
-        ] = subset
-
-    for smaller, larger in zip(
-        sample_sizes[:-1],
-        sample_sizes[1:],
-    ):
-
+    for smaller, larger in zip(sample_sizes[:-1], sample_sizes[1:]):
+        small_est = samples[smaller].loc[
+            samples[smaller]["partition"].isin(["fit", "weight"])
+        ].reset_index(drop=True)
+        large_est = samples[larger].loc[
+            samples[larger]["partition"].isin(["fit", "weight"])
+        ].reset_index(drop=True)
         pd.testing.assert_frame_equal(
-            samples[smaller],
-            samples[larger].iloc[
-                :smaller
-            ].reset_index(drop=True),
+            small_est,
+            large_est.iloc[:smaller].reset_index(drop=True),
             check_exact=True,
         )
 
@@ -295,6 +280,40 @@ def test_base_random_numbers_are_reused_across_rho() -> None:
             base_columns
         ].to_numpy(),
     )
+
+
+
+def test_estimation_and_external_test_stream_namespaces() -> None:
+    """Master audit must exactly use namespaces 1001 and 1002."""
+
+    _, audit = generate(rho=0.4)
+    stream_cfg = seeds["context_generation"]
+
+    z_shared_est, z_idio_est = generator.generate_base_normals(
+        replication_seed=DEVELOPMENT_SEED,
+        n_contexts=1000,
+        n_latent_factors=len(FACTOR_NAMES),
+        stream_namespace=int(stream_cfg["estimation_stream_namespace"]),
+    )
+    z_shared_test, z_idio_test = generator.generate_base_normals(
+        replication_seed=DEVELOPMENT_SEED,
+        n_contexts=200,
+        n_latent_factors=len(FACTOR_NAMES),
+        stream_namespace=int(stream_cfg["external_test_stream_namespace"]),
+    )
+
+    np.testing.assert_array_equal(audit.iloc[:1000]["z_shared"], z_shared_est)
+    np.testing.assert_array_equal(audit.iloc[1000:]["z_shared"], z_shared_test)
+
+    for idx, factor in enumerate(FACTOR_NAMES):
+        np.testing.assert_array_equal(
+            audit.iloc[:1000][f"z_{factor}"].to_numpy(),
+            z_idio_est[:, idx],
+        )
+        np.testing.assert_array_equal(
+            audit.iloc[1000:][f"z_{factor}"].to_numpy(),
+            z_idio_test[:, idx],
+        )
 
 
 def test_partition_assignment_is_reused_across_rho() -> None:

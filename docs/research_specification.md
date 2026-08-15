@@ -469,180 +469,70 @@ The purpose of the random permutation is to introduce meaningful heterogeneity w
 
 # 16. Alpha-Dispersion Alignment Stress Test
 
-A secondary controlled diagnostic tests whether information-based weighting
-methods benefit from accidental alignment between oracle relevance and
-criterion dispersion.
+A secondary controlled diagnostic tests whether information-based weighting methods benefit from accidental alignment between oracle relevance and criterion dispersion.
 
-The frozen heterogeneous alpha mapping defined in Section 15 remains the
-primary oracle structure. It is not altered by this stress test.
+The frozen heterogeneous alpha mapping defined in Section 15 remains the primary oracle structure and is not altered by this stress test.
 
-At the reference experimental condition only, three additional stress
-structures are evaluated:
+At the reference experimental condition only, three additional structures are evaluated:
 
 1. **Balanced:** \(\alpha_j=0.10\) for all ten criteria.
-2. **Dispersion-aligned:** assign the largest coefficient in the frozen
-   heterogeneous alpha multiset to the criterion with the largest estimated
-   dispersion, the second-largest coefficient to the criterion with the
-   second-largest dispersion, and so forth.
-3. **Dispersion-anti-aligned:** assign the largest coefficient to the
-   criterion with the smallest estimated dispersion, the second-largest
-   coefficient to the criterion with the second-smallest dispersion, and
-   so forth.
+2. **Dispersion-aligned:** pair the descending heterogeneous alpha multiset with criteria ordered from largest to smallest attribution-relevant dispersion.
+3. **Dispersion-anti-aligned:** pair the same descending alpha multiset with criteria ordered from smallest to largest attribution-relevant dispersion.
 
 ## Independent design pool
 
-The dispersion ordering used to construct the aligned and anti-aligned
-structures is estimated once from a dedicated independent design pool.
-
-The pool contains:
+The assignment-defining dispersion ordering is calculated once from a dedicated independent design pool containing:
 
 \[
 N_{\mathrm{design}}=5000
 \]
 
-independent contexts. Every design context is evaluated under all six ITS
-alternatives, exactly as in the primary benchmark. Therefore the dispersion
-calculation uses:
+independent contexts. Each context contains the complete set of six ITS alternatives, giving:
 
 \[
 5000\times6=30000
 \]
 
-alternative-context observations per criterion.
+alternative-context observations per criterion. No context-level or alternative-level averaging is performed before the assignment-defining dispersion statistic is calculated.
 
-Dispersion is calculated directly over these 30,000 alternative-context
-observations. Criterion values are not averaged across alternatives or
-collapsed to one context-level mean before dispersion is calculated. Every
-design context contributes its complete six-alternative decision matrix.
+The pool uses the reference predictor-dependence condition \(\rho=0.4\) and the dedicated `alpha_stress_design_pool` namespace (`72001`). Deterministic child `SeedSequence` streams generate and freeze the latent contexts, technology-response parameters and criterion-response noise. These quantities are generated once and do not vary with primary replication seeds.
 
-Because this is a reference-condition stress test, the independent design
-pool uses the reference predictor-dependence condition:
+The independent design pool is excluded from FIT, WEIGHT, external TEST, model fitting, hyperparameter calibration, TreeSHAP background construction, global weight estimation and final decision evaluation.
+
+## Attribution-relevant dispersion definition
+
+Let the reference oracle transform be:
 
 \[
-\rho=0.4.
+q(g)=\frac{\log(1+2g)}{\log 3}.
 \]
 
-Interaction strength and target-noise conditions do not enter this
-calculation because criterion dispersion is estimated from the generated
-direction-adjusted criterion matrix \(\mathbf g\), before construction of
-the oracle learning target.
-
-The dedicated `alpha_stress_design_pool` master seed namespace (`72001`)
-is used only for this design pool. Deterministic child streams derived
-through `numpy.random.SeedSequence` generate all stochastic quantities
-required by the pool, including:
-
-- independent latent-context draws;
-- alternative-specific capability amplitudes;
-- readiness requirements;
-- interoperability parameters;
-- lifecycle-burden parameters;
-- criterion-response base-noise draws.
-
-The independent technology-response parameters are sampled once for the
-design pool and then frozen. The design contexts, technology-response
-parameters, and response-noise realizations are therefore generated once
-and remain fixed for the complete alpha-dispersion stress-test design.
-
-They are not regenerated for individual primary replication seeds.
-
-Consequently, the criterion-dispersion ordering, the dispersion-aligned
-alpha assignment, and the dispersion-anti-aligned alpha assignment are
-calculated once and frozen before any weighting-method comparison.
-
-The independent design pool is excluded from:
-
-- FIT;
-- WEIGHT;
-- TEST;
-- XGBoost training;
-- hyperparameter calibration;
-- SHAP background construction;
-- global weight estimation;
-- and final decision evaluation.
-
-It therefore provides design information only and cannot contribute
-observations to the benchmark evaluation samples.
-
-## Dispersion definition
-
-Dispersion is calculated from the direction-adjusted higher-is-better
-criterion scores:
+For criterion \(j\), define the assignment-relevant dispersion directly on the raw direction-adjusted criterion scores after the reference \(q\) transformation:
 
 \[
-g_{asj}.
-\]
-
-For every criterion \(j\), its minimum and maximum are estimated exclusively
-from the 30,000 observations belonging to the independent design pool.
-
-No FIT, WEIGHT, or TEST observation contributes to these min-max parameters.
-
-Define:
-
-\[
-\widetilde g_{asj}
+D_j^{\mathrm{attr}}
 =
-\frac{
-g_{asj}
--
-\min_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
-}{
-\max_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
--
-\min_{(a,s)\in\mathcal D_{\mathrm{design}}}g_{asj}
-+
-\varepsilon
-}.
+\frac{1}{30000}
+\sum_{(a,s)\in\mathcal D_{\mathrm{design}}}
+\left|
+q(g_{asj})-
+\overline{q(g_j)}
+\right|.
 \]
 
-Criterion dispersion is then:
+No criterion-wise min-max transformation is applied before \(q\). This statistic is used because the main-effect oracle attribution magnitude is directly driven by deviations of \(q_j(g_j)\) from its background mean.
 
-\[
-D_j
-=
-\operatorname{sd}_{ddof=0}
-\left(
-\widetilde g_{\cdot\cdot j}
-\right).
-\]
+For the dispersion-aligned structure, the largest alpha is assigned to the criterion with the largest \(D_j^{\mathrm{attr}}\), descending thereafter. For the dispersion-anti-aligned structure, the largest alpha is assigned to the criterion with the smallest \(D_j^{\mathrm{attr}}\), ascending thereafter. Criterion index is used only as a deterministic tie-breaker.
 
-The use of `ddof=0` is a deterministic implementation convention rather
-than an experimental factor. Because every criterion is evaluated on the
-same number of observations, changing from population to sample standard
-deviation would multiply every \(D_j\) by the same positive factor and
-would therefore leave the dispersion ordering unchanged.
+The resulting ordering and aligned/anti-aligned alpha assignments are computed once and frozen before any weighting-method comparison. These structures remain reference-condition-only diagnostics and are not crossed with the 4050-run primary factorial.
 
-For the dispersion-aligned structure, coefficients and criteria are both
-ordered from largest to smallest and paired accordingly.
+## Secondary shape-dispersion diagnostic
 
-For the dispersion-anti-aligned structure, the coefficient order remains
-largest to smallest while the criterion-dispersion order is reversed.
-
-If two dispersion values are numerically tied, criterion index is used as a
-deterministic tie-breaking rule. This rule exists solely for reproducibility
-and has no substantive interpretation.
-
-The balanced, dispersion-aligned, and dispersion-anti-aligned structures
-are secondary diagnostics evaluated only at the reference experimental
-condition. They are not crossed with the full 4050-run primary factorial
-experiment.
+The previously specified criterion-wise min-max followed by population standard deviation (`ddof=0`) is retained only as a secondary shape-dispersion diagnostic. It does not define or update the aligned or anti-aligned alpha assignments.
 
 ## Descriptive realized-dispersion diagnostic
 
-For each primary replication, the Spearman correlation between the frozen
-primary alpha vector and the realized criterion-dispersion vector may also
-be recorded as a descriptive diagnostic.
-
-For this diagnostic only, realized dispersion is calculated from that
-replication's FIT partition using the same direction-adjusted,
-criterion-wise min-max and `ddof=0` standard-deviation convention.
-
-This realized-dispersion diagnostic does not determine or update the
-aligned or anti-aligned structures. It must never alter the primary alpha
-mapping, the generator, any weighting method, or any other component of the
-experimental design.
-
+For each replication, the Spearman association between the frozen primary alpha vector and realized FIT-partition attribution-relevant dispersion may be recorded descriptively using the same \(q(g)\)-MAD convention. This diagnostic cannot modify the primary alpha mapping, the generator, the stress-test assignments or any weighting method.
 ---
 
 # 17. Oracle Interaction Structure
@@ -694,9 +584,9 @@ Because all coefficients are nonnegative and each \(q_j\) is increasing, the ora
 
 # 18. Signal-Relative Observation Noise
 
-Absolute noise levels would be confounded with any factor that changes \(\operatorname{sd}(U^\star)\). Therefore observation noise is defined relative to the oracle signal scale.
+Absolute noise levels would be confounded with factors that change \(\operatorname{sd}(U^\star)\). Observation noise is therefore defined relative to the oracle signal scale.
 
-For every primary replication seed and every \((\rho,\lambda)\) condition, compute the noise-free oracle utility on the complete \(N_{max}=1000\) master context pool and define:
+For every replication seed and every \((\rho,\lambda)\) condition, compute the noise-free oracle utility on the complete **1000-context estimation/calibration master pool only**, excluding the fixed external TEST pool, and define:
 
 \[
 s_U=\operatorname{sd}(U^\star).
@@ -708,29 +598,21 @@ Generate once:
 e_{as}\sim N(0,1),
 \]
 
-and define the observed learning target:
+and for relative-noise factor \(c\):
 
 \[
-Y_{as}=U^\star_{as}+c\,s_U\,e_{as}.
+Y_{as}=U^\star_{as}+c\,s_U e_{as}.
 \]
 
-The noise-ratio factor is:
+The primary levels remain:
 
 \[
 c\in\{0.10,0.30,0.60\}.
 \]
 
-No clipping and no multiplication by 100 are applied to \(Y\). This preserves the intended signal-to-noise relationship and avoids boundary-induced distortion.
+The same base standard-normal target-noise draw is reused across \(c\) levels under the common-random-number design. The fixed external TEST contexts receive noisy targets using the same condition-specific \(c\,s_U\) scale but contribute nothing to the estimation of \(s_U\).
 
-Mandatory diagnostics per cell:
-
-- \(s_U\),
-- imposed noise SD \(c\,s_U\),
-- realized SD of \(Y-U^\star\),
-- realized variance ratio / SNR.
-
-Decision fidelity is always evaluated against noise-free \(U^\star\), not against \(Y\).
-
+Do not clip the noisy target and do not multiply it by 100. Record imposed noise SD, realized noise SD and realized SNR. Decision fidelity is always evaluated against the noise-free oracle utility $U^\star$, not against the noisy learning target $Y$.
 ---
 
 # 19. Meaning of the Oracle
@@ -748,60 +630,75 @@ Its role is methodological: to provide a known reference against which predictio
 
 ---
 
-# 20. Fit / Weight-Calibration / Test Partition
+# 20. Estimation / Weight-Calibration / Fixed External TEST Architecture
 
-The primary partition is context-grouped:
+Each replication seed contains two non-overlapping context pools:
 
-- **60% fit contexts**,
-- **20% weight-calibration contexts**,
-- **20% test contexts**.
+1. a **1000-context estimation/calibration master pool**;
+2. a **fixed 200-context external TEST pool**.
 
-Uses:
+The experimental sample-size factor \(N\) refers only to the number of estimation/calibration contexts available before the external TEST. The TEST pool is therefore not counted in \(N\).
 
-## Fit partition
+Within every nested \(N\)-context estimation subset:
 
-- fit XGBoost,
-- fit Ridge+,
-- choose Ridge+ regularization by grouped CV within fit,
-- provide TreeSHAP background rows,
+- **80% are FIT contexts**;
+- **20% are WEIGHT contexts**.
+
+The 200 external TEST contexts are identical across every \(N\) condition for the same replication seed.
+
+## FIT partition
+
+FIT contexts are used to:
+
+- fit XGBoost;
+- fit Ridge+;
+- choose Ridge+ regularization by grouped CV within FIT;
+- provide TreeSHAP background rows;
 - compute oracle background moments.
 
-## Weight-calibration partition
+## WEIGHT partition
 
-- average SHAP attributions into global SHAP weights,
-- average oracle attributions into oracle attribution weights,
-- calculate permutation importance,
-- calculate CRITIC weights,
-- calculate entropy weights,
-- estimate trivial modal-winner diagnostic.
+WEIGHT contexts are used to:
 
-## Test partition
+- average SHAP attributions into global SHAP weights;
+- average oracle attributions into oracle attribution weights;
+- calculate permutation importance;
+- calculate primary CRITIC weights;
+- calculate primary entropy weights;
+- estimate the modal-winner diagnostic when required.
 
-Used only for:
+CRITIC and Entropy may additionally be recomputed on FIT plus WEIGHT as a secondary fairness/robustness analysis, but their primary comparison uses WEIGHT only.
 
-- final predictive metrics,
-- Direct-XGBoost ranking,
-- MCDM rankings,
-- Kendall agreement,
-- Top-1 accuracy,
-- decision regret,
+## Fixed external TEST pool
+
+The 200 external TEST contexts are used only for:
+
+- final predictive metrics;
+- Direct-XGBoost ranking;
+- final MCDM rankings;
+- Kendall agreement;
+- Top-1 accuracy;
+- decision regret;
 - decision-margin analysis.
 
-No test context may contribute to model fitting, background selection, weight estimation or method tuning.
-
+No external TEST context may contribute to model fitting, hyperparameter selection, TreeSHAP background construction, SHAP global-weight estimation, oracle global-weight estimation, permutation importance, Ridge+ fitting, CRITIC/Entropy weight estimation or method tuning.
 ---
 
-# 21. Nested Sample Sizes and Fixed Partition Membership
+# 21. Nested Estimation Sample Sizes and Fixed External TEST Membership
 
-For each primary seed, generate \(N_{max}=1000\) contexts and one seed-specific random permutation of the 1000 context identifiers.
+For each replication seed, generate a total master pool of 1200 contexts.
 
-Divide the permuted order into consecutive blocks of five. Within every block:
+- Context numbers 1--1000 form the estimation/calibration master pool.
+- Context numbers 1001--1200 form the fixed external TEST pool.
 
-- positions 1-3 -> `FIT`,
-- position 4 -> `WEIGHT`,
-- position 5 -> `TEST`.
+Within the first 1000 contexts, divide the deterministic nested order into consecutive blocks of five. Each block contains exactly:
 
-The data-scarcity subsets are prefixes of the same master order:
+- four `FIT` roles;
+- one `WEIGHT` role.
+
+The role order is shuffled deterministically within each block using the partition-specific seed stream. The assignment is generated once per replication seed and reused across \(N\) and \(\rho\).
+
+The scarcity subsets are exact prefixes of the same 1000-context estimation master order:
 
 \[
 \mathcal S_{25}
@@ -815,8 +712,19 @@ The data-scarcity subsets are prefixes of the same master order:
 \mathcal S_{1000}.
 \]
 
-Because every \(N\) is a multiple of five, every subset has exactly 60/20/20 partition proportions, and a context never changes partition when \(N\) increases.
+Hence the exact context counts are:
 
+| \(N\) | FIT | WEIGHT | fixed TEST |
+|---:|---:|---:|---:|
+| 25 | 20 | 5 | 200 |
+| 50 | 40 | 10 | 200 |
+| 100 | 80 | 20 | 200 |
+| 250 | 200 | 50 | 200 |
+| 1000 | 800 | 200 | 200 |
+
+The 200 external TEST context identifiers are invariant across every \(N\). Across \(\rho\), both estimation and external TEST pools reuse their own underlying Gaussian CRN streams; realized contextual variables may change with \(\rho\), but context identities and base random streams remain fixed.
+
+The original estimation-context stream is preserved under namespace `1001`. A separate deterministic namespace `1002` generates the fixed external TEST contexts. This prevents the addition of TEST contexts from changing the previously validated first 1000 context draws.
 ---
 
 # 22. Oracle Interventional Shapley Definition
@@ -976,39 +884,46 @@ Point estimates are calculated over held-out alternative-context rows, with unce
 
 Use `TreeExplainer` with:
 
-- `feature_perturbation="interventional"`,
-- background rows from the fit partition only.
+- `feature_perturbation="interventional"`;
+- background rows drawn exclusively from FIT;
+- TreeSHAP explanations evaluated on WEIGHT.
 
-The background size is selected once on development seeds from a pre-specified candidate set and then frozen. Candidate sizes must all be feasible at the smallest primary sample size; recommended candidate set:
+The background size is calibrated only on development seeds and then frozen before any primary execution.
+
+The fixed-external-TEST redesign changes minimum-N FIT availability. At \(N=25\), the estimation pool contains 20 FIT contexts and therefore:
 
 \[
-B_{bg}\in\{25,50,75\}.
+20\times6=120
 \]
 
-TreeSHAP attributions are evaluated on the weight-calibration partition.
+FIT alternative-context rows. A 100-row background is therefore feasible under v2.1, whereas it was infeasible under the previous 15-FIT-context design.
 
-Global SHAP importance:
+Consequently, the earlier `{25,50,75}` candidate decision is **reopened**. The machine-readable configuration retains that set temporarily for auditability, but it is not considered finally frozen until the v2.1 development reassessment compares it against the now-feasible 100-row candidate. No primary run may begin before the final candidate set and selected background size are committed and frozen.
+
+For every experimental condition, log both the absolute TreeSHAP background size \(B_{bg}\) and:
+
+\[
+r_{bg}=\frac{B_{bg}}{n_{FIT,\,rows}}.
+\]
+
+This makes the background-to-FIT ratio explicit across the scarcity factor.
+
+Global SHAP importance remains:
 
 \[
 I_j^{SHAP}
 =
-\frac{1}{n_{weight}}
-\sum_{i\in weight}
-|\phi_{ij}^{XGB}|.
-\]
-
-Global SHAP weight:
-
-\[
+\frac{1}{n_w}
+\sum_{i\in WEIGHT}|\phi_{ij}^{XGB}|,
+\qquad
 w_j^{SHAP}
 =
 \frac{I_j^{SHAP}}{\sum_k I_k^{SHAP}}.
 \]
 
-Terminology: **predictive attribution-derived surrogate weights**.
+The external TEST pool is never used for TreeSHAP background construction or global SHAP-weight estimation.
 
-They must not be described as causal or normative preference weights.
-
+Terminology: **predictive attribution-derived surrogate weights**. These weights summarize predictive attribution after global compression; they must not be interpreted as causal effects, stakeholder preferences, or normative decision weights.
 ---
 
 # 27. Attribution-Recovery Metrics
@@ -1231,6 +1146,8 @@ L=MSE.
 \]
 
 To respect the grouped decision structure, permute criterion \(j\) at the **context-block** level: the complete six-alternative vector of that criterion is reassigned between contexts rather than independently shuffling individual rows.
+
+Every permutation repeat must be a context-block **derangement**, so no WEIGHT context block remains in its original position. Use 20 unique derangements for every primary PI estimate. This is feasible even at the smallest sample size because five WEIGHT contexts admit 44 distinct derangements.
 
 For repeat \(b\):
 
@@ -1590,31 +1507,46 @@ This condition is used for detailed diagnostics, bootstrap and secondary robustn
 
 ---
 
-# 47. Mandatory Pilot / Degeneracy Diagnostics
+# 47. Mandatory Development Pilots and Degeneracy Gates
 
-Before the full 4050-run experiment, run the reference condition in the following order:
+The development validation is split into two dependency-correct pilots. Primary seeds are not inspected until both pilots, all development decisions and the final protocol freeze have been completed.
 
-1. one development/primary-compatible seed for implementation debugging,
-2. five reserved development seeds,
-3. thirty primary seeds only after all smoke and unit tests pass.
+## Pilot A — Oracle / decision-geometry gate
 
-For each pilot replication record:
+Run after the generator, oracle and relative-noise implementation exist, but before model-dependent diagnostics.
 
-- realized min / median / max of every criterion,
-- clipping proportion for every criterion,
-- \(s_U\) and realized SNR,
-- number of distinct oracle winners,
-- modal winner share,
-- winner entropy,
-- oracle decision-margin distribution,
-- random-weight Kendall and regret distribution,
-- Equal-weight performance,
-- Direct-XGBoost performance.
+Using the five reserved development seeds at the reference condition, record:
 
-**Stop rule:** if random Dirichlet weights are statistically indistinguishable from the structured weighting methods, if a single alternative dominates nearly all contexts, or if criterion ranges collapse so that the decision problem is effectively insensitive to weighting, do not run the full factorial experiment. Document the finding, revise the generator transparently, create a new specification version and Git tag, and repeat the pilot.
+- criterion distributions and clipping diagnostics;
+- \(s_U\) and realized SNR;
+- number of distinct oracle winners;
+- modal oracle-winner share;
+- winner entropy;
+- oracle decision-margin distribution;
+- structural/Pareto dominance diagnostics.
 
-No redesign may be justified by a desire to make SHAP or a preferred ITS win.
+Pre-specified early-warning flags are:
 
+- modal winner share above 0.60;
+- fewer than three distinct oracle winners across the development pilot.
+
+These two numerical flags trigger investigation but are not, by themselves, automatic rejection rules.
+
+## Pilot B — End-to-end decision-sensitivity gate
+
+Run only after XGBoost hyperparameters, TreeSHAP background protocol, weighting methods, decision operators and decision-fidelity metrics exist.
+
+Record:
+
+- Random-Dirichlet Kendall and regret distributions;
+- Equal-weight performance;
+- Direct-XGBoost performance;
+- modal-winner baseline performance;
+- structured weighting-method performance.
+
+**Hard stop rule:** do not run the primary factorial if random weights are statistically indistinguishable from the structured methods, if a trivial modal-winner reference effectively ties the structured methods in both Top-1 and regret, if one alternative dominates nearly all evaluated contexts, or if the decision geometry is effectively insensitive to weighting.
+
+If the hard stop fires, document the finding, revise transparently using development data only, create a new specification version and Git tag, and repeat the relevant pilot. No redesign may be justified by a desire to make SHAP or a preferred ITS win.
 ---
 
 # 48. Bootstrap Uncertainty Propagation
@@ -1625,12 +1557,12 @@ At the reference condition:
 B=200.
 \]
 
-Resample **fit contexts and weight-calibration contexts separately** with replacement; keep the original test contexts fixed for evaluation.
+Resample FIT contexts and WEIGHT contexts separately with replacement. The **same 200 fixed external TEST contexts remain untouched and fixed for every bootstrap iteration**.
 
 Each bootstrap iteration repeats:
 
 \[
-Fit\ bootstrap
+FIT\ bootstrap
 \rightarrow
 XGBoost
 \rightarrow
@@ -1640,20 +1572,19 @@ Weights
 \rightarrow
 MOORA/TOPSIS
 \rightarrow
-Test\ metrics.
+External\ TEST\ metrics.
 \]
 
 Bootstrap outputs focus on method-level quantities:
 
-- confidence intervals for SHAP weights,
-- \(TV_w\),
-- Kendall \(\tau_b\),
-- Top-1 accuracy,
-- mean regret,
+- confidence intervals for SHAP weights;
+- \(TV_w\);
+- Kendall \(\tau_b\);
+- Top-1 accuracy;
+- mean regret;
 - 95th-percentile regret.
 
-Do **not** report a global cross-context probability that a particular ITS is rank 1. The scientific objective is weighting-method validity, not declaring one synthetic ITS globally optimal.
-
+Do not report a global cross-context probability that a particular ITS is rank 1. The scientific objective is weighting-method validity, not declaring one synthetic ITS globally optimal.
 ---
 
 # 49. Generator-Ensemble Validation
@@ -1730,9 +1661,9 @@ Particular attention is paid to V2X-CS because connected-vehicle applications ca
 
 ---
 
-# 53. Statistical Factor Analysis
+# 53. Statistical Factor and Method Analysis
 
-For response metric \(Z\), such as \(TV_w\), Kendall \(\tau_b\), Top-1 accuracy or regret, summarize factor effects using a repeated-seed regression / mixed-effects response model.
+For a response metric \(Z\), such as \(TV_w\), Kendall \(\tau_b\), Top-1 accuracy or regret, summarize factor effects using a repeated-seed regression / mixed-effects response model that includes **method explicitly as a paired within-instance factor**.
 
 A generic specification is:
 
@@ -1749,19 +1680,18 @@ Z
 +
 \beta_\lambda\lambda
 +
-\text{pre-specified two-way interactions}
+\beta_m Method
++
+\text{pre-specified interactions}
 +
 u_{seed}
 +
 \epsilon.
 \]
 
-Seed is a repeated simulation factor.
+All weighting methods are evaluated on the same seed-by-condition benchmark instances, so method contrasts are paired. Seed is a repeated simulation factor. The exact interaction set must be frozen before primary analysis.
 
-Emphasize effect sizes and uncertainty intervals rather than binary significance alone.
-
-Method comparisons are paired because all methods are evaluated on the same generated benchmark instances.
-
+Emphasize effect sizes, paired contrasts and uncertainty intervals rather than binary significance alone.
 ---
 
 # 54. Random Seeds
@@ -1809,22 +1739,41 @@ At minimum:
 
 ## Data generator
 
-- values in expected domains,
-- six alternatives per context,
-- ten criteria per row,
-- no duplicated context-alternative pair.
+- values in expected domains;
+- 1200 unique master contexts per replication seed;
+- contexts 1--1000 form the estimation/calibration pool;
+- contexts 1001--1200 form the fixed external TEST pool;
+- no duplicated context identifier.
 
 ## Common random numbers
 
-- the same base normal draws are reused across \(\rho\),
-- technology parameters are invariant across factorial conditions for a given seed,
+- the same estimation-pool base normal draws are reused across \(\rho\);
+- the same external-TEST base normal draws are reused across \(\rho\);
+- the original 1000-context estimation stream is generated from namespace `1001`;
+- the external TEST stream is generated from separate namespace `1002`;
+- technology parameters are invariant across factorial conditions for a given seed;
 - target noise uses the same standard-normal draw scaled by \(c\,s_U\).
 
-## Nested partitions
+## Nested estimation samples and fixed TEST
 
-- exact 60/20/20 ratios for every \(N\),
-- subset nesting holds,
-- context partition membership never changes with \(N\).
+For every configured \(N\):
+
+- estimation subsets are exact nested prefixes;
+- FIT/WEIGHT counts are exactly 80/20 within \(N\);
+- exactly 200 external TEST contexts are appended;
+- external TEST identifiers are identical across all \(N\);
+- no external TEST identifier appears in FIT or WEIGHT;
+- partition identities are reused across \(\rho\).
+
+Expected context counts are 20/5/200 at \(N=25\), 40/10/200 at \(N=50\), 80/20/200 at \(N=100\), 200/50/200 at \(N=250\), and 800/200/200 at \(N=1000\).
+
+## Technology responses
+
+- six alternatives per context;
+- 7200 rows in the 1200-context master response matrix;
+- nested estimation responses remain exact prefixes;
+- the 1200 external TEST response rows are exactly reused across every \(N\) condition for a fixed seed and \(\rho\);
+- C1--C10 formula reconstruction tests continue to pass.
 
 ## Oracle monotonicity
 
@@ -1832,8 +1781,8 @@ Increasing one direction-adjusted criterion while holding others fixed must neve
 
 ## Closed-form Shapley
 
-- matches exhaustive enumeration,
-- preserves joint \(\mu_{jk}\),
+- matches exhaustive enumeration;
+- preserves joint \(\mu_{jk}\);
 - satisfies efficiency.
 
 ## Weights
@@ -1848,14 +1797,13 @@ w_j\ge0,
 
 within tolerance.
 
-## MCDM
+## Decision operators
 
-MOORA and TOPSIS must pass hand-computable toy examples.
+The benefit-oriented MOORA ratio-system implementation and TOPSIS must pass hand-computable toy examples.
 
 ## Test isolation
 
-No test context identifier may appear in model fitting, background data or weighting input.
-
+No external TEST context identifier may appear in model fitting, background data, global weight estimation, PI, Ridge+, CRITIC/Entropy estimation or method tuning.
 ---
 
 # 57. Numerical Constants
@@ -1902,23 +1850,24 @@ When replications are parallelized externally with `joblib`, set XGBoost `n_jobs
 
 ---
 
-# 59. Runtime Reporting
+# 59. Runtime and Execution Reporting
 
 Record:
 
-- wall-clock runtime by pipeline stage,
-- number of model fits,
-- TreeSHAP background size,
-- peak memory where feasible,
-- CPU information,
-- Python and package versions,
-- random seed,
+- wall-clock runtime by pipeline stage;
+- number of model fits;
+- TreeSHAP background size;
+- FIT alternative-context row count;
+- TreeSHAP background-to-FIT-row ratio \(B_{bg}/n_{FIT,rows}\);
+- peak memory where feasible;
+- CPU information;
+- Python and package versions;
+- random seed;
 - Git commit hash.
 
 Measure at least one complete reference replication end-to-end before launching the full grid and use the measured value to plan the compute budget.
 
 Do not fabricate runtime estimates in the manuscript.
-
 ---
 
 # 60. Output Philosophy
@@ -2049,11 +1998,13 @@ Every major methodological change must correspond to a Git commit.
 
 Before the primary experiment:
 
-1. commit this specification,
-2. commit the final YAML files,
-3. commit `environment.lock.yml`,
-4. pass the smoke/unit tests,
-5. tag the frozen protocol (recommended: `spec-v2.0`).
+1. commit the final v2.1 specification and synchronized YAML/code/tests,
+2. pass all smoke and unit tests,
+3. complete Pilot A and Pilot B on development seeds only,
+4. freeze XGBoost and TreeSHAP calibration choices,
+5. measure one complete reference replication end-to-end,
+6. commit the final frozen protocol state,
+7. create the mandatory Git tag `spec-v2.1` before any primary run.
 
 The exact Git commit used for final results must be reported in the repository metadata.
 
@@ -2061,16 +2012,20 @@ The exact Git commit used for final results must be reported in the repository m
 
 # 67. Immediate Implementation Order
 
-1. Update `environment.yml` and create `environment.lock.yml`.
-2. Create and pass `tests/test_shap_xgboost_smoke.py`.
-3. Create machine-readable YAML files matching this specification.
-4. Implement the context generator and nested partition logic.
-5. Implement technology responses and criterion diagnostics.
-6. Implement oracle utility and relative-noise scaling.
-7. Implement closed-form oracle Shapley and exhaustive unit tests.
-8. Implement XGBoost / TreeSHAP.
-9. Implement weighting baselines.
-10. Implement MOORA, TOPSIS, Direct-XGBoost and diagnostic references.
-11. Run the mandatory pilot diagnostics.
-12. Only after the pilot passes, launch the primary factorial experiment.
+1. Synchronize Protocol Re-Audit v2.1: fixed external TEST architecture, attribution-relevant alpha-dispersion definition, pilot split and supporting diagnostics.
+2. Revalidate Step 1 and Step 2 under the 1200-context master architecture.
+3. Run the pre-oracle generator audit on development seeds only.
+4. Implement oracle utility and relative-noise scaling.
+5. Implement closed-form oracle Shapley and exhaustive unit tests.
+6. Run Pilot A on development seeds only.
+7. Calibrate and freeze XGBoost on development seeds.
+8. Reassess, select and freeze the TreeSHAP background candidate set/size on development seeds.
+9. Implement weighting baselines, benefit-oriented MOORA, TOPSIS, Direct-XGBoost and diagnostic references.
+10. Implement decision-fidelity metrics and the complete stage-wise ladder.
+11. Run Pilot B and apply the hard decision-sensitivity gate.
+12. Run reference bootstrap and pre-specified robustness analyses.
+13. Freeze the statistical analysis protocol.
+14. Measure one complete end-to-end reference replication and record compute requirements.
+15. Commit the final frozen state and create mandatory tag `spec-v2.1`.
+16. Only then launch the 4050-run primary factorial experiment.
 

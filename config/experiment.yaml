@@ -19,11 +19,21 @@ experiment:
 
 partition:
 
-  method: "nested_grouped_context_partition"
+  method: "nested_estimation_pool_plus_fixed_external_test"
 
-  fit_fraction: 0.60
-  weight_fraction: 0.20
-  test_fraction: 0.20
+  estimation_pool:
+    maximum_contexts: 1000
+    fit_fraction: 0.80
+    weight_fraction: 0.20
+
+  external_test:
+    enabled: true
+    contexts: 200
+    first_context_number: 1001
+    last_context_number: 1200
+    fixed_across_sample_sizes: true
+    label: "test"
+    evaluation_only: true
 
   labels:
     - "fit"
@@ -38,6 +48,9 @@ partition:
     test_used_for_hyperparameter_selection: false
     test_used_for_weight_estimation: false
     test_used_for_shap_background: false
+    test_used_for_oracle_background_moments: false
+    test_used_for_permutation_importance: false
+    test_used_for_critic_entropy_estimation: false
 
   nested_assignment:
 
@@ -51,13 +64,12 @@ partition:
       - "fit"
       - "fit"
       - "fit"
+      - "fit"
       - "weight"
-      - "test"
 
     randomize_roles_within_each_block: true
 
     reuse_assignment_across_sample_sizes: true
-
 
 # ============================================================
 # 2. Primary experimental factors
@@ -67,6 +79,11 @@ factors:
 
   sample_size:
     symbol: "N"
+
+    definition: >
+      Number of estimation/calibration contexts available before
+      the fixed 200-context external TEST pool. TEST contexts are
+      excluded from N.
 
     # Development pilot must verify that the lower end is
     # genuinely informative before final specification freeze.
@@ -117,7 +134,9 @@ target_noise:
   signal_sd:
     symbol: "s_U"
 
-    source: "noise_free_master_pool_for_condition"
+    source: "noise_free_1000_context_estimation_master_pool_for_condition"
+
+    exclude_external_test: true
 
     computed_before_sample_size_subsetting: true
 
@@ -165,7 +184,10 @@ common_random_numbers:
 
   enabled: true
 
-  master_context_size_per_seed: 1000
+  master_context_size_per_seed: 1200
+
+  estimation_master_contexts: 1000
+  fixed_external_test_contexts: 200
 
   reuse_across_N: true
   reuse_across_rho: true
@@ -202,20 +224,17 @@ development:
   stages:
 
     - "software_unit_tests"
-
-    - "single_reference_seed"
-
-    - "five_seed_reference_pilot"
-
-    - "sample_size_difficulty_pilot"
-
-    - "noise_snr_pilot"
-
-    - "winner_diversity_pilot"
-
-    - "random_weight_pilot"
-
-    - "reduced_factorial_pilot"
+    - "pre_oracle_generator_audit"
+    - "oracle_implementation_and_validation"
+    - "relative_noise_validation"
+    - "pilot_A_oracle_geometry_gate"
+    - "xgboost_development_calibration"
+    - "treeshap_background_calibration"
+    - "weighting_and_decision_implementation"
+    - "pilot_B_end_to_end_decision_sensitivity_gate"
+    - "reference_bootstrap_and_robustness"
+    - "one_complete_reference_replication_runtime_measurement"
+    - "final_protocol_freeze_and_tag"
 
   before_final_freeze:
 
@@ -224,31 +243,52 @@ development:
     verify_non_degenerate_decisions: true
     verify_multiple_oracle_winners: true
     verify_random_weights_not_equivalent_to_method_weights: true
+    verify_modal_winner_reference_not_competitive_with_structured_methods: true
 
-  degeneracy_diagnostics:
+  pilot_A:
 
-    distinct_oracle_winners: true
+    model_independent: true
 
-    modal_oracle_winner_share: true
+    diagnostics:
+      criterion_geometry: true
+      signal_sd_and_realized_snr: true
+      distinct_oracle_winners: true
+      modal_oracle_winner_share: true
+      oracle_winner_entropy: true
+      oracle_decision_margin_distribution: true
+      structural_pareto_dominance: true
 
-    oracle_winner_entropy: true
+    warning_flags:
+      modal_winner_share_above: 0.60
+      fewer_than_distinct_oracle_winners: 3
 
-    oracle_decision_margin_distribution: true
+    warning_flags_are_automatic_rejection_rules: false
 
-    random_weight_kendall_distribution: true
+  pilot_B:
 
-    random_weight_regret_distribution: true
+    requires_frozen_xgboost: true
+    requires_weighting_methods: true
+    requires_decision_operators: true
+    requires_decision_metrics: true
 
-  diagnostic_flags:
+    diagnostics:
+      random_weight_kendall_distribution: true
+      random_weight_regret_distribution: true
+      equal_weight_performance: true
+      direct_xgboost_performance: true
+      modal_winner_reference_performance: true
+      structured_method_performance: true
 
-    # These trigger inspection; they are NOT automatic
-    # post-hoc rejection rules.
-    modal_winner_share_above: 0.85
+    hard_stop_if:
+      random_weights_statistically_indistinguishable_from_structured_methods: true
+      modal_winner_reference_effectively_ties_structured_methods_in_top1_and_regret: true
+      decision_problem_effectively_insensitive_to_weighting: true
 
-    median_random_weight_kendall_above: 0.85
-
-    fewer_than_distinct_oracle_winners: 3
-
+    on_hard_stop:
+      run_primary_factorial: false
+      document_and_revise_generator: true
+      create_new_specification_version: true
+      create_new_git_tag_before_retry: true
 
 # ============================================================
 # 8. Predictive evaluation
@@ -374,6 +414,11 @@ mcdm:
 
   primary: "MOORA"
 
+  primary_description: >
+    Benefit-oriented MOORA ratio-system implementation. Because all
+    criteria are direction-adjusted before aggregation, the primary
+    score reduces to a weighted vector-normalized benefit score.
+
   robustness:
     - "TOPSIS"
 
@@ -412,6 +457,10 @@ stagewise_fidelity:
 
     - "OracleGlobalAttributionRepresentation"
 
+    - "SHAPGlobalAttributionNonlinearQ"
+
+    - "SHAPGlobalAttributionLinearG"
+
     - "OracleWeightMOORA"
 
     - "SHAPWeightMOORA"
@@ -437,6 +486,9 @@ bootstrap:
   replications: 200
 
   resampling_unit: "context"
+
+  fixed_external_test_contexts: 200
+  resample_external_test: false
 
   repeat_full_pipeline:
     refit_xgboost: true
@@ -559,8 +611,32 @@ leave_one_alternative_out:
     - "DSM"
 
 
+
 # ============================================================
-# 21. Runtime
+# 21. Statistical analysis
+# ============================================================
+
+statistical_analysis:
+
+  method_factor:
+    enabled: true
+    role: "within_seed_condition_instance"
+
+  paired_method_contrasts: true
+  seed_role: "repeated_simulation_factor"
+
+  factor_effects:
+    - "log_N"
+    - "c"
+    - "rho"
+    - "lambda"
+    - "method"
+
+  emphasize_effect_sizes_and_intervals: true
+
+
+# ============================================================
+# 22. Runtime
 # ============================================================
 
 runtime:
@@ -576,5 +652,9 @@ runtime:
   record_memory_when_available: true
 
   record_git_commit: true
+
+  record_treeshap_background_size: true
+  record_fit_alternative_context_rows: true
+  record_treeshap_background_to_fit_row_ratio: true
 
   record_seed: true

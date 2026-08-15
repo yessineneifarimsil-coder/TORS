@@ -114,19 +114,13 @@ def generate(
 
 
 def test_master_response_dimensions() -> None:
-    """1000 contexts × 6 alternatives = 6000 rows."""
+    """1200 contexts × 6 alternatives = 7200 rows."""
 
-    (
-        contexts,
-        responses,
-        capability,
-        deployment,
-        audit,
-    ) = generate()
+    contexts, responses, capability, deployment, audit = generate()
 
-    assert len(contexts) == 1000
-    assert len(responses) == 6000
-    assert len(audit) == 6000
+    assert len(contexts) == 1200
+    assert len(responses) == 7200
+    assert len(audit) == 7200
 
     assert len(capability) == 6 * 7
     assert len(deployment) == 6
@@ -303,69 +297,83 @@ def test_base_criterion_noise_reused_across_rho() -> None:
 
 
 @pytest.mark.parametrize(
-    "n_contexts",
+    "n_contexts,expected_fit_rows,expected_weight_rows",
     [
-        25,
-        50,
-        100,
-        250,
-        1000,
+        (25, 120, 30),
+        (50, 240, 60),
+        (100, 480, 120),
+        (250, 1200, 300),
+        (1000, 4800, 1200),
     ],
 )
 def test_nested_response_sizes(
     n_contexts: int,
+    expected_fit_rows: int,
+    expected_weight_rows: int,
 ) -> None:
-    """Nested response samples must contain N × 6 rows."""
+    """Each condition contains N estimation contexts + 200 fixed TEST."""
 
     _, responses, _, _, audit = generate()
-
-    subset, audit_subset = (
-        responses_module.extract_nested_responses(
-            responses=responses,
-            audit=audit,
-            n_contexts=n_contexts,
-        )
+    subset, audit_subset = responses_module.extract_nested_responses(
+        responses=responses,
+        audit=audit,
+        n_contexts=n_contexts,
     )
 
-    assert len(subset) == (
-        n_contexts * 6
-    )
+    assert len(subset) == (n_contexts + 200) * 6
+    assert len(audit_subset) == (n_contexts + 200) * 6
 
-    assert len(audit_subset) == (
-        n_contexts * 6
-    )
+    counts = subset["partition"].value_counts().to_dict()
+    assert counts["fit"] == expected_fit_rows
+    assert counts["weight"] == expected_weight_rows
+    assert counts["test"] == 1200
 
 
-def test_nested_responses_are_exact_prefixes() -> None:
-    """Smaller N conditions must be exact response prefixes."""
+def test_nested_estimation_responses_and_fixed_test_responses() -> None:
+    """Estimation responses are nested and external TEST responses are fixed."""
 
     _, responses, _, _, audit = generate()
+    sample_sizes = [25, 50, 100, 250, 1000]
+    samples: dict[int, pd.DataFrame] = {}
 
-    small, _ = (
-        responses_module.extract_nested_responses(
+    for n_contexts in sample_sizes:
+        subset, _ = responses_module.extract_nested_responses(
             responses,
             audit,
-            250,
+            n_contexts,
         )
-    )
+        samples[n_contexts] = subset
 
-    large, _ = (
-        responses_module.extract_nested_responses(
-            responses,
-            audit,
-            1000,
+    reference_test = (
+        samples[25].loc[samples[25]["partition"].eq("test")]
+        .reset_index(drop=True)
+    )
+    assert len(reference_test) == 1200
+
+    for n_contexts in sample_sizes:
+        sample = samples[n_contexts]
+        external_test = (
+            sample.loc[sample["partition"].eq("test")]
+            .reset_index(drop=True)
         )
-    )
+        pd.testing.assert_frame_equal(
+            external_test,
+            reference_test,
+            check_exact=True,
+        )
 
-    pd.testing.assert_frame_equal(
-        small,
-        large.iloc[
-            :1500
-        ].reset_index(
-            drop=True
-        ),
-        check_exact=True,
-    )
+    for smaller, larger in zip(sample_sizes[:-1], sample_sizes[1:]):
+        small_est = samples[smaller].loc[
+            samples[smaller]["partition"].isin(["fit", "weight"])
+        ].reset_index(drop=True)
+        large_est = samples[larger].loc[
+            samples[larger]["partition"].isin(["fit", "weight"])
+        ].reset_index(drop=True)
+        pd.testing.assert_frame_equal(
+            small_est,
+            large_est.iloc[: smaller * 6].reset_index(drop=True),
+            check_exact=True,
+        )
 
 
 def test_capability_amplitudes_respect_configured_bands() -> None:

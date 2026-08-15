@@ -124,24 +124,30 @@ tree_shap:
 
     frozen_target_size: null
 
+    # Temporary pre-v2.1 candidate set retained for auditability.
+    # The final candidate set is REOPENED because the fixed-TEST redesign
+    # increases minimum-N FIT availability from 90 to 120 rows.
     candidate_sizes:
       - 25
       - 50
       - 75
 
+    candidate_set_status: "reopened_pending_v2_1_reassessment"
+    candidate_100_now_feasible: true
+
     feasibility:
 
       require_all_candidates_feasible_at_smallest_primary_sample: true
 
-      smallest_primary_context_count: 25
+      smallest_primary_estimation_context_count: 25
 
-      fit_fraction: 0.60
+      fit_fraction_within_estimation_pool: 0.80
 
-      fit_contexts_at_smallest_primary_sample: 15
+      fit_contexts_at_smallest_primary_sample: 20
 
       alternatives_per_context: 6
 
-      available_fit_rows_at_smallest_primary_sample: 90
+      available_fit_rows_at_smallest_primary_sample: 120
 
       selection_unit: "alternative_context_row"
 
@@ -179,6 +185,10 @@ permutation_importance:
   repeats: 20
 
   permutation_unit: "context_block"
+
+  permutation_scheme: "derangement"
+  require_no_fixed_context_blocks: true
+  unique_derangements_where_feasible: true
 
   preserve_alternative_order_within_block: true
 

@@ -1176,33 +1176,31 @@ def extract_nested_responses(
     n_contexts: int,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Extract responses belonging to contexts 1..N.
+    Return responses for the first N estimation/calibration contexts
+    plus all fixed external TEST contexts.
+
+    N excludes the external TEST pool.
     """
 
-    response_subset = (
-        responses.loc[
-            responses[
-                "context_number"
-            ] <= n_contexts
-        ]
-        .copy()
-        .reset_index(drop=True)
+    estimation_mask = responses["partition"].isin(["fit", "weight"])
+    test_mask = responses["partition"].eq("test")
+
+    estimation = responses.loc[
+        estimation_mask & (responses["context_number"] <= n_contexts)
+    ].copy()
+    external_test = responses.loc[test_mask].copy()
+
+    response_subset = pd.concat(
+        [estimation, external_test],
+        ignore_index=True,
     )
 
-    audit_subset = (
-        audit.loc[
-            audit[
-                "context_number"
-            ] <= n_contexts
-        ]
-        .copy()
-        .reset_index(drop=True)
-    )
+    selected_ids = response_subset[["context_id", "alternative_id"]]
+    audit_keyed = audit.set_index(["context_id", "alternative_id"], drop=False)
+    keys = list(selected_ids.itertuples(index=False, name=None))
+    audit_subset = audit_keyed.loc[keys].reset_index(drop=True)
 
-    return (
-        response_subset,
-        audit_subset,
-    )
+    return response_subset, audit_subset
 
 
 # ============================================================
@@ -1462,8 +1460,12 @@ def main() -> None:
         )
     )
 
+    estimation_responses = responses.loc[
+        responses["partition"].isin(["fit", "weight"])
+    ].reset_index(drop=True)
+
     summary = criterion_summary(
-        responses
+        estimation_responses
     )
 
     n_alternatives = int(
@@ -1488,9 +1490,37 @@ def main() -> None:
         f"{args.seed}"
     )
 
+    context_counts = (
+        responses[["context_id", "partition"]]
+        .drop_duplicates()
+        ["partition"]
+        .value_counts()
+        .to_dict()
+    )
+
     print(
-        f"Contexts                 : "
+        f"Estimation N requested   : "
         f"{args.n}"
+    )
+
+    print(
+        f"FIT contexts             : "
+        f"{int(context_counts.get('fit', 0))}"
+    )
+
+    print(
+        f"WEIGHT contexts          : "
+        f"{int(context_counts.get('weight', 0))}"
+    )
+
+    print(
+        f"External TEST contexts   : "
+        f"{int(context_counts.get('test', 0))}"
+    )
+
+    print(
+        f"Total contexts returned  : "
+        f"{sum(int(v) for v in context_counts.values())}"
     )
 
     print(
@@ -1510,7 +1540,8 @@ def main() -> None:
 
     print()
     print(
-        "Direction-adjusted criterion distributions:"
+        "Direction-adjusted criterion distributions "
+        "(FIT + WEIGHT only):"
     )
 
     for row in summary.itertuples(

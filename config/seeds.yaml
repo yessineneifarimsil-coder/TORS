@@ -95,8 +95,21 @@ partition_assignment:
   master_seed_offset: 91000
 
   rule: >
-    For replication seed r, derive the nested context-partition
-    random stream deterministically from r and this namespace.
+    For replication seed r, derive the nested estimation-pool
+    FIT/WEIGHT assignment stream deterministically from r and
+    this namespace.
+
+
+context_generation:
+
+  estimation_stream_namespace: 1001
+  external_test_stream_namespace: 1002
+
+  rule: >
+    Preserve the original 1000-context estimation stream under
+    namespace 1001 and generate the fixed 200-context external
+    TEST pool from the separate deterministic namespace 1002.
+    Both streams reuse their underlying base draws across rho.
 
 
 software_tests:
