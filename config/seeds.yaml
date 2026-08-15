@@ -112,6 +112,19 @@ context_generation:
     Both streams reuse their underlying base draws across rho.
 
 
+target_noise:
+
+  stream_namespace: 3001
+
+  rule: >
+    For replication seed r, derive one 7200-row standard-normal
+    alternative-context master noise stream from r and namespace
+    3001. Assign draws by sorted (context_number, alternative_id)
+    identity and reuse the same base draw across N, rho, lambda,
+    and c. External TEST rows receive draws but never contribute
+    to signal-scale estimation or development diagnostics.
+
+
 software_tests:
 
   smoke_test_seed: 12345

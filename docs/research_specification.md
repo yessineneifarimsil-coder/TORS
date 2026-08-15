@@ -610,7 +610,7 @@ The primary levels remain:
 c\in\{0.10,0.30,0.60\}.
 \]
 
-The same base standard-normal target-noise draw is reused across \(c\) levels under the common-random-number design. The fixed external TEST contexts receive noisy targets using the same condition-specific \(c\,s_U\) scale but contribute nothing to the estimation of \(s_U\).
+The same base standard-normal target-noise draw is reused across \(N\), \(\rho\), \(\lambda\), and \(c\) under the common-random-number design. For replication seed \(r\), the master target-noise stream is derived deterministically from `SeedSequence([r,3001])` and assigned to the 7200 master alternative-context identities in sorted `(context_number, alternative_id)` order. The fixed external TEST contexts receive noisy targets using the same condition-specific \(c\,s_U\) scale but contribute nothing to the estimation of \(s_U\) or to development diagnostics.
 
 Do not clip the noisy target and do not multiply it by 100. Record imposed noise SD, realized noise SD and realized SNR. Decision fidelity is always evaluated against the noise-free oracle utility $U^\star$, not against the noisy learning target $Y$.
 ---
@@ -1752,7 +1752,7 @@ At minimum:
 - the original 1000-context estimation stream is generated from namespace `1001`;
 - the external TEST stream is generated from separate namespace `1002`;
 - technology parameters are invariant across factorial conditions for a given seed;
-- target noise uses the same standard-normal draw scaled by \(c\,s_U\).
+- target noise uses namespace `3001` and the same standard-normal alternative-context master draw across \(N\), \(\rho\), \(\lambda\), and \(c\), scaled by the condition-specific \(c\,s_U\).
 
 ## Nested estimation samples and fixed TEST
 

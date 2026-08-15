@@ -142,6 +142,15 @@ target_noise:
 
   common_random_numbers:
     reuse_standard_normal_noise_draw: true
+    seed_registry_key: "target_noise.stream_namespace"
+    master_alternative_context_rows_per_seed: 7200
+    assignment_key:
+      - "context_number"
+      - "alternative_id"
+    reuse_across_N: true
+    reuse_across_rho: true
+    reuse_across_lambda: true
+    reuse_across_c: true
 
   diagnostics:
     record_signal_sd: true
