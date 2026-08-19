@@ -730,13 +730,90 @@ For each benchmark instance \(r\), compute the instance-specific dispersion vect
 
 This diagnostic quantifies how strongly the superpopulation-level manipulation is expressed in a particular technology world. It does not trigger seed replacement or per-seed alpha reassignment.
 
-## 12.4 D3 design-ensemble size — OPEN SUBDECISION D3.1
+## 12.4 D3 design-ensemble size — D3.1 RESOLVED
 
-The D3-B architecture is resolved, but the number of independent technology worlds used to estimate \(\bar D_j^{attr}\), their dedicated seed namespace, and the aggregation/convergence audit must be frozen **before** the post-generator-freeze D3 design ensemble is executed.
+The D3-B superpopulation mapping will be estimated from a dedicated independent technology-world Monte Carlo ensemble after the v2.2 technology-response generator is frozen.
 
-D3.1 may not be chosen by examining primary seeds, external TEST, SHAP performance, or winner geometry.
+### D3.1 design
 
-The design-ensemble size must be large enough to make the superpopulation ordering a property of the prespecified technology-world distribution rather than one or a few arbitrary draws.
+- master seed namespace: `74001`;
+- child generation: `numpy.random.SeedSequence`;
+- reserve: `400` deterministic child technology-world seeds;
+- initial ensemble: `200` technology worlds;
+- contexts per technology world: `1000` independent design contexts;
+- reference dependence: `rho = 0.4`;
+- criterion noise: `sigma_x = 0`;
+- alternatives: all six;
+- external TEST: excluded;
+- development seeds `21001–21005`: excluded from the ensemble;
+- structural-validation seeds `22001–22005`: excluded;
+- primary seeds `11001–11030`: excluded.
+
+The within-world attribution-relevant dispersion statistic is the frozen q-MAD definition:
+
+\[
+D_{j,w}^{attr}
+=
+\frac{1}{M_w}
+\sum_i
+\left|
+q_j(g_{ijw})-\overline q_{j,w}
+\right|.
+\]
+
+The superpopulation summary is the arithmetic mean:
+
+\[
+\bar D_j^{attr}
+=
+\frac{1}{W}
+\sum_{w=1}^{W}
+D_{j,w}^{attr}.
+\]
+
+### D3.1 convergence audit
+
+Evaluate cumulative ensemble summaries at:
+
+\[
+W\in\{50,100,150,200\}.
+\]
+
+At `W=200`, compute the technology-world Monte Carlo standard error of every \(\bar D_j^{attr}\).
+
+The initial 200-world ensemble is considered sufficiently converged only if both conditions hold:
+
+1. the complete criterion ordering induced by \(\bar D_j^{attr}\) is identical at `W=150` and `W=200`;
+2. for every criterion, the approximate 95% Monte Carlo confidence half-width satisfies
+
+\[
+1.96\,
+\frac{MCSE(\bar D_j^{attr})}
+     {\bar D_j^{attr}+\epsilon}
+\le 0.05.
+\]
+
+The `0.05` here is a **Monte Carlo precision target** (maximum 5% relative 95% half-width), not a scientific effect-size threshold.
+
+### Deterministic expansion rule
+
+If either convergence condition fails at `W=200`, do not tune the ensemble size after inspecting preferred alpha mappings.
+
+Instead, expand deterministically using the already-reserved child seeds to:
+
+\[
+W=400.
+\]
+
+Recompute the same convergence/precision audit at `W=400`.
+
+If the criterion ordering or relative Monte Carlo precision remains unstable at 400 worlds, D3.1 fails and must be explicitly revised under a new protocol amendment before the alpha-stress mapping is frozen.
+
+### D3.1 status
+
+**D3.1 is RESOLVED.**
+
+No D3-B ensemble is executed until the v2.2 technology-response generator itself has been frozen.
 
 Historical v2.1 commit `9b9eb4f` remains valid as a record of the v2.1 mapping and is not rewritten.
 
@@ -1070,39 +1147,111 @@ Before any candidate response family is run, v2.2 must resolve Decision D2 and d
 
 ---
 
-## 14.5 Decision D2 — smallest systematic effects of interest
+## 14.5 Decision D2 — SESOI architecture RESOLVED
 
-D2 is deliberately opened here.
+D2 adopts an ex-ante benchmark-scale smallest systematic effect of interest anchored to a semantic quantity that already existed before the v2.2 redesign.
 
-At minimum, D2 must define an ex-ante criterion-scale anchor:
+### D2.1 Criterion-scale anchor
 
-\[
-\Delta_g^{min},
-\]
-
-interpreted as the smallest systematic change on the direction-adjusted \([0,1]\) criterion scale that the benchmark intends to treat as scientifically meaningful rather than numerical structure.
-
-If a Layer-B automatic stop is used before XGBoost/SHAP development, D2 must separately define a decision-scale anchor, for example a smallest meaningful normalized oracle-regret effect:
+The frozen capability specification distinguishes structural zero from the weakest nonzero indirect-capability amplitude through:
 
 \[
-\Delta_R^{min}.
+I \sim U(0.05,0.20).
 \]
 
-The two anchors must not be inferred from the candidate that happens to pass.
+Therefore v2.2 adopts:
 
-Acceptable justifications include:
+\[
+\boxed{\Delta_g^{min}=0.05}
+\]
 
-1. a domain-semantic interpretation of the normalized criterion scale;
-2. a prespecified positive-control construction that induces exactly the chosen effect size while respecting the structural masks;
-3. a decision-theoretic interpretation of normalized regret.
+as the benchmark-scale **criterion-response SESOI anchor**.
 
-If no defensible scientific numeric threshold can be justified for a metric, that metric remains descriptive/warning-only rather than receiving an arbitrary hard cutoff.
+This value is not estimated from candidate generators, winner geometry, SHAP performance, primary seeds, or external TEST. It is inherited from the pre-existing lower bound that already separated an active indirect capability from a structural zero in the benchmark semantics.
 
-### D2 status
+The anchor does **not** mean that every realized context-specific response must move by 0.05. It defines the magnitude used to construct candidate-independent positive controls and to calibrate scientific metric thresholds.
 
-**OPEN — must be resolved before any candidate-family sweep.**
+### D2.2 Relative log-ratio anchor
 
----
+For the primary relative non-separability diagnostic M-A2, the corresponding 5% multiplicative reference is:
+
+\[
+\boxed{
+\Delta_{LR}^{min}
+=
+\log(1.05)
+=
+0.048790164169
+}
+\]
+
+This gives M-A2 an interpretable relative-effect anchor while preserving M-A1 as a numerical/corroborating rank-structure diagnostic.
+
+### D2.3 Metric-specific positive-control calibration
+
+No universal raw cutoff is imposed on NSV, SRE, or Layer-B regret.
+
+Instead, before any candidate family is executed, construct a **candidate-independent positive-control calibration** that:
+
+1. starts from the historical systematic-response architecture at `sigma_x=0`;
+2. preserves structural-zero masks;
+3. introduces a deterministic alternative-by-context differential perturbation with criterion-scale amplitude `Delta_g_min = 0.05`;
+4. uses label-balanced alternative contrast assignments so that no named ITS is privileged;
+5. uses design/diagnostic seeds only;
+6. excludes external TEST, structural-validation seeds, and primary seeds;
+7. propagates the control through the frozen primary oracle for Layer-B calibration.
+
+The positive control is a **measurement-calibration device**, not a candidate technology-response family and not an admissible final generator.
+
+For metrics whose scale has no direct semantic interpretation, the positive-control response defines the metric-specific scientific reference associated with the frozen SESOI.
+
+### D2.4 Gate hierarchy
+
+The following hierarchy is frozen before candidate evaluation.
+
+**Hard numerical structural invariants**
+
+- structural zeros remain exact zeros;
+- every intended context-responsive criterion/pathway with sufficient active support exceeds its T-N numerical-collapse threshold;
+- primary vector-normalized systematic variation exceeds T-N for every intended context-responsive criterion/pathway;
+- technology-profile pairing and data-separation invariants hold.
+
+**Hard scientific Layer-A gate**
+
+- M-A2 relative non-separability must reach the frozen D2 positive-control/SESOI reference under the predeclared design-seed aggregation rule;
+- M-A3 vector-normalized signal survival must be non-numerical for every intended pathway and is compared with its positive-control reference as a secondary scientific adequacy diagnostic.
+
+**Reachability**
+
+- SRE is primary and RE secondary;
+- intended latent pathways must exceed numerical reachability;
+- scientific SRE thresholds are obtained from the same D2 positive-control calibration rather than from arbitrary raw numbers.
+
+**Layer-B decision sensitivity**
+
+- winner identity and the number of winners remain descriptive;
+- the hard decision-sensitivity quantity, if the positive-control calibration yields a stable nonzero reference, is based on **normalized regret of the constant modal-winner baseline**, not on the identity of the modal winner;
+- the corresponding `Delta_R_min` is derived by propagating the label-balanced `Delta_g_min` positive controls through the frozen oracle;
+- if the positive-control Layer-B reference is not stable enough to define a defensible scientific cutoff, Layer-B remains an explicit hard-stop question for Pilot A/B rather than receiving an invented threshold.
+
+### D2.5 Design-seed aggregation rule
+
+For every scientific adequacy metric calibrated by the D2 positive control:
+
+- calculate the metric separately for each design seed `21001–21005`;
+- define the frozen scientific reference from the **median across design seeds**;
+- retain per-seed values and range as diagnostics;
+- never replace a design seed because its value is inconvenient.
+
+Candidate evaluation later uses the same aggregation functional.
+
+### D2.6 Status
+
+**D2 SESOI architecture is RESOLVED.**
+
+The numerical metric-specific positive-control references are not yet computed. They must be generated and committed in a dedicated pre-candidate calibration step before any v2.2 candidate-family sweep.
+
+This remaining calibration is designated **D2.7 positive-control calibration**.
 
 ## 14.6 Candidate acceptance logic
 
@@ -1169,7 +1318,7 @@ The following order supersedes the obsolete v2.1 immediate-order section for the
 1. Commit the historical v2.1 structural audit (`b953fb1`) — **done**.
 2. Freeze this v2.2 design specification.
 3. D1 resolved: superpopulation benchmark-instance estimand; preserve within-seed technology-profile pairing.
-4. Freeze structural metric definitions and threshold classes; resolve D2 smallest systematic effects of interest.
+4. D2 SESOI architecture resolved; run and freeze D2.7 metric-specific positive-control calibration before candidate evaluation.
 5. Declare v2.2 structural-validation seeds before candidate evaluation.
 6. Define candidate response families without running primary seeds or external TEST.
 7. Evaluate candidate families on v2.2 design seeds at `sigma_x=0`, computing the frozen Layer-A metrics and the complete Layer-B battery M-B1 through M-B4 before any generator freeze.
@@ -1198,8 +1347,7 @@ No primary factorial run is authorized before Step 22.
 
 The following items are intentionally unresolved:
 
-- D2 smallest systematic effects of interest / scientific adequacy anchors;
-- D3.1 alpha-dispersion superpopulation design-ensemble size, seed namespace, and convergence audit;
+- D2.7 metric-specific positive-control calibration values;
 - exact v2.2 response family;
 - fixed versus random response-shape parameters within a benchmark instance;
 - structural adequacy thresholds;
@@ -1231,4 +1379,4 @@ Until the v2.2 design specification is frozen:
 - do not resume Step 6 / Oracle Shapley;
 - do not create `spec-v2.2`.
 
-The next action after review is to freeze D2 and the remaining D3.1 design-ensemble details before any candidate-family sweep — not to tune the generator.
+The next action after review is to run and freeze D2.7 positive-control calibration, then pre-register candidate response families before any candidate sweep — not to tune the generator.
