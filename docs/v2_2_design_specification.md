@@ -1656,6 +1656,29 @@ T^{sci}_{NSV,j};
 
 These are criterion/pathway-level requirements, not winner-balancing rules.
 
+
+#### D2.7.11 Frozen numerical conventions
+
+The following implementation conventions are frozen before the first D2.7 execution:
+
+- positive-support floor for M-A2 LRV: `1e-12`;
+- logarithm: natural logarithm;
+- LRV standard deviation: population standard deviation (`ddof = 0`);
+- normalization denominator epsilon: `1e-12`;
+- SRE denominator epsilon: `1e-12`;
+- regret denominator epsilon: `1e-12`;
+- rank-one energy denominator epsilon: `1e-12`;
+- IQR definition: `Q0.75 - Q0.25` using NumPy's linear quantile interpolation;
+- p95 definition: NumPy linear quantile interpolation;
+- alternative tie-breaking: ascending frozen alternative ID;
+- modal-winner tie-breaking: ascending frozen alternative ID;
+- criterion-specific active-pair summaries exclude structural-zero pathways;
+- C8–C10 are never altered by the D2.7 positive control.
+
+These values are numerical implementation conventions, not scientific effect-size thresholds.
+
+The D2.7 implementation must refuse a full calibration run when the Git working tree is dirty, so the reported Git commit uniquely identifies the executed code/protocol state.
+
 #### D2.7.10 Execution and provenance rule
 
 The D2.7 protocol must be committed before the calibration script is executed.
