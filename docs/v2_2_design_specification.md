@@ -491,7 +491,7 @@ Before any candidate response-family sweep, add a new non-overlapping seed famil
 
 `v2_2_structural_validation`
 
-Proposed reserved values:
+Frozen reserved values:
 
 `22001–22005`
 
@@ -1842,3 +1842,424 @@ Until the v2.2 design specification is frozen:
 - do not create `spec-v2.2`.
 
 The next action is to pre-register the v2.2 candidate response families and their minimum-departure ordering before any candidate-family execution — not tune them.
+
+---
+
+# 18. Pre-candidate numerical-null calibration and candidate family — FROZEN BEFORE EXECUTION
+
+This section is frozen after D2.7 and before any v2.2 candidate response is executed.
+
+## 18.1 D2.8 numerical-null calibration
+
+The scientific D2.7 references are many orders of magnitude above floating-point noise, but the hard structural invariants also require an explicit T-N collapse discriminator.
+
+D2.8 therefore calibrates T-N only for the structural metrics whose analytical null is exact multiplicative separability:
+
+- M-A1 rank-one non-separability energy;
+- M-A2 active-pair LRV;
+- M-A3 primary vector-normalized NSV.
+
+### Null construction
+
+For active-alternative counts:
+
+\[
+m\in\{5,6\},
+\]
+
+construct `2000` deterministic null matrices per \(m\), each with `1000` contexts:
+
+\[
+G_{sa}=\theta_a c_s.
+\]
+
+For each null replicate:
+
+- \(\theta_a\) is drawn independently from \(U(0.05,0.40)\);
+- the RNG is initialized from `SeedSequence([76001, m])`;
+- \(c_s\) is the deterministic uniform-midpoint grid:
+
+\[
+c_s=\frac{s-0.5}{1000},
+\qquad
+s=1,\ldots,1000;
+\]
+
+- the midpoint order is deterministically permuted for each replicate using the same null RNG;
+- no criterion noise or clipping is applied;
+- the same numerical implementations and epsilons frozen in D2.7 are used.
+
+For each replicate record:
+
+- `NS_null`;
+- maximum active-pair `LRV_null`;
+- `NSV_vector_null`.
+
+Pool the \(m=5\) and \(m=6\) null replicates.
+
+Freeze:
+
+\[
+T^{num}_{NS}
+=
+\max
+\left[
+100Q_{0.999}(NS_{null}),
+10^{-12}
+\right],
+\]
+
+\[
+T^{num}_{LRV}
+=
+\max
+\left[
+100Q_{0.999}(LRV_{null}),
+10^{-10}
+\right],
+\]
+
+\[
+T^{num}_{NSV}
+=
+\max
+\left[
+100Q_{0.999}(NSV_{null}),
+10^{-10}
+\right].
+\]
+
+These are numerical discrimination thresholds only.
+
+The D2.8 script must also verify, descriptively, that the historical v2.1 C1–C7 systematic responses lie below the resulting T-N thresholds when evaluated with the same metric implementation.
+
+No candidate response is evaluated until the D2.8 thresholds are committed.
+
+---
+
+## 18.2 D4 candidate-family decision
+
+v2.2 permits **one and only one response-family architecture** before one-shot structural validation:
+
+\[
+\boxed{\text{D4-F1: alternative-specific monotone curvature tilt}}
+\]
+
+The historical v2.1 response is retained as the zero-curvature reference and is not an eligible redesigned candidate.
+
+### D4-F1 response equation
+
+For every active C1–C7 pathway:
+
+\[
+\boxed{
+g_{asj}(\kappa)
+=
+\theta_{aj}o_{sj}
+\left[
+1+
+\psi_{aj}(\kappa)
+(1-o_{sj})
+\right]
+}
+\]
+
+with:
+
+\[
+\psi_{aj}(\kappa)
+=
+\kappa v_{aj}.
+\]
+
+For structural-zero pathways:
+
+\[
+g_{asj}(\kappa)=0.
+\]
+
+C8–C10 remain unchanged during the first-pass systematic redesign.
+
+### Alternative-specific curvature coefficients
+
+Let \(m_j\) be the number of active alternatives for criterion \(j\).
+
+Define the symmetric, zero-mean coefficient grid:
+
+\[
+B_{m_j}
+=
+\left\{
+-1,\,
+-1+\frac{2}{m_j-1},\,
+\ldots,\,
+1
+\right\}.
+\]
+
+For each replication seed \(r\) and criterion \(j\), randomly permute \(B_{m_j}\) across the active alternatives using:
+
+\[
+SeedSequence([r,2004,j]).
+\]
+
+Thus:
+
+- each criterion/world contains the full symmetric curvature spread;
+- no named ITS is assigned a systematically favorable curvature coefficient;
+- structural zeros remain excluded;
+- curvature coefficients are drawn once per benchmark instance and reused across every \(N,\rho,c,\lambda\) cell and every method;
+- the same \(v_{aj}\) realization is reused across all \(\kappa\) levels within a benchmark instance.
+
+Namespace `2004` is reserved exclusively for v2.2 response-curvature profiles.
+
+### Analytic properties
+
+For:
+
+\[
+0\le\kappa\le1,
+\qquad
+-1\le v_{aj}\le1,
+\]
+
+the response remains nonnegative, bounded, and monotone in opportunity.
+
+At zero opportunity:
+
+\[
+g(0)=0.
+\]
+
+At maximal opportunity:
+
+\[
+g(1)=\theta_{aj}.
+\]
+
+The derivative is:
+
+\[
+\frac{\partial g}{\partial o}
+=
+\theta_{aj}
+\left[
+1+\psi_{aj}-2\psi_{aj}o
+\right]
+\ge0.
+\]
+
+Also:
+
+\[
+0\le g_{asj}(\kappa)\le\theta_{aj}\le0.40.
+\]
+
+Therefore no clipping is required at `sigma_x=0`.
+
+The departure from v2.1 is:
+
+\[
+g_{asj}(\kappa)-g_{asj}(0)
+=
+\theta_{aj}\kappa v_{aj}o_{sj}(1-o_{sj}),
+\]
+
+so:
+
+\[
+\max
+|g(\kappa)-g(0)|
+\le
+0.10\kappa.
+\]
+
+The family preserves:
+
+- semantic capability zeros;
+- original criterion-specific latent-factor supports;
+- zero response at zero opportunity;
+- the historical maximum capability amplitude at full opportunity;
+- monotonicity;
+- D1-B within-seed pairing.
+
+It introduces only one new scalar architecture parameter, \(\kappa\), plus replication-specific balanced curvature assignments.
+
+---
+
+## 18.3 Frozen candidate ladder
+
+The only admissible candidate values are:
+
+\[
+\boxed{
+\kappa
+\in
+\{0.10,0.20,0.30,0.40,0.50,0.60,0.70,0.80,0.90,1.00\}
+}
+\]
+
+and the historical reference:
+
+\[
+\kappa=0
+\]
+
+is reported for comparison only.
+
+No interpolation, intermediate value, larger value, or second response family may be introduced after candidate results are inspected.
+
+---
+
+## 18.4 Candidate evaluation scope
+
+Evaluate the entire frozen ladder using only:
+
+- design seeds `21001–21005`;
+- `rho=0.4`;
+- `sigma_x=0`;
+- complete 1000-context FIT+WEIGHT pool;
+- C1–C7 candidate response equations;
+- unchanged C8–C10;
+- unchanged primary oracle;
+- `lambda=0.5` for Layer-B diagnostics.
+
+External TEST is excluded.
+
+Structural-validation seeds `22001–22005` are excluded from candidate selection.
+
+Primary seeds `11001–11030` remain untouched.
+
+For each seed and \(\kappa\), compute the complete frozen Layer-A, reachability, Layer-B, scale/boundary, and dominance diagnostics.
+
+---
+
+## 18.5 Hard candidate gates
+
+For every \(\kappa\), the following must hold.
+
+### Numerical structural gates
+
+For every C1–C7 criterion:
+
+\[
+NS_j>T^{num}_{NS},
+\]
+
+\[
+LRV50_j>T^{num}_{LRV},
+\]
+
+\[
+NSV_{j,\mathrm{vector}}>T^{num}_{NSV}.
+\]
+
+Structural-zero pathways must remain exactly zero.
+
+### Scientific Layer-A gates
+
+For every C1–C7 criterion:
+
+\[
+\operatorname{median}_{r}
+LRV50_{j,r}(\kappa)
+\ge
+T^{sci}_{LRV,j},
+\]
+
+and:
+
+\[
+\operatorname{median}_{r}
+NSV_{j,\mathrm{vector},r}(\kappa)
+\ge
+T^{sci}_{NSV,j}.
+\]
+
+### Reachability gates
+
+For every declared latent-factor pathway:
+
+\[
+\operatorname{median}_{r}
+SRE_{k,j,r}(\kappa)
+\ge
+T^{sci}_{SRE,kj}.
+\]
+
+The same reflected-idiosyncratic-shock intervention frozen in D2.7 is used.
+
+### Layer-B handling
+
+D2.7 did not activate a numeric \(T_R^{sci}\).
+
+Therefore Layer-B M-B1 through M-B4 are computed and retained for every \(\kappa\), but:
+
+- winner identity;
+- number of winners;
+- modal alternative identity;
+- modal share
+
+do not select \(\kappa\).
+
+The candidate selected from Layer A/reachability remains **provisional** until the separately frozen v2.2 Pilot-A decision-sensitivity review is passed.
+
+This preserves the rule that a Layer-A-only repair is insufficient for final generator freeze without inventing a post-hoc Layer-B number.
+
+---
+
+## 18.6 Minimum-departure selection rule
+
+Among the frozen \(\kappa\) values satisfying every numerical, scientific Layer-A, and reachability gate, select:
+
+\[
+\boxed{
+\kappa^\star
+=
+\min
+\{\kappa:\text{all frozen gates pass}\}.
+}
+\]
+
+This is the only candidate-selection objective.
+
+Layer-B winner geometry, SHAP performance, MOORA fidelity, a preferred ITS identity, or an aesthetically attractive ranking may not alter the selected \(\kappa^\star\).
+
+If no frozen \(\kappa\in[0.10,1.00]\) satisfies all gates:
+
+- D4-F1 fails;
+- do not inspect structural-validation seeds;
+- do not introduce a new candidate family within v2.2 after seeing the failure;
+- document the failure and move any redesigned family to a new protocol version.
+
+---
+
+## 18.7 Structural-validation reservation
+
+The v2.2 structural-validation seeds are now frozen as:
+
+`22001–22005`.
+
+They remain uninspected until:
+
+1. D2.8 numerical thresholds are frozen;
+2. D4-F1 code/tests are committed;
+3. the design-seed ladder is executed;
+4. \(\kappa^\star\) is selected and committed;
+5. all Pilot-A rules required before validation are frozen.
+
+The one-shot structural-validation run then evaluates only the already-selected architecture; it is never used to choose \(\kappa\).
+
+---
+
+## 18.8 Next authorized action
+
+The next authorized action is:
+
+1. implement and execute D2.8 numerical-null calibration;
+2. freeze T-N;
+3. implement the preregistered D4-F1 candidate evaluator without modifying the production generator;
+4. commit evaluator/tests before any candidate execution;
+5. run the frozen candidate ladder on design seeds only.
+
+No production-generator modification is authorized yet.
