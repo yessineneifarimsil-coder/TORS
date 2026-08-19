@@ -200,6 +200,33 @@ Mean across six alternatives:
 
 ---
 
+### Normalization-specific qualification
+
+The preceding C8–C10 statement is **normalization-specific**. Under the primary vector normalization, C8–C10 retain nonzero systematic normalized context variation in the audited condition. This does not imply survival under every normalization family.
+
+In particular, at `sigma_x=0` the committed C9 equation is
+
+\[
+g_{as9}=\iota_a+0.10h_{R,s}.
+\]
+
+Within a context, min–max normalization removes the common additive term \(0.10h_{R,s}\):
+
+\[
+\frac{
+(\iota_a+0.10h_R)-(\iota_{\min}+0.10h_R)
+}{
+(\iota_{\max}+0.10h_R)-(\iota_{\min}+0.10h_R)
+}
+=
+\frac{\iota_a-\iota_{\min}}
+{\iota_{\max}-\iota_{\min}}.
+\]
+
+Thus C9 becomes context-invariant under min–max normalization even though it survives the primary vector normalization. This qualification does not alter the historical v2.1 conclusion about C1–C7 under MOORA's vector normalization; it clarifies that different normalization families remove different classes of common context transformations.
+
+---
+
 ## 2.4 Equal-weight decision geometry
 
 At `sigma_x=0`:
