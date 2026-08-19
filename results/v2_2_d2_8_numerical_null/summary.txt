@@ -1,0 +1,15 @@
+D2.8 NUMERICAL-NULL CALIBRATION
+git_commit: a1f2e54ff8965654cbf2e0773a1e249cd22170f7
+T_num_NS: 1e-12
+T_num_LRV: 1e-10
+T_num_NSV_vector: 3.250608445403733e-08
+Q999_NS_null: 0
+Q999_LRV_null_max: 9.879985152621749e-16
+Q999_NSV_vector_null: 3.250608445403733e-10
+candidate_responses_used: False
+external_TEST_used: False
+primary_seeds_used: False
+historical_v2_1_all_C1_C7_below_T_num: True
+historical_max_NS: 0
+historical_max_LRV: 7.222425309945365e-16
+historical_max_NSV_vector: 1.803557624200258e-09

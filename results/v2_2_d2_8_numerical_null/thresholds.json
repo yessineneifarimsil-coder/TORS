@@ -1,0 +1,15 @@
+{
+  "Q999_LRV_null_max": 9.87998515262175e-16,
+  "Q999_NSV_vector_null": 3.250608445403733e-10,
+  "Q999_NS_null": 0.0,
+  "T_num_LRV": 1e-10,
+  "T_num_NS": 1e-12,
+  "T_num_NSV_vector": 3.2506084454037334e-08,
+  "floors": {
+    "LRV": 1e-10,
+    "NS": 1e-12,
+    "NSV_vector": 1e-10,
+    "energy": 1e-24
+  },
+  "safety_multiplier": 100.0
+}

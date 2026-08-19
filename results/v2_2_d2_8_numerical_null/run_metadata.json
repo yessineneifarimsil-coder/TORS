@@ -1,0 +1,26 @@
+{
+  "active_counts": [
+    5,
+    6
+  ],
+  "candidate_responses_used": false,
+  "context_grid": "(s-0.5)/1000, deterministically permuted per replicate",
+  "contexts_per_null": 1000,
+  "external_test_used": false,
+  "git_branch": "protocol-v2.2-design",
+  "git_commit": "a1f2e54ff8965654cbf2e0773a1e249cd22170f7",
+  "historical_all_below_T_num": true,
+  "historical_check_design_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "historical_check_rho": 0.4,
+  "historical_check_sigma_x": 0.0,
+  "master_seed": 76001,
+  "primary_seeds_used": false,
+  "replicates_per_count": 2000,
+  "theta_distribution": "U(0.05,0.40)"
+}

@@ -1969,6 +1969,36 @@ No candidate response is evaluated until the D2.8 thresholds are committed.
 
 ---
 
+## 18.1.1 Frozen D2.8 outcome
+
+D2.8 was executed from Git commit `a1f2e54ff8965654cbf2e0773a1e249cd22170f7` after the null design and corrected M-A1 implementation were committed.
+
+The frozen numerical thresholds are:
+
+\[
+T^{num}_{NS}=10^{-12},
+\]
+
+\[
+T^{num}_{LRV}=10^{-10},
+\]
+
+\[
+T^{num}_{NSV,vector}=3.2506084454037334\times10^{-8}.
+\]
+
+The pooled null quantiles were:
+
+- `Q999_NS_null = 0.0`;
+- `Q999_LRV_null_max = 9.87998515262175e-16`;
+- `Q999_NSV_vector_null = 3.250608445403733e-10`.
+
+The preregistered historical v2.1 check passed for all `35` design-seed/criterion combinations. Maximum reproduced historical values were `NS=0`, `LRV=7.222425309945365e-16`, and `vector NSV=1.803557624200258e-09`.
+
+No candidate response, external TEST, or primary seed was used.
+
+D2.8 is now **CLOSED**. These T-N values are frozen before D4-F1 candidate-family execution.
+
 ## 18.2 D4 candidate-family decision
 
 v2.2 permits **one and only one response-family architecture** before one-shot structural validation:
@@ -2288,10 +2318,9 @@ The one-shot structural-validation run then evaluates only the already-selected 
 
 The next authorized action is:
 
-1. implement and execute D2.8 numerical-null calibration;
-2. freeze T-N;
-3. implement the preregistered D4-F1 candidate evaluator without modifying the production generator;
-4. commit evaluator/tests before any candidate execution;
-5. run the frozen candidate ladder on design seeds only.
+1. D2.8 numerical-null calibration and T-N freeze — **done**;
+2. implement the preregistered D4-F1 candidate evaluator without modifying the production generator;
+3. commit evaluator/tests before any candidate execution;
+4. run the frozen candidate ladder on design seeds only.
 
 No production-generator modification is authorized yet.
