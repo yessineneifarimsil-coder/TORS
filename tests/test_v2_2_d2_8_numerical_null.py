@@ -57,6 +57,23 @@ def test_frozen_null_design_constants():
     assert d28.FLOOR_NS == 1e-12
     assert d28.FLOOR_LRV == 1e-10
     assert d28.FLOOR_NSV == 1e-10
+    assert d28.HISTORICAL_DESIGN_SEEDS == (
+        21001,
+        21002,
+        21003,
+        21004,
+        21005,
+    )
+    assert d28.HISTORICAL_RHO == 0.4
+    assert d28.HISTORICAL_CRITERIA == (
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+    )
 
 
 def test_rank_one_energy_rejects_structural_zero_energy():
@@ -70,3 +87,14 @@ def test_rank_one_energy_rejects_structural_zero_energy():
         raise AssertionError(
             "Expected structural-zero-energy ValueError"
         )
+
+def test_active_only_null_metrics_remain_below_frozen_floors():
+    rng = np.random.default_rng(
+        np.random.SeedSequence([76001, 5])
+    )
+    x = d28.make_null_matrix(rng, 5)
+
+    assert d28.rank_one_energy(x) <= d28.FLOOR_NS
+    assert d28.max_pairwise_lrv(x) <= d28.FLOOR_LRV
+    assert d28.d27.nsv(x, "vector") <= 1e-8
+
