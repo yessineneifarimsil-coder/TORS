@@ -1147,13 +1147,13 @@ Before any candidate response family is run, v2.2 must resolve Decision D2 and d
 
 ---
 
-## 14.5 Decision D2 — SESOI architecture RESOLVED
+## 14.5 Decision D2 — SESOI calibration architecture RESOLVED
 
-D2 adopts an ex-ante benchmark-scale smallest systematic effect of interest anchored to a semantic quantity that already existed before the v2.2 redesign.
+D2 adopts an ex-ante semantic anchor that existed before the v2.2 redesign, while explicitly separating **parameter-space meaning** from **response-space metric thresholds**.
 
-### D2.1 Criterion-scale anchor
+### D2.1 Capability-amplitude anchor
 
-The frozen capability specification distinguishes structural zero from the weakest nonzero indirect-capability amplitude through:
+The frozen v2.1 capability specification distinguishes structural zero from the weakest nonzero indirect-capability amplitude through:
 
 \[
 I \sim U(0.05,0.20).
@@ -1162,50 +1162,84 @@ I \sim U(0.05,0.20).
 Therefore v2.2 adopts:
 
 \[
-\boxed{\Delta_g^{min}=0.05}
-\]
-
-as the benchmark-scale **criterion-response SESOI anchor**.
-
-This value is not estimated from candidate generators, winner geometry, SHAP performance, primary seeds, or external TEST. It is inherited from the pre-existing lower bound that already separated an active indirect capability from a structural zero in the benchmark semantics.
-
-The anchor does **not** mean that every realized context-specific response must move by 0.05. It defines the magnitude used to construct candidate-independent positive controls and to calibrate scientific metric thresholds.
-
-### D2.2 Relative log-ratio anchor
-
-For the primary relative non-separability diagnostic M-A2, the corresponding 5% multiplicative reference is:
-
-\[
 \boxed{
-\Delta_{LR}^{min}
-=
-\log(1.05)
-=
-0.048790164169
+\Delta_{\theta,\mathrm{cap}}^{min}=0.05
 }
 \]
 
-This gives M-A2 an interpretable relative-effect anchor while preserving M-A1 as a numerical/corroborating rank-structure diagnostic.
+as the benchmark's **minimum active capability-amplitude anchor**.
 
-### D2.3 Metric-specific positive-control calibration
+This is a parameter/capacity-space quantity. It is not claimed to be:
 
-No universal raw cutoff is imposed on NSV, SRE, or Layer-B regret.
+- a minimum realized context-specific response change;
+- a universal additive difference in \(g\);
+- a 5% multiplicative response change;
+- a direct threshold for LRV, NSV, SRE, or oracle regret.
 
-Instead, before any candidate family is executed, construct a **candidate-independent positive-control calibration** that:
+The distinction matters because for the historical C1–C7 architecture:
 
-1. starts from the historical systematic-response architecture at `sigma_x=0`;
-2. preserves structural-zero masks;
-3. introduces a deterministic alternative-by-context differential perturbation with criterion-scale amplitude `Delta_g_min = 0.05`;
-4. uses label-balanced alternative contrast assignments so that no named ITS is privileged;
-5. uses design/diagnostic seeds only;
-6. excludes external TEST, structural-validation seeds, and primary seeds;
-7. propagates the control through the frozen primary oracle for Layer-B calibration.
+\[
+g_{asj}=\theta_{aj}o_{sj},
+\]
 
-The positive control is a **measurement-calibration device**, not a candidate technology-response family and not an admissible final generator.
+so the realized response associated with a capability amplitude depends on the context opportunity \(o_{sj}\).
 
-For metrics whose scale has no direct semantic interpretation, the positive-control response defines the metric-specific scientific reference associated with the frozen SESOI.
+At maximal opportunity \(o_{sj}=1\), an amplitude of `0.05` corresponds to a response capacity of `0.05`; away from maximal opportunity, the realized response is smaller.
 
-### D2.4 Gate hierarchy
+### D2.2 No direct log-ratio conversion
+
+v2.2 does **not** define a scientific LRV threshold by converting the `0.05` capability-amplitude anchor into a multiplicative percentage.
+
+In particular, no identity of the form
+
+\[
+\Delta_{LR}^{min}=\log(1.05)
+\]
+
+is adopted as a benchmark scientific threshold.
+
+That conversion would incorrectly equate an absolute capability-amplitude quantity with a 5% multiplicative response effect.
+
+Instead, scientific reference values for M-A2 LRV, M-A3 NSV, M-A4 SRE, and any Layer-B regret quantity are obtained only by propagating a predeclared positive control whose response-space strength is calibrated to the `0.05` capability/capacity anchor.
+
+### D2.3 Candidate-independent positive-control calibration
+
+Before any candidate response family is executed, construct a **candidate-independent positive control** satisfying all of the following:
+
+1. start from the historical systematic-response architecture at `sigma_x=0`;
+2. preserve every structural-zero pathway exactly;
+3. introduce a deterministic alternative-by-context differential component on active pathways;
+4. use label-balanced alternative contrast assignments so that no named ITS is privileged;
+5. preserve the declared latent-factor support of each criterion;
+6. avoid criterion-boundary clipping in the calibration region;
+7. normalize the perturbation analytically so that its maximum active-path response departure over the declared context domain is exactly:
+
+\[
+\Delta_{g,\mathrm{cap}}^{max}=0.05;
+\]
+
+8. use design/diagnostic seeds only;
+9. exclude external TEST, structural-validation seeds, and primary seeds;
+10. propagate the same control through the unchanged primary oracle for Layer-B calibration.
+
+The positive control is a **measurement-calibration device**. It is not a candidate technology-response family and is not eligible to become the final generator.
+
+The exact positive-control functional form and label-balancing construction must be committed before the control is executed. This remaining pre-candidate step is designated **D2.7**.
+
+### D2.4 Metric-specific scientific references
+
+D2 deliberately avoids imposing one raw SESOI value across metrics with different mathematical scales.
+
+After D2.7 is frozen and executed, derive:
+
+- \(T^{sci}_{LRV}\) from the positive-control M-A2 distribution;
+- \(T^{sci}_{NSV}\) from the positive-control primary vector-normalized M-A3 distribution;
+- \(T^{sci}_{SRE}\) from the positive-control M-A4 distribution;
+- a Layer-B decision-sensitivity reference from the positive-control normalized regret of the constant modal-winner baseline, if that induced reference is stable and nonzero.
+
+M-A1 rank-one non-separability energy remains primarily a numerical/corroborating structural diagnostic rather than receiving an independently invented scientific cutoff.
+
+### D2.5 Gate hierarchy
 
 The following hierarchy is frozen before candidate evaluation.
 
@@ -1218,40 +1252,38 @@ The following hierarchy is frozen before candidate evaluation.
 
 **Hard scientific Layer-A gate**
 
-- M-A2 relative non-separability must reach the frozen D2 positive-control/SESOI reference under the predeclared design-seed aggregation rule;
-- M-A3 vector-normalized signal survival must be non-numerical for every intended pathway and is compared with its positive-control reference as a secondary scientific adequacy diagnostic.
+- candidate M-A2 and primary-vector M-A3 must meet the metric-specific scientific references derived from D2.7 under the predeclared design-seed aggregation rule.
 
 **Reachability**
 
 - SRE is primary and RE secondary;
 - intended latent pathways must exceed numerical reachability;
-- scientific SRE thresholds are obtained from the same D2 positive-control calibration rather than from arbitrary raw numbers.
+- the scientific SRE reference is derived from D2.7 rather than from an arbitrary raw number.
 
 **Layer-B decision sensitivity**
 
-- winner identity and the number of winners remain descriptive;
-- the hard decision-sensitivity quantity, if the positive-control calibration yields a stable nonzero reference, is based on **normalized regret of the constant modal-winner baseline**, not on the identity of the modal winner;
-- the corresponding `Delta_R_min` is derived by propagating the label-balanced `Delta_g_min` positive controls through the frozen oracle;
-- if the positive-control Layer-B reference is not stable enough to define a defensible scientific cutoff, Layer-B remains an explicit hard-stop question for Pilot A/B rather than receiving an invented threshold.
+- winner identity and number of winners remain descriptive;
+- if D2.7 yields a stable nonzero decision-sensitivity reference, the hard Layer-B quantity is based on normalized regret of the constant modal-winner baseline, not on the identity of the modal winner;
+- if D2.7 cannot produce a stable defensible Layer-B reference, no numeric cutoff is invented; Layer-B remains an explicit frozen hard-stop question for the subsequent Pilot-A design.
 
-### D2.5 Design-seed aggregation rule
+### D2.6 Design-seed aggregation rule
 
-For every scientific adequacy metric calibrated by the D2 positive control:
+For every D2.7 metric-specific scientific reference:
 
-- calculate the metric separately for each design seed `21001–21005`;
-- define the frozen scientific reference from the **median across design seeds**;
-- retain per-seed values and range as diagnostics;
+- calculate the positive-control metric separately for design seeds `21001–21005`;
+- define the frozen reference from the **median across design seeds**;
+- retain all per-seed values and ranges as diagnostics;
 - never replace a design seed because its value is inconvenient.
 
 Candidate evaluation later uses the same aggregation functional.
 
-### D2.6 Status
+### D2 status
 
-**D2 SESOI architecture is RESOLVED.**
+**D2 SESOI calibration architecture is RESOLVED.**
 
-The numerical metric-specific positive-control references are not yet computed. They must be generated and committed in a dedicated pre-candidate calibration step before any v2.2 candidate-family sweep.
+What remains unresolved is not the semantic anchor but the **D2.7 positive-control functional form, label-balancing construction, and metric-specific reference values it induces**.
 
-This remaining calibration is designated **D2.7 positive-control calibration**.
+No candidate-family sweep may begin before D2.7 is specified, committed, executed, and its references frozen.
 
 ## 14.6 Candidate acceptance logic
 
@@ -1318,7 +1350,7 @@ The following order supersedes the obsolete v2.1 immediate-order section for the
 1. Commit the historical v2.1 structural audit (`b953fb1`) — **done**.
 2. Freeze this v2.2 design specification.
 3. D1 resolved: superpopulation benchmark-instance estimand; preserve within-seed technology-profile pairing.
-4. D2 SESOI architecture resolved; run and freeze D2.7 metric-specific positive-control calibration before candidate evaluation.
+4. D2 SESOI calibration architecture resolved; specify, commit, run, and freeze D2.7 positive-control calibration before candidate evaluation.
 5. Declare v2.2 structural-validation seeds before candidate evaluation.
 6. Define candidate response families without running primary seeds or external TEST.
 7. Evaluate candidate families on v2.2 design seeds at `sigma_x=0`, computing the frozen Layer-A metrics and the complete Layer-B battery M-B1 through M-B4 before any generator freeze.
@@ -1347,7 +1379,7 @@ No primary factorial run is authorized before Step 22.
 
 The following items are intentionally unresolved:
 
-- D2.7 metric-specific positive-control calibration values;
+- D2.7 positive-control functional form, label-balancing construction, and induced metric-specific reference values;
 - exact v2.2 response family;
 - fixed versus random response-shape parameters within a benchmark instance;
 - structural adequacy thresholds;
@@ -1379,4 +1411,4 @@ Until the v2.2 design specification is frozen:
 - do not resume Step 6 / Oracle Shapley;
 - do not create `spec-v2.2`.
 
-The next action after review is to run and freeze D2.7 positive-control calibration, then pre-register candidate response families before any candidate sweep — not to tune the generator.
+The next action after review is to specify and commit the D2.7 positive-control functional form before executing it; only after its induced references are frozen may candidate response families be pre-registered — not tuned.
