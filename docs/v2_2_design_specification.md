@@ -1277,6 +1277,402 @@ For every D2.7 metric-specific scientific reference:
 
 Candidate evaluation later uses the same aggregation functional.
 
+### D2.7 — Positive-control calibration protocol FROZEN BEFORE EXECUTION
+
+This subsection freezes the complete positive-control construction and aggregation rules before any positive-control output is inspected.
+
+The control targets the historically collapsed context-responsive block C1–C7. C8–C10 retain their historical `sigma_x=0` equations during this calibration and are not artificially perturbed.
+
+#### D2.7.1 Reference scope
+
+Use only:
+
+- design/diagnostic seeds `21001–21005`;
+- `rho = 0.4`;
+- complete 1000-context FIT+WEIGHT estimation pool for each seed;
+- `sigma_x = 0`;
+- primary oracle transform/alpha/beta/interaction graph unchanged;
+- `lambda = 0.5` for Layer-B propagation;
+- external TEST excluded;
+- structural-validation seeds excluded;
+- primary seeds excluded.
+
+#### D2.7.2 Label-balanced contrast schedule
+
+Order alternatives by frozen alternative ID:
+
+\[
+(A1,A2,A3,A4,A5,A6).
+\]
+
+Define the zero-sum six-level contrast vector:
+
+\[
+\mathbf b
+=
+(-1,-0.6,-0.2,0.2,0.6,1).
+\]
+
+For rotation
+
+\[
+\ell\in\{0,1,2,3,4,5\},
+\]
+
+assign:
+
+\[
+c_a^{(\ell)}
+=
+b_{(i(a)+\ell)\bmod 6},
+\]
+
+where \(i(a)\in\{0,\ldots,5\}\) is the frozen alternative-ID index.
+
+Across the six rotations, every named alternative receives every contrast coefficient exactly once. The calibration therefore cannot depend on choosing one favorable label-to-contrast assignment.
+
+For a structural-zero pathway, the contrast coefficient is ignored and the response remains exactly zero.
+
+#### D2.7.3 Positive-control response formula
+
+For C1–C7, let the historical noise-free active response be:
+
+\[
+g_{asj}^{(0)}
+=
+\theta_{aj}o_{sj},
+\]
+
+with:
+
+\[
+0<\theta_{aj}\le0.4,
+\qquad
+0\le o_{sj}\le1.
+\]
+
+Set:
+
+\[
+\delta=0.05.
+\]
+
+For every active pathway under rotation \(\ell\), define:
+
+\[
+\boxed{
+g_{asj}^{PC,\ell}
+=
+\left[
+\theta_{aj}
++
+\delta\,
+c_a^{(\ell)}
+(2o_{sj}-1)
+\right]
+o_{sj}
+}
+\]
+
+and for every structural-zero pathway define:
+
+\[
+g_{asj}^{PC,\ell}=0.
+\]
+
+C8–C10 are copied unchanged from the historical `sigma_x=0` response generator.
+
+This is a calibration device only. It is not an admissible v2.2 candidate generator.
+
+#### D2.7.4 Analytic calibration properties
+
+For active C1–C7 pathways:
+
+\[
+g_{asj}^{PC,\ell}
+-
+g_{asj}^{(0)}
+=
+\delta\,
+c_a^{(\ell)}
+(2o_{sj}-1)o_{sj}.
+\]
+
+Because:
+
+\[
+|c_a^{(\ell)}|\le1
+\]
+
+and:
+
+\[
+\max_{o\in[0,1]}
+|(2o-1)o|
+=
+1,
+\]
+
+the exact domain-wide maximum response departure is:
+
+\[
+\boxed{
+\max
+|g^{PC}-g^{(0)}|
+=
+0.05.
+}
+\]
+
+The effective amplitude satisfies:
+
+\[
+\theta_{aj}
++
+0.05\,c_a^{(\ell)}(2o-1)
+\in[0,0.45],
+\]
+
+because every active historical amplitude is at least `0.05` and at most `0.40`.
+
+Therefore:
+
+\[
+g_{asj}^{PC,\ell}\in[0,0.45],
+\]
+
+so the positive-control construction does not require lower or upper clipping.
+
+The control preserves the original criterion opportunity \(o_{sj}\), and therefore preserves the declared latent-factor support of each C1–C7 criterion while introducing genuine alternative-by-context differential response.
+
+#### D2.7.5 Layer-A calibration summaries
+
+For every seed \(r\), rotation \(\ell\), and criterion \(j\in\{C1,\ldots,C7\}\):
+
+1. compute the complete active-pair M-A2 values \(LRV_{ab,j}^{r,\ell}\);
+2. summarize them by:
+
+\[
+LRV50_{j}^{r,\ell}
+=
+\operatorname{median}_{a<b,\ active}
+LRV_{ab,j}^{r,\ell};
+\]
+
+3. compute primary vector-normalized M-A3:
+
+\[
+NSV_{j,\mathrm{vector}}^{r,\ell}.
+\]
+
+For each seed, remove label-assignment dependence by taking the median over all six rotations:
+
+\[
+\widetilde{LRV50}_{j}^{r}
+=
+\operatorname{median}_{\ell}
+LRV50_{j}^{r,\ell},
+\]
+
+\[
+\widetilde{NSV}_{j}^{r}
+=
+\operatorname{median}_{\ell}
+NSV_{j,\mathrm{vector}}^{r,\ell}.
+\]
+
+Freeze the criterion-specific scientific references as:
+
+\[
+\boxed{
+T^{sci}_{LRV,j}
+=
+\operatorname{median}_{r\in design}
+\widetilde{LRV50}_{j}^{r}
+}
+\]
+
+and:
+
+\[
+\boxed{
+T^{sci}_{NSV,j}
+=
+\operatorname{median}_{r\in design}
+\widetilde{NSV}_{j}^{r}.
+}
+\]
+
+M-A1 `NS_j`, max-LRV, min/max normalization diagnostics, and complete pairwise LRV distributions are reported but do not replace the frozen primary summaries above.
+
+#### D2.7.6 Model-consistent reachability calibration
+
+For the M-A4 reachability calibration, use a deterministic paired idiosyncratic-shock reflection.
+
+For a latent factor \(k\) under the Gaussian-copula construction:
+
+\[
+\tilde h_{ks}
+=
+\sqrt{\rho}z_{0s}
++
+\sqrt{1-\rho}z_{ks},
+\]
+
+construct the paired intervention:
+
+\[
+\tilde h_{ks}^{(-)}
+=
+\sqrt{\rho}z_{0s}
+-
+\sqrt{1-\rho}z_{ks},
+\]
+
+while holding \(z_{0s}\) and every other idiosyncratic shock fixed, then transform both through the standard-normal CDF.
+
+This intervention is deterministic, uses no new random draw, preserves the factor's Gaussian idiosyncratic marginal symmetry, and is consistent with the frozen copula construction.
+
+For each declared factor-to-criterion pathway, propagate the paired intervention through the positive-control response and calculate M-A4 over **active alternative-pathways only**.
+
+Use SRE as primary and RE as secondary.
+
+For each seed, take the median SRE across the six label rotations. The scientific reachability reference is:
+
+\[
+\boxed{
+T^{sci}_{SRE,kj}
+=
+\operatorname{median}_{r\in design}
+\operatorname{median}_{\ell}
+SRE_{k,j}^{r,\ell}.
+}
+\]
+
+No naive shuffle of observed correlated \(h_k\) values is permitted.
+
+#### D2.7.7 Layer-B calibration
+
+For every seed and rotation, propagate the complete positive-control response table through the unchanged primary oracle at:
+
+\[
+\lambda=0.5.
+\]
+
+Within each seed/rotation:
+
+1. determine the modal oracle winner from the positive-control oracle itself;
+2. always select that modal alternative;
+3. compute context-wise normalized oracle regret using the existing frozen regret definition;
+4. record mean, median, p95, non-optimal-context count, and conditional regret.
+
+The primary Layer-B calibration quantity is **mean normalized constant-modal regret**:
+
+\[
+R_{PC}^{r,\ell}.
+\]
+
+Remove label-assignment dependence:
+
+\[
+\widetilde R_{PC}^{r}
+=
+\operatorname{median}_{\ell}
+R_{PC}^{r,\ell}.
+\]
+
+Also compute the corresponding historical `sigma_x=0` baseline mean regret for the same seed:
+
+\[
+R_0^r.
+\]
+
+Define the paired uplift:
+
+\[
+\Delta R^r
+=
+\widetilde R_{PC}^{r}
+-
+R_0^r.
+\]
+
+A numeric Layer-B scientific reference is activated **only if**:
+
+\[
+\Delta R^r > T_R^{num}
+\]
+
+for all five design seeds.
+
+If that predeclared directional-consistency condition holds, freeze:
+
+\[
+\boxed{
+T_R^{sci}
+=
+\operatorname{median}_{r\in design}
+\widetilde R_{PC}^{r}.
+}
+\]
+
+If it does not hold, D2.7 does not invent another Layer-B number. The full Layer-B outputs are retained, and decision sensitivity remains an explicit hard-stop question for the frozen Pilot-A/Pilot-B design.
+
+Winner identity and winner count never enter this activation rule.
+
+#### D2.7.8 Numerical threshold for regret activation
+
+For normalized regret, use:
+
+\[
+T_R^{num}=10^{-12}.
+\]
+
+This is solely a numerical nonzero discriminator for the paired uplift and not a scientific regret SESOI.
+
+#### D2.7.9 Candidate-use rule
+
+After D2.7 references are committed:
+
+- every C1–C7 candidate criterion must exceed its T-N collapse threshold;
+- the candidate's design-seed median `LRV50_j` must satisfy:
+
+\[
+LRV50_j^{candidate}
+\ge
+T^{sci}_{LRV,j};
+\]
+
+- the candidate's design-seed median primary-vector NSV must satisfy:
+
+\[
+NSV_j^{candidate}
+\ge
+T^{sci}_{NSV,j};
+\]
+
+- intended latent-factor pathways are compared against their frozen \(T^{sci}_{SRE,kj}\);
+- if \(T_R^{sci}\) is activated, the candidate must also satisfy that frozen Layer-B reference under the same aggregation rule.
+
+These are criterion/pathway-level requirements, not winner-balancing rules.
+
+#### D2.7.10 Execution and provenance rule
+
+The D2.7 protocol must be committed before the calibration script is executed.
+
+The subsequent calibration output must record:
+
+- Git commit;
+- design seeds;
+- reference condition;
+- all six label rotations;
+- per-seed/per-rotation metrics;
+- frozen median references;
+- whether the Layer-B activation condition fired;
+- confirmation that external TEST, structural-validation seeds, and primary seeds were not used.
+
+After D2.7 outputs and references are committed, the positive-control construction is closed and may not be altered to accommodate a candidate generator.
+
 ### D2 status
 
 **D2 SESOI calibration architecture is RESOLVED.**
@@ -1379,7 +1775,7 @@ No primary factorial run is authorized before Step 22.
 
 The following items are intentionally unresolved:
 
-- D2.7 positive-control functional form, label-balancing construction, and induced metric-specific reference values;
+- D2.7 execution-derived metric-specific reference values and Layer-B activation outcome;
 - exact v2.2 response family;
 - fixed versus random response-shape parameters within a benchmark instance;
 - structural adequacy thresholds;
@@ -1411,4 +1807,4 @@ Until the v2.2 design specification is frozen:
 - do not resume Step 6 / Oracle Shapley;
 - do not create `spec-v2.2`.
 
-The next action after review is to specify and commit the D2.7 positive-control functional form before executing it; only after its induced references are frozen may candidate response families be pre-registered — not tuned.
+The next action after this D2.7 protocol is committed is to implement and execute the frozen positive-control calibration, freeze its induced references, and only then pre-register candidate response families — not tune them.
