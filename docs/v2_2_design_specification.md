@@ -867,20 +867,52 @@ Let its singular values be:
 \sigma_{1j}\ge \sigma_{2j}\ge\cdots.
 \]
 
-Define:
+Let the total singular-value energy be:
+
+\[
+E_j
+=
+\sum_\ell \sigma_{\ell j}^2.
+\]
+
+For non-structural-zero matrices with:
+
+\[
+E_j>T_E^{num},
+\]
+
+define:
 
 \[
 NS_j
 =
+\operatorname{clip}_{[0,1]}
+\left(
 1-
 \frac{\sigma_{1j}^2}
-{\sum_\ell \sigma_{\ell j}^2+\epsilon}.
+{E_j}
+\right).
+\]
+
+If:
+
+\[
+E_j\le T_E^{num},
+\]
+
+report `NA / structural-zero-energy` rather than forcing a ratio.
+
+For v2.2 numerical implementation:
+
+\[
+T_E^{num}=10^{-24}.
 \]
 
 Properties:
 
-- \(NS_j=0\) for an exact nonzero rank-one response matrix;
-- it is scale-free;
+- \(NS_j=0\) for an exact nonzero rank-one response matrix up to floating-point roundoff;
+- the denominator is not epsilon-regularized;
+- it is scale-free on nonzero-energy matrices;
 - the historical v2.1 C1–C7 form is expected to lie at numerical-zero scale;
 - a nonzero value is evidence of departure from pure multiplicative separability, not by itself evidence of scientific adequacy.
 
@@ -1891,7 +1923,7 @@ s=1,\ldots,1000;
 
 For each replicate record:
 
-- `NS_null`;
+- `NS_null`, using the non-epsilon M-A1 energy-ratio definition and `T_E_num = 1e-24`;
 - maximum active-pair `LRV_null`;
 - `NSV_vector_null`.
 
