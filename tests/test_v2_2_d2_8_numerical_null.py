@@ -53,6 +53,20 @@ def test_frozen_null_design_constants():
     assert d28.ACTIVE_COUNTS == (5, 6)
     assert d28.NULL_REPLICATES_PER_COUNT == 2000
     assert d28.N_CONTEXTS == 1000
+    assert d28.ENERGY_FLOOR == 1e-24
     assert d28.FLOOR_NS == 1e-12
     assert d28.FLOOR_LRV == 1e-10
     assert d28.FLOOR_NSV == 1e-10
+
+
+def test_rank_one_energy_rejects_structural_zero_energy():
+    x = np.zeros((1000, 6), dtype=float)
+
+    try:
+        d28.rank_one_energy(x)
+    except ValueError as exc:
+        assert "structural-zero-energy" in str(exc)
+    else:
+        raise AssertionError(
+            "Expected structural-zero-energy ValueError"
+        )

@@ -29,6 +29,7 @@ N_CONTEXTS = 1000
 
 EPS = 1.0e-12
 POSITIVE_FLOOR = 1.0e-12
+ENERGY_FLOOR = 1.0e-24
 
 FLOOR_NS = 1.0e-12
 FLOOR_LRV = 1.0e-10
@@ -75,15 +76,31 @@ def require_clean_git() -> tuple[str, str]:
 
 
 def rank_one_energy(x: np.ndarray) -> float:
+    """M-A1 non-separability energy without epsilon regularization."""
     s = np.linalg.svd(
         np.asarray(x, dtype=float),
         compute_uv=False,
         full_matrices=False,
     )
-    return float(
+    energy = float(np.sum(s ** 2))
+
+    if energy <= ENERGY_FLOOR:
+        raise ValueError(
+            "Rank-one energy is undefined for "
+            "structural-zero-energy matrices."
+        )
+
+    residual = (
         1.0
-        - (s[0] ** 2)
-        / (np.sum(s ** 2) + EPS)
+        - float(s[0] ** 2) / energy
+    )
+
+    return float(
+        np.clip(
+            residual,
+            0.0,
+            1.0,
+        )
     )
 
 
@@ -182,6 +199,7 @@ def calibrate_nulls() -> tuple[pd.DataFrame, dict]:
             "NS": FLOOR_NS,
             "LRV": FLOOR_LRV,
             "NSV_vector": FLOOR_NSV,
+            "energy": ENERGY_FLOOR,
         },
     }
     return frame, thresholds
