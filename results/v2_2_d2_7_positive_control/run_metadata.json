@@ -1,0 +1,44 @@
+{
+  "contexts_per_seed": 1000,
+  "contrast": [
+    -1.0,
+    -0.6,
+    -0.2,
+    0.2,
+    0.6,
+    1.0
+  ],
+  "delta": 0.05,
+  "design_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "epsilon": 1e-12,
+  "external_test_used": false,
+  "git_branch": "protocol-v2.2-design",
+  "git_commit": "2f8cd1ae1bb17321ef55ca7b2e03b4ab5ee0ff87",
+  "lambda": 0.5,
+  "lrv_ddof": 0,
+  "partitions": [
+    "fit",
+    "weight"
+  ],
+  "positive_floor": 1e-12,
+  "primary_seeds_used": false,
+  "quantile_method": "linear",
+  "regret_activation_numerical_threshold": 1e-12,
+  "rho": 0.4,
+  "rotations": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "sigma_x": 0.0,
+  "structural_validation_seeds_used": false
+}

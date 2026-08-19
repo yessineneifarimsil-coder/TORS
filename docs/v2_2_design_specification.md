@@ -1696,6 +1696,18 @@ The subsequent calibration output must record:
 
 After D2.7 outputs and references are committed, the positive-control construction is closed and may not be altered to accommodate a candidate generator.
 
+#### D2.7.12 Frozen calibration outcome
+
+D2.7 was executed from Git commit `2f8cd1ae1bb17321ef55ca7b2e03b4ab5ee0ff87` after its protocol and implementation were committed.
+
+The frozen criterion-specific Layer-A references and pathway-specific SRE references are recorded in `docs/v2_2_d2_7_calibration_results.md` and in machine-readable form in `results/v2_2_d2_7_positive_control/references.json`.
+
+The preregistered Layer-B activation condition **did not fire** because the paired mean-regret uplift was not positive for all five design seeds; seed `21003` produced `-0.01383595455383882`.
+
+Therefore no numeric `T_R_sci` is frozen. The positive control is not modified to force Layer-B activation.
+
+D2.7 is now **CLOSED**.
+
 ### D2 status
 
 **D2 SESOI calibration architecture is RESOLVED.**
@@ -1769,7 +1781,7 @@ The following order supersedes the obsolete v2.1 immediate-order section for the
 1. Commit the historical v2.1 structural audit (`b953fb1`) — **done**.
 2. Freeze this v2.2 design specification.
 3. D1 resolved: superpopulation benchmark-instance estimand; preserve within-seed technology-profile pairing.
-4. D2 SESOI calibration architecture resolved; specify, commit, run, and freeze D2.7 positive-control calibration before candidate evaluation.
+4. D2/D2.7 positive-control calibration and metric-specific Layer-A/reachability references frozen — **done**.
 5. Declare v2.2 structural-validation seeds before candidate evaluation.
 6. Define candidate response families without running primary seeds or external TEST.
 7. Evaluate candidate families on v2.2 design seeds at `sigma_x=0`, computing the frozen Layer-A metrics and the complete Layer-B battery M-B1 through M-B4 before any generator freeze.
@@ -1798,7 +1810,6 @@ No primary factorial run is authorized before Step 22.
 
 The following items are intentionally unresolved:
 
-- D2.7 execution-derived metric-specific reference values and Layer-B activation outcome;
 - exact v2.2 response family;
 - fixed versus random response-shape parameters within a benchmark instance;
 - structural adequacy thresholds;
@@ -1830,4 +1841,4 @@ Until the v2.2 design specification is frozen:
 - do not resume Step 6 / Oracle Shapley;
 - do not create `spec-v2.2`.
 
-The next action after this D2.7 protocol is committed is to implement and execute the frozen positive-control calibration, freeze its induced references, and only then pre-register candidate response families — not tune them.
+The next action is to pre-register the v2.2 candidate response families and their minimum-departure ordering before any candidate-family execution — not tune them.
