@@ -2085,7 +2085,7 @@ def run(
             "",
             f"SELECTED_ETA: {selected}",
             (
-                "V2_3_F1_FAILED: "
+                "V2_4_F1_FAILED: "
                 f"{selected is None}"
             ),
         ]
