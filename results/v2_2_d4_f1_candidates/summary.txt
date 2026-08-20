@@ -1,0 +1,25 @@
+D4-F1 CURVATURE CANDIDATE EVALUATION
+git_commit: 575358303293ae102a3d64721aab71ba4df67b9b
+design_seeds: (21001, 21002, 21003, 21004, 21005)
+rho: 0.4
+sigma_x: 0.0
+kappa_ladder: (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+external_TEST_used: False
+structural_validation_seeds_used: False
+primary_seeds_used: False
+layer_b_used_for_selection: False
+
+GATE SUMMARY
+kappa=0.1; num=True; layerA=False; reach=False; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=h_D->C2,h_I->C2
+kappa=0.2; num=True; layerA=False; reach=False; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3
+kappa=0.3; num=True; layerA=False; reach=False; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3
+kappa=0.4; num=True; layerA=False; reach=False; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3
+kappa=0.5; num=True; layerA=False; reach=False; all=False; failed_C=C1,C3,C4,C6,C7; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_I->C2,h_T->C3
+kappa=0.6; num=True; layerA=False; reach=False; all=False; failed_C=C1,C3,C6,C7; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_T->C3
+kappa=0.7; num=True; layerA=False; reach=False; all=False; failed_C=C6; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_T->C3,h_T->C7
+kappa=0.8; num=True; layerA=False; reach=False; all=False; failed_C=C6; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_T->C3,h_T->C7
+kappa=0.9; num=True; layerA=True; reach=False; all=False; failed_C=-; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_I->C5,h_T->C3,h_T->C7
+kappa=1.0; num=True; layerA=True; reach=False; all=False; failed_C=-; failed_pathways=h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_I->C5,h_T->C3,h_T->C7
+
+SELECTED_KAPPA: None
+D4_F1_FAILED: True

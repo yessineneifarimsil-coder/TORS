@@ -1,0 +1,11 @@
+kappa,pass_numerical,pass_scientific_layer_a,pass_reachability,all_frozen_gates,failed_layer_a_criteria,failed_reachability_pathways
+0.1,True,False,False,False,"C1,C2,C3,C4,C5,C6,C7","h_D->C2,h_I->C2"
+0.2,True,False,False,False,"C1,C2,C3,C4,C5,C6,C7","h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3"
+0.3,True,False,False,False,"C1,C2,C3,C4,C5,C6,C7","h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3"
+0.4,True,False,False,False,"C1,C2,C3,C4,C5,C6,C7","h_D->C1,h_D->C2,h_D->C3,h_I->C2,h_T->C3"
+0.5,True,False,False,False,"C1,C3,C4,C6,C7","h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_I->C2,h_T->C3"
+0.6,True,False,False,False,"C1,C3,C6,C7","h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_T->C3"
+0.7,True,False,False,False,C6,"h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_T->C3,h_T->C7"
+0.8,True,False,False,False,C6,"h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_T->C3,h_T->C7"
+0.9,True,True,False,False,,"h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_I->C5,h_T->C3,h_T->C7"
+1.0,True,True,False,False,,"h_D->C1,h_D->C2,h_D->C3,h_D->C4,h_D->C6,h_D->C7,h_E->C6,h_I->C2,h_I->C4,h_I->C5,h_T->C3,h_T->C7"

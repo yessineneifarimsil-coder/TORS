@@ -2324,3 +2324,31 @@ The next authorized action is:
 4. run the frozen candidate ladder on design seeds only.
 
 No production-generator modification is authorized yet.
+
+## 18.9 Frozen D4-F1 outcome
+
+D4-F1 was executed from Git commit
+`575358303293ae102a3d64721aab71ba4df67b9b` after its candidate family,
+ladder, gates, and evaluator had been frozen.
+
+All ten candidates passed the D2.8 numerical structural gates. Scientific
+Layer-A gates were first satisfied simultaneously for all C1–C7 at
+`kappa=0.9` and remained satisfied at `kappa=1.0`.
+
+No candidate passed the frozen reachability gates. At `kappa=0.1`, the failed
+pathways were `h_D->C2` and `h_I->C2`; at `kappa=0.9` and `1.0`, all 12
+declared pathways failed their D2.7 SRE references.
+
+Therefore:
+
+`selected_kappa = null`
+
+and D4-F1 is **FAILED / CLOSED** under v2.2.
+
+Layer-B was not used for selection. External TEST, structural-validation seeds,
+and primary seeds were not used.
+
+Per the frozen no-fallback rule, no new response family may be introduced
+inside v2.2 after this failure. Any new architecture requires a new protocol
+version.
+

@@ -1,0 +1,35 @@
+{
+  "curvature_namespace": 2004,
+  "d27_reference_file": "results\\v2_2_d2_7_positive_control\\references.json",
+  "d28_threshold_file": "results\\v2_2_d2_8_numerical_null\\thresholds.json",
+  "design_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "external_test_used": false,
+  "git_branch": "protocol-v2.2-design",
+  "git_commit": "575358303293ae102a3d64721aab71ba4df67b9b",
+  "kappa_ladder": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "kappa_reference": 0.0,
+  "lambda": 0.5,
+  "layer_b_used_for_selection": false,
+  "primary_seeds_used": false,
+  "production_generator_modified": false,
+  "rho": 0.4,
+  "sigma_x": 0.0,
+  "structural_validation_seeds_used": false
+}

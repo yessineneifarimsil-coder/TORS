@@ -1,0 +1,20 @@
+{
+  "candidate_family": "D4-F1 alternative-specific monotone curvature tilt",
+  "family_failed": true,
+  "kappa_ladder": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "kappa_reference": 0.0,
+  "layer_b_used_for_selection": false,
+  "selected_kappa": null,
+  "selection_rule": "minimum frozen kappa passing all numerical, Layer-A scientific, and reachability gates"
+}
