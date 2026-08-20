@@ -1,0 +1,142 @@
+{
+  "adaptive_motivation": {
+    "interpretation": "frozen p=2 and p=3 exhibit a narrow Layer-A / reachability crossover",
+    "source": "frozen D2.9 historical re-adjudication",
+    "v3_p2_min_SRE_ratio": 1.020095,
+    "v3_p2_min_layerA_ratio": 0.956089,
+    "v3_p3_min_SRE_ratio": 0.926555,
+    "v3_p3_min_layerA_ratio": 1.264451
+  },
+  "analytic_invariants": {
+    "clipping": false,
+    "response_bounds": "0<=g<=u",
+    "response_endpoints": "g(0)=0,g(1)=u",
+    "response_monotonicity": "dg/do>=theta>=0",
+    "shape_bounds": "0<=F<=1",
+    "shape_endpoints": "F(0)=0,F(1)=1",
+    "shape_monotonicity": "dF/do>=0"
+  },
+  "anchors_selectable": false,
+  "candidate_tau_grid": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "contexts_per_seed": 1000,
+  "d2_9_reserved_seeds": [
+    26001,
+    26002,
+    26003,
+    26004,
+    26005
+  ],
+  "d3_blocked_until": "a production response generator is frozen after successful structural validation",
+  "descriptive_anchor_tau": [
+    0.0,
+    1.0
+  ],
+  "development_seeds": [
+    27001,
+    27002,
+    27003,
+    27004,
+    27005
+  ],
+  "external_test_used_in_development": false,
+  "failure_rule": "if no selectable tau passes all gates, v3.1-F1 fails; do not refine the tau grid or retune using development seeds 27001-27005",
+  "lambda": 0.5,
+  "legacy_reserved_seeds": [
+    24001,
+    24002,
+    24003,
+    24004,
+    24005
+  ],
+  "parent_branch": "protocol-v3.1-interpolated-monotone-shape",
+  "parent_commit": "ea8658bdb76b6d6f0e140392f89fb54529802458",
+  "partitions": [
+    "fit",
+    "weight"
+  ],
+  "post_selection_validation": "if a tau is selected, evaluate that tau once on untouched structural-validation seeds 22001-22005 with no reselection or retuning",
+  "primary_seeds": [
+    11001,
+    11002,
+    11003,
+    11004,
+    11005,
+    11006,
+    11007,
+    11008,
+    11009,
+    11010,
+    11011,
+    11012,
+    11013,
+    11014,
+    11015,
+    11016,
+    11017,
+    11018,
+    11019,
+    11020,
+    11021,
+    11022,
+    11023,
+    11024,
+    11025,
+    11026,
+    11027,
+    11028,
+    11029,
+    11030
+  ],
+  "profile_randomness": "reuse frozen v3.0 directional-profile construction exactly; change only RNG namespace to 2009",
+  "protocol": "v3.1-F1 interpolated monotone headroom-shape family",
+  "reserve_policy": "28001-28005 remain untouched by v3.1 development and validation; they are not backup validation seeds",
+  "reserve_seeds": [
+    28001,
+    28002,
+    28003,
+    28004,
+    28005
+  ],
+  "rho": 0.4,
+  "rng_namespace": 2009,
+  "scientific_gates": {
+    "invariants": "all analytic/boundary invariants must pass",
+    "layer_a": "frozen D2.9 criterion-specific T_sci_LRV and T_sci_NSV_vector",
+    "layer_b_used_for_selection": false,
+    "mcdm_outcomes_used_for_selection": false,
+    "numerical": "frozen D2.8 numerical-null thresholds unchanged",
+    "reachability": "frozen D2.9 pathway-specific T_sci_SRE",
+    "winner_identity_used_for_selection": false
+  },
+  "selection_rule": "among selectable tau values passing numerical, invariants, Layer-A D2.9, and reachability D2.9, select the minimum tau",
+  "shape_definition": {
+    "a": "abs(v)",
+    "candidate_response": "g=theta*o+(u-theta)*F_tau_v(o)",
+    "criteria_C8_C10": "unchanged from frozen benchmark generator",
+    "interpolation": "F_tau_v(o)=(1-tau)*F_2v(o)+tau*F_3v(o)",
+    "negative_v": "F_pv(o)=(1-a)*o+a*o**p",
+    "positive_v": "F_pv(o)=(1-a)*o+a*(1-(1-o)**p)",
+    "structural_zero": "exactly 0",
+    "zero_v": "F_pv(o)=o"
+  },
+  "sigma_x": 0.0,
+  "status": "prospectively opened; no v3.1 candidate results observed",
+  "structural_validation_seeds": [
+    22001,
+    22002,
+    22003,
+    22004,
+    22005
+  ],
+  "validation_failure_rule": "if one-shot structural validation fails, v3.1-F1 fails; do not fall back to another development tau"
+}
