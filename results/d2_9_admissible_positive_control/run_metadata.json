@@ -1,0 +1,58 @@
+{
+  "calibration_seeds": [
+    25001,
+    25002,
+    25003,
+    25004,
+    25005
+  ],
+  "contexts_per_seed": 1000,
+  "contrast": [
+    -1.0,
+    -0.6,
+    -0.2,
+    0.2,
+    0.6,
+    1.0
+  ],
+  "d2_8_numerical_thresholds_modified": false,
+  "delta": 0.05,
+  "epsilon": 1e-12,
+  "external_test_used": false,
+  "git_branch": "protocol-d2.9-admissible-positive-control",
+  "git_commit": "3463d5d294798e8d2770d6c95ee63ecf01230dca",
+  "lambda": 0.5,
+  "layer_b_used_for_scientific_threshold": false,
+  "lrv_ddof": 0,
+  "max_abs_response_departure": 0.0125,
+  "old_d2_7_design_seeds_used": false,
+  "old_d2_7_thresholds_used": false,
+  "partitions": [
+    "fit",
+    "weight"
+  ],
+  "positive_floor": 1e-12,
+  "primary_seeds_used": false,
+  "quantile_method": "linear",
+  "regret_activation_numerical_threshold": 1e-12,
+  "reserved_seeds": [
+    26001,
+    26002,
+    26003,
+    26004,
+    26005
+  ],
+  "reserved_seeds_used": false,
+  "rho": 0.4,
+  "rotations": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "sigma_x": 0.0,
+  "structural_validation_seeds_used": false,
+  "v3_development_seeds_used": false
+}

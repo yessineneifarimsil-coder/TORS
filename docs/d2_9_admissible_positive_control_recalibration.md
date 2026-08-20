@@ -451,3 +451,31 @@ The manuscript must distinguish:
 
 The correction must be reported transparently as a methodological
 self-audit, not hidden as routine retuning.
+
+## 14. Frozen D2.9 calibration outcome
+
+D2.9 was executed from Git commit
+`3463d5d294798e8d2770d6c95ee63ecf01230dca` after both the protocol and
+evaluator had been committed.
+
+The calibration used only fresh seeds `25001–25005`.
+
+All 1260 admissibility diagnostic rows passed lower-bound, semantic-ceiling,
+monotonicity, and structural-zero checks. The minimum analytic derivative
+floor was `0.0`, consistent with the frozen non-decreasing monotonicity
+requirement. The maximum absolute response departure was exactly `0.0125`.
+
+The calibration was reproduced from the same execution commit and all nine
+output artifacts were byte-for-byte identical.
+
+The resulting Layer-A and SRE references are therefore frozen for downstream
+scientific re-adjudication. Layer-B remains descriptive only
+(`activated=false`, `T_R_sci=null`).
+
+The D2.8 numerical-null thresholds remain unchanged.
+
+No external TEST, structural-validation seed, primary seed, old D2.7 design
+seed, v3.0 development seed, or D2.9 reserved seed was used.
+
+Historical D2.7 thresholds remain preserved for provenance but are superseded
+for future scientific-gate adjudication.

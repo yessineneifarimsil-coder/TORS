@@ -1,0 +1,43 @@
+D2.9 ADMISSIBLE POSITIVE-CONTROL RECALIBRATION
+git_commit: 3463d5d294798e8d2770d6c95ee63ecf01230dca
+git_branch: protocol-d2.9-admissible-positive-control
+calibration_seeds: (25001, 25002, 25003, 25004, 25005)
+rho: 0.4
+lambda: 0.5
+sigma_x: 0.0
+external_TEST_used: False
+primary_seeds_used: False
+old_D2_7_design_seeds_used: False
+v3_development_seeds_used: False
+reserved_seeds_used: False
+layer_b_used_for_scientific_threshold: False
+positive_control_admissible: True
+max_abs_response_departure: 0.0125
+
+LAYER-A REFERENCES
+C1: T_sci_LRV=0.082336706018; T_sci_NSV_vector=0.0415094450048
+C2: T_sci_LRV=0.051357030825; T_sci_NSV_vector=0.03018078956
+C3: T_sci_LRV=0.0632013168393; T_sci_NSV_vector=0.0328711763972
+C4: T_sci_LRV=0.0584394716346; T_sci_NSV_vector=0.0332747320456
+C5: T_sci_LRV=0.061145122578; T_sci_NSV_vector=0.0389322993666
+C6: T_sci_LRV=0.10669498985; T_sci_NSV_vector=0.0620358455927
+C7: T_sci_LRV=0.0675286259549; T_sci_NSV_vector=0.0421069255808
+
+REACHABILITY REFERENCES
+h_D->C1: T_sci_SRE=0.625249150117
+h_D->C2: T_sci_SRE=0.304914869648
+h_D->C3: T_sci_SRE=0.422032034309
+h_D->C4: T_sci_SRE=0.322695103352
+h_D->C6: T_sci_SRE=0.412321431972
+h_D->C7: T_sci_SRE=0.272571098987
+h_E->C6: T_sci_SRE=0.27555688652
+h_I->C2: T_sci_SRE=0.200489750603
+h_I->C4: T_sci_SRE=0.332741328316
+h_I->C5: T_sci_SRE=0.570105739788
+h_T->C3: T_sci_SRE=0.292618269546
+h_T->C7: T_sci_SRE=0.41859298239
+
+LAYER-B ACTIVATION
+activated: False
+T_R_sci: None
+paired_uplift_by_seed: {"25001": -0.02241886218541564, "25002": 0.000559056926747942, "25003": -0.0061818471758942825, "25004": -0.032905708881388857, "25005": 0.009664213816223715}
