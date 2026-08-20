@@ -1677,7 +1677,7 @@ def run_calibration(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Run preregistered v2.2 "
+            "Run frozen "
             "D2.9 positive-control calibration."
         )
     )
