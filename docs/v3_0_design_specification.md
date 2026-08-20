@@ -576,3 +576,41 @@ The manuscript must disclose:
 - introduction of fresh development seeds `23001–23005`;
 - the frozen v3.0 shape-order ladder;
 - the untouched validation and primary firewalls.
+
+## 16. Frozen v3.0-F1 outcome
+
+v3.0-F1 was executed from Git commit
+`80b9b52e825ce15e9e60b816acae55d4d70e4964` after the v3.0 protocol and
+evaluator had been committed.
+
+The selectable ladder was `p in {2,3,4,5}` with `p=1` retained only as a
+descriptive reference.
+
+All selectable candidates passed the D2.8 numerical gates and every frozen
+response invariant, including the analytic total-derivative floor
+`g'(o) >= theta`.
+
+The scientific gates did not jointly pass:
+
+- `p=2`: reachability passed but Layer-A failed C1–C7;
+- `p=3`: Layer-A failed C1,C2,C4,C5,C6,C7 and `h_E->C6` reachability failed;
+- `p=4`: Layer-A failed C1,C6 and both C6 reachability pathways failed;
+- `p=5`: Layer-A failed C1,C6 and both C6 reachability pathways failed.
+
+Therefore:
+
+`selected_p = null`
+
+and v3.0-F1 is **FAILED / CLOSED** on development seeds `23001–23005`.
+
+No old development seed, reserved seed, structural-validation seed, primary
+seed, or external TEST context was used. Layer-B was not used for selection
+and the production generator was not modified.
+
+The v3.0 result demonstrates that satisfying `g'(o) >= theta` is insufficient
+by itself to guarantee the frozen SRE reachability thresholds after
+alternative-relative normalization.
+
+Per the frozen v3.0 development-cohort rule, the p ladder and formula may not
+be modified using `23001–23005`. Reserved seeds `24001–24005` remain
+untouched and are not an automatic fallback.

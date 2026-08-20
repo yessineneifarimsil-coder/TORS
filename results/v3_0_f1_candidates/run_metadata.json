@@ -1,0 +1,38 @@
+{
+  "d27_reference_file": "results\\v2_2_d2_7_positive_control\\references.json",
+  "d28_threshold_file": "results\\v2_2_d2_8_numerical_null\\thresholds.json",
+  "development_seeds": [
+    23001,
+    23002,
+    23003,
+    23004,
+    23005
+  ],
+  "external_test_used": false,
+  "git_branch": "protocol-v3.0-monotone-shape-design",
+  "git_commit": "80b9b52e825ce15e9e60b816acae55d4d70e4964",
+  "lambda": 0.5,
+  "layer_b_used_for_selection": false,
+  "old_development_seeds_used": false,
+  "p_ladder": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "p_reference": 1,
+  "primary_seeds_used": false,
+  "production_generator_modified": false,
+  "reserved_seeds": [
+    24001,
+    24002,
+    24003,
+    24004,
+    24005
+  ],
+  "reserved_seeds_used": false,
+  "rho": 0.4,
+  "sigma_x": 0.0,
+  "signed_profile_namespace": 2008,
+  "structural_validation_seeds_used": false
+}

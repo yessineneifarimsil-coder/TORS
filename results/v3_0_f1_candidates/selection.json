@@ -1,0 +1,14 @@
+{
+  "candidate_family": "v3.0-F1 monotone headroom-shape response",
+  "family_failed": true,
+  "layer_b_used_for_selection": false,
+  "p_ladder": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "p_reference": 1,
+  "selected_p": null,
+  "selection_rule": "minimum frozen p passing all numerical, Layer-A scientific, reachability, and invariant gates"
+}

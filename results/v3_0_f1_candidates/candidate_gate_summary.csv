@@ -1,0 +1,5 @@
+p,pass_numerical,pass_scientific_layer_a,pass_reachability,pass_invariants,all_frozen_gates,failed_layer_a_criteria,failed_reachability_pathways
+2,True,False,True,True,False,"C1,C2,C3,C4,C5,C6,C7",
+3,True,False,False,True,False,"C1,C2,C4,C5,C6,C7",h_E->C6
+4,True,False,False,True,False,"C1,C6","h_D->C6,h_E->C6"
+5,True,False,False,True,False,"C1,C6","h_D->C6,h_E->C6"

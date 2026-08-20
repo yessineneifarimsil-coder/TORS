@@ -1,0 +1,21 @@
+v3.0-F1 MONOTONE HEADROOM-SHAPE CANDIDATE EVALUATION
+git_commit: 80b9b52e825ce15e9e60b816acae55d4d70e4964
+development_seeds: (23001, 23002, 23003, 23004, 23005)
+rho: 0.4
+sigma_x: 0.0
+p_ladder: (2, 3, 4, 5)
+external_TEST_used: False
+structural_validation_seeds_used: False
+primary_seeds_used: False
+old_development_seeds_used: False
+reserved_seeds_used: False
+layer_b_used_for_selection: False
+
+GATE SUMMARY
+p=2; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+p=3; num=True; layerA=False; reach=False; inv=True; all=False; failed_C=C1,C2,C4,C5,C6,C7; failed_pathways=h_E->C6
+p=4; num=True; layerA=False; reach=False; inv=True; all=False; failed_C=C1,C6; failed_pathways=h_D->C6,h_E->C6
+p=5; num=True; layerA=False; reach=False; inv=True; all=False; failed_C=C1,C6; failed_pathways=h_D->C6,h_E->C6
+
+SELECTED_P: None
+V3_0_F1_FAILED: True
