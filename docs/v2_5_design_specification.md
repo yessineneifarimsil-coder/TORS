@@ -592,3 +592,37 @@ Primary inferential evidence begins later with untouched seeds
 
 The manuscript must explicitly disclose the sequence of frozen development
 families and the terminal-development rule.
+
+## 16. Frozen terminal v2.5-F1 outcome
+
+v2.5-F1 was executed from Git commit
+`869c749c0160fc454f267b4a5b073edfa18e07df` after the terminal protocol and
+evaluator were committed.
+
+All ten candidates passed D2.8 numerical gates and all frozen response
+invariants.
+
+The scientific Layer-A and latent-pathway reachability gates did not overlap:
+
+- eta<=0.6 retained reachability but failed at least C3 and C6 Layer-A;
+- eta=0.7–0.8 failed only C6 Layer-A and also failed h_D->C6 and h_E->C6
+  reachability;
+- eta=0.9–1.0 passed all Layer-A criteria but still failed h_D->C6 and
+  h_E->C6 reachability.
+
+Therefore:
+
+`selected_eta = null`
+
+and terminal v2.5-F1 is **FAILED / CLOSED**.
+
+No external TEST context, structural-validation seed, or primary seed was
+used. Layer-B was not used for selection and the production generator was not
+modified.
+
+Per the frozen terminal-development rule, no further response-family redesign,
+criterion-specific modifier, coefficient, or ladder extension may be developed
+using design seeds `21001–21005`.
+
+Future redesign, if scientifically necessary, requires a newly declared
+development cohort and a new protocol before that cohort is inspected.
