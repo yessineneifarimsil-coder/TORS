@@ -558,3 +558,39 @@ Primary inferential evidence begins later with untouched seeds
 `11001–11030` and the external TEST pool.
 
 This distinction must be explicit in the manuscript.
+
+## 15. Frozen v2.4-F1 outcome
+
+v2.4-F1 was executed from Git commit
+`56ac899ccddfb9d5735cc6209a65af1e946ff0f3` after the protocol and evaluator
+were committed and after a one-line non-scientific summary-label repair.
+
+A pre-repair/post-repair comparison showed byte-for-byte identity for all
+scientific and selection artefacts; only provenance metadata and the corrected
+summary label changed.
+
+All ten candidates passed:
+
+- D2.8 numerical gates;
+- all D2.7 pathway-level reachability gates;
+- all frozen response/invariance gates.
+
+No candidate passed all D2.7 scientific Layer-A criterion gates.
+
+At eta=1.0, only C1 and C6 remained below their criterion-level references.
+
+Therefore:
+
+`selected_eta = null`
+
+and v2.4-F1 is **FAILED / CLOSED**.
+
+No external TEST context, structural-validation seed, or primary seed was
+used. Layer-B was not used for selection and the production generator was not
+modified.
+
+Per the frozen no-fallback rule, eta is not extended above 1.0 and no second
+response family may be introduced inside v2.4 after this result.
+
+Any subsequent response redesign requires a new protocol version.
+

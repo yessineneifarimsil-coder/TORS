@@ -1,0 +1,25 @@
+v2.4-F1 COMPENSATED SIGNED-CURVATURE CANDIDATE EVALUATION
+git_commit: 56ac899ccddfb9d5735cc6209a65af1e946ff0f3
+design_seeds: (21001, 21002, 21003, 21004, 21005)
+rho: 0.4
+sigma_x: 0.0
+eta_ladder: (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+external_TEST_used: False
+structural_validation_seeds_used: False
+primary_seeds_used: False
+layer_b_used_for_selection: False
+
+GATE SUMMARY
+eta=0.1; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+eta=0.2; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+eta=0.3; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+eta=0.4; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+eta=0.5; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C5,C6,C7; failed_pathways=-
+eta=0.6; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C2,C3,C4,C6,C7; failed_pathways=-
+eta=0.7; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C3,C4,C6,C7; failed_pathways=-
+eta=0.8; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C3,C6,C7; failed_pathways=-
+eta=0.9; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C6,C7; failed_pathways=-
+eta=1.0; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C1,C6; failed_pathways=-
+
+SELECTED_ETA: None
+V2_4_F1_FAILED: True
