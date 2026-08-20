@@ -1,0 +1,12 @@
+{
+  "candidate_generators_rerun": false,
+  "d2_8_numerical_gates_reused": true,
+  "external_test_used": false,
+  "git_commit_before_freeze": "be5688edc0195a27dafe37a9e06128f1530fcffa",
+  "layer_b_used_for_selection": false,
+  "old_d2_7_scientific_gate_fields_reused": false,
+  "primary_seeds_used": false,
+  "v2_2_historical_invariant_gate": false,
+  "v2_3_through_v3_historical_invariant_gate": true,
+  "validation_seeds_used": false
+}
