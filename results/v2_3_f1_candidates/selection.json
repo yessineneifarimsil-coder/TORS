@@ -1,0 +1,20 @@
+{
+  "candidate_family": "v2.3-F1 headroom-augmented response",
+  "eta_ladder": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "eta_reference": 0.0,
+  "family_failed": true,
+  "layer_b_used_for_selection": false,
+  "selected_eta": null,
+  "selection_rule": "minimum frozen eta passing all numerical, Layer-A scientific, reachability, and invariant gates"
+}

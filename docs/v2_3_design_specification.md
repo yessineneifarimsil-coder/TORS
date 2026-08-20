@@ -529,3 +529,36 @@ Independent evidence begins only with the untouched structural-validation
 seeds `22001–22005` and, later, the untouched primary seeds.
 
 This distinction must be stated explicitly in the manuscript.
+
+## 15. Frozen v2.3-F1 outcome
+
+v2.3-F1 was executed from Git commit
+`64f5a6f5c8f429af3b80b62aea2374c29db7d56b` after the protocol and evaluator
+were committed.
+
+All ten candidates passed:
+
+- D2.8 numerical gates;
+- all D2.7 pathway-level reachability gates;
+- all frozen response/invariance gates.
+
+All ten candidates failed the D2.7 scientific Layer-A criterion gates, with
+C1-C7 below their required criterion-level references for every eta in the
+frozen ladder.
+
+Therefore:
+
+`selected_eta = null`
+
+and v2.3-F1 is **FAILED / CLOSED**.
+
+No external TEST context, structural-validation seed, or primary seed was
+used. Layer-B was not used for selection and the production generator was not
+modified.
+
+Per the frozen no-fallback rule, eta is not extended above 1.0, tau is not
+changed, and no second response family may be introduced inside v2.3 after
+this result.
+
+Any subsequent response redesign requires a new protocol version.
+
