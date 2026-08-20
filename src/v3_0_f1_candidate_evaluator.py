@@ -2008,7 +2008,7 @@ def run(
     summary_lines.extend(
         [
             "",
-            f"SELECTED_ETA: {selected}",
+            f"SELECTED_P: {selected}",
             (
                 "V3_0_F1_FAILED: "
                 f"{selected is None}"
