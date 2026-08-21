@@ -85,4 +85,3 @@ def test_full_master_generation_does_not_use_external_test_for_calibration():
     assert d["external_TEST_inspected_for_calibration_decisions"] is False
     assert p["protocol_synchronization"]["performed_before_any_xgboost_calibration_result"] is True
     assert p["protocol_synchronization"]["scientific_selection_rule_changed"] is False
-
