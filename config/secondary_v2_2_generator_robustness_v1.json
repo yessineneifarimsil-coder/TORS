@@ -1,0 +1,128 @@
+{
+  "D3_execution_allowed_after_this_protocol_is_frozen": true,
+  "D3_rule": {
+    "D3_runs_only_on_retained_primary_generator": true,
+    "no_kappa_specific_D3_recalibration": true,
+    "primary_D3_alpha_mappings_reused_unchanged_in_v2_2_robustness": true,
+    "v2_2_robustness_cannot_influence_D3": true
+  },
+  "N_grid": [
+    25,
+    50,
+    100,
+    250,
+    1000
+  ],
+  "all_kappa_values_mandatory": true,
+  "common_random_numbers": true,
+  "downstream_rule": {
+    "no_new_hyperparameter_tuning_per_kappa": true,
+    "no_new_method_tuning_per_kappa": true,
+    "reuse_frozen_primary_pipeline": true,
+    "reuse_same_alpha_scenarios_after_D3": true,
+    "reuse_same_methods_and_estimands": true,
+    "reuse_same_oracle_specification": true
+  },
+  "execution_order": [
+    "freeze this robustness protocol",
+    "execute/freeze D3 under retained d29 primary only",
+    "execute frozen primary benchmark",
+    "execute v2.2-form robustness on the same primary seeds/conditions"
+  ],
+  "future_external_TEST_rule": {
+    "cannot_select_kappa_or_change_primary_generator": true,
+    "may_be_used_only_after_protocol_freeze": true,
+    "must_match_frozen_primary_TEST_usage": true
+  },
+  "hard_robustness_pass_fail_gate": false,
+  "historical_v2_2_statuses_preserved": true,
+  "kappa_grid": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "kappa_selection_performed": false,
+  "matched_profile_design": {
+    "enabled": true,
+    "historical_v2_2_namespace_2004_not_used_for_primary_robustness": true,
+    "reason": "Use the retained primary d29 signed-profile assignment so the robustness contrast changes only the curvature-amplitude law (kappa*theta versus fixed delta=0.05), not the profile permutation.",
+    "signed_profile_namespace": 2010
+  },
+  "no_D29_LRV_NSV_SRE_ranking_of_kappa": true,
+  "no_SHAP_or_MCDM_outcome_based_kappa_selection": true,
+  "no_kappa_cherry_picking": true,
+  "parent_branch": "protocol-v22-secondary-robustness",
+  "parent_commit": "008efa3588b0f95bc3fe6fbd8604f1a7ac44ced8",
+  "parent_retention_freeze_commit": "008efa3",
+  "primary_execution_allowed_only_after_D3_and_all_remaining_primary_protocols_are_frozen": true,
+  "primary_generator": "d29_kernel",
+  "primary_generator_formula": "theta*o + 0.05*v*o*(1-o)",
+  "primary_replication_seeds": [
+    11001,
+    11002,
+    11003,
+    11004,
+    11005,
+    11006,
+    11007,
+    11008,
+    11009,
+    11010,
+    11011,
+    11012,
+    11013,
+    11014,
+    11015,
+    11016,
+    11017,
+    11018,
+    11019,
+    11020,
+    11021,
+    11022,
+    11023,
+    11024,
+    11025,
+    11026,
+    11027,
+    11028,
+    11029,
+    11030
+  ],
+  "protocol": "secondary v2.2-form production-generator robustness v1",
+  "report_all_kappa_values": true,
+  "required_upstream_freezes_present_before_protocol_write": true,
+  "reserved_seed_rule": {
+    "legacy_or_other_development_reserves_used": false,
+    "reserve_30001_30005_used": false
+  },
+  "reuse_primary_contexts_capability_draws_noise_and_partitions": true,
+  "reuse_primary_model_randomness_where_defined": true,
+  "rho_grid": [
+    0.0,
+    0.4,
+    0.8
+  ],
+  "robustness_family_label": "v2.2-form endpoint-preserving curvature family",
+  "robustness_formula": "theta*o*(1 + kappa*v*(1-o))",
+  "robustness_is_not_historical_v2_2_reselection": true,
+  "robustness_outputs_are_secondary": true,
+  "robustness_outputs_may_reopen_kappa_selection": false,
+  "robustness_outputs_may_replace_primary_generator": false,
+  "status": "prospectively specified before D3 or primary benchmark execution",
+  "summary_outputs": [
+    "for every frozen primary estimand: paired value by kappa and primary replication seed",
+    "across-kappa range of the primary estimand",
+    "maximum absolute paired deviation from retained d29 primary",
+    "median absolute paired deviation from retained d29 primary",
+    "sign consistency of preregistered primary method contrasts across kappa"
+  ],
+  "winner_identity_may_be_reported_only_if_already_a_primary_estimand": true
+}
