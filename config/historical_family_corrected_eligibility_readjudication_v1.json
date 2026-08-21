@@ -1,0 +1,47 @@
+{
+  "D29_LRV_NSV_SRE_binary_gate": false,
+  "D3_execution_paused": true,
+  "allowed_statuses": [
+    "VERIFIED_ELIGIBLE",
+    "VERIFIED_INELIGIBLE",
+    "INSUFFICIENT_FROZEN_EVIDENCE"
+  ],
+  "corrected_hard_gates": [
+    "D2.8 numerical non-degeneracy",
+    "analytic/boundary response invariants",
+    "structural-zero preservation",
+    "C8-C10 invariance"
+  ],
+  "downstream_outcomes_used": false,
+  "external_TEST_blocked": true,
+  "families": [
+    "v2.2",
+    "v2.3",
+    "v2.4",
+    "v2.5",
+    "v3.0",
+    "v3.1",
+    "v4.0"
+  ],
+  "family_specific_rules": {
+    "v2.2": "Classify as VERIFIED_ELIGIBLE only if all corrected hard gates can be established from frozen artifacts or explicit frozen source-code contract. If C8-C10 invariance cannot be established, classify as INSUFFICIENT_FROZEN_EVIDENCE rather than guessing.",
+    "v2.3_v4.0": "Recompute corrected eligibility from frozen candidate_gate_summary, boundary_diagnostics and c8_c10_invariance artifacts; do not rely only on historical all_frozen_gates."
+  },
+  "historical_status_preserved": true,
+  "new_seed_use": false,
+  "new_simulation": false,
+  "next_step_if_multiple_verified_eligible": "Open a separate production-generator selection protocol based only on methodological/protocol properties independent of downstream outcomes; do not select by D2.9 ratios.",
+  "no_LayerB": true,
+  "no_family_relabeling": true,
+  "no_parameter_selection": true,
+  "no_winner_or_SHAP_or_MCDM": true,
+  "parent_branch": "audit-corrected-family-eligibility",
+  "parent_commit": "7d7b45f77e46d1a2b1bca5a7292fd804c44e9204",
+  "primary_11001_11030_blocked": true,
+  "protocol": "historical response-family corrected-eligibility re-adjudication v1",
+  "purpose": "Re-adjudicate every frozen historical response-family parameter point under the corrected production-generator eligibility rule, without using D2.9 structural ratios or downstream benchmark outcomes.",
+  "ranking_during_readjudication": false,
+  "reserve_30001_30005_blocked": true,
+  "selection_during_readjudication": false,
+  "status": "prospectively specified before formal re-adjudication table is generated"
+}
