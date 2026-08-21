@@ -1,0 +1,42 @@
+{
+  "D29_LRV_NSV_SRE_used_for_binary_eligibility": false,
+  "D3_execution_paused": true,
+  "D3_worlds_used": false,
+  "corrected_eligibility_uniquely_identifies_v4": false,
+  "evaluation_branch": "audit-corrected-family-eligibility",
+  "evaluation_commit": "fd94b56b7c66e18f5702eca8daf3c8f0bb32e06d",
+  "external_TEST_used": false,
+  "historical_statuses_modified": false,
+  "insufficient_evidence_families": [
+    "v2.2"
+  ],
+  "insufficient_frozen_evidence_count": 10,
+  "new_seeds_used": false,
+  "new_simulation": false,
+  "original_result_file_sha256": {
+    "audit_summary.json": "bc64370af72e01f3f905985ea4eb50a75c3d496981cb5444b961e95701c69607",
+    "family_summary.csv": "c9ef7237ce601b49ce3a7d60cfc515f6eac3dc8efbb971052c91f7e7e4cea5e8",
+    "insufficient_evidence_points.csv": "7e0f71e879fe63639d2ced438c5046e6f58fc64431ab8c942c0c624c212bf318",
+    "readjudication_table.csv": "dd7b73b9eac530611f07d4e4a2494d731607aec8e084aff7f360a3daa75abf88",
+    "summary.txt": "2d47dc124f6a75eba985c5db88a1f8fdae020d91436a16362dbfe87610630f95",
+    "verified_eligible_points.csv": "4f4a427a6eab758cbf47280397d3b95a9cead052d939d977c2dcc4b80d51bb3a",
+    "verified_ineligible_points.csv": "30ae8ef38eada08aea0b6f9f792f8c7a08dc72c667fde8be0cc0267fdc0f7570"
+  },
+  "primary_11001_11030_used": false,
+  "production_generator_selected": false,
+  "reserve_30001_30005_used": false,
+  "selection_or_ranking_performed": false,
+  "separate_selection_protocol_required": true,
+  "status": "FROZEN_NONSELECTIVE_CORRECTED_ELIGIBILITY_READJUDICATION",
+  "total_historical_points": 54,
+  "verified_eligible_count": 44,
+  "verified_eligible_families": [
+    "v2.3",
+    "v2.4",
+    "v2.5",
+    "v3.0",
+    "v3.1",
+    "v4.0"
+  ],
+  "verified_ineligible_count": 0
+}

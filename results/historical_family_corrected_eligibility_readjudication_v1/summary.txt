@@ -1,0 +1,18 @@
+HISTORICAL FAMILY CORRECTED-ELIGIBILITY RE-ADJUDICATION
+git_commit: fd94b56b7c66e18f5702eca8daf3c8f0bb32e06d
+total_historical_points: 54
+verified_eligible_count: 44
+verified_ineligible_count: 0
+insufficient_frozen_evidence_count: 10
+verified_eligible_families: ['v2.3', 'v2.4', 'v2.5', 'v3.0', 'v3.1', 'v4.0']
+families_with_insufficient_frozen_evidence: ['v2.2']
+production_generator_selected: False
+selection_or_ranking_performed: False
+D29_LRV_NSV_SRE_used_for_binary_eligibility: False
+new_simulation: False
+new_seeds_used: False
+D3_worlds_used: False
+reserve_30001_30005_used: False
+primary_11001_11030_used: False
+external_TEST_used: False
+separate_selection_protocol_required: True

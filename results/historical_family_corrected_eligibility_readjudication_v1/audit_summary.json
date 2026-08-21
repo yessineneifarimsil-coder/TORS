@@ -1,0 +1,32 @@
+{
+  "D29_LRV_NSV_SRE_used_for_binary_eligibility": false,
+  "D3_worlds_used": false,
+  "external_TEST_used": false,
+  "families_with_insufficient_frozen_evidence": [
+    "v2.2"
+  ],
+  "git_branch": "audit-corrected-family-eligibility",
+  "git_commit": "fd94b56b7c66e18f5702eca8daf3c8f0bb32e06d",
+  "historical_statuses_modified": false,
+  "insufficient_frozen_evidence_count": 10,
+  "multiple_verified_eligible_points": true,
+  "new_seeds_used": false,
+  "new_simulation": false,
+  "primary_11001_11030_used": false,
+  "production_generator_selected": false,
+  "reserve_30001_30005_used": false,
+  "selection_or_ranking_performed": false,
+  "separate_selection_protocol_required": true,
+  "status": "COMPLETED_NONSELECTIVE_CORRECTED_ELIGIBILITY_READJUDICATION",
+  "total_historical_points": 54,
+  "verified_eligible_count": 44,
+  "verified_eligible_families": [
+    "v2.3",
+    "v2.4",
+    "v2.5",
+    "v3.0",
+    "v3.1",
+    "v4.0"
+  ],
+  "verified_ineligible_count": 0
+}
