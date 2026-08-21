@@ -120,20 +120,30 @@ tree_shap:
 
     selection: "random_without_replacement"
 
-    calibrated: false
+    calibrated: true
 
-    frozen_target_size: null
+    calibration_mode: "prospective_fixed_choice_without_outcome_tuning"
 
-    # Temporary pre-v2.1 candidate set retained for auditability.
-    # The final candidate set is REOPENED because the fixed-TEST redesign
-    # increases minimum-N FIT availability from 90 to 120 rows.
+    frozen_target_size: 100
+
+    # Historical/provenance sensitivity sizes. They do not compete for
+    # selection after this prospective freeze.
     candidate_sizes:
       - 25
       - 50
       - 75
+      - 100
 
-    candidate_set_status: "reopened_pending_v2_1_reassessment"
+    candidate_set_status: "resolved_prospectively_before_background_results"
     candidate_100_now_feasible: true
+    sensitivity_sizes_are_non_decision: true
+
+    selection_basis: >
+      Use the largest historically contemplated background size
+      that is feasible at the smallest primary sample. This choice is
+      frozen before any TreeSHAP background-size result is computed and
+      cannot be changed by oracle fidelity, SHAP weight recovery, MCDM,
+      winner identity, or external TEST performance.
 
     feasibility:
 
@@ -152,6 +162,25 @@ tree_shap:
       selection_unit: "alternative_context_row"
 
       selection_without_replacement: true
+
+    row_priority:
+
+      seed_registry_key: "treeshap_background.row_priority_namespace"
+
+      construction: >
+        For replication seed r, create one deterministic random priority
+        ordering over the complete N=1000 FIT alternative-context row
+        identities using SeedSequence([r, row_priority_namespace]).
+        For any nested N, filter that same priority ordering to FIT rows
+        available at N and take the first frozen_target_size rows.
+
+      reuse_priority_across_rho: true
+      reuse_priority_across_c: true
+      reuse_priority_across_lambda: true
+      depends_on_feature_values: false
+      depends_on_target_values: false
+      depends_on_oracle_values: false
+      depends_on_method_outcomes: false
 
     if_target_exceeds_available_rows:
       rule: "raise_error"

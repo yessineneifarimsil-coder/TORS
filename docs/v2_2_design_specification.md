@@ -653,15 +653,36 @@ Status:
 
 **RETAIN unless later evidence justifies reopening.**
 
-## 11.3 TreeSHAP background Conflict 3
+## 11.3 TreeSHAP background Conflict 3 — RESOLVED
 
-The fixed-TEST redesign makes a 100-row TreeSHAP background feasible at `N=25`.
+The fixed-TEST redesign makes a 100-row TreeSHAP background feasible at
+`N=25` because 120 FIT alternative-context rows are available.
 
-The `{25,50,75}` candidate set is therefore explicitly reopened against the feasible 100-row candidate.
+A historical audit found no empirical background-size selection metric, tie
+rule, background RNG rule, or five-seed aggregation rule had ever been frozen.
+To avoid introducing outcome-driven tuning after substantial development work,
+v2.2 resolves the conflict prospectively before any TreeSHAP background-size
+result is computed.
+
+Frozen primary background size:
+
+`B_bg = 100`
+
+Historical/provenance sensitivity sizes:
+
+`{25,50,75,100}`
+
+The smaller sizes are descriptive sensitivity values only. They cannot replace
+100 based on oracle-attribution recovery, SHAP metrics, MCDM performance,
+winner identity, or external TEST outcomes.
+
+Background membership is determined only from FIT row identity and dedicated
+namespace `83001`, with the same priority stream reused across `rho`, `c`, and
+`lambda`.
 
 Status:
 
-**OPEN, but deferred until the v2.2 benchmark geometry is frozen.**
+**RESOLVED PROSPECTIVELY BEFORE TREESHAP BACKGROUND RESULTS.**
 
 ---
 

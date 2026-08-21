@@ -77,10 +77,13 @@ def test_raw_execution_artifacts_are_preserved():
     assert expected_files.issubset({p.name for p in RESULT.iterdir() if p.is_file()})
 
 
-def test_treeshap_remains_unfrozen_for_next_stage():
+def test_treeshap_background_is_now_prospectively_frozen():
     cfg = _xgb()
     bg = cfg["tree_shap"]["background"]
-    assert bg["calibrated"] is False
-    assert bg["frozen_target_size"] is None
-    assert bg["candidate_set_status"] == "reopened_pending_v2_1_reassessment"
+    assert bg["calibrated"] is True
+    assert bg["calibration_mode"] == "prospective_fixed_choice_without_outcome_tuning"
+    assert bg["frozen_target_size"] == 100
+    assert bg["candidate_sizes"] == [25, 50, 75, 100]
+    assert bg["candidate_set_status"] == "resolved_prospectively_before_background_results"
     assert bg["candidate_100_now_feasible"] is True
+    assert bg["sensitivity_sizes_are_non_decision"] is True

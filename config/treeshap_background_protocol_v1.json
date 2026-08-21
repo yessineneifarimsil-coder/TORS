@@ -1,0 +1,69 @@
+{
+  "base_commit": "4712f89f6c94fb65ca80450e5e18e4e10167d288",
+  "branch": "protocol-treeshap-background-v1",
+  "firewalls": {
+    "MCDM_used_to_choose_background_size": false,
+    "SHAP_vs_oracle_metrics_used_to_choose_background_size": false,
+    "external_TEST_used_to_choose_background_size": false,
+    "oracle_weight_fidelity_used_to_choose_background_size": false,
+    "preferred_ITS_used_to_choose_background_size": false,
+    "primary_seeds_used_to_choose_background_size": false,
+    "reserve_seeds_used_to_choose_background_size": false,
+    "winner_identity_used_to_choose_background_size": false
+  },
+  "historical_audit": {
+    "early_narrative_recommended_set": [
+      25,
+      50,
+      75
+    ],
+    "historical_background_result_observed": false,
+    "historical_background_rng_rule_found": false,
+    "historical_five_seed_aggregation_rule_found": false,
+    "historical_selection_metric_found": false,
+    "initial_machine_readable_set": [
+      25,
+      50,
+      100
+    ],
+    "pre_v2_1_temporary_set": [
+      25,
+      50,
+      75
+    ]
+  },
+  "protocol_name": "TreeSHAP background resolution v1",
+  "randomness": {
+    "row_priority_namespace": 83001,
+    "same_priority_across_c": true,
+    "same_priority_across_lambda": true,
+    "same_priority_across_rho": true,
+    "selection_depends_on_features": false,
+    "selection_depends_on_method_outcomes": false,
+    "selection_depends_on_oracle": false,
+    "selection_depends_on_target": false
+  },
+  "resolution": {
+    "frozen_background_size": 100,
+    "mode": "prospective_fixed_choice_without_outcome_tuning",
+    "provenance_sensitivity_sizes": [
+      25,
+      50,
+      75,
+      100
+    ],
+    "sensitivity_sizes_can_change_primary_background_size": false
+  },
+  "status": "FROZEN_BEFORE_ANY_TREESHAP_BACKGROUND_SIZE_RESULT",
+  "treeshap": {
+    "background_selection": "random_without_replacement",
+    "background_selection_unit": "alternative_context_row",
+    "background_source_partition": "fit",
+    "explanation_partition": "weight",
+    "feature_perturbation": "interventional",
+    "global_importance": "mean_absolute_shap",
+    "local_accuracy_absolute_tolerance": 1e-05,
+    "local_accuracy_relative_tolerance": 1e-05,
+    "model_output": "raw"
+  }
+}

@@ -932,28 +932,51 @@ Point estimates are calculated over held-out alternative-context rows, with unce
 Use `TreeExplainer` with:
 
 - `feature_perturbation="interventional"`;
+- `model_output="raw"`;
 - background rows drawn exclusively from FIT;
 - TreeSHAP explanations evaluated on WEIGHT.
 
-The background size is calibrated only on development seeds and then frozen before any primary execution.
+The historical TreeSHAP background-size audit found no frozen empirical
+selection metric or RNG rule. Because the fixed-external-TEST redesign makes
+100 rows feasible even at the smallest primary sample, the background conflict
+is resolved **prospectively before any background-size result** rather than by
+introducing a new outcome-based tuning rule.
 
-The fixed-external-TEST redesign changes minimum-N FIT availability. At \(N=25\), the estimation pool contains 20 FIT contexts and therefore:
+The frozen primary background size is:
 
 \[
-20\times6=120
+B_{bg}=100.
 \]
 
-FIT alternative-context rows. A 100-row background is therefore feasible under v2.1, whereas it was infeasible under the previous 15-FIT-context design.
+At \(N=25\), the estimation pool contains 20 FIT contexts and therefore
+\(20\times6=120\) FIT alternative-context rows.
 
-Consequently, the earlier `{25,50,75}` candidate decision is **reopened**. The machine-readable configuration retains that set temporarily for auditability, but it is not considered finally frozen until the v2.1 development reassessment compares it against the now-feasible 100-row candidate. No primary run may begin before the final candidate set and selected background size are committed and frozen.
+The provenance/sensitivity set is:
 
-For every experimental condition, log both the absolute TreeSHAP background size \(B_{bg}\) and:
+\[
+\{25,50,75,100\}.
+\]
+
+Sizes below 100 are descriptive sensitivity values only and cannot replace the
+frozen primary size based on oracle recovery, SHAP metrics, MCDM performance,
+winner identity, or external TEST outcomes.
+
+Background rows are sampled without replacement using dedicated namespace
+`83001`. For replication seed \(r\), one deterministic priority ordering is
+generated over the complete \(N=1000\) FIT alternative-context row identities.
+For each nested \(N\), that same ordering is filtered to eligible FIT rows and
+the first 100 are used. The priority stream is reused across \(\rho\), \(c\),
+and \(\lambda\).
+
+For every experimental condition, record both the absolute TreeSHAP background
+size \(B_{bg}\) and the background-to-FIT-row ratio:
 
 \[
 r_{bg}=\frac{B_{bg}}{n_{FIT,\,rows}}.
 \]
 
-This makes the background-to-FIT ratio explicit across the scarcity factor.
+This keeps the effective background fraction explicit across the scarcity
+factor even though the absolute primary background size is frozen at 100.
 
 Global SHAP importance remains:
 
@@ -968,9 +991,14 @@ w_j^{SHAP}
 \frac{I_j^{SHAP}}{\sum_k I_k^{SHAP}}.
 \]
 
-The external TEST pool is never used for TreeSHAP background construction or global SHAP-weight estimation.
+The external TEST pool is never used for TreeSHAP background construction or
+global SHAP-weight estimation.
 
-Terminology: **predictive attribution-derived surrogate weights**. These weights summarize predictive attribution after global compression; they must not be interpreted as causal effects, stakeholder preferences, or normative decision weights.
+Terminology: **predictive attribution-derived surrogate weights**. These
+weights summarize predictive attribution after global compression; they must
+not be interpreted as causal effects, stakeholder preferences, or normative
+decision weights.
+
 ---
 
 # 27. Attribution-Recovery Metrics
