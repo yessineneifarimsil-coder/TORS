@@ -27,12 +27,34 @@ def ex():
     return load_executor()
 
 
-def test_executor_protocol_contract_is_frozen_and_uncalibrated(ex):
+def test_executor_protocol_contract_is_frozen_and_rerun_guard_is_active(ex):
     configs = ex.load_configs()
-    ex.validate_frozen_protocol(configs)
-    assert configs["xgboost"]["frozen_parameters"]["calibrated"] is False
+    fp = configs["xgboost"]["frozen_parameters"]
+
+    assert fp["calibrated"] is True
+    assert fp["n_estimators"] == 600
+    assert fp["max_depth"] == 2
+    assert fp["learning_rate"] == 0.05
+    assert fp["subsample"] == 0.8
+    assert fp["colsample_bytree"] == 0.8
+    assert fp["min_child_weight"] == 5
+    assert fp["reg_alpha"] == 0.0
+    assert fp["reg_lambda"] == 1.0
+
     assert configs["protocol"]["development_data"]["pooled_fit_contexts"] == 1000
     assert configs["protocol"]["development_data"]["pooled_fit_rows"] == 6000
+
+    # The historical calibration executor deliberately requires an
+    # uncalibrated config. After the audited freeze, this guard must reject
+    # any attempt to reuse the calibration pathway.
+    with pytest.raises(ValueError, match="must still be uncalibrated"):
+        ex.validate_frozen_protocol(configs)
+
+    # The one-shot result directory is also present, giving execute() an
+    # independent fail-fast rerun guard before any model fit can occur.
+    assert ex.OUTPUT_DIR.exists()
+    with pytest.raises(FileExistsError, match="already exists"):
+        ex.execute()
 
 
 def test_candidate_sampling_is_deterministic_unique_and_exactly_sixty(ex):
