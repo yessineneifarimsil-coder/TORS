@@ -1,0 +1,20 @@
+{
+  "candidate_family": "v3.1-F1 interpolated monotone headroom-shape response",
+  "family_failed": true,
+  "layer_b_used_for_selection": false,
+  "selected_tau": null,
+  "selection_rule": "minimum frozen selectable tau passing all numerical, Layer-A D2.9 scientific, reachability D2.9, and invariant gates",
+  "tau_grid": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "tau_reference": 0.0,
+  "tau_upper_anchor": 1.0
+}

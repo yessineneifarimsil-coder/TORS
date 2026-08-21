@@ -1,0 +1,10 @@
+tau,pass_numerical,pass_scientific_layer_a,pass_reachability,pass_invariants,all_frozen_gates,failed_layer_a_criteria,failed_reachability_pathways
+0.1,True,False,True,True,False,"C6,C7",
+0.2,True,False,True,True,False,"C6,C7",
+0.3,True,False,True,True,False,"C6,C7",
+0.4,True,False,True,True,False,"C6,C7",
+0.5,True,False,True,True,False,"C6,C7",
+0.6,True,False,True,True,False,"C6,C7",
+0.7,True,False,True,True,False,"C6,C7",
+0.8,True,False,True,True,False,"C6,C7",
+0.9,True,False,False,True,False,"C6,C7",h_D->C1

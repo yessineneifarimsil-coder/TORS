@@ -1,0 +1,26 @@
+v3.1-F1 MONOTONE HEADROOM-SHAPE CANDIDATE EVALUATION
+git_commit: f40b95e5c1bb01f685bd4e22c36a2a1ae9848913
+development_seeds: (27001, 27002, 27003, 27004, 27005)
+rho: 0.4
+sigma_x: 0.0
+tau_grid: (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)
+external_TEST_used: False
+structural_validation_seeds_used: False
+primary_seeds_used: False
+old_development_seeds_used: False
+reserved_seeds_used: False
+layer_b_used_for_selection: False
+
+GATE SUMMARY
+tau=0.1; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.2; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.3; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.4; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.5; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.6; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.7; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.8; num=True; layerA=False; reach=True; inv=True; all=False; failed_C=C6,C7; failed_pathways=-
+tau=0.9; num=True; layerA=False; reach=False; inv=True; all=False; failed_C=C6,C7; failed_pathways=h_D->C1
+
+SELECTED_TAU: None
+V3_1_F1_FAILED: True
