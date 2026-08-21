@@ -71,3 +71,18 @@ def test_firewalls_exclude_protected_and_downstream_information():
     assert f["winner_identity_used_for_selection"] is False
     assert f["preferred_ITS_used_for_selection"] is False
     assert f["treeSHAP_background_selected_here"] is False
+
+def test_full_master_generation_does_not_use_external_test_for_calibration():
+    p = _p()
+    d = p["development_data"]
+    assert d["full_master_contexts_generated_per_seed"] == 1200
+    assert d["full_master_rows_generated_per_seed"] == 7200
+    assert d["external_TEST_contexts_generated_per_seed"] == 200
+    assert d["external_TEST_generated_only_to_preserve_frozen_master_architecture"] is True
+    assert d["external_TEST_used_for_signal_sd"] is False
+    assert d["external_TEST_used_for_hyperparameter_selection"] is False
+    assert d["external_TEST_metrics_computed_during_calibration"] is False
+    assert d["external_TEST_inspected_for_calibration_decisions"] is False
+    assert p["protocol_synchronization"]["performed_before_any_xgboost_calibration_result"] is True
+    assert p["protocol_synchronization"]["scientific_selection_rule_changed"] is False
+

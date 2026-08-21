@@ -1,9 +1,16 @@
 {
   "development_data": {
     "cached_legacy_csvs_allowed_as_calibration_input": false,
-    "external_TEST_materialized_or_inspected_for_calibration": false,
+    "external_TEST_contexts_generated_per_seed": 200,
+    "external_TEST_generated_only_to_preserve_frozen_master_architecture": true,
+    "external_TEST_inspected_for_calibration_decisions": false,
+    "external_TEST_metrics_computed_during_calibration": false,
+    "external_TEST_used_for_hyperparameter_selection": false,
+    "external_TEST_used_for_signal_sd": false,
     "fit_contexts_per_seed": 200,
     "fit_rows_per_seed": 1200,
+    "full_master_contexts_generated_per_seed": 1200,
+    "full_master_rows_generated_per_seed": 7200,
     "pooled_fit_contexts": 1000,
     "pooled_fit_rows": 6000,
     "production_generator": "d29_kernel",
@@ -71,6 +78,15 @@
     "treeSHAP_background_calibration_may_start_only_after_xgboost_freeze": true
   },
   "protocol_id": "xgboost_development_calibration_v1",
+  "protocol_synchronization": {
+    "development_seed_set_changed": false,
+    "performed_before_any_xgboost_calibration_result": true,
+    "primary_or_reserve_information_observed": false,
+    "reason": "The frozen oracle/noise implementation validates the complete 1200-context / 7200-row master architecture. External TEST rows may therefore be generated as part of the deterministic master, while remaining excluded from signal-SD estimation, model fitting, grouped CV, hyperparameter selection, calibration diagnostics, and any selection decision.",
+    "reference_condition_changed": false,
+    "scientific_selection_rule_changed": false,
+    "search_space_changed": false
+  },
   "purpose": "Select one frozen XGBRegressor hyperparameter configuration on development seeds only before any primary execution.",
   "randomness": {
     "candidate_sampling_random_state": 82001,

@@ -66,8 +66,12 @@ Across five seeds the pooled calibration set contains:
 - 1000 FIT contexts;
 - 6000 alternative-context rows.
 
-WEIGHT rows are not used for hyperparameter selection. External TEST is not
-materialized or inspected for calibration.
+WEIGHT rows are not used for hyperparameter selection. The frozen data/oracle/noise
+architecture validates a complete 1200-context master per seed, so the 200 external
+TEST contexts may be generated as part of that deterministic master. They remain
+strictly excluded from signal-SD estimation, model fitting, grouped CV,
+hyperparameter selection, calibration diagnostics, and calibration decisions. No
+external-TEST performance metric is computed or inspected during this stage.
 
 ## 4. Pooling and grouped cross-validation
 
@@ -159,7 +163,20 @@ The calibration must confirm:
 - ITS winner identity: not used;
 - TreeSHAP background size: not selected in this stage.
 
-## 9. Execution discipline
+## 9. Pre-execution synchronization note
+
+Before any XGBoost calibration result was observed, the protocol text was
+synchronized with the already-frozen 1200-context master architecture.
+Existing oracle/noise code validates the complete 1200-context / 7200-row
+master and computes s_U from the 1000 estimation contexts only.
+
+Accordingly, external TEST rows may be generated as part of the deterministic
+master, but they remain completely outside signal-SD estimation, model fitting,
+cross-validation, hyperparameter selection, calibration diagnostics and
+calibration decisions. This synchronization changes no search space, seed,
+reference condition, selection statistic or tie-break rule.
+
+## 10. Execution discipline
 
 Protocol freeze precedes implementation.
 
