@@ -1,0 +1,97 @@
+{
+  "analysis_A_matched_profile_ensemble": {
+    "aggregation": "for each metric: median across six rotations within seed, then median across the five seeds",
+    "candidate_formula": "theta*o + 0.05*v*o*(1-o)",
+    "candidate_parameters_changed": false,
+    "candidate_single_profile_source": "frozen v4.0 namespace 2010",
+    "counterfactual_profile_ensemble": "D2.9 six deterministic cyclic rotations, evaluated on the same contexts and same technology-response parameters within each seed",
+    "metrics": [
+      "Layer-A LRV50",
+      "Layer-A NSV_vector",
+      "reachability SRE"
+    ],
+    "required_outputs": [
+      "single-profile frozen aggregate",
+      "six-rotation matched aggregate",
+      "D2.9 frozen reference",
+      "single/D2.9 ratio",
+      "six-rotation/D2.9 ratio",
+      "absolute ratio shift",
+      "fraction of original shortfall closed"
+    ],
+    "seeds": [
+      29001,
+      29002,
+      29003,
+      29004,
+      29005
+    ],
+    "status_of_seeds": "already-consumed v4.0 development cohort",
+    "support_equivalent_criteria": [
+      "C1",
+      "C2",
+      "C4",
+      "C6",
+      "C7"
+    ],
+    "support_mismatch_criteria": [
+      "C3",
+      "C5"
+    ]
+  },
+  "analysis_B_gate_calibration": {
+    "aggregation": "candidate-style median across five seeds",
+    "comparators": "frozen D2.9 references",
+    "d2_9_calibration_seeds": [
+      25001,
+      25002,
+      25003,
+      25004,
+      25005
+    ],
+    "interpretation_limit": "Exact combinatorial calibration diagnostic conditional on the five frozen D2.9 calibration worlds, not an independent Type-I-error estimate.",
+    "new_simulation": false,
+    "pseudo_candidate_rule": "Choose exactly one of the six already-observed global D2.9 rotations for each of the five calibration seeds; enumerate all 6^5 = 7776 rotation combinations.",
+    "required_outputs": [
+      "per-metric empirical pass proportion",
+      "Layer-A joint pass proportion",
+      "reachability joint pass proportion",
+      "all-gates joint pass proportion",
+      "distribution of minimum normalized ratio across the 7776 pseudo-candidates"
+    ],
+    "source": "existing frozen D2.9 calibration tables only"
+  },
+  "d3_execution_paused_pending_audit": true,
+  "d3_protocol_commit": "7e78079",
+  "d3_protocol_file": "config\\d3_alpha_dispersion_protocol_v1.json",
+  "d3_protocol_sync_preserved": true,
+  "d3_worlds_observed_before_audit": false,
+  "external_test_blocked": true,
+  "firewalls": {
+    "no_30001_30005": true,
+    "no_D3_worlds": true,
+    "no_SHAP_or_MCDM_or_winner_outcomes": true,
+    "no_alpha_change": true,
+    "no_delta_change": true,
+    "no_external_TEST": true,
+    "no_new_response_family": true,
+    "no_primary_11001_11030": true,
+    "no_threshold_change_during_audit": true
+  },
+  "historical_results_preserved": true,
+  "new_seed_use": false,
+  "parent_branch": "audit-d29-gate-validity",
+  "parent_commit": "7e780790026b5ee778c1dde8c085187f9bf05611",
+  "predeclared_interpretation": {
+    "ensemble_mismatch_does_not_fully_explain_old_v4_gate_failure_if": "Any support-equivalent criterion/pathway that failed originally still remains below its frozen D2.9 reference under the matched six-rotation ensemble.",
+    "ensemble_mismatch_fully_explains_old_v4_gate_failure_if": "Under the matched six-rotation ensemble on 29001-29005, every Layer-A criterion and every reachability pathway meets its frozen D2.9 reference.",
+    "gate_calibration_conclusion": "Report exact combinatorial joint pass proportions continuously; do not invent a post-hoc acceptable-pass-rate cutoff.",
+    "no_arbitrary_5pct_or_30pct_cutoff": true
+  },
+  "primary_blocked": true,
+  "production_freeze_not_rewritten_before_audit": true,
+  "protocol": "post-v4 D2.9 hard-gate validity audit v1",
+  "purpose": "Quantify whether the D2.9/candidate profile-ensemble mismatch materially explains the frozen v4.0 hard-gate failure, and quantify how the original joint median-threshold gate behaves under the positive-control ensemble.",
+  "reserve_30001_30005_blocked": true,
+  "status": "prospectively opened after D3 protocol synchronization but before any D3 world observation"
+}
