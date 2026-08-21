@@ -1,0 +1,48 @@
+{
+  "D29_LRV_NSV_SRE_binary_gate": false,
+  "D3_execution_paused": true,
+  "allowed_evidence": [
+    "frozen v2.2 candidate_gate_summary.csv",
+    "frozen v2.2 boundary_diagnostics.csv",
+    "historical source file at commit 37c8f31",
+    "historical v2.2 result/config documentation at or before the freeze"
+  ],
+  "current_worktree_source_not_sufficient_by_itself": true,
+  "endpoint_semantics_are_descriptive_not_required_for_corrected_eligibility": true,
+  "external_TEST_blocked": true,
+  "historical_failure_labels_preserved": true,
+  "historical_family_freeze_commit": "37c8f31",
+  "historical_source_path": "src/v2_2_d4_f1_candidate_evaluator.py",
+  "historical_source_readable_before_protocol_write": true,
+  "if_verified": "Do not rewrite the already-frozen 44/10 retrospective table. Create a supplemental evidence-resolution result stating that the selection-eligible universe expands by the verified v2.2 points.",
+  "new_seed_use": false,
+  "new_simulation": false,
+  "parent_branch": "audit-v22-frozen-source-contract",
+  "parent_commit": "7b0900408995deaa34e3cc0497b6ad89701bec9c",
+  "possible_outcomes": [
+    "V2_2_VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT",
+    "V2_2_REMAINS_INSUFFICIENT_FROZEN_EVIDENCE"
+  ],
+  "primary_11001_11030_blocked": true,
+  "production_generator_selected": false,
+  "protocol": "v2.2 frozen-source eligibility evidence resolution v1",
+  "purpose": "Resolve the ten v2.2 points previously classified as INSUFFICIENT_FROZEN_EVIDENCE by applying the already-frozen rule that explicit contemporaneous source-code contracts may establish C8-C10 invariance when no dedicated historical C8-C10 CSV exists.",
+  "required_frozen_artifact_findings": {
+    "D2_8_numerical_pass": true,
+    "boundary_constraints_pass": true,
+    "structural_zero_preservation_pass": true
+  },
+  "required_source_contract_findings": {
+    "C1_C7_only_response_overwrite": true,
+    "C8_C10_not_overwritten": true,
+    "no_clipping_used_to_create_admissibility": true,
+    "structural_zero_pathways_explicitly_zero": true
+  },
+  "reserve_30001_30005_blocked": true,
+  "scope": [
+    "v2.2"
+  ],
+  "selection_or_ranking_performed": false,
+  "source_must_be_read_from_historical_commit": true,
+  "status": "prospectively opened before formal v2.2 source-contract adjudication"
+}
