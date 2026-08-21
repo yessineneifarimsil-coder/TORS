@@ -1,0 +1,102 @@
+{
+  "branch": "protocol-treeshap-computation-v1",
+  "firewalls": {
+    "MCDM_used_to_tune_or_modify_SHAP_weights": false,
+    "external_TEST_used_for_background": false,
+    "external_TEST_used_for_global_SHAP_weights": false,
+    "external_TEST_used_for_model_fit": false,
+    "oracle_attribution_used_to_tune_or_modify_SHAP_weights": false,
+    "preferred_ITS_used_to_tune_or_modify_SHAP_weights": false,
+    "primary_seeds_used_to_define_this_protocol": false,
+    "reserve_seeds_used_to_define_this_protocol": false,
+    "winner_identity_used_to_tune_or_modify_SHAP_weights": false
+  },
+  "global_weight_compression": {
+    "SHAP_MCDM_when_undefined": "not_computed",
+    "continue_other_methods": true,
+    "equal_weight_fallback": false,
+    "formula": "I_j = mean_i(abs(phi_ij)); w_j = I_j / sum_k I_k",
+    "importance": "mean absolute SHAP over all WEIGHT alternative-context rows",
+    "normalization_epsilon": 1e-12,
+    "zero_or_near_zero_rule": "undefined_shap_weight_vector"
+  },
+  "local_accuracy": {
+    "absolute_tolerance": 1e-05,
+    "failure_action": "raise_numerical_error_and_emit_no_shap_weights",
+    "prediction_reference": "model.predict(X_weight)",
+    "reconstruction": "base_values + shap_values.sum(axis=1)",
+    "relative_tolerance": 1e-05,
+    "rule": "abs(reconstructed-prediction) <= atol + rtol*abs(prediction)"
+  },
+  "model_fit": {
+    "early_stopping": false,
+    "estimator": "XGBRegressor",
+    "eval_set": null,
+    "external_TEST_used_for_fit": false,
+    "features": [
+      "g_C1",
+      "g_C2",
+      "g_C3",
+      "g_C4",
+      "g_C5",
+      "g_C6",
+      "g_C7",
+      "g_C8",
+      "g_C9",
+      "g_C10"
+    ],
+    "fit_partition": "fit",
+    "n_jobs": 1,
+    "objective": "reg:squarederror",
+    "random_state": 82002,
+    "random_state_policy": "fixed_across_all_scientific_model_fits",
+    "random_state_provenance": "reuse frozen calibration estimator random state",
+    "row_sort_order": [
+      "context_number",
+      "alternative_id"
+    ],
+    "target": "Y",
+    "verbosity": 0,
+    "weight_rows_used_for_fit": false
+  },
+  "parent_commit": "8626235608fcb8d052223d6793387458280a63f4",
+  "protocol_id": "treeshap_computation_protocol_v1",
+  "status": "FROZEN_BEFORE_FIRST_SCIENTIFIC_SHAP_WEIGHT_VECTOR",
+  "treeshap": {
+    "api": "shap.TreeExplainer(model=model,data=background,feature_perturbation='interventional',model_output='raw'); explanation=explainer(X_weight)",
+    "background_partition": "fit",
+    "background_size": 100,
+    "base_values_source": "Explanation.base_values",
+    "explanation_partition": "weight",
+    "explanation_row_sort_order": [
+      "context_number",
+      "alternative_id"
+    ],
+    "feature_perturbation": "interventional",
+    "model_output": "raw",
+    "values_source": "Explanation.values"
+  },
+  "upstream_frozen_dependencies": {
+    "treeshap_background_namespace": 83001,
+    "treeshap_background_size": 100,
+    "xgboost_hyperparameters": {
+      "colsample_bytree": 0.8,
+      "learning_rate": 0.05,
+      "max_depth": 2,
+      "min_child_weight": 5,
+      "n_estimators": 600,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "subsample": 0.8
+    }
+  },
+  "validated_software_api": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyyaml": "6.0.3",
+    "scikit_learn": "1.9.0",
+    "shap": "0.51.0",
+    "source": "read-only readiness audit plus existing compatibility smoke test",
+    "xgboost": "3.2.0"
+  }
+}

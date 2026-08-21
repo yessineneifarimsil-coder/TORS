@@ -684,6 +684,31 @@ Status:
 
 **RESOLVED PROSPECTIVELY BEFORE TREESHAP BACKGROUND RESULTS.**
 
+## 11.4 TreeSHAP scientific computation semantics — RESOLVED
+
+Before the first scientific SHAP weight vector is computed, v2.2 freezes the
+remaining computation semantics.
+
+- XGBoost is fitted on FIT only using the already-frozen hyperparameters.
+- The learner random state is fixed at `82002` for every scientific fit.
+- FIT and WEIGHT rows use stable `(context_number, alternative_id)` ordering.
+- TreeSHAP uses `interventional`, `raw`, the frozen 100-row FIT background,
+  and the validated `Explanation.values` / `Explanation.base_values` API.
+- Local accuracy must satisfy absolute and relative tolerance `1e-5` on every
+  WEIGHT row; failure is a numerical error and emits no SHAP weights.
+- Global importance is mean absolute SHAP across WEIGHT alternative-context
+  rows.
+- Normalize only when total importance is greater than `1e-12`.
+- If total importance is at or below `1e-12`, the SHAP vector is undefined;
+  Equal weights are not substituted, SHAP-MCDM is not computed for that
+  instance, and the degeneracy is recorded.
+- External TEST, oracle-attribution fidelity, MCDM, winner identity and
+  preferred ITS identity cannot alter these rules.
+
+Status:
+
+**RESOLVED BEFORE FIRST SCIENTIFIC SHAP WEIGHT VECTOR.**
+
 ---
 
 # 12. Alpha-dispersion stress construction under D1-B — D3 ARCHITECTURE RESOLVED
@@ -1848,7 +1873,7 @@ The following order supersedes the obsolete v2.1 immediate-order section for the
 15. Recompute/freeze the generator-dependent alpha-dispersion stress mappings.
 16. Implement/validate closed-form oracle Shapley.
 17. Resume XGBoost development calibration.
-18. Resolve TreeSHAP background Conflict 3.
+18. Resolve TreeSHAP background Conflict 3 and freeze the remaining TreeSHAP scientific computation semantics — **done**.
 19. Implement weighting/decision pipeline and run Pilot B.
 20. Run bootstrap and prespecified robustness analyses.
 21. Freeze statistical analysis and measure one complete reference replication.
@@ -1870,7 +1895,6 @@ The following items are intentionally unresolved:
 - whether an optional reference-condition technology-profile ensemble is scientifically useful beyond the D1-B primary replication structure;
 - `G_tech` size only if such an optional ensemble is later justified;
 - exact v2.2 Pilot-A automatic-stop rules;
-- TreeSHAP background candidate set/size;
 - oracle-ensemble scalar versus criterion-specific zeta;
 - final v2.2 statistical power/precision specification.
 

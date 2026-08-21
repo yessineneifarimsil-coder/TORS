@@ -991,6 +991,33 @@ w_j^{SHAP}
 \frac{I_j^{SHAP}}{\sum_k I_k^{SHAP}}.
 \]
 
+For every scientific model fit, use the frozen XGBoost hyperparameters with
+`random_state=82002`, `n_jobs=1`, no early stopping and no evaluation set.
+The same learner random state is held fixed across replication seeds and
+factorial cells so that learner-internal stochasticity does not become an
+additional benchmark factor. FIT and WEIGHT rows are processed in stable
+`(context_number, alternative_id)` order.
+
+TreeSHAP uses the validated `Explanation.values` and `Explanation.base_values`
+API. On every WEIGHT row require:
+
+\[
+\left|
+\left(b_i+\sum_j\phi_{ij}^{XGB}\right)-\hat Y_i
+\right|
+\le
+10^{-5}+10^{-5}|\hat Y_i|.
+\]
+
+Failure of this local-accuracy invariant is a numerical error and no SHAP
+weight vector is emitted for that instance.
+
+Let \(I_+^{SHAP}=\sum_j I_j^{SHAP}\). If
+\(I_+^{SHAP}>10^{-12}\), normalize by the formula above. If
+\(I_+^{SHAP}\le10^{-12}\), the SHAP weight vector is explicitly undefined:
+no equal-weight fallback is allowed, SHAP-MCDM is not computed for that
+instance, the degeneracy is logged, and other benchmark methods may continue.
+
 The external TEST pool is never used for TreeSHAP background construction or
 global SHAP-weight estimation.
 
@@ -2125,7 +2152,7 @@ The exact Git commit used for final results must be reported in the repository m
 5. Implement closed-form oracle Shapley and exhaustive unit tests.
 6. Run Pilot A on development seeds only.
 7. Calibrate and freeze XGBoost on development seeds.
-8. Reassess, select and freeze the TreeSHAP background candidate set/size on development seeds.
+8. Prospectively freeze the TreeSHAP background without outcome tuning, implement its deterministic FIT-row constructor, and freeze the scientific TreeSHAP computation semantics before the first scientific SHAP weight vector.
 9. Implement weighting baselines, benefit-oriented MOORA, TOPSIS, Direct-XGBoost and diagnostic references.
 10. Implement decision-fidelity metrics and the complete stage-wise ladder.
 11. Run Pilot B and apply the hard decision-sensitivity gate.

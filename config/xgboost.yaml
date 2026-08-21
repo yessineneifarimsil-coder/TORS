@@ -307,3 +307,101 @@ parallelisation:
     enabled_during_pilot: false
 
     enabled_during_full_experiment: true
+
+# ============================================================
+# 8. TreeSHAP scientific computation contract
+# Frozen before the first scientific SHAP weight vector.
+# ============================================================
+
+treeshap_computation:
+
+  status: "frozen_before_first_scientific_shap_weight_vector"
+
+  model_fit:
+    feature_columns:
+      - "g_C1"
+      - "g_C2"
+      - "g_C3"
+      - "g_C4"
+      - "g_C5"
+      - "g_C6"
+      - "g_C7"
+      - "g_C8"
+      - "g_C9"
+      - "g_C10"
+    target_column: "Y"
+    fit_partition: "fit"
+    row_sort_order:
+      - "context_number"
+      - "alternative_id"
+    frozen_parameter_source: "frozen_parameters"
+    estimator_random_state_registry_key: "xgboost_production.estimator_random_state"
+    estimator_random_state: 82002
+    reuse_same_estimator_random_state_across_all_fits: true
+    early_stopping: false
+    eval_set: null
+    weight_partition_used_for_model_fit: false
+    external_test_used_for_model_fit: false
+
+  background:
+    constructor: "src/treeshap_background_v1.py"
+    target_size: 100
+    source_partition: "fit"
+    feature_order_matches_model: true
+
+  explanation:
+    partition: "weight"
+    row_sort_order:
+      - "context_number"
+      - "alternative_id"
+    api: "shap.TreeExplainer.__call__"
+    values_source: "Explanation.values"
+    base_values_source: "Explanation.base_values"
+    feature_perturbation: "interventional"
+    model_output: "raw"
+    external_test_used_for_shap_weight_estimation: false
+
+  local_accuracy:
+    invariant: true
+    reconstructed_prediction: "base_values_plus_row_sum_shap_values"
+    comparator: "XGBRegressor.predict_on_same_WEIGHT_rows"
+    absolute_tolerance: 1.0e-5
+    relative_tolerance: 1.0e-5
+    elementwise_rule: "abs_error_le_atol_plus_rtol_times_abs_prediction"
+    failure_action: "raise_numerical_error_and_emit_no_shap_weights"
+    record_max_absolute_error: true
+    record_max_scaled_error: true
+
+  global_importance:
+    definition: "mean_absolute_shap"
+    averaging_unit: "WEIGHT_alternative_context_row"
+    criterion_count: 10
+    nonnegative_by_definition: true
+
+  weight_normalization:
+    rule: "importance_divided_by_total_importance"
+    epsilon: 1.0e-12
+    valid_if_total_importance_strictly_greater_than_epsilon: true
+    zero_or_near_zero_policy: "undefined_shap_weight_vector"
+    equal_weight_fallback: false
+    downstream_shap_mcdm_when_undefined: "not_computed"
+    continue_other_methods_when_undefined: true
+    record_degeneracy_flag: true
+
+  outputs:
+    persist_global_importance: true
+    persist_global_weights_when_defined: true
+    persist_local_accuracy_diagnostics: true
+    persist_background_identity_hash: true
+    persist_fit_weight_background_row_counts: true
+    persist_raw_row_level_shap_values_for_every_primary_instance: false
+    raw_row_level_shap_values_may_be_retained_for_reference_diagnostics: true
+
+  firewalls:
+    external_test_used_for_model_fit: false
+    external_test_used_for_background: false
+    external_test_used_for_global_shap_weights: false
+    oracle_attribution_used_to_modify_shap_weights: false
+    mcdm_used_to_modify_shap_weights: false
+    winner_identity_used_to_modify_shap_weights: false
+    preferred_ITS_used_to_modify_shap_weights: false

@@ -169,3 +169,19 @@ treeshap_background:
     The selected identities are reused across rho, c, and lambda and
     depend on row identity/partition membership only, never on feature,
     target, oracle, SHAP, MCDM, winner, or TEST outcomes.
+
+# ============================================================
+# XGBoost production-fit algorithmic RNG
+# Frozen before the first scientific TreeSHAP weight vector.
+# ============================================================
+
+xgboost_production:
+  estimator_random_state: 82002
+  reuse_of: "xgboost_calibration.estimator_random_state"
+  rule: >
+    Reuse the already-frozen XGBoost calibration estimator random state 82002
+    for every fitted XGBRegressor in the scientific pipeline. The value is held
+    fixed across replication seeds, N, rho, c, lambda, development pilots, and
+    bootstrap refits. This controls learner-internal stochasticity rather than
+    adding a second stochastic dimension to the benchmark. Data and resampling
+    variation remain governed by their own frozen seed streams.

@@ -238,7 +238,7 @@ development:
     - "relative_noise_validation"
     - "pilot_A_oracle_geometry_gate"
     - "xgboost_development_calibration"
-    - "treeshap_background_calibration"
+    - "treeshap_background_protocol_and_computation_freeze"
     - "weighting_and_decision_implementation"
     - "pilot_B_end_to_end_decision_sensitivity_gate"
     - "reference_bootstrap_and_robustness"
