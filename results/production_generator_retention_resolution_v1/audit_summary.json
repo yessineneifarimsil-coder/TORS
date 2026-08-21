@@ -1,0 +1,113 @@
+{
+  "D29_LRV_NSV_SRE_used_for_selection": false,
+  "D3_execution_paused_until_resolution_freeze": true,
+  "D3_worlds_used": false,
+  "MCDM_used_for_selection": false,
+  "SHAP_used_for_selection": false,
+  "all_retention_preconditions_pass": true,
+  "corrected_eligibility_evidence": {
+    "corrected_eligible": true,
+    "historical_failure_preserved": true,
+    "historical_status": "FAILED_TERMINAL",
+    "readjudication_status": "VERIFIED_ELIGIBLE",
+    "row_count": 1,
+    "verified_eligible_status": true
+  },
+  "corrected_eligibility_nonunique": true,
+  "d3_result_artifacts_detected": [],
+  "development_metric_ranking_used_for_selection": false,
+  "eligible_universe_count": 54,
+  "eligible_universe_evidence": {
+    "eligible_universe_54_confirmed": true,
+    "historical_readjudication_verified_eligible_count": 44,
+    "supplemental_selection_universe_count": 54,
+    "supplemental_v22_verified_count": 10
+  },
+  "external_TEST_used": false,
+  "firewall_evidence": {
+    "all_frozen_firewall_attestations_pass": true,
+    "checks": {
+      "historical_readjudication_D3_worlds_used": true,
+      "historical_readjudication_external_TEST_used": true,
+      "historical_readjudication_primary_used": true,
+      "historical_readjudication_reserve_used": true,
+      "v22_resolution_D3_worlds_used": true,
+      "v22_resolution_external_TEST_used": true,
+      "v22_resolution_primary_used": true,
+      "v22_resolution_reserve_used": true
+    }
+  },
+  "git_branch": "protocol-production-generator-retention",
+  "git_commit": "849362e061a6d219f2d4b943c0dfed6e746175f0",
+  "mandatory_secondary_v22_robustness_protocol": true,
+  "new_seeds_used": false,
+  "new_simulation": false,
+  "preexisting_production_candidate": "d29_kernel",
+  "preexisting_production_freeze_commit": "bd56c2d",
+  "primary_11001_11030_used": false,
+  "production_provenance_evidence": {
+    "core_spec_comparisons": {
+      "candidate_id": {
+        "current": "d29_kernel",
+        "equal": true,
+        "historical": "d29_kernel"
+      },
+      "corrected_structural_validation_passed": {
+        "current": true,
+        "equal": true,
+        "historical": true
+      },
+      "delta": {
+        "current": 0.05,
+        "equal": true,
+        "historical": 0.05
+      },
+      "response_formula": {
+        "current": "theta*o + 0.05*v*o*(1-o)",
+        "equal": true,
+        "historical": "theta*o + 0.05*v*o*(1-o)"
+      },
+      "response_generator_development_closed": {
+        "current": true,
+        "equal": true,
+        "historical": true
+      },
+      "signed_profile_namespace": {
+        "current": 2010,
+        "equal": true,
+        "historical": 2010
+      },
+      "status": {
+        "current": "FROZEN_PRODUCTION_RESPONSE_GENERATOR",
+        "equal": true,
+        "historical": "FROZEN_PRODUCTION_RESPONSE_GENERATOR"
+      }
+    },
+    "core_spec_unchanged": true,
+    "current_candidate_is_d29_kernel": true,
+    "current_corrected_validation_passed": true,
+    "current_development_closed": true,
+    "current_status_frozen": true,
+    "historical_candidate_is_d29_kernel": true,
+    "historical_commit_is_ancestor": true,
+    "historical_corrected_validation_passed": true,
+    "historical_development_closed": true,
+    "historical_status_frozen": true
+  },
+  "ranking_or_reoptimization_performed": false,
+  "reserve_30001_30005_used": false,
+  "resolution": "RETAIN_D29_KERNEL_UNDER_MINIMAL_INTERVENTION",
+  "retained_primary_candidate": "d29_kernel",
+  "retention_is_statistical_selection": false,
+  "retention_is_superiority_claim": false,
+  "retention_is_uniqueness_claim": false,
+  "retention_preconditions": {
+    "eligible_universe_54_confirmed": true,
+    "frozen_firewall_attestations_pass": true,
+    "no_D3_result_artifact_detected": true,
+    "preexisting_candidate_remains_corrected_eligible": true,
+    "preexisting_production_provenance_verified": true
+  },
+  "status": "COMPLETED_PRODUCTION_GENERATOR_RETENTION_RESOLUTION",
+  "winner_identity_used_for_selection": false
+}

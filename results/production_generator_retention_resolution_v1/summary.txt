@@ -1,0 +1,26 @@
+POST-DEVELOPMENT PRODUCTION-GENERATOR RETENTION RESOLUTION
+git_commit: 849362e061a6d219f2d4b943c0dfed6e746175f0
+eligible_universe_count: 54
+corrected_eligibility_nonunique: True
+preexisting_production_freeze_commit: bd56c2d
+preexisting_production_candidate: d29_kernel
+preexisting_production_provenance_verified: True
+preexisting_candidate_remains_corrected_eligible: True
+eligible_universe_54_confirmed: True
+frozen_firewall_attestations_pass: True
+no_D3_result_artifact_detected: True
+all_retention_preconditions_pass: True
+resolution: RETAIN_D29_KERNEL_UNDER_MINIMAL_INTERVENTION
+retained_primary_candidate: d29_kernel
+retention_is_superiority_claim: False
+retention_is_uniqueness_claim: False
+ranking_or_reoptimization_performed: False
+D29_LRV_NSV_SRE_used_for_selection: False
+SHAP_used_for_selection: False
+MCDM_used_for_selection: False
+winner_identity_used_for_selection: False
+new_simulation: False
+new_seeds_used: False
+D3_worlds_used: False
+mandatory_secondary_v22_robustness_protocol: True
+D3_execution_paused_until_resolution_freeze: True
