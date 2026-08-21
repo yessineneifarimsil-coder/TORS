@@ -1,0 +1,144 @@
+{
+  "d29_role": {
+    "binary_eligibility_gate": false,
+    "continuous_structural_diagnostic": true,
+    "positive_control_retained": true,
+    "reported_metrics": [
+      "LRV",
+      "NSV",
+      "SRE",
+      "LRV/D2.9",
+      "NSV/D2.9",
+      "SRE/D2.9"
+    ]
+  },
+  "d3_blocked_until_production_generator_frozen": true,
+  "external_test_blocked_until_production_generator_frozen": true,
+  "hard_gates": {
+    "analytic_response_invariants": true,
+    "c8_c10_invariance": true,
+    "d2_8_numerical_non_degeneracy": true,
+    "structural_zero_preservation": true
+  },
+  "historical_results_modified": false,
+  "historical_v40_status_preserved": true,
+  "methodological_basis": {
+    "estimand_audit_file": "results\\d2_9_candidate_estimand_audit\\audit_summary.json",
+    "hard_threshold_direct_comparability": false,
+    "profile_ensemble_estimand_match": false,
+    "support_mismatch_criteria": [
+      "C3",
+      "C5"
+    ]
+  },
+  "parent_branch": "protocol-corrected-production-eligibility",
+  "parent_commit": "84867e1dbe24cdad8023c39596afe11d554156a3",
+  "primary_blocked_until_production_generator_frozen": true,
+  "primary_seeds": [
+    11001,
+    11002,
+    11003,
+    11004,
+    11005,
+    11006,
+    11007,
+    11008,
+    11009,
+    11010,
+    11011,
+    11012,
+    11013,
+    11014,
+    11015,
+    11016,
+    11017,
+    11018,
+    11019,
+    11020,
+    11021,
+    11022,
+    11023,
+    11024,
+    11025,
+    11026,
+    11027,
+    11028,
+    11029,
+    11030
+  ],
+  "protocol": "corrected production-generator eligibility v1",
+  "reserve_policy": {
+    "backup_validation": false,
+    "seeds": [
+      30001,
+      30002,
+      30003,
+      30004,
+      30005
+    ],
+    "untouched": true
+  },
+  "retrospective_readjudication": {
+    "candidate": "v4.0-F1 d29_kernel",
+    "candidate_rerun_for_readjudication": false,
+    "d29_layer_a_used_for_corrected_eligibility": false,
+    "d29_reachability_used_for_corrected_eligibility": false,
+    "delta": 0.05,
+    "development_seeds": [
+      29001,
+      29002,
+      29003,
+      29004,
+      29005
+    ],
+    "eligible_for_structural_validation": true,
+    "frozen_invariant_pass": true,
+    "frozen_numerical_pass": true,
+    "historical_layer_a_pass": false,
+    "historical_reachability_pass": false,
+    "namespace": 2010,
+    "parameter_changed": false,
+    "response_formula": "theta*o + 0.05*v*o*(1-o)"
+  },
+  "status": "prospectively opened before corrected one-shot structural validation",
+  "structural_validation": {
+    "continuous_diagnostics_reported": [
+      "LRV",
+      "NSV",
+      "SRE",
+      "positive-control-normalized structural ratios"
+    ],
+    "d29_ratios_used_for_pass_fail": false,
+    "delta": 0.05,
+    "external_test_used": false,
+    "hard_pass_fail_gates": [
+      "D2.8 numerical non-degeneracy",
+      "analytic response invariants",
+      "structural-zero preservation",
+      "C8-C10 invariance"
+    ],
+    "lambda": 0.5,
+    "namespace": 2010,
+    "one_shot": true,
+    "parameter_tuning_allowed": false,
+    "partitions": [
+      "fit",
+      "weight"
+    ],
+    "primary_used": false,
+    "reserve_used": false,
+    "response_formula": "theta*o + 0.05*v*o*(1-o)",
+    "rho": 0.4,
+    "seeds": [
+      22001,
+      22002,
+      22003,
+      22004,
+      22005
+    ],
+    "sigma_x": 0.0
+  },
+  "v40_historical_status": "FAILED_TERMINAL",
+  "validation_failure_rule": "if any corrected hard gate fails, do not tune or select a fallback response family; revisit benchmark design",
+  "validation_success_rule": "freeze v4.0 as production response generator only if every corrected hard gate passes on all one-shot structural-validation seeds"
+}
