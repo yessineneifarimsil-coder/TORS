@@ -1,0 +1,6 @@
+replication_seed,master_contexts,master_rows,estimation_rows,external_test_rows_generated,reference_N,fit_contexts_used,fit_rows_used,weight_rows_used_for_selection,external_test_rows_used_for_selection,signal_sd,imposed_noise_sd,external_test_used_for_signal_sd,production_generator,context_audit_rows_generated,response_audit_rows_generated,capability_parameter_rows,deployment_parameter_rows
+21001,1200,7200,6000,1200,250,200,1200,0,0,0.05705520195417898,0.017116560586253694,False,d29_kernel,1200,7200,42,6
+21002,1200,7200,6000,1200,250,200,1200,0,0,0.053754634331464636,0.01612639029943939,False,d29_kernel,1200,7200,42,6
+21003,1200,7200,6000,1200,250,200,1200,0,0,0.05953773362209011,0.017861320086627032,False,d29_kernel,1200,7200,42,6
+21004,1200,7200,6000,1200,250,200,1200,0,0,0.05659066375519614,0.01697719912655884,False,d29_kernel,1200,7200,42,6
+21005,1200,7200,6000,1200,250,200,1200,0,0,0.05550926166877058,0.016652778500631172,False,d29_kernel,1200,7200,42,6

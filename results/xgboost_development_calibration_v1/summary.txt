@@ -1,0 +1,27 @@
+XGBOOST DEVELOPMENT CALIBRATION EXECUTION
+git_commit: 247bf8939fe52c8dd32ba3ae41e12e17f3108b92
+git_branch: execute-xgboost-development-calibration
+development_seeds: [21001, 21002, 21003, 21004, 21005]
+reference_condition: N=250, c=0.30, rho=0.4, lambda=0.5
+production_generator: d29_kernel
+pooled_fit_context_groups: 1000
+pooled_fit_rows: 6000
+candidate_count: 60
+grouped_cv_folds: 5
+candidate_sampling_random_state: 82001
+estimator_random_state: 82002
+selected_candidate_id: 45
+selected_mean_cv_rmse: 0.0177570589134
+selected_parameters: {"colsample_bytree": 0.8, "learning_rate": 0.05, "max_depth": 2, "min_child_weight": 5, "n_estimators": 600, "reg_alpha": 0.0, "reg_lambda": 1.0, "subsample": 0.8}
+primary_11001_11030_used: False
+reserve_30001_30005_used: False
+weight_rows_used_for_selection: False
+external_test_used_for_signal_sd: False
+external_test_used_for_fit_or_cv: False
+external_test_metrics_computed_or_inspected: False
+SHAP_used_for_selection: False
+MCDM_used_for_selection: False
+winner_identity_used_for_selection: False
+treeSHAP_background_selected: False
+legacy_cached_csvs_used: False
+status: XGBOOST_DEVELOPMENT_CALIBRATION_COMPLETE_AWAITING_INDEPENDENT_AUDIT

@@ -1,0 +1,59 @@
+{
+  "MCDM_used_for_selection": false,
+  "SHAP_used_for_selection": false,
+  "candidate_count": 60,
+  "candidate_sampling_random_state": 82001,
+  "development_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "estimator_random_state": 82002,
+  "evaluation_branch": "execute-xgboost-development-calibration",
+  "evaluation_commit": "247bf8939fe52c8dd32ba3ae41e12e17f3108b92",
+  "external_test_metrics_computed_or_inspected": false,
+  "external_test_used_for_fit_or_cv": false,
+  "external_test_used_for_signal_sd": false,
+  "grouped_cv_folds": 5,
+  "legacy_cached_csvs_used": false,
+  "package_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "pyyaml": "6.0.3",
+    "scikit-learn": "1.9.0",
+    "xgboost": "3.2.0"
+  },
+  "platform": "Windows-10-10.0.26200-SP0",
+  "pooled_fit_context_groups": 1000,
+  "pooled_fit_rows": 6000,
+  "primary_11001_11030_used": false,
+  "production_generator": "d29_kernel",
+  "python_version": "3.11.15",
+  "reference_condition": {
+    "N": 250,
+    "c": 0.3,
+    "lambda": 0.5,
+    "rho": 0.4
+  },
+  "reserve_30001_30005_used": false,
+  "runtime_seconds": 71.5214289999567,
+  "selected_candidate_id": 45,
+  "selected_mean_cv_rmse": 0.017757058913365983,
+  "selected_parameters": {
+    "colsample_bytree": 0.8,
+    "learning_rate": 0.05,
+    "max_depth": 2,
+    "min_child_weight": 5,
+    "n_estimators": 600,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1.0,
+    "subsample": 0.8
+  },
+  "selection_metric": "mean grouped-CV RMSE",
+  "status": "XGBOOST_DEVELOPMENT_CALIBRATION_COMPLETE_AWAITING_INDEPENDENT_AUDIT",
+  "treeSHAP_background_selected": false,
+  "weight_rows_used_for_selection": false,
+  "winner_identity_used_for_selection": false
+}
