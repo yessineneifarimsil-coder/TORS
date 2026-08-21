@@ -1,0 +1,26 @@
+D3-B SUPERPOPULATION ALPHA-DISPERSION EXECUTION
+git_commit: b0b76e76ce7caacb5878de2eb270b92e15858789
+production_generator: d29_kernel
+master_seed_namespace: 74001
+worlds_observed: 200
+expanded_beyond_200: False
+initial_order_stable_150_vs_200: True
+initial_precision_pass_W200: True
+final_order_compare: 150 vs 200
+final_order_stable: True
+final_precision_pass: True
+converged: True
+status: D3_CONVERGED_MAPPING_FROZEN_READY
+final_order_descending_q_mad: ['C8', 'C10', 'C5', 'C2', 'C3', 'C4', 'C1', 'C7', 'C6', 'C9']
+aligned_and_anti_mapping_formed: True
+primary_alpha_changed: False
+minmax_population_sd_used_for_mapping: False
+minmax_population_sd_status: NOT_COMPUTED_UNDERSPECIFIED_LEGACY_DIAGNOSTIC
+primary_11001_11030_used: False
+reserve_30001_30005_used: False
+external_TEST_used: False
+FIT_WEIGHT_partition_roles_used: False
+SHAP_used: False
+MCDM_used: False
+winner_identity_used: False
+v2_2_robustness_executed: False

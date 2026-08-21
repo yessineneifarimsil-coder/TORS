@@ -1,0 +1,86 @@
+{
+  "balanced_mapping_frozen": {
+    "C1": 0.1,
+    "C10": 0.1,
+    "C2": 0.1,
+    "C3": 0.1,
+    "C4": 0.1,
+    "C5": 0.1,
+    "C6": 0.1,
+    "C7": 0.1,
+    "C8": 0.1,
+    "C9": 0.1
+  },
+  "converged": true,
+  "final_W": 200,
+  "final_order_descending_q_mad": [
+    "C8",
+    "C10",
+    "C5",
+    "C2",
+    "C3",
+    "C4",
+    "C1",
+    "C7",
+    "C6",
+    "C9"
+  ],
+  "mapping_defining_estimand": "superpopulation mean within-world q-MAD",
+  "mappings": {
+    "balanced": {
+      "C1": 0.1,
+      "C10": 0.1,
+      "C2": 0.1,
+      "C3": 0.1,
+      "C4": 0.1,
+      "C5": 0.1,
+      "C6": 0.1,
+      "C7": 0.1,
+      "C8": 0.1,
+      "C9": 0.1
+    },
+    "dispersion_aligned": {
+      "C1": 0.08,
+      "C10": 0.14,
+      "C2": 0.12,
+      "C3": 0.11,
+      "C4": 0.1,
+      "C5": 0.13,
+      "C6": 0.05,
+      "C7": 0.07,
+      "C8": 0.16,
+      "C9": 0.04
+    },
+    "dispersion_anti_aligned": {
+      "C1": 0.12,
+      "C10": 0.05,
+      "C2": 0.08,
+      "C3": 0.1,
+      "C4": 0.11,
+      "C5": 0.07,
+      "C6": 0.14,
+      "C7": 0.13,
+      "C8": 0.04,
+      "C9": 0.16
+    }
+  },
+  "primary_alpha_unchanged": {
+    "C1": 0.11,
+    "C10": 0.13,
+    "C2": 0.04,
+    "C3": 0.05,
+    "C4": 0.07,
+    "C5": 0.1,
+    "C6": 0.14,
+    "C7": 0.12,
+    "C8": 0.16,
+    "C9": 0.08
+  },
+  "secondary_minmax_population_sd": {
+    "configured_enabled": true,
+    "defines_mapping": false,
+    "reason": "Frozen artifacts name a historical min-max plus population-SD diagnostic but do not fully specify its exact normalization scope and implementation details. No formula was invented because it cannot define the D3 mapping.",
+    "status": "NOT_COMPUTED_UNDERSPECIFIED_LEGACY_DIAGNOSTIC"
+  },
+  "status": "D3_CONVERGED_MAPPING_FROZEN_READY"
+}
