@@ -1,0 +1,29 @@
+{
+  "c8_c10_unchanged": true,
+  "candidate_id": "d29_kernel",
+  "corrected_structural_validation_passed": true,
+  "corrected_structural_validation_seeds": [
+    22001,
+    22002,
+    22003,
+    22004,
+    22005
+  ],
+  "d29_role": "continuous positive-control-calibrated structural diagnostic, not binary eligibility gate",
+  "d2_8_role": "hard numerical non-degeneracy gate",
+  "d3_unblocked": true,
+  "delta": 0.05,
+  "development_history_preserved": true,
+  "external_test_still_blocked": true,
+  "freeze_source_commit": "a5bb1ba995e6adae8ad7d9e202d8fcf8c8d97f14",
+  "historical_v40_failed_terminal_preserved": true,
+  "no_clipping": true,
+  "primary_still_blocked_pending_d3": true,
+  "reserve_seeds_30001_30005_remain_unused": true,
+  "response_family": "terminal D2.9-kernel response",
+  "response_formula": "theta*o + 0.05*v*o*(1-o)",
+  "response_generator_development_closed": true,
+  "signed_profile_namespace": 2010,
+  "status": "FROZEN_PRODUCTION_RESPONSE_GENERATOR",
+  "structural_zero_pathways_exact_zero": true
+}

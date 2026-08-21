@@ -1,0 +1,22 @@
+CORRECTED ONE-SHOT STRUCTURAL VALIDATION
+git_commit: a5bb1ba995e6adae8ad7d9e202d8fcf8c8d97f14
+structural_validation_seeds: (22001, 22002, 22003, 22004, 22005)
+candidate_id: d29_kernel
+delta: 0.05
+signed_profile_namespace: 2010
+parameter_tuning_allowed: False
+external_TEST_used: False
+reserve_seeds_used: False
+primary_seeds_used: False
+D29_LRV_NSV_SRE_used_for_pass_fail: False
+
+CORRECTED HARD GATES
+D2.8_numerical=True; analytic_invariants=True; C8_C10=True; validation_passed=True
+
+DESCRIPTIVE D2.9-NORMALIZED STRUCTURAL DIAGNOSTICS
+minimum_LayerA_ratio_to_D29: 0.837017960
+minimum_SRE_ratio_to_D29: 0.714925721
+These ratios do not determine pass/fail.
+
+VALIDATION_PASSED: True
+PRODUCTION_GENERATOR_ELIGIBLE_FOR_FREEZE: True

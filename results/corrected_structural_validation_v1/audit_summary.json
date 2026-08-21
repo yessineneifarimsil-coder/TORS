@@ -1,0 +1,37 @@
+{
+  "D29_ratios_used_for_pass_fail": false,
+  "candidate_id": "d29_kernel",
+  "evaluation_branch": "protocol-corrected-production-eligibility",
+  "evaluation_commit": "a5bb1ba995e6adae8ad7d9e202d8fcf8c8d97f14",
+  "external_test_used": false,
+  "file_sha256": {
+    "boundary_diagnostics.csv": "9759c8595fed0de0048e07843f486be96f343bbdde0755e3820939ae34e6291e",
+    "c8_c10_invariance.csv": "6b8fe59fae7607933eb5dcb7ec5afe019a0b4f27b2d42dbdec4c63c885d9c060",
+    "corrected_gate_summary.csv": "6a38406d50f17060dffc0ad8636e78d562dc62ee05e6edcc2e40229106b95acc",
+    "decision.json": "f7ae79d89e21beeb1285f7eac786752515fbc4c5453e7b2db09c4bd6b6a0be62",
+    "departure_diagnostics.csv": "f463c8c9a9dc2fe0f9b6ff2cce3dbce228277abdf8de9aea4c8db6568b819668",
+    "layer_a_diagnostics.csv": "c3cf710599e38e1765742603f0b541488d1655eb396e470de581d1ab4467ccd5",
+    "layer_a_per_seed.csv": "e3894a32d6a09e87ffa3a7cde960b4984ceabd2db5566ac8c432b98cdcce4638",
+    "reachability_diagnostics.csv": "eea921f54fb70419964e3a4d08342c67c0cdbd3dc6492c772936640fd4da2b36",
+    "reachability_per_seed.csv": "8099e6e9f32c63af0c126312e6205915257e2f8e2433b86ddb68f44bac3e75e9",
+    "run_metadata.json": "dfeffccef3efb2e211c7d2061e9ab22ef36592647e8817d04fdcd8371f574611",
+    "signed_profiles.csv": "ea3fdbdc1f1fe4184868642cc71b4928fa3a6313d7ebfbeb22c64afbabade955",
+    "summary.txt": "e7971e9abca6e1d52959e2c03d81fe4812d526a349a3c7fa995add72a96226d4"
+  },
+  "minimum_SRE_ratio_to_D29": 0.7149257205696531,
+  "minimum_layerA_ratio_to_D29": 0.8370179597166929,
+  "one_shot": true,
+  "parameter_tuning_allowed": false,
+  "primary_seeds_used": false,
+  "production_generator_eligible_for_freeze": true,
+  "reserve_seeds_used": false,
+  "status": "PASSED_CORRECTED_ONE_SHOT_STRUCTURAL_VALIDATION",
+  "structural_validation_seeds": [
+    22001,
+    22002,
+    22003,
+    22004,
+    22005
+  ],
+  "validation_passed": true
+}

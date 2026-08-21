@@ -1,0 +1,2 @@
+candidate_id,pass_D2_8_numerical_non_degeneracy,pass_analytic_response_invariants,pass_C8_C10_invariance,pass_all_corrected_invariants,D29_LRV_NSV_SRE_used_for_pass_fail,validation_passed
+d29_kernel,True,True,True,True,False,True

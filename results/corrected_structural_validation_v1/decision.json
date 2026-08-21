@@ -1,0 +1,13 @@
+{
+  "D29_LRV_NSV_SRE_used_for_pass_fail": false,
+  "D29_structural_diagnostics_reported": true,
+  "candidate_id": "d29_kernel",
+  "delta": 0.05,
+  "fallback_candidate_selection": false,
+  "parameter_tuning": false,
+  "production_generator_eligible_for_freeze": true,
+  "response_formula": "theta*o + 0.05*v*o*(1-o)",
+  "signed_profile_namespace": 2010,
+  "validation_passed": true,
+  "validation_stage": "one-shot structural validation"
+}
