@@ -501,10 +501,11 @@ stagewise_fidelity:
 
     - "OracleMainEffectReference"
 
-    - "OracleGlobalAttributionRepresentation"
+    - "OracleGlobalAttributionNonlinearQ"
 
     - "SHAPGlobalAttributionNonlinearQ"
 
+    - "OracleGlobalAttributionLinearG"
     - "SHAPGlobalAttributionLinearG"
 
     - "OracleWeightMOORA"

@@ -185,3 +185,18 @@ xgboost_production:
     bootstrap refits. This controls learner-internal stochasticity rather than
     adding a second stochastic dimension to the benchmark. Data and resampling
     variation remain governed by their own frozen seed streams.
+permutation_importance:
+  master_seed: 84001
+  child_generation: "numpy.random.SeedSequence"
+  rule: >
+    For replication seed r and frozen sample size N, derive the context-block
+    derangement RNG from SeedSequence([r,84001,N]). Sort WEIGHT contexts by
+    context_number and index them 0..m-1. Repeatedly draw perm=rng.permutation(m)
+    and accept it iff perm[d] != d for every destination d and its tuple has not
+    been accepted previously. Stop after 20 unique accepted derangements; after
+    100000 candidate draws without 20 accepted derangements, raise RuntimeError
+    with no fallback and no PI result. For destination context position d, copy
+    only the permuted criterion six-alternative block from source position
+    perm[d], preserving alternative_id ascending order and leaving all other
+    features unchanged. Reuse the same 20 derangements across all ten criteria
+    and across rho, c, and lambda.

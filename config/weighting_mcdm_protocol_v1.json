@@ -1,0 +1,343 @@
+{
+  "common": {
+    "benefit_oriented_input": true,
+    "epsilon": 1e-12,
+    "features": [
+      "g_C1",
+      "g_C2",
+      "g_C3",
+      "g_C4",
+      "g_C5",
+      "g_C6",
+      "g_C7",
+      "g_C8",
+      "g_C9",
+      "g_C10"
+    ],
+    "n_criteria": 10,
+    "rank_ties": "average_ranks",
+    "score_tie_absolute_tolerance": 1e-12,
+    "score_tie_relative_tolerance": 0.0,
+    "tie_grouping_rule": "Within each context, sort alternatives by raw score descending then alternative_id ascending. Starting from the highest unassigned score as the tie-group anchor, include every remaining alternative whose absolute score difference from that anchor is <=1e-12; assign the group its average rank, then repeat with the highest remaining unassigned score. Do not chain ties through adjacent pairwise similarities.",
+    "top1_tie_break": "alternative_id_ascending",
+    "top1_tie_set_rule": "Form the top tie set as all alternatives with max_score-score<=1e-12; select alternative_id ascending."
+  },
+  "critic": {
+    "all_zero_information_fallback": "equal_weights",
+    "constant_columns_in_conflict_sum": "excluded",
+    "constant_range_rule": "normalized_column_zero_and_information_zero",
+    "correlation": "Pearson_on_nonconstant_normalized_columns",
+    "epsilon": 1e-12,
+    "information": "sd_j_times_sum_over_nonconstant_k_of_1_minus_r_jk",
+    "normalization": "divide_information_by_sum",
+    "partition": "weight",
+    "preprocessing": "criterionwise_minmax",
+    "record_fallback": true,
+    "secondary_robustness_partition": "fit_plus_weight",
+    "standard_deviation_ddof": 0
+  },
+  "decision_metrics": {
+    "kendall": "tau_b",
+    "normalized_oracle_regret_epsilon": 1e-12,
+    "oracle_decision_margin_epsilon": 1e-12,
+    "rank_ties": "average_ranks",
+    "score_tie_absolute_tolerance": 1e-12,
+    "tie_grouping_rule": "use_common_anchor_based_rule",
+    "top1": "deterministic_selected_alternative_match",
+    "top1_tie_break": "alternative_id_ascending",
+    "top1_tie_set_rule": "use_common_max_score_rule"
+  },
+  "diagnostic_references": {
+    "DirectXGBoost": {
+      "enabled": true,
+      "required_before_pilot_B": true,
+      "role": "parallel_predictive_decision_reference"
+    },
+    "MajorityWinner": {
+      "enabled": true,
+      "evaluation_partition": "test",
+      "required_before_pilot_B": true,
+      "role": "trivial_constant_top1_reference",
+      "winner_estimation_partition": "weight"
+    },
+    "RandomWeights": {
+      "distribution": "Dirichlet(1,...,1)",
+      "draws": 200,
+      "enabled": true,
+      "required_before_pilot_B": true,
+      "role": "diagnostic_lower_reference"
+    },
+    "pilot_B_thresholds": {
+      "frozen_in_this_protocol": false,
+      "may_not_be_chosen_after_inspecting_pilot_B_results": true,
+      "must_be_frozen_before_pilot_B_execution": true
+    }
+  },
+  "entropy": {
+    "all_zero_diversification_fallback": "equal_weights",
+    "constant_or_effectively_zero_column_rule": "diversification_zero",
+    "epsilon": 1e-12,
+    "n_definition": "number_of_alternative_context_rows_in_weight_partition",
+    "normalization": "divide_diversification_by_sum",
+    "partition": "weight",
+    "preprocessing": "criterionwise_minmax",
+    "record_fallback": true,
+    "secondary_robustness_partition": "fit_plus_weight",
+    "zero_log_zero": true
+  },
+  "equal": {
+    "weights": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ]
+  },
+  "modal_winner": {
+    "evaluate_on": "test",
+    "modal_count_tie_break": "alternative_id_ascending",
+    "oracle_optimal_choice": "argmax_U_star",
+    "oracle_score_tie_absolute_tolerance": 1e-12,
+    "oracle_top1_tie_break": "alternative_id_ascending",
+    "primary_metric": "Top1Accuracy",
+    "winner_estimation_partition": "weight"
+  },
+  "moora": {
+    "epsilon": 1e-12,
+    "input": "benefit_oriented_G",
+    "rank_ties": "average_ranks",
+    "ranking": "descending_score",
+    "role": "primary_mcdm",
+    "score": "sum_j w_j*r_asj",
+    "score_tie_absolute_tolerance": 1e-12,
+    "tie_grouping_rule": "use_common_anchor_based_rule",
+    "top1_tie_break": "alternative_id_ascending",
+    "top1_tie_set_rule": "use_common_max_score_rule",
+    "vector_normalization": "g_asj/(sqrt(sum_a g_asj^2)+epsilon)"
+  },
+  "oracle_attribution": {
+    "background_partition": "fit",
+    "continue_other_methods_when_undefined": true,
+    "definition": "interventional_closed_form_pairwise",
+    "epsilon": 1e-12,
+    "equal_weight_fallback": false,
+    "evaluation_partition": "weight",
+    "importance": "mean_absolute_oracle_shapley",
+    "normalization": "divide_by_sum",
+    "oracle_weight_mcdm_when_undefined": false,
+    "zero_or_near_zero_total_rule": "undefined_oracle_attribution_weight_vector"
+  },
+  "parent_commit": "d168988b3e514f5ab8cb920caedd1f9556a053e1",
+  "permutation_importance": {
+    "all_nonpositive_fallback": "equal_weights",
+    "canonical_context_order": "context_number_ascending",
+    "derangement_generation": {
+      "acceptance_rule": "accept iff perm[d] != d for every destination index d and tuple(perm.tolist()) has not been accepted previously",
+      "accepted_derangements_required": 20,
+      "all_other_features": "unchanged",
+      "alternative_order_within_block": "alternative_id_ascending",
+      "candidate_draw": "perm = rng.permutation(m)",
+      "context_order": "context_number_ascending",
+      "m_definition": "number_of_WEIGHT_contexts_available_at_frozen_N",
+      "mapping_direction": "for each destination context position d, the permuted criterion block is copied from source context position perm[d]",
+      "max_candidate_draws": 100000,
+      "on_failure": "raise_RuntimeError_no_fallback_no_result",
+      "permuted_content": "only_feature_g_Cj_six_alternative_block",
+      "uniqueness_key": "tuple_of_zero_based_source_indices_in_destination_order"
+    },
+    "evaluation_partition": "weight",
+    "fit_partition": "fit",
+    "importance_per_repeat": "permuted_MSE_minus_baseline_MSE",
+    "loss": "mean_squared_error",
+    "master_seed": 84001,
+    "mean_importance": "arithmetic_mean_over_20_repeats",
+    "model": "fitted_xgboost",
+    "negative_mean_importance_rule": "truncate_to_zero",
+    "normalization": "divide_nonnegative_mean_importance_by_sum",
+    "preserve_alternative_order_within_block": true,
+    "record_fallback": true,
+    "repeats": 20,
+    "require_no_fixed_context_blocks": true,
+    "require_unique_derangements": true,
+    "reuse_across_c": true,
+    "reuse_across_lambda": true,
+    "reuse_across_rho": true,
+    "rng_construction": "numpy.random.default_rng(numpy.random.SeedSequence([replication_seed,84001,N]))",
+    "same_20_derangements_reused_across_all_criteria": true,
+    "scheme": "derangement",
+    "sd_ddof": 1,
+    "seed_registry_key": "permutation_importance.master_seed",
+    "separate_deterministic_derangement_set_per_N": true,
+    "unit": "context_block_six_alternatives"
+  },
+  "principle": {
+    "external_test_used_to_estimate_weights_or_tune_methods": false,
+    "primary_or_reserve_results_used_to_set_rules": false,
+    "rules_may_not_be_changed_using_observed_SHAP_weights": true,
+    "rules_may_not_be_changed_using_winner_identity": true
+  },
+  "random_dirichlet": {
+    "concentration": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "distribution": "Dirichlet",
+    "draws_per_replication": 200,
+    "master_seed": 81001,
+    "reuse_same_200_vectors_across_N_rho_c_lambda_for_seed": true,
+    "rng_construction": "numpy.random.default_rng(numpy.random.SeedSequence([replication_seed,81001]))",
+    "role": "diagnostic_lower_reference",
+    "seed_registry_key": "random_weight_reference.master_seed"
+  },
+  "ridge_plus": {
+    "candidate_tau": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "coefficient_constraint": "nonnegative",
+    "cv": {
+      "folds": 5,
+      "group": "context_id",
+      "method": "GroupKFold",
+      "metric": "RMSE_on_original_Y_scale",
+      "selection": "minimum_mean_fold_RMSE",
+      "shuffle": false,
+      "tie_absolute_tolerance": 1e-12,
+      "tie_break": "smallest_tau"
+    },
+    "features": [
+      "g_C1",
+      "g_C2",
+      "g_C3",
+      "g_C4",
+      "g_C5",
+      "g_C6",
+      "g_C7",
+      "g_C8",
+      "g_C9",
+      "g_C10"
+    ],
+    "intercept": "none_in_standardized_space",
+    "partition": "fit",
+    "record_fallback": true,
+    "solver": "scipy.optimize.nnls_on_L2_augmented_design",
+    "standardization": {
+      "X": true,
+      "ddof": 0,
+      "final_statistics_from_full_fit_partition": true,
+      "statistics_fit_within_each_cv_training_fold": true,
+      "y": true,
+      "zero_variance_X_column": "standardized_column_zero_and_coefficient_fixed_zero",
+      "zero_variance_epsilon": 1e-12,
+      "zero_variance_y": "all_coefficients_zero_then_equal_weight_fallback"
+    },
+    "target": "Y",
+    "weight_normalization": "coefficient_divided_by_sum",
+    "zero_sum_epsilon": 1e-12,
+    "zero_sum_fallback": "equal_weights"
+  },
+  "schema": "weighting_mcdm_protocol_v1",
+  "stagewise_fidelity": {
+    "claim_additive_error_decomposition": false,
+    "direct_xgboost_role": "parallel_reference_not_sequential_transformation_stage",
+    "enabled": true,
+    "paired_contrasts": [
+      {
+        "comparison": "OracleMainEffectReference",
+        "name": "interaction_removal",
+        "reference": "OracleUtility"
+      },
+      {
+        "comparison": "OracleGlobalAttributionNonlinearQ",
+        "name": "global_oracle_weight_compression",
+        "reference": "OracleMainEffectReference"
+      },
+      {
+        "comparison": "SHAPGlobalAttributionNonlinearQ",
+        "name": "shap_attribution_estimation_nonlinear_q",
+        "reference": "OracleGlobalAttributionNonlinearQ"
+      },
+      {
+        "comparison": "OracleGlobalAttributionLinearG",
+        "name": "nonlinear_to_linear_oracle_weights",
+        "reference": "OracleGlobalAttributionNonlinearQ"
+      },
+      {
+        "comparison": "SHAPGlobalAttributionLinearG",
+        "name": "nonlinear_to_linear_shap_weights",
+        "reference": "SHAPGlobalAttributionNonlinearQ"
+      },
+      {
+        "comparison": "OracleWeightMOORA",
+        "name": "mcdm_transformation_oracle_weights",
+        "reference": "OracleGlobalAttributionLinearG"
+      },
+      {
+        "comparison": "SHAPWeightMOORA",
+        "name": "mcdm_transformation_shap_weights",
+        "reference": "SHAPGlobalAttributionLinearG"
+      },
+      {
+        "comparison": "SHAPWeightMOORA",
+        "name": "post_mcdm_attribution",
+        "reference": "OracleWeightMOORA"
+      }
+    ],
+    "report_for_each_representation": [
+      "KendallTauB",
+      "NormalizedOracleRegret"
+    ],
+    "stages": [
+      "OracleUtility",
+      "OracleMainEffectReference",
+      "OracleGlobalAttributionNonlinearQ",
+      "SHAPGlobalAttributionNonlinearQ",
+      "OracleGlobalAttributionLinearG",
+      "SHAPGlobalAttributionLinearG",
+      "OracleWeightMOORA",
+      "SHAPWeightMOORA",
+      "DirectXGBoost"
+    ]
+  },
+  "status": "FROZEN_BEFORE_WEIGHTING_MCDM_IMPLEMENTATION_AND_PILOT_B",
+  "topsis": {
+    "closeness": "D_minus/(D_plus+D_minus)",
+    "distance": "Euclidean",
+    "epsilon": 1e-12,
+    "input": "benefit_oriented_G",
+    "negative_distance": "sqrt(sum_j(v_asj-v_minus_j)^2)",
+    "negative_ideal": "columnwise_min_over_alternatives",
+    "positive_distance": "sqrt(sum_j(v_asj-v_plus_j)^2)",
+    "positive_ideal": "columnwise_max_over_alternatives",
+    "rank_ties": "average_ranks",
+    "ranking": "descending_closeness",
+    "role": "robustness_mcdm",
+    "score_tie_absolute_tolerance": 1e-12,
+    "tie_grouping_rule": "use_common_anchor_based_rule",
+    "top1_tie_break": "alternative_id_ascending",
+    "top1_tie_set_rule": "use_common_max_score_rule",
+    "vector_normalization": "g_asj/(sqrt(sum_a g_asj^2)+epsilon)",
+    "weighted_matrix": "v_asj=w_j*r_asj",
+    "zero_distance_sum_epsilon": 1e-12,
+    "zero_distance_sum_rule": "closeness_equals_0.5_for_all_tied_alternatives"
+  }
+}

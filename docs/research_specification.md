@@ -907,6 +907,8 @@ w_j^\star
 
 These are attribution-reference weights, not normative stakeholder weights.
 
+If the total oracle attribution importance is at most \(10^{-12}\), the oracle attribution weight vector is undefined. Equal weights are not substituted; Oracle-weight MCDM is not computed for that instance, while other methods continue.
+
 ---
 
 # 25. XGBoost Protocol
@@ -1122,7 +1124,7 @@ A secondary implementation audit may compare normalized and raw variants, but th
 
 # 31. CRITIC
 
-On the min-max normalized weight-calibration matrix, let \(s_j\) be the standard deviation of criterion \(j\) and \(r_{jk}\) the Pearson correlation.
+On the min-max normalized weight-calibration matrix, let \(s_j\) be the population standard deviation (`ddof=0`) of criterion \(j\) and \(r_{jk}\) the Pearson correlation. Criteria with range below \(10^{-12}\) receive zero information and are excluded from correlation-conflict sums for nonconstant criteria.
 
 \[
 C_j
@@ -1144,7 +1146,7 @@ If all information values are zero, fall back to equal weights and record a diag
 
 # 32. Entropy Weighting
 
-For the min-max normalized weight-calibration matrix:
+For the min-max normalized weight-calibration matrix, let \(n\) be the number of alternative-context rows in the WEIGHT partition (six rows per WEIGHT context):
 
 \[
 p_{ij}
@@ -1187,7 +1189,7 @@ If a column sum is effectively zero, set \(d_j=0\). If all diversification value
 
 # 33. Non-Negative Ridge Baseline
 
-Standardize predictors and target using fit-partition statistics.
+Standardize predictors and target using population (`ddof=0`) FIT statistics. Within grouped cross-validation, standardization statistics are fitted on each training fold only; final-fit statistics use the complete FIT partition. There is no intercept in standardized space. If a predictor standard deviation is at most \(10^{-12}\), its standardized column is zero and its coefficient is fixed at zero. If the target standard deviation is at most \(10^{-12}\), all coefficients are treated as zero and the existing Equal fallback applies.
 
 Estimate:
 
@@ -1202,7 +1204,7 @@ Estimate:
 \right].
 \]
 
-Implementation may use the L2-augmented non-negative least-squares design:
+The production implementation uses `scipy.optimize.nnls` on the L2-augmented non-negative least-squares design:
 
 \[
 \begin{bmatrix}
@@ -1217,9 +1219,9 @@ y\\
 \end{bmatrix},
 \]
 
-solved with `scipy.optimize.nnls` or `lsq_linear`.
+and is solved with `scipy.optimize.nnls`.
 
-Choose \(\tau\) using grouped cross-validation within the fit contexts only, over a frozen grid such as:
+Choose \(\tau\) using five-fold `GroupKFold` within FIT only, without shuffling, over the exact frozen grid below. Fold preprocessing is training-fold-only and RMSE is evaluated after returning predictions to the original \(Y\) scale. Select the minimum mean-fold RMSE; values tied within absolute tolerance \(10^{-12}\) are resolved by the smallest \(\tau\).
 
 \[
 \tau\in\{10^{-4},10^{-3},10^{-2},10^{-1},1,10,100\}.
@@ -1249,7 +1251,7 @@ L=MSE.
 
 To respect the grouped decision structure, permute criterion \(j\) at the **context-block** level: the complete six-alternative vector of that criterion is reassigned between contexts rather than independently shuffling individual rows.
 
-Every permutation repeat must be a context-block **derangement**, so no WEIGHT context block remains in its original position. Use 20 unique derangements for every primary PI estimate. This is feasible even at the smallest sample size because five WEIGHT contexts admit 44 distinct derangements.
+Every permutation repeat must be a context-block **derangement**, so no WEIGHT context block remains in its original position. Use 20 unique derangements for every primary PI estimate. This is feasible even at the smallest sample size because five WEIGHT contexts admit 44 distinct derangements. For replication seed \(r\) and sample size \(N\), generate the derangement stream from `SeedSequence([r,84001,N])`. Sort the available WEIGHT contexts by `context_number` and index them \(0,\ldots,m-1\). Repeatedly draw `perm = rng.permutation(m)` and accept the candidate iff `perm[d] != d` for every destination index \(d\) and `tuple(perm)` has not already been accepted. Stop after 20 unique accepted derangements. If 20 have not been accepted after 100000 candidate draws, raise a runtime error with no fallback and no PI result. For each destination context position \(d\), the six-alternative block of the criterion currently being permuted is copied from source position `perm[d]`; all other features remain unchanged. Within every block, alternatives are ordered by ascending `alternative_id`. Reuse the same 20 accepted derangements across all ten criteria and across \(\rho\), \(c\), and \(\lambda\). Different \(N\) levels use separate deterministic derangement sets because their WEIGHT context counts differ.
 
 For repeat \(b\):
 
@@ -1267,7 +1269,7 @@ Use:
 B_{PI}=20
 \]
 
-permutations and report the mean and SD of \(I_{j,b}^{PI}\).
+permutations and report the mean and sample SD (`ddof=1`) of \(I_{j,b}^{PI}\).
 
 Negative mean importances are truncated at zero before normalization:
 
@@ -1297,6 +1299,8 @@ independent weight vectors:
 \[
 \mathbf w^{rand,k}\sim Dirichlet(\mathbf1).
 \]
+
+For replication seed \(r\), generate the 200 vectors from `SeedSequence([r,81001])` and reuse the same 200 vectors across \(N\), \(\rho\), \(c\), and \(\lambda\) within that seed.
 
 Propagate every random vector through MOORA on the same test contexts.
 
@@ -1328,7 +1332,7 @@ Direct XGBoost is not an MCDM weighting method and must be reported separately f
 
 # 37. Modal-Winner Diagnostic
 
-Using the weight-calibration contexts only, identify the most frequent oracle-optimal alternative and use it as a trivial constant Top-1 prediction on the test contexts.
+Using the weight-calibration contexts only, identify the most frequent oracle-optimal alternative and use it as a trivial constant Top-1 prediction on the test contexts. Oracle-utility ties within absolute tolerance \(10^{-12}\) are resolved by ascending `alternative_id`; ties in modal winner counts use the same rule.
 
 This provides a more meaningful structural baseline than \(1/6\) when one alternative dominates the generated decision problems.
 
@@ -1375,7 +1379,49 @@ MOORA is used as a transparent downstream compression device; it is not a method
 
 # 39. TOPSIS Robustness Check
 
-Classical TOPSIS is applied to the same benefit-oriented matrix \(G_s\) and the same weight vectors.
+TOPSIS is applied to the same benefit-oriented matrix \(G_s\), the same criterion weights, and the same per-context vector normalization used by MOORA:
+
+\[
+r_{asj}
+=
+\frac{g_{asj}}{\sqrt{\sum_{a=1}^6 g_{asj}^2}+10^{-12}}.
+\]
+
+Construct the weighted normalized matrix
+
+\[
+v_{asj}=w_jr_{asj}.
+\]
+
+Because every criterion is benefit-oriented, define
+
+\[
+v_j^+=\max_a v_{asj},
+\qquad
+v_j^-=\min_a v_{asj}.
+\]
+
+Use Euclidean distances
+
+\[
+D_a^+
+=
+\sqrt{\sum_j(v_{asj}-v_j^+)^2},
+\qquad
+D_a^-
+=
+\sqrt{\sum_j(v_{asj}-v_j^-)^2}.
+\]
+
+The closeness coefficient is
+
+\[
+C_a
+=
+\frac{D_a^-}{D_a^+ + D_a^-}.
+\]
+
+If \(D_a^+ + D_a^- \le 10^{-12}\), set \(C_a=0.5\). Rank alternatives by descending \(C_a\).
 
 Primary substantive conclusions are considered aggregation-robust only when the qualitative comparison of weighting methods is consistent under MOORA and TOPSIS.
 
@@ -1396,6 +1442,8 @@ This is the internal benchmark choice.
 ---
 
 # 41. Decision-Fidelity Metrics
+
+For method scores, use absolute tie tolerance \(10^{-12}\). Within each context, sort alternatives by raw score descending and then by ascending `alternative_id`. Starting from the highest unassigned score as a tie-group anchor, place in that group every remaining alternative whose absolute score difference from the anchor is at most \(10^{-12}\); assign the group its average rank, then repeat from the highest remaining unassigned score. Ties are therefore not chained through adjacent pairwise similarities. Whenever one deterministic Top-1 alternative is required, define the top tie set as all alternatives whose score is within \(10^{-12}\) of the context maximum and choose ascending `alternative_id` within that set. This convention applies uniformly to MOORA, TOPSIS, Direct XGBoost and other method-score rankings; the oracle benchmark uses the same deterministic convention.
 
 ## Kendall rank agreement
 
@@ -1490,32 +1538,57 @@ For every test context compare the ranking/regret of:
 
 3. **Oracle-attribution nonlinear score**
    \[
-   S^{wq}_{as}=\sum_jw_j^\star q_j(g_{asj}).
+   S^{w^\star q}_{as}=\sum_jw_j^\star q_j(g_{asj}).
    \]
-   This replaces the oracle structure by one global attribution-weight vector while retaining \(q_j\).
+   This replaces the oracle structure by one global oracle-attribution weight vector while retaining \(q_j\).
 
-4. **Oracle-attribution linear score**
+4. **SHAP-attribution nonlinear score**
    \[
-   S^{wg}_{as}=\sum_jw_j^\star g_{asj}.
+   S^{w^{SHAP}q}_{as}=\sum_jw_j^{SHAP}q_j(g_{asj}).
    \]
-   This additionally removes the nonlinear \(q_j\) transforms.
+   This keeps the same nonlinear transforms as stage 3 but replaces oracle-attribution weights with learned SHAP global weights.
 
-5. **Oracle-weight MOORA**
+5. **Oracle-attribution linear score**
+   \[
+   S^{w^\star g}_{as}=\sum_jw_j^\star g_{asj}.
+   \]
+   Relative to stage 3, this removes the nonlinear \(q_j\) transforms while retaining oracle-attribution weights.
+
+6. **SHAP-attribution linear score**
+   \[
+   S^{w^{SHAP}g}_{as}=\sum_jw_j^{SHAP}g_{asj}.
+   \]
+   Relative to stage 4, this removes the nonlinear \(q_j\) transforms while retaining learned SHAP weights.
+
+7. **Oracle-weight MOORA**
    \[
    MOORA(\mathbf w^\star).
    \]
-   This adds within-context vector normalization and the chosen MCDM operator.
+   Relative to stage 5, this adds within-context vector normalization and the chosen primary MCDM operator.
 
-6. **SHAP-weight MOORA**
+8. **SHAP-weight MOORA**
    \[
    MOORA(\mathbf w^{SHAP}).
    \]
-   This replaces oracle attribution weights with learned attribution weights.
+   Relative to stage 6, this adds the same MCDM transformation under learned SHAP weights.
 
-7. **Direct XGBoost ranking**
-   evaluated in parallel as a reference for information retained by the fitted predictor before any global-weight compression.
+9. **Direct XGBoost ranking**
+   evaluated in parallel as a reference for information retained by the fitted predictor before any global-weight compression. It is not interpreted as a sequential transformation stage.
 
-Report regret and rank agreement at each stage. Differences between adjacent stages are diagnostic contrasts, not claimed to be a strict additive causal decomposition.
+Report regret and rank agreement for every diagnostic representation. The ladder is not an additive error decomposition, and interpretation is based on pre-specified paired contrasts rather than on an assumption that every adjacent numerical difference isolates one causal mechanism.
+
+The pre-specified paired contrasts are:
+
+- **interaction-removal contrast:** Oracle nonlinear utility versus the main-effect nonlinear score;
+- **global oracle-weight compression contrast:** main-effect nonlinear score versus oracle-attribution nonlinear score;
+- **SHAP attribution-estimation contrast under nonlinear transforms:** SHAP-attribution nonlinear score versus oracle-attribution nonlinear score;
+- **nonlinear-to-linear contrast under oracle weights:** oracle-attribution linear score versus oracle-attribution nonlinear score;
+- **nonlinear-to-linear contrast under SHAP weights:** SHAP-attribution linear score versus SHAP-attribution nonlinear score;
+- **MCDM transformation contrast under oracle weights:** Oracle-weight MOORA versus oracle-attribution linear score;
+- **MCDM transformation contrast under SHAP weights:** SHAP-weight MOORA versus SHAP-attribution linear score;
+- **post-MCDM attribution contrast:** SHAP-weight MOORA versus Oracle-weight MOORA.
+
+Direct XGBoost is reported in parallel against the oracle decision ranking and is not included in the sequential loss interpretation.
 
 A useful attribution-related contrast is:
 
