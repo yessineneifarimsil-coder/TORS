@@ -1,0 +1,60 @@
+{
+  "SRE_bottleneck": "h_T->C3",
+  "all_invariant_gates_passed": true,
+  "all_numerical_gates_passed": true,
+  "candidate_count": 1,
+  "candidate_id": "d29_kernel",
+  "candidate_passed": false,
+  "delta": 0.05,
+  "development_seeds": [
+    29001,
+    29002,
+    29003,
+    29004,
+    29005
+  ],
+  "evaluation_branch": "protocol-v4.0-terminal-d29-kernel",
+  "evaluation_commit": "a54e15ad08121a037740f29a84276376835fbe51",
+  "external_test_used": false,
+  "failed_layer_a_criteria": [
+    "C1",
+    "C4",
+    "C6",
+    "C7"
+  ],
+  "failed_reachability_pathways": [
+    "h_D->C1",
+    "h_D->C3",
+    "h_D->C4",
+    "h_I->C4",
+    "h_I->C5",
+    "h_T->C3"
+  ],
+  "family": "v4.0-F1 terminal D2.9-kernel response",
+  "file_sha256": {
+    "boundary_diagnostics.csv": "03f610c0f0134a7139c27adc146cab4f60f1de4f8f397509bbe28ac53bfececc",
+    "c8_c10_invariance.csv": "68c05eb4d1062d470b67e04da9109cdd40acea512ee5a3314b3abaf7e7c912ca",
+    "candidate_gate_summary.csv": "efcec29fafc2fbdb79da054eaf8cbf594deaa8a2824fcb5b8b679e3d66ff4652",
+    "departure_diagnostics.csv": "61d54fb7d77b17b3f9c35a864cbb0c0dadf630d5f0f5594cd2f7b520550c6f48",
+    "dominance_diagnostics.csv": "d05f60617b25a4a66fc75c93e9c7905c55b86f397f652c30e83d8194dc08c037",
+    "layer_a_aggregated.csv": "d578f29c425da6fc762224f7969e4940b2df0da9a5c87f18fbe9ab635bad360d",
+    "layer_a_per_seed.csv": "5ef96c8f9529622a45336691f4e826d66148c054aba4243a118e19271a1f0207",
+    "layer_b_diagnostics.csv": "fb3211a3a7b27c101ad5b18bd0d77ca68d32d8bd7f6f0119f5b9219cd664614a",
+    "reachability_aggregated.csv": "844a45a4755900d946c506107a8f4ec20c4d75c6ff668052523c6633a6015d82",
+    "reachability_per_seed.csv": "27480270d44594be0aa336938f50d84385c371f11b507b0d7b76bf72e47ce69a",
+    "run_metadata.json": "4fb612721f7c2c81bf46ff085e12f2686f93d1dbf087d51b41029ff5bc440c99",
+    "selection.json": "40079acb8586b7109c06b985181791a4710fbb6723ec0b1117a6f22f8d82606c",
+    "signed_profiles.csv": "196f9283cb69b8fdc50b3d84a61750b0ec5ac019d7d759de33daf9e71bc8810b",
+    "summary.txt": "39d348a8b42e8b0e821d311971fe1732095ee1eb35263b4790fd8faa7de55150"
+  },
+  "joint_min_ratio": 0.6692583319101196,
+  "layerA_bottleneck": "C6",
+  "min_SRE_ratio": 0.8052992265280889,
+  "min_layerA_ratio": 0.6692583319101196,
+  "parameter_search": false,
+  "primary_seeds_used": false,
+  "reserve_seeds_used": false,
+  "status": "FAILED_TERMINAL",
+  "structural_validation_seeds_used": false,
+  "terminal_stop_rule_triggered": true
+}

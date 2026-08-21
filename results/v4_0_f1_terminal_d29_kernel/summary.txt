@@ -1,0 +1,19 @@
+v4.0-F1 TERMINAL D2.9-KERNEL CANDIDATE EVALUATION
+git_commit: a54e15ad08121a037740f29a84276376835fbe51
+development_seeds: (29001, 29002, 29003, 29004, 29005)
+rho: 0.4
+sigma_x: 0.0
+delta: 0.05
+candidate_count: 1
+parameter_search: False
+external_TEST_used: False
+structural_validation_seeds_used: False
+primary_seeds_used: False
+reserved_seeds_used: False
+layer_b_used_for_selection: False
+
+GATE SUMMARY
+candidate=d29_kernel; num=True; layerA=False; reach=False; inv=True; all=False; failed_C=C1,C4,C6,C7; failed_pathways=h_D->C1,h_D->C3,h_D->C4,h_I->C4,h_I->C5,h_T->C3
+
+CANDIDATE_PASSED: False
+V4_0_F1_FAILED: True

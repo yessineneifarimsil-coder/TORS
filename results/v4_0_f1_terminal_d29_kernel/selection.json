@@ -1,0 +1,11 @@
+{
+  "adjudication_rule": "single candidate must pass frozen D2.8 numerical, D2.9 Layer-A, D2.9 reachability, and invariant gates",
+  "candidate_count": 1,
+  "candidate_id": "d29_kernel",
+  "candidate_passed": false,
+  "delta": 0.05,
+  "family": "v4.0-F1 terminal D2.9-kernel response",
+  "family_failed": true,
+  "layer_b_used_for_selection": false,
+  "parameter_search": false
+}
