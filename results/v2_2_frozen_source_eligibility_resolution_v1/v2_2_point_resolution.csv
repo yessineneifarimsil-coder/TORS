@@ -1,0 +1,11 @@
+family,kappa,historical_status,corrected_numerical_pass,corrected_lower_bound_pass,corrected_upper_bound_pass,corrected_structural_zero_pass,structural_zero_exact_if_available,historical_C8_C10_source_contract_pass,corrected_eligible,resolution_status,reason,D29_LRV_NSV_SRE_used_for_binary_eligibility,selection_or_ranking_performed
+v2.2,0.1,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.2,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.3,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.4,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.5,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.6,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.7,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.8,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,0.9,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False
+v2.2,1.0,FAILED,True,True,True,True,True,True,True,VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT,all corrected hard gates established including C8-C10 by contemporaneous frozen source contract,False,False

@@ -1,0 +1,15 @@
+{
+  "C1_C7_loop_present": true,
+  "C1_C7_only_response_overwrite": true,
+  "baseline_copy_present": true,
+  "build_candidate_responses_docstring": "Overwrite C1-C7 systematic responses with D4-F1 while leaving\nC8-C10 exactly unchanged from the sigma_x=0 historical generator.",
+  "dynamic_response_write_present": true,
+  "endpoint_preserving_formula_pattern_detected_descriptive": true,
+  "explicit_C8_C10_unchanged_contract": true,
+  "historical_commit": "37c8f31",
+  "historical_source_path": "src/v2_2_d4_f1_candidate_evaluator.py",
+  "no_clipping_used_to_create_admissibility": true,
+  "protected_C8_C10_literal_write_absent": true,
+  "source_contract_pass": true,
+  "structural_zero_pathways_explicitly_zero": true
+}

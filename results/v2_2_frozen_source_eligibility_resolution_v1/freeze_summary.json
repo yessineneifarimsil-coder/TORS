@@ -1,0 +1,29 @@
+{
+  "D29_LRV_NSV_SRE_used_for_binary_eligibility": false,
+  "D3_execution_paused": true,
+  "D3_worlds_used": false,
+  "evaluation_branch": "audit-v22-frozen-source-contract",
+  "evaluation_commit": "3d214102abc3d2bd87ef30f020825524095e1b81",
+  "external_TEST_used": false,
+  "historical_failure_labels_modified": false,
+  "historical_family_freeze_commit": "37c8f31",
+  "historical_source_contract_pass": true,
+  "new_seeds_used": false,
+  "new_simulation": false,
+  "original_result_file_sha256": {
+    "audit_summary.json": "fcf3d1249ea5fc9145c8da994752db1dbb733d6747a83265140ae65893e3a1e7",
+    "historical_source_contract.json": "1eebb2a4765a3f485d2511018f4c6bb446628cae81214e9fb35f9fb2607bac83",
+    "summary.txt": "2d54a092317b6c5c9f20d04593faa435ae38106731931de00cc33fd7b79311f3",
+    "v2_2_point_resolution.csv": "19075f31f0c8f34a3be052bc390419fb9cf4f6f31a6abb9b49b02b6fc556d1f5"
+  },
+  "primary_11001_11030_used": false,
+  "prior_44_10_freeze_rewritten": false,
+  "production_generator_selected": false,
+  "reserve_30001_30005_used": false,
+  "selection_eligible_universe_count_if_used": 54,
+  "selection_or_ranking_performed": false,
+  "status": "FROZEN_V2_2_SOURCE_CONTRACT_ELIGIBILITY_RESOLUTION",
+  "v2_2_historical_point_count": 10,
+  "v2_2_unresolved_count": 0,
+  "v2_2_verified_eligible_by_source_contract_count": 10
+}

@@ -1,0 +1,20 @@
+v2.2 FROZEN-SOURCE ELIGIBILITY EVIDENCE RESOLUTION
+git_commit: 3d214102abc3d2bd87ef30f020825524095e1b81
+historical_family_freeze_commit: 37c8f31
+historical_source_contract_pass: True
+explicit_C8_C10_unchanged_contract: True
+C1_C7_only_response_overwrite: True
+structural_zero_pathways_explicitly_zero: True
+no_clipping_used_to_create_admissibility: True
+v2_2_historical_point_count: 10
+v2_2_verified_eligible_by_source_contract_count: 10
+v2_2_unresolved_count: 0
+family_outcome: V2_2_VERIFIED_ELIGIBLE_BY_FROZEN_SOURCE_CONTRACT
+selection_eligible_universe_count_if_used: 54
+prior_44_10_freeze_rewritten: False
+production_generator_selected: False
+selection_or_ranking_performed: False
+new_simulation: False
+new_seeds_used: False
+D3_worlds_used: False
+D3_execution_paused: True
