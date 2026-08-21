@@ -1,0 +1,25 @@
+POST-v4 D2.9 HARD-GATE VALIDITY AUDIT
+git_commit: aa474f132660d6c5032a889a80c07b8f92e70ab2
+analysis_A_seeds: (29001, 29002, 29003, 29004, 29005)
+analysis_B_pseudo_candidates: 7776
+new_seeds_used: False
+D3_worlds_used: False
+reserve_30001_30005_used: False
+primary_11001_11030_used: False
+external_TEST_used: False
+
+ANALYSIS A — MATCHED SIX-ROTATION PROFILE ENSEMBLE
+all_layerA_pass=False; all_reachability_pass=False; all_scientific_gates_pass=False
+mismatch_fully_explains_old_v4_failure=False
+mismatch_does_not_fully_explain_old_v4_failure=True
+unresolved_support_equivalent_layerA=['C1', 'C4', 'C6', 'C7']
+unresolved_support_equivalent_reachability=['h_D->C1', 'h_D->C4', 'h_I->C4']
+
+ANALYSIS B — CONDITIONAL COMBINATORIAL OLD-GATE CALIBRATION
+layerA_joint_pass_proportion=0.000000000
+reachability_joint_pass_proportion=0.000000000
+overall_joint_pass_proportion=0.000000000
+median_min_normalized_ratio=0.868593012
+
+No post-hoc acceptable-pass-rate cutoff is applied.
+Audit output is diagnostic and does not itself rewrite the production freeze.

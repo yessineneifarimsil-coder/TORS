@@ -1,0 +1,37 @@
+{
+  "D3_worlds_used": false,
+  "SHAP_or_MCDM_or_winner_outcomes_used": false,
+  "analysis_A_seeds": [
+    29001,
+    29002,
+    29003,
+    29004,
+    29005
+  ],
+  "analysis_B_D29_seeds": [
+    25001,
+    25002,
+    25003,
+    25004,
+    25005
+  ],
+  "audit_protocol_file": "config\\d29_hard_gate_validity_audit_v1.json",
+  "delta_changed": false,
+  "external_TEST_used": false,
+  "git_branch": "audit-d29-gate-validity",
+  "git_commit": "aa474f132660d6c5032a889a80c07b8f92e70ab2",
+  "new_seeds_used": false,
+  "primary_11001_11030_used": false,
+  "pseudo_candidate_count": 7776,
+  "reserve_30001_30005_used": false,
+  "response_formula_changed": false,
+  "rotations": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "thresholds_changed": false
+}

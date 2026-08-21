@@ -1,0 +1,12 @@
+{
+  "conditional_on_five_frozen_D29_worlds": true,
+  "independent_type_I_error_estimate": false,
+  "layerA_joint_pass_count": 0,
+  "layerA_joint_pass_proportion": 0.0,
+  "overall_joint_pass_count": 0,
+  "overall_joint_pass_proportion": 0.0,
+  "posthoc_acceptability_cutoff_used": false,
+  "pseudo_candidate_count": 7776,
+  "reachability_joint_pass_count": 0,
+  "reachability_joint_pass_proportion": 0.0
+}

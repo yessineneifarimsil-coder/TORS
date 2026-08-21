@@ -1,0 +1,77 @@
+{
+  "analysis_A": {
+    "profile_ensemble_mismatch_does_not_fully_explain_old_v4_failure": true,
+    "profile_ensemble_mismatch_fully_explains_old_v4_failure": false,
+    "unresolved_support_equivalent_layerA_criteria": [
+      "C1",
+      "C4",
+      "C6",
+      "C7"
+    ],
+    "unresolved_support_equivalent_reachability_pathways": [
+      "h_D->C1",
+      "h_D->C4",
+      "h_I->C4"
+    ]
+  },
+  "analysis_B": {
+    "conditional_acceptance_region_empty_in_7776": true,
+    "conditional_on_five_frozen_D29_worlds": true,
+    "independent_type_I_error_estimate": false,
+    "layerA_joint_pass_count": 0,
+    "layerA_joint_pass_proportion": 0.0,
+    "maximum_metric_pass_proportion": 0.75,
+    "maximum_minimum_normalized_ratio": 0.9675464164430708,
+    "median_minimum_normalized_ratio": 0.868593011881834,
+    "minimum_metric_pass_proportion": 0.1666666666666666,
+    "overall_joint_pass_count": 0,
+    "overall_joint_pass_proportion": 0.0,
+    "pseudo_candidate_count": 7776,
+    "reachability_joint_pass_count": 0,
+    "reachability_joint_pass_proportion": 0.0
+  },
+  "evaluation_branch": "audit-d29-gate-validity",
+  "evaluation_commit": "aa474f132660d6c5032a889a80c07b8f92e70ab2",
+  "firewalls": {
+    "D3_worlds_used": false,
+    "SHAP_or_MCDM_or_winner_outcomes_used": false,
+    "delta_changed": false,
+    "external_TEST_used": false,
+    "new_seeds_used": false,
+    "primary_11001_11030_used": false,
+    "reserve_30001_30005_used": false,
+    "response_formula_changed": false,
+    "thresholds_changed": false
+  },
+  "historical_results_modified": false,
+  "interpretation": {
+    "D29_references_retained_as_continuous_diagnostics": true,
+    "individual_D29_references_declared_invalid": false,
+    "joint_conjunction_identified_as_miscalibrated_on_conditional_positive_control_ensemble": true,
+    "old_simultaneous_joint_gate_supported_as_binary_eligibility_rule": false,
+    "profile_ensemble_mismatch_alone_is_sufficient_explanation": false
+  },
+  "next_step": {
+    "D3_execution_paused": true,
+    "external_TEST_remains_blocked": true,
+    "historical_family_corrected_eligibility_readjudication_required": true,
+    "primary_11001_11030_remain_blocked": true,
+    "reserve_30001_30005_remain_blocked": true
+  },
+  "original_result_file_sha256": {
+    "analysis_A_conclusion.json": "94bb27b5e6e256e0723b38fa555b303ca5eb1e1efd58a01fde763c2b54a65c20",
+    "analysis_A_layer_comparison.csv": "192d803789e48ba85dc49e281427275140b9399ef87e00c1bc85c11454e728d7",
+    "analysis_A_reach_comparison.csv": "a14095b3c206f975d10bed382ba6559dabdf5e35624dcecded8106929571975d",
+    "analysis_A_six_rotation_layer_aggregated.csv": "375ecb06c0964627fb59fbeb89660f1090629a309d6b8085eb32e0474a1c4808",
+    "analysis_A_six_rotation_layer_per_seed_rotation.csv": "f9b8eacc7ec793d13189a609d6f6a2a067e61f79cd801c550859d15590c43505",
+    "analysis_A_six_rotation_reach_aggregated.csv": "c1138ffd1343c9ce34db054bd4d18956ae0592db101ac33b0b8c52b318bbe796",
+    "analysis_A_six_rotation_reach_per_seed_rotation.csv": "3ffee133645633256f98023fd64f9fdb4894b45391d051e088d5184848f46d30",
+    "analysis_B_joint_summary.json": "148a5dbc0d1bec943e779bd2088ee0bae4edf67cffd09e97335db25c6873bea7",
+    "analysis_B_metric_pass_rates.csv": "ea013ffa1567995bf0e65e2bab9173ce556a7b83bc40106c88bf3084fbb36085",
+    "analysis_B_min_ratio_distribution.json": "b4b2d14487363aa1934873bb2beffc9cef6438cee2db9885a51c37c14ba50ad6",
+    "analysis_B_pseudo_candidate_joint_results.csv": "88eb6d56f087d73c2da115d74067edc935a37abaea2442fe112fde429adfb352",
+    "run_metadata.json": "1353ddb8f330bdd250a53dec5e5c0f35402db26703c913c126fe1a20594a577b",
+    "summary.txt": "ca881b99b84f4c7da6f43c8eac5f116e549f03f8a048c59872353aeb02e3b2cd"
+  },
+  "status": "FROZEN_POST_V4_D29_HARD_GATE_VALIDITY_AUDIT"
+}
