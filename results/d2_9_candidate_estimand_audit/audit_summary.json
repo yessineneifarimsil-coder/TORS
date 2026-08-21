@@ -1,0 +1,251 @@
+{
+  "audit_parent_branch": "protocol-v4.0-terminal-d29-kernel",
+  "audit_parent_commit": "9319381a3807b7f5122484e6e5b0afc6df96d7a0",
+  "candidate_profile_ensemble": {
+    "aggregation": "median across seeds",
+    "profiles_per_seed": 1,
+    "type": "one random permutation of criterion-specific signed_grid(m) per seed and criterion"
+  },
+  "d29_profile_ensemble": {
+    "aggregation": "median within seed across rotations, then median across seeds",
+    "profiles_per_seed": 6,
+    "type": "six deterministic cyclic rotations over six alternative positions"
+  },
+  "d29_response_kernel": "theta*o + 0.05*c*o*(1-o)",
+  "full_six_coefficient_support_equivalent_up_to_floating_point": true,
+  "hard_threshold_direct_comparability": false,
+  "historical_candidate_adjudications_preserved": true,
+  "historical_interpretation": "v2.2-v4.0 pass/fail outcomes remain reproducible outcomes under their frozen protocols and must not be rewritten or erased; the limitation changes the scientific interpretation of the D2.9 threshold comparison, not the recorded history.",
+  "historical_results_modified": false,
+  "methodological_consequence": "D2.9 reference values remain valid positive-control calibration diagnostics, but should not be interpreted prospectively as hard production-generator feasibility thresholds for single-profile candidate ensembles.",
+  "profile_ensemble_estimand_match": false,
+  "recommended_future_role": {
+    "continuous_diagnostics": [
+      "LRV",
+      "NSV",
+      "SRE",
+      "positive-control-normalized structural ratios"
+    ],
+    "forbidden_use": "Do not use D2.9 ratio >= 1 as a binary production-generator eligibility rule unless calibration and candidate profile ensembles are first made estimand-compatible under a prospectively frozen design.",
+    "hard_constraints": [
+      "analytic response invariants",
+      "structural-zero preservation",
+      "C8-C10 invariance",
+      "D2.8 numerical non-degeneracy"
+    ]
+  },
+  "status": "CONFIRMED_METHOD_COMPARABILITY_LIMITATION",
+  "support_by_criterion": {
+    "C1": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 6,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": true,
+      "v4_possible_permutations": 720,
+      "v4_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ]
+    },
+    "C2": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 6,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": true,
+      "v4_possible_permutations": 720,
+      "v4_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ]
+    },
+    "C3": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A6"
+      ],
+      "active_count": 5,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": false,
+      "v4_possible_permutations": 120,
+      "v4_support": [
+        -1.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    "C4": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 6,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": true,
+      "v4_possible_permutations": 720,
+      "v4_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ]
+    },
+    "C5": {
+      "active_alternatives": [
+        "A1",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 5,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": false,
+      "v4_possible_permutations": 120,
+      "v4_support": [
+        -1.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    "C6": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 6,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": true,
+      "v4_possible_permutations": 720,
+      "v4_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ]
+    },
+    "C7": {
+      "active_alternatives": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "active_count": 6,
+      "d29_profile_count_per_seed": 6,
+      "d29_union_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ],
+      "same_support": true,
+      "v4_possible_permutations": 720,
+      "v4_support": [
+        -1.0,
+        -0.6,
+        -0.2,
+        0.2,
+        0.6,
+        1.0
+      ]
+    }
+  },
+  "support_mismatch_criteria": [
+    "C3",
+    "C5"
+  ],
+  "v40_response_kernel": "theta*o + 0.05*v*o*(1-o)"
+}
