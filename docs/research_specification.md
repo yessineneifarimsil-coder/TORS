@@ -467,73 +467,120 @@ The purpose of the random permutation is to introduce meaningful heterogeneity w
 
 ---
 
-# 16. Alpha-Dispersion Alignment Stress Test
+# 16. Alpha-Dispersion Alignment Stress Test — D3-B
 
-A secondary controlled diagnostic tests whether information-based weighting methods benefit from accidental alignment between oracle relevance and criterion dispersion.
+A secondary controlled diagnostic tests whether information-based weighting
+methods benefit from accidental alignment between oracle relevance and
+criterion dispersion.
 
-The frozen heterogeneous alpha mapping defined in Section 15 remains the primary oracle structure and is not altered by this stress test.
+The frozen heterogeneous alpha mapping in Section 15 remains the primary oracle
+structure and is not changed by this stress test.
 
-At the reference experimental condition only, three additional structures are evaluated:
+At the reference condition only, three additional structures are evaluated:
 
 1. **Balanced:** \(\alpha_j=0.10\) for all ten criteria.
-2. **Dispersion-aligned:** pair the descending heterogeneous alpha multiset with criteria ordered from largest to smallest attribution-relevant dispersion.
-3. **Dispersion-anti-aligned:** pair the same descending alpha multiset with criteria ordered from smallest to largest attribution-relevant dispersion.
+2. **Dispersion-aligned:** assign the descending heterogeneous alpha multiset to
+   criteria ordered from largest to smallest superpopulation attribution-relevant
+   dispersion.
+3. **Dispersion-anti-aligned:** assign the same descending alpha multiset to
+   criteria ordered from smallest to largest superpopulation attribution-relevant
+   dispersion.
 
-## Independent design pool
+## D3-B superpopulation-anchored design ensemble
 
-The assignment-defining dispersion ordering is calculated once from a dedicated independent design pool containing:
+After the production response generator is frozen, construct an independent
+technology-world Monte Carlo ensemble excluded from FIT, WEIGHT, structural
+validation, primary seeds and external TEST.
+
+The frozen design is:
+
+- master seed namespace: `74001`;
+- child generation: `numpy.random.SeedSequence.spawn`;
+- 400 deterministic technology-world children frozen before execution;
+- initial ensemble: 200 worlds;
+- 1000 independent design contexts per world;
+- all six alternatives per context;
+- reference dependence: \(\rho=0.4\);
+- criterion noise: \(\sigma_x=0\).
+
+For each world \(w\) and criterion \(j\), define:
 
 \[
-N_{\mathrm{design}}=5000
-\]
-
-independent contexts. Each context contains the complete set of six ITS alternatives, giving:
-
-\[
-5000\times6=30000
-\]
-
-alternative-context observations per criterion. No context-level or alternative-level averaging is performed before the assignment-defining dispersion statistic is calculated.
-
-The pool uses the reference predictor-dependence condition \(\rho=0.4\) and the dedicated `alpha_stress_design_pool` namespace (`72001`). Deterministic child `SeedSequence` streams generate and freeze the latent contexts, technology-response parameters and criterion-response noise. These quantities are generated once and do not vary with primary replication seeds.
-
-The independent design pool is excluded from FIT, WEIGHT, external TEST, model fitting, hyperparameter calibration, TreeSHAP background construction, global weight estimation and final decision evaluation.
-
-## Attribution-relevant dispersion definition
-
-Let the reference oracle transform be:
-
-\[
+D_{j,w}^{attr}
+=
+\frac{1}{M_w}
+\sum_i
+\left|
+q_j(g_{ijw})-\overline q_{j,w}
+\right|,
+\qquad
 q(g)=\frac{\log(1+2g)}{\log 3}.
 \]
 
-For criterion \(j\), define the assignment-relevant dispersion directly on the raw direction-adjusted criterion scores after the reference \(q\) transformation:
+Here \(M_w=6000\) alternative-context observations per criterion. No
+criterion-wise min-max transformation and no context-level averaging are applied
+before the assignment-defining q-MAD statistic.
+
+The superpopulation summary is:
 
 \[
-D_j^{\mathrm{attr}}
+\bar D_j^{attr}
 =
-\frac{1}{30000}
-\sum_{(a,s)\in\mathcal D_{\mathrm{design}}}
-\left|
-q(g_{asj})-
-\overline{q(g_j)}
-\right|.
+\frac{1}{W}
+\sum_{w=1}^{W}
+D_{j,w}^{attr}.
 \]
 
-No criterion-wise min-max transformation is applied before \(q\). This statistic is used because the main-effect oracle attribution magnitude is directly driven by deviations of \(q_j(g_j)\) from its background mean.
+The aligned mapping assigns the largest alpha to the largest
+\(\bar D_j^{attr}\), descending thereafter. The anti-aligned mapping reverses
+the dispersion order. Criterion index is used only as a deterministic
+tie-breaker.
 
-For the dispersion-aligned structure, the largest alpha is assigned to the criterion with the largest \(D_j^{\mathrm{attr}}\), descending thereafter. For the dispersion-anti-aligned structure, the largest alpha is assigned to the criterion with the smallest \(D_j^{\mathrm{attr}}\), ascending thereafter. Criterion index is used only as a deterministic tie-breaker.
+The mapping is computed once and then remains fixed across every primary
+replication. It is never recomputed from a primary seed's realized FIT/WEIGHT
+data.
 
-The resulting ordering and aligned/anti-aligned alpha assignments are computed once and frozen before any weighting-method comparison. These structures remain reference-condition-only diagnostics and are not crossed with the 4050-run primary factorial.
+## D3.1 convergence rule
 
-## Secondary shape-dispersion diagnostic
+For the initial ensemble, evaluate cumulative summaries at:
 
-The previously specified criterion-wise min-max followed by population standard deviation (`ddof=0`) is retained only as a secondary shape-dispersion diagnostic. It does not define or update the aligned or anti-aligned alpha assignments.
+\[
+W\in\{50,100,150,200\}.
+\]
 
-## Descriptive realized-dispersion diagnostic
+The 200-world ensemble is accepted only if:
 
-For each replication, the Spearman association between the frozen primary alpha vector and realized FIT-partition attribution-relevant dispersion may be recorded descriptively using the same \(q(g)\)-MAD convention. This diagnostic cannot modify the primary alpha mapping, the generator, the stress-test assignments or any weighting method.
----
+1. the complete criterion ordering at \(W=150\) and \(W=200\) is identical; and
+2. for every criterion,
+
+\[
+1.96\,
+\frac{MCSE(\bar D_j^{attr})}
+     {\bar D_j^{attr}+\epsilon}
+\le 0.05.
+\]
+
+The 0.05 value is a Monte Carlo precision target, not a scientific effect-size
+threshold.
+
+If either condition fails at 200 worlds, expansion to 400 worlds is automatic,
+using the already frozen children 201--400. The expanded audit records
+\(W=250,300,350,400\), requires identical complete ordering at \(W=350\) and
+\(W=400\), and applies the same relative 95% half-width target at \(W=400\).
+
+If either condition still fails at 400 worlds, D3 fails and requires a new
+protocol amendment. No alpha mapping may be selected from an unconverged
+ensemble.
+
+## Diagnostics
+
+The historical min-max plus population-SD criterion is retained only as a
+secondary shape-dispersion diagnostic and cannot define the alpha mapping.
+
+For each later benchmark instance, the realized Spearman association between
+the frozen D3-B mapping and that instance's q-MAD ordering may be reported
+descriptively. It cannot trigger seed replacement, remapping, generator changes
+or weighting-method changes.
 
 # 17. Oracle Interaction Structure
 

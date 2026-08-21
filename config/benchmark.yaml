@@ -479,22 +479,17 @@ oracle:
 
 
 # ============================================================
-# 9. Alpha-structure stress test
+# 9. Alpha-structure stress test — D3-B superpopulation anchored
 # ============================================================
 
 alpha_stress_test:
 
   enabled: true
-
-  # Secondary diagnostic only.
   primary_factorial: false
   reference_condition_only: true
 
-  # The frozen heterogeneous mapping under oracle.main_effects
-  # remains the primary oracle structure.
   primary_structure_reference: "oracle.main_effects"
 
-  # Additional structures evaluated only at the reference condition.
   structures:
     - "balanced"
     - "dispersion_aligned"
@@ -516,125 +511,87 @@ alpha_stress_test:
     - 0.04
 
   assignment_source:
-
-    type: "independent_design_pool"
-
-    # Resolved through config/seeds.yaml:
-    # alpha_stress_design_pool.master_seed = 72001
-    seed_namespace: "alpha_stress_design_pool"
-
-    contexts: 5000
+    type: "superpopulation_anchored_technology_world_ensemble"
+    protocol_file: "config/d3_alpha_dispersion_protocol_v1.json"
+    seed_namespace: "d3_alpha_dispersion_superpopulation"
+    master_seed_namespace: 74001
+    child_generation: "numpy.random.SeedSequence.spawn"
+    total_child_worlds: 400
+    initial_worlds: 200
+    contexts_per_world: 1000
     alternatives_per_context: 6
-    observations_per_criterion: 30000
-
-    complete_alternative_set_per_context: true
-    aggregate_to_context_mean_before_dispersion: false
-
-    # Reference-condition predictor dependence.
+    observations_per_criterion_per_world: 6000
     predictor_dependence_rho: 0.4
-
-    random_generation:
-      mechanism: "numpy.random.SeedSequence"
-      deterministic_child_streams: true
-      generate_once_and_freeze: true
-      vary_with_primary_replication_seed: false
-
-      child_streams:
-        - "latent_contexts"
-        - "technology_response_parameters"
-        - "criterion_response_noise"
-
-    technology_response_parameters:
-      sampled_once: true
-      frozen: true
-      quantities:
-        - "capability_amplitudes"
-        - "readiness_requirements"
-        - "interoperability_parameters"
-        - "lifecycle_burden_parameters"
-
-    criterion_response_noise:
-      sampled_once: true
-      frozen: true
-
-    exclude_from_fit: true
-    exclude_from_weight: true
-    exclude_from_test: true
-
-    exclude_from_model_training: true
-    exclude_from_hyperparameter_calibration: true
-    exclude_from_shap_background: true
-    exclude_from_weight_calibration: true
-    exclude_from_final_evaluation: true
+    criterion_noise_sigma_x: 0.0
+    external_test_excluded: true
+    primary_seeds_excluded: true
+    structural_validation_seeds_excluded: true
+    development_seeds_excluded: true
+    mapping_varies_with_primary_replication_seed: false
 
   dispersion_measure:
-
     role: "defines_dispersion_aligned_and_anti_aligned_assignments"
-
     input: "direction_adjusted_g"
     observation_unit: "alternative_context"
-
     context_aggregation: false
-
     preprocessing: "none"
-
     transform:
       function: "oracle_reference_q"
       zeta: 2.0
-      equation: "log(1_plus_zeta_times_g)_div_log(1_plus_zeta)"
-
+      equation: "log(1_plus_2g)_div_log_3"
     statistic: "mean_absolute_deviation_from_mean"
+    within_world_first: true
+    superpopulation_aggregation: "arithmetic_mean_across_worlds"
 
-  secondary_shape_dispersion_diagnostic:
-
-    enabled: true
-    may_define_alpha_assignment: false
-
-    input: "direction_adjusted_g"
-    preprocessing: "criterion_wise_minmax"
-    minmax_source: "independent_design_pool_only"
-    statistic: "standard_deviation"
-    ddof: 0
-    epsilon_source: "numerical.epsilon"
+  convergence:
+    initial_checkpoints:
+      - 50
+      - 100
+      - 150
+      - 200
+    initial_order_stability_compare:
+      - 150
+      - 200
+    relative_95pct_half_width_target: 0.05
+    deterministic_expand_to_worlds: 400
+    expanded_checkpoints:
+      - 250
+      - 300
+      - 350
+      - 400
+    expanded_order_stability_compare:
+      - 350
+      - 400
+    failure_at_400_requires_protocol_amendment: true
 
   assignment_rules:
-
     dispersion_aligned:
       alpha_order: "descending"
       dispersion_order: "descending"
-      rule: "largest_alpha_to_largest_dispersion"
-
+      rule: "largest_alpha_to_largest_superpopulation_qMAD"
     dispersion_anti_aligned:
       alpha_order: "descending"
       dispersion_order: "ascending"
-      rule: "largest_alpha_to_smallest_dispersion"
-
+      rule: "largest_alpha_to_smallest_superpopulation_qMAD"
     tie_breaker: "criterion_index"
-    tie_breaker_role: "reproducibility_only"
-
     calculate_once: true
     freeze_before_method_comparison: true
     vary_with_primary_replication_seed: false
 
-  diagnostics:
+  secondary_shape_dispersion_diagnostic:
+    enabled: true
+    may_define_alpha_assignment: false
+    input: "direction_adjusted_g"
+    preprocessing: "criterion_wise_minmax"
+    statistic: "standard_deviation"
+    ddof: 0
 
-    spearman_primary_alpha_vs_realized_dispersion:
-      enabled: true
-
-      alpha_source: "frozen_primary_heterogeneous"
-      dispersion_source: "fit_partition_realized"
-
-      input: "direction_adjusted_g"
-      preprocessing: "none"
-
-      transform:
-        function: "oracle_reference_q"
-        zeta: 2.0
-
-      statistic: "mean_absolute_deviation_from_mean"
-
-      descriptive_only: true
-      may_modify_design: false
+  realized_alignment_diagnostic:
+    enabled: true
+    statistic: "Spearman"
+    dispersion_statistic: "q_space_MAD"
+    descriptive_only: true
+    may_modify_mapping: false
 
 # ============================================================
 # 10. Oracle Shapley reference

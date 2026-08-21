@@ -83,6 +83,17 @@ alpha_stress_design_pool:
   master_seed: 72001
 
 
+# D3-B superpopulation-anchored alpha-dispersion ensemble.
+# The historical alpha_stress_design_pool / 72001 block above is retained
+# strictly for provenance and is not used by D3-B.
+d3_alpha_dispersion_superpopulation:
+
+  master_seed_namespace: 74001
+  child_generation: "numpy.random.SeedSequence.spawn"
+  total_child_worlds: 400
+  initial_worlds: 200
+
+
 random_weight_reference:
 
   master_seed: 81001
