@@ -139,3 +139,18 @@ target_noise:
 software_tests:
 
   smoke_test_seed: 12345
+
+
+# ============================================================
+# XGBoost development calibration
+# Frozen before calibration execution.
+# ============================================================
+
+xgboost_calibration:
+  search_random_state: 82001
+  estimator_random_state: 82002
+  rule: >
+    82001 deterministically samples the 60 RandomizedSearchCV candidate
+    configurations. 82002 is the fixed XGBRegressor random_state used for
+    every candidate and fold during development calibration.
+

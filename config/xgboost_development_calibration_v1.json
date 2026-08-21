@@ -1,0 +1,114 @@
+{
+  "development_data": {
+    "cached_legacy_csvs_allowed_as_calibration_input": false,
+    "external_TEST_materialized_or_inspected_for_calibration": false,
+    "fit_contexts_per_seed": 200,
+    "fit_rows_per_seed": 1200,
+    "pooled_fit_contexts": 1000,
+    "pooled_fit_rows": 6000,
+    "production_generator": "d29_kernel",
+    "reconstruct_from_frozen_source_and_configs": true,
+    "reference_condition": {
+      "N": 250,
+      "alpha_structure": "heterogeneous_fixed",
+      "c": 0.3,
+      "lambda": 0.5,
+      "rho": 0.4
+    },
+    "replication_seeds": [
+      21001,
+      21002,
+      21003,
+      21004,
+      21005
+    ],
+    "row_sort_order": [
+      "replication_seed",
+      "context_number",
+      "alternative_id"
+    ],
+    "signal_sd_source_contexts_per_seed": 1000,
+    "signal_sd_source_partition": "estimation_FIT_plus_WEIGHT_only",
+    "weight_partition_used_for_hyperparameter_selection": false
+  },
+  "firewalls": {
+    "MCDM_used_for_selection": false,
+    "SHAP_used_for_selection": false,
+    "external_TEST_used": false,
+    "preferred_ITS_used_for_selection": false,
+    "primary_seeds_11001_11030_used": false,
+    "reserve_seeds_30001_30005_used": false,
+    "treeSHAP_background_selected_here": false,
+    "winner_identity_used_for_selection": false
+  },
+  "inherit_existing_xgboost_contract": {
+    "config": "config/xgboost.yaml",
+    "cv_folds": 5,
+    "cv_method": "GroupKFold",
+    "estimator": "XGBRegressor",
+    "n_jobs": 1,
+    "number_of_candidates": 60,
+    "objective": "reg:squarederror",
+    "optimization_metric": "RMSE",
+    "search_method": "RandomizedSearchCV",
+    "search_space_must_equal_frozen_yaml": true,
+    "verbosity": 0
+  },
+  "parent_commit": "6e826e519e3625a85db91f50f4004e26ae1b65b2",
+  "pooling_and_cv": {
+    "equal_context_contribution_by_design": true,
+    "group_identifier": "(replication_seed, context_id)",
+    "group_kfold_shuffle": false,
+    "grouping_unit": "context",
+    "pool_all_five_development_seeds": true,
+    "rows_from_same_context_may_cross_folds": false,
+    "test_or_weight_rows_in_cv": false
+  },
+  "post_execution_rule": {
+    "independent_read_only_audit_before_freeze": true,
+    "run_once": true,
+    "selected_hyperparameters_written_to_config_xgboost_yaml_only_in_freeze_commit": true,
+    "treeSHAP_background_calibration_may_start_only_after_xgboost_freeze": true
+  },
+  "protocol_id": "xgboost_development_calibration_v1",
+  "purpose": "Select one frozen XGBRegressor hyperparameter configuration on development seeds only before any primary execution.",
+  "randomness": {
+    "candidate_sampling_random_state": 82001,
+    "candidate_sampling_without_replacement_from_discrete_cartesian_product": true,
+    "same_estimator_random_state_for_all_candidates_and_folds": true,
+    "xgboost_estimator_random_state": 82002
+  },
+  "reporting": {
+    "record_git_commit": true,
+    "record_package_versions": true,
+    "record_runtime": true,
+    "save_all_60_candidate_mean_and_sd_cv_rmse": true,
+    "save_all_fold_scores": true,
+    "save_descriptive_per_seed_rmse_for_selected_candidate": true,
+    "save_selected_candidate_rank": true,
+    "save_selected_parameters": true
+  },
+  "selection": {
+    "absolute_tie_tolerance": 1e-12,
+    "cv_standard_deviation_used_for_selection": false,
+    "direction": "minimize",
+    "per_seed_diagnostics_used_for_selection": false,
+    "performance_gate_for_reopening_search": false,
+    "primary_statistic": "mean_five_fold_grouped_CV_RMSE",
+    "refit_during_search": false,
+    "scikit_learn_scoring": "neg_root_mean_squared_error",
+    "second_search_allowed_after_results": false,
+    "tie_break_parameter_order": [
+      "n_estimators",
+      "max_depth",
+      "learning_rate",
+      "subsample",
+      "colsample_bytree",
+      "min_child_weight",
+      "reg_alpha",
+      "reg_lambda"
+    ],
+    "tie_break_rule": "Among candidates whose mean CV RMSE differs from the minimum by <=1e-12, choose the lexicographically smallest ascending numeric parameter tuple in the frozen order."
+  },
+  "status": "FROZEN_BEFORE_CALIBRATION_EXECUTION"
+}
