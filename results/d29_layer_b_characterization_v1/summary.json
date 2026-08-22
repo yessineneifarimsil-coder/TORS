@@ -1,0 +1,57 @@
+{
+  "development_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "metrics": {
+    "distinct_complete_oracle_orderings": {
+      "max": 78.0,
+      "median": 24.0,
+      "min": 17.0,
+      "undefined_across_seed_summary": false
+    },
+    "distinct_deterministic_oracle_winners": {
+      "max": 5.0,
+      "median": 4.0,
+      "min": 2.0,
+      "undefined_across_seed_summary": false
+    },
+    "modal_baseline_mean_normalized_oracle_regret": {
+      "max": 0.059923366107311325,
+      "median": 0.017343513436078886,
+      "min": 0.00042017663809418456,
+      "undefined_across_seed_summary": false
+    },
+    "modal_baseline_median_normalized_oracle_regret": {
+      "max": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "undefined_across_seed_summary": false
+    },
+    "modal_baseline_p95_normalized_oracle_regret": {
+      "max": 0.29155474720932073,
+      "median": 0.1265423037447596,
+      "min": 0.0,
+      "undefined_across_seed_summary": false
+    },
+    "modal_oracle_winner_share": {
+      "max": 0.983,
+      "median": 0.809,
+      "min": 0.519,
+      "undefined_across_seed_summary": false
+    },
+    "undefined_normalized_regret_context_count": {
+      "max": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "undefined_across_seed_summary": false
+    }
+  },
+  "n_seeds": 5,
+  "pass_fail_threshold": null,
+  "retention_effect": "none",
+  "winner_identity_used_for_optimization": false
+}

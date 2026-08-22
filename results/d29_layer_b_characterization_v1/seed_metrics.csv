@@ -1,0 +1,6 @@
+replication_seed,contexts,alternatives_per_context,distinct_complete_oracle_orderings,distinct_deterministic_oracle_winners,modal_oracle_winner_id,modal_oracle_winner_share,modal_baseline_mean_normalized_oracle_regret,modal_baseline_median_normalized_oracle_regret,modal_baseline_p95_normalized_oracle_regret,undefined_normalized_regret_context_count,defined_normalized_regret_context_count,p95_quantile_method,retention_effect,pass_fail_threshold
+21001,1000,6,23,2,A6,0.983,0.00042017663809418456,0.0,0.0,0,1000,linear,none,
+21002,1000,6,78,5,A1,0.519,0.059923366107311325,0.0,0.29155474720932073,0,1000,linear,none,
+21003,1000,6,24,4,A2,0.745,0.045236420115230096,0.0,0.28747532936473963,0,1000,linear,none,
+21004,1000,6,17,3,A2,0.827,0.017343513436078886,0.0,0.12641642917745743,0,1000,linear,none,
+21005,1000,6,38,4,A2,0.809,0.016065385133267943,0.0,0.1265423037447596,0,1000,linear,none,

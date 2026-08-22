@@ -1,0 +1,31 @@
+{
+  "N": 1000,
+  "context_pool": "FIT+WEIGHT",
+  "development_seeds": [
+    21001,
+    21002,
+    21003,
+    21004,
+    21005
+  ],
+  "execution_branch": "implement-weighting-mcdm-v1",
+  "execution_git_commit": "72cb3997f4ec5913a5ade0c05fb23ca6d7da5579",
+  "external_TEST_used": false,
+  "generator": "d29_kernel",
+  "lambda": 0.5,
+  "mcdm_executed": false,
+  "p95_quantile_method": "linear",
+  "pass_fail_threshold": null,
+  "preferred_winner_used_for_selection": false,
+  "primary_seeds_used": false,
+  "protocol": "d29_layer_b_characterization_v1",
+  "reserve_seeds_used": false,
+  "retention_effect": "none",
+  "rho": 0.4,
+  "shap_used": false,
+  "sigma_x": 0.0,
+  "structural_validation_seeds_used": false,
+  "target_Y_used": false,
+  "weighting_methods_used": false,
+  "xgboost_used": false
+}
