@@ -1,0 +1,132 @@
+{
+  "b100_diagnostic_oracle": {
+    "background_partition": "fit",
+    "background_selection_unit": "alternative_context_row",
+    "background_selector_module": "src/treeshap_background_v1.py",
+    "background_size": 100,
+    "equal_fallback": false,
+    "membership_rule": "Use the exact frozen TreeSHAP priority ordering over complete N=1000 FIT alternative-context row identities from SeedSequence([replication_seed,83001]); for nested N filter to eligible FIT rows and take the first 100.",
+    "only_background_moments_change": true,
+    "oracle_formula_identical_to_primary": true,
+    "reuse_membership_across_c": true,
+    "reuse_membership_across_lambda": true,
+    "reuse_membership_across_rho": true,
+    "row_priority_namespace": 83001,
+    "same_membership_as_treeshap": true,
+    "selector_function": "select_background_rows",
+    "status": "secondary_diagnostic_only",
+    "undefined_total_importance_threshold": 1e-12,
+    "weight_evaluation_partition": "weight",
+    "weight_evaluation_rows_identical_to_primary_oracle": true
+  },
+  "comparison_scope": {
+    "c_dependence": "none",
+    "development_reference_allowed": true,
+    "development_reference_condition": {
+      "N": 250,
+      "lambda": 0.5,
+      "rho": 0.4
+    },
+    "development_reference_seed": 21001,
+    "lambda_levels": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "primary_execution_seeds": "11001-11030_when_primary_pipeline_is_eventually_run",
+    "reserve_seeds_allowed_before_primary": false,
+    "reuse_result_across_c_levels": true,
+    "rho_levels": [
+      0.0,
+      0.4,
+      0.8
+    ],
+    "sample_sizes": [
+      25,
+      50,
+      100,
+      250,
+      1000
+    ]
+  },
+  "definitions": {
+    "MAE_w": "mean_j(abs(w_b100_j - w_fullfit_j))",
+    "Spearman_rho_w": "Spearman rank correlation between defined 10-component weight vectors",
+    "TV_w": "0.5*sum_j(abs(w_b100_j - w_fullfit_j))",
+    "max_absolute_weight_difference": "max_j(abs(w_b100_j - w_fullfit_j))",
+    "tie_break_for_topk": "criterion_index_ascending",
+    "top3_overlap": "size(intersection(top3_b100, top3_fullfit))/3",
+    "top5_overlap": "size(intersection(top5_b100, top5_fullfit))/5"
+  },
+  "firewalls": {
+    "B100_membership_tuned_on_results": false,
+    "MCDM_executed": false,
+    "SHAP_package_used": false,
+    "external_TEST_used": false,
+    "predictive_model_fit": false,
+    "preferred_ITS_used": false,
+    "primary_oracle_changed": false,
+    "reserve_seeds_used_before_primary": false,
+    "target_Y_used": false,
+    "winner_identity_used": false
+  },
+  "interpretation": {
+    "cannot_change_B_bg": true,
+    "cannot_change_D29": true,
+    "cannot_change_oracle_formula": true,
+    "cannot_change_primary_factorial_design": true,
+    "estimand": "finite_background_approximation_component",
+    "not_a_new_weighting_method": true,
+    "not_a_primary_oracle_replacement": true,
+    "not_a_tuning_rule": true
+  },
+  "metrics": {
+    "coverage": [
+      "full_fit_weights_defined",
+      "b100_weights_defined",
+      "jointly_defined"
+    ],
+    "moment_level": [
+      "max_absolute_marginal_moment_difference",
+      "max_absolute_joint_moment_difference"
+    ],
+    "per_feature": [
+      "full_fit_oracle_weight",
+      "b100_oracle_weight",
+      "absolute_weight_difference"
+    ],
+    "vector_level": [
+      "MAE_w",
+      "TV_w",
+      "max_absolute_weight_difference",
+      "Spearman_rho_w",
+      "top3_overlap",
+      "top5_overlap"
+    ]
+  },
+  "primary_oracle": {
+    "can_be_replaced_by_b100": false,
+    "definition": "full_fit_background_oracle_attribution_weights_v1",
+    "equal_fallback": false,
+    "fit_background_rows_by_N": {
+      "100": 480,
+      "1000": 4800,
+      "25": 120,
+      "250": 1200,
+      "50": 240
+    },
+    "remains_primary": true,
+    "undefined_total_importance_threshold": 1e-12,
+    "weight_evaluation_partition": "weight"
+  },
+  "protocol_name": "oracle_b100_background_diagnostic_v1",
+  "purpose": "Quantify the finite-background component of Oracle-vs-TreeSHAP attribution-weight discrepancy by recomputing Oracle attribution weights with the exact frozen TreeSHAP B_bg=100 FIT row identities, while leaving the primary full-FIT Oracle unchanged.",
+  "status": "freeze_before_any_oracle_b100_diagnostic_result",
+  "undefined_policy": {
+    "do_not_drop_or_redefine_primary_oracle": true,
+    "equal_fallback_forbidden": true,
+    "if_b100_undefined": "diagnostic_vector_comparison_undefined",
+    "if_full_fit_undefined": "diagnostic_vector_comparison_undefined",
+    "report_both_defined_flags": true
+  }
+}
