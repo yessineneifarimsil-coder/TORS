@@ -1,0 +1,314 @@
+{
+  "background_identity_matches_frozen_treeshap_reference": true,
+  "c_dependence": "none",
+  "condition": {
+    "N": 250,
+    "lambda": 0.5,
+    "rho": 0.4
+  },
+  "diagnostic": {
+    "b100_oracle": {
+      "background_moments": {
+        "joint_by_pair": {
+          "C10|C6": 0.06437244461644824,
+          "C1|C2": 0.03341671912900647,
+          "C3|C7": 0.02426634247002244,
+          "C4|C5": 0.03590907278903749,
+          "C8|C9": 0.7677463205437206
+        },
+        "marginal_by_criterion": {
+          "C1": 0.13916923796531908,
+          "C10": 0.5536250625965874,
+          "C2": 0.16891960985397905,
+          "C3": 0.1463602677888355,
+          "C4": 0.18108721992182858,
+          "C5": 0.14753906635409847,
+          "C6": 0.11757241770250827,
+          "C7": 0.13565195838723723,
+          "C8": 0.8966236636220617,
+          "C9": 0.8539538271311135
+        }
+      },
+      "diagnostics": {
+        "N": 250,
+        "background_partition": "fit",
+        "equal_weight_fallback_used": false,
+        "evaluation_partition": "weight",
+        "external_test_rows_used_for_background": 0,
+        "external_test_rows_used_for_global_oracle_weights": 0,
+        "fit_background_rows": 100,
+        "importance_epsilon": 1e-12,
+        "lambda": 0.5,
+        "mcdm_executed": false,
+        "predictive_model_fit": false,
+        "replication_seed": 21001,
+        "shap_package_used": false,
+        "target_Y_used": false,
+        "total_importance": 0.06992189186160186,
+        "undefined_oracle_attribution_weight_vector": false,
+        "weight_evaluation_rows": 300
+      },
+      "importance_by_feature": {
+        "g_C1": 0.006790840263037592,
+        "g_C10": 0.007790649914626713,
+        "g_C2": 0.0033940530256870486,
+        "g_C3": 0.004134926799109378,
+        "g_C4": 0.004586768791975588,
+        "g_C5": 0.010255651763214366,
+        "g_C6": 0.006564933752096031,
+        "g_C7": 0.00531046313051833,
+        "g_C8": 0.01764273739613559,
+        "g_C9": 0.003450867025201214
+      },
+      "lambda_value": 0.5,
+      "n_contexts": 250,
+      "replication_seed": 21001,
+      "weights_by_feature": {
+        "g_C1": 0.09712037363747067,
+        "g_C10": 0.11141932386564912,
+        "g_C2": 0.048540634918817445,
+        "g_C3": 0.05913636901149273,
+        "g_C4": 0.06559846522823344,
+        "g_C5": 0.14667297308707883,
+        "g_C6": 0.09388953269585679,
+        "g_C7": 0.07594850466903072,
+        "g_C8": 0.2523206527514487,
+        "g_C9": 0.04935317013492142
+      },
+      "weights_defined": true
+    },
+    "coverage": {
+      "b100_weights_defined": true,
+      "full_fit_weights_defined": true,
+      "jointly_defined": true
+    },
+    "diagnostics": {
+      "N": 250,
+      "b100_background_rows": 100,
+      "b100_equal_fallback_used": false,
+      "b100_total_importance": 0.06992189186160186,
+      "background_identity_sha256": "3184c675397c8caf547a8da7f68d04a589b949ce39a1953bbf55d4461646eda1",
+      "background_namespace": 83001,
+      "background_selector_function": "select_background_rows",
+      "background_selector_module": "src/treeshap_background_v1.py",
+      "c_dependence": "none",
+      "external_test_rows_used_for_moments": 0,
+      "external_test_rows_used_for_weight_evaluation": 0,
+      "full_fit_background_rows": 1200,
+      "full_fit_equal_fallback_used": false,
+      "full_fit_total_importance": 0.06961866589808356,
+      "lambda": 0.5,
+      "mcdm_executed": false,
+      "only_background_moments_changed": true,
+      "predictive_model_fit": false,
+      "replication_seed": 21001,
+      "reuse_result_across_c_levels": true,
+      "same_weight_evaluation_rows": true,
+      "selector_audit": {
+        "N": 250,
+        "background_rows": 100,
+        "background_to_fit_row_ratio": 0.08333333333333333,
+        "eligible_fit_rows": 1200,
+        "external_test_rows_used": 0,
+        "fit_only": true,
+        "master_fit_rows": 4800,
+        "master_rows": 7200,
+        "namespace": 83001,
+        "replication_seed": 21001,
+        "selection_depends_on_feature_values": false,
+        "selection_depends_on_method_outcomes": false,
+        "selection_depends_on_oracle_values": false,
+        "selection_depends_on_target_values": false,
+        "weight_rows_used": 0
+      },
+      "shap_package_used": false,
+      "target_Y_used": false,
+      "weight_evaluation_rows": 300,
+      "winner_identity_used": false
+    },
+    "full_fit_oracle": {
+      "background_moments": {
+        "joint_by_pair": {
+          "C10|C6": 0.06587423556629687,
+          "C1|C2": 0.03152428804685298,
+          "C3|C7": 0.023604555572940198,
+          "C4|C5": 0.03749793397660882,
+          "C8|C9": 0.771927513135698
+        },
+        "marginal_by_criterion": {
+          "C1": 0.13580369075751209,
+          "C10": 0.5492301434498713,
+          "C2": 0.1646837236136741,
+          "C3": 0.1438815795549921,
+          "C4": 0.18527979920945264,
+          "C5": 0.15598810006094913,
+          "C6": 0.12219145559884069,
+          "C7": 0.1355286741084253,
+          "C8": 0.9065144573737427,
+          "C9": 0.8487245292464475
+        }
+      },
+      "diagnostics": {
+        "N": 250,
+        "background_partition": "fit",
+        "equal_weight_fallback_used": false,
+        "evaluation_partition": "weight",
+        "external_test_rows_used_for_background": 0,
+        "external_test_rows_used_for_global_oracle_weights": 0,
+        "fit_background_rows": 1200,
+        "importance_epsilon": 1e-12,
+        "lambda": 0.5,
+        "mcdm_executed": false,
+        "predictive_model_fit": false,
+        "replication_seed": 21001,
+        "shap_package_used": false,
+        "target_Y_used": false,
+        "total_importance": 0.06961866589808356,
+        "undefined_oracle_attribution_weight_vector": false,
+        "weight_evaluation_rows": 300
+      },
+      "importance_by_feature": {
+        "g_C1": 0.0067275564511891876,
+        "g_C10": 0.007977804591931077,
+        "g_C2": 0.003376464668769378,
+        "g_C3": 0.00411504645809746,
+        "g_C4": 0.004640400628924786,
+        "g_C5": 0.010359930492622942,
+        "g_C6": 0.006522125646113979,
+        "g_C7": 0.005301504583031846,
+        "g_C8": 0.01724224128455654,
+        "g_C9": 0.003355591092846359
+      },
+      "lambda_value": 0.5,
+      "n_contexts": 250,
+      "replication_seed": 21001,
+      "weights_by_feature": {
+        "g_C1": 0.09663437764001136,
+        "g_C10": 0.11459289673275234,
+        "g_C2": 0.04849941643110866,
+        "g_C3": 0.05910837855068316,
+        "g_C4": 0.06665454686704252,
+        "g_C5": 0.1488096670480456,
+        "g_C6": 0.0936835769829585,
+        "g_C7": 0.076150620162599,
+        "g_C8": 0.247666930443595,
+        "g_C9": 0.04819958914120373
+      },
+      "weights_defined": true
+    },
+    "lambda_value": 0.5,
+    "moment_metrics": {
+      "max_absolute_joint_moment_difference": 0.004181192591977356,
+      "max_absolute_marginal_moment_difference": 0.009890793751681004
+    },
+    "n_contexts": 250,
+    "per_feature": {
+      "g_C1": {
+        "absolute_weight_difference": 0.00048599599745931255,
+        "b100_oracle_weight": 0.09712037363747067,
+        "full_fit_oracle_weight": 0.09663437764001136
+      },
+      "g_C10": {
+        "absolute_weight_difference": 0.003173572867103222,
+        "b100_oracle_weight": 0.11141932386564912,
+        "full_fit_oracle_weight": 0.11459289673275234
+      },
+      "g_C2": {
+        "absolute_weight_difference": 4.121848770878567e-05,
+        "b100_oracle_weight": 0.048540634918817445,
+        "full_fit_oracle_weight": 0.04849941643110866
+      },
+      "g_C3": {
+        "absolute_weight_difference": 2.799046080956963e-05,
+        "b100_oracle_weight": 0.05913636901149273,
+        "full_fit_oracle_weight": 0.05910837855068316
+      },
+      "g_C4": {
+        "absolute_weight_difference": 0.0010560816388090755,
+        "b100_oracle_weight": 0.06559846522823344,
+        "full_fit_oracle_weight": 0.06665454686704252
+      },
+      "g_C5": {
+        "absolute_weight_difference": 0.0021366939609667734,
+        "b100_oracle_weight": 0.14667297308707883,
+        "full_fit_oracle_weight": 0.1488096670480456
+      },
+      "g_C6": {
+        "absolute_weight_difference": 0.00020595571289828973,
+        "b100_oracle_weight": 0.09388953269585679,
+        "full_fit_oracle_weight": 0.0936835769829585
+      },
+      "g_C7": {
+        "absolute_weight_difference": 0.00020211549356828618,
+        "b100_oracle_weight": 0.07594850466903072,
+        "full_fit_oracle_weight": 0.076150620162599
+      },
+      "g_C8": {
+        "absolute_weight_difference": 0.004653722307853714,
+        "b100_oracle_weight": 0.2523206527514487,
+        "full_fit_oracle_weight": 0.247666930443595
+      },
+      "g_C9": {
+        "absolute_weight_difference": 0.0011535809937176927,
+        "b100_oracle_weight": 0.04935317013492142,
+        "full_fit_oracle_weight": 0.04819958914120373
+      }
+    },
+    "replication_seed": 21001,
+    "vector_metrics": {
+      "MAE_w": 0.0013136927920894721,
+      "Spearman_rho_w": 0.9878787878787879,
+      "Spearman_rho_w_defined": true,
+      "TV_w": 0.006568463960447361,
+      "max_absolute_weight_difference": 0.004653722307853714,
+      "top3_overlap": 1.0,
+      "top5_overlap": 1.0
+    }
+  },
+  "equal_fallback_used": false,
+  "execution_branch": "implement-weighting-mcdm-v1",
+  "execution_commit": "2eab4a49463b51e8aa710a136393df9c9a1f4102",
+  "external_test_evaluated": false,
+  "frozen_treeshap_reference_background_identity_sha256": "3184c675397c8caf547a8da7f68d04a589b949ce39a1953bbf55d4461646eda1",
+  "mcdm_executed": false,
+  "new_weighting_method_created": false,
+  "pipeline_audit": {
+    "capability_parameter_rows": 42,
+    "condition": {
+      "N": 250,
+      "lambda": 0.5,
+      "rho": 0.4
+    },
+    "context_audit_rows_generated": 1200,
+    "deployment_parameter_rows": 6,
+    "estimation_oracle_rows": 6000,
+    "external_test_identity_rows_available_to_frozen_selector": 1200,
+    "external_test_rows_used_for_background_moments": 0,
+    "external_test_rows_used_for_oracle_utility": 0,
+    "external_test_rows_used_for_weight_evaluation": 0,
+    "master_contexts_generated": 1200,
+    "master_response_rows_generated": 7200,
+    "mcdm_executed": false,
+    "predictive_model_fit": false,
+    "production_generator": "d29_kernel",
+    "reference_fit_rows": 1200,
+    "reference_weight_rows": 300,
+    "replication_seed": 21001,
+    "response_audit_rows_generated": 7200,
+    "selector_identity_rows": 7200,
+    "shap_package_used": false,
+    "target_Y_generated": false,
+    "winner_identity_used": false
+  },
+  "predictive_model_fit": false,
+  "primary_or_reserve_seed_used": false,
+  "primary_oracle_replaced": false,
+  "protocol_commit": "f98c23f",
+  "replication_seed": 21001,
+  "schema": "oracle_b100_background_diagnostic_reference_result_v1",
+  "scientific_role": "secondary_diagnostic_development_reference_only",
+  "shap_package_used": false,
+  "status": "complete",
+  "target_Y_used": false,
+  "winner_identity_used": false
+}
