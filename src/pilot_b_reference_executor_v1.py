@@ -19,6 +19,11 @@ import sys
 from types import ModuleType
 from typing import Any, Callable, Mapping
 
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import numpy as np
 import pandas as pd
 import yaml
@@ -37,7 +42,6 @@ from src import ridge_plus_weights_v1 as ridge
 from src import treeshap_scientific_computation_v1 as treeshap
 
 
-ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 CONFIG = ROOT / "config"
 RESULTS = ROOT / "results"

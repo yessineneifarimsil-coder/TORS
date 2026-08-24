@@ -30,6 +30,14 @@ def test_default_result_path_is_single_reference_json():
     assert executor.DEFAULT_OUTPUT.parent.name == "pilot_b_reference_v1"
 
 
+def test_direct_cli_repository_bootstrap_precedes_src_imports():
+    source = Path(executor.__file__).read_text(encoding="utf-8")
+    bootstrap = source.index("if str(ROOT) not in sys.path:")
+    first_src_import = source.index("from src import critic_weights_v1 as critic")
+    assert bootstrap < first_src_import
+    assert "sys.path.insert(0, str(ROOT))" in source[bootstrap:first_src_import]
+
+
 def _mock_git(monkeypatch, *, branch=None, head=None, status="", ancestor_code=0):
     branch = executor.BRANCH if branch is None else branch
     head = "a" * 40 if head is None else head
