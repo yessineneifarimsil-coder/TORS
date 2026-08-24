@@ -1,0 +1,196 @@
+{
+  "aggregation": {
+    "consistent_seed_count_required": 4,
+    "context_metrics_per_seed": {
+      "kendall": "mean_tau_b_over_defined_test_contexts",
+      "regret": "mean_normalized_oracle_regret_over_200_test_contexts",
+      "top1": "accuracy_over_200_test_contexts"
+    },
+    "cross_seed_center": "median_over_five_development_seeds",
+    "positive_seed_rule": "strictly_greater_than_zero",
+    "quantile_method": "linear",
+    "random_distribution_unit": "one_random_weight_vector_scored_on_all_200_test_contexts",
+    "random_reference_center": "median_over_200_random_weight_vectors_within_seed",
+    "random_width": "p95_minus_p05_over_200_random_weight_vectors_within_seed"
+  },
+  "coverage": {
+    "incomplete_required_output_policy": "cannot_pass_pilot_B",
+    "minimum_eligible_random_draws_per_seed": 190,
+    "minimum_kendall_defined_context_fraction": 0.95,
+    "minimum_kendall_defined_contexts_per_200": 190,
+    "required_development_seed_count": 5,
+    "required_random_draws_per_seed": 200,
+    "required_test_contexts_per_seed": 200,
+    "structured_method_eligible_only_if": [
+      "weight_vector_defined_for_all_five_seeds",
+      "no_equal_fallback_used_in_any_seed",
+      "at_least_190_of_200_test_context_kendall_values_defined_in_every_seed"
+    ]
+  },
+  "derived_advantages": {
+    "positive_values_favor_structured_method": true,
+    "structured_vs_modal_regret": "modal_winner_mean_regret_minus_structured_mean_regret",
+    "structured_vs_modal_top1": "structured_top1_accuracy_minus_modal_winner_top1_accuracy",
+    "structured_vs_random_kendall": "structured_mean_tau_b_minus_within_seed_random_median_mean_tau_b",
+    "structured_vs_random_regret": "within_seed_random_median_mean_regret_minus_structured_mean_regret"
+  },
+  "firewalls": {
+    "pilot_B_results_inspected_before_threshold_freeze": false,
+    "preferred_ITS_identity_used_to_choose_thresholds": false,
+    "preferred_method_used_to_choose_thresholds": false,
+    "primary_seed_results_used": false,
+    "reserve_seed_results_used": false,
+    "thresholds_may_change_after_pilot_B_execution": false
+  },
+  "gates": {
+    "coverage_hard_stop": {
+      "hard_stop_if": "any_required_output_or_minimum_coverage_is_missing"
+    },
+    "modal_winner_effective_tie_hard_stop": {
+      "hard_stop_if": "no_structured_gate_method_escapes_modal_winner",
+      "method_escapes_modal_if": {
+        "eligible": true,
+        "logic": "OR",
+        "regret_clause": {
+          "cross_seed_median_advantage_at_least": 0.01,
+          "strictly_positive_advantage_seed_count_at_least": 4
+        },
+        "top1_clause": {
+          "cross_seed_median_advantage_at_least": 0.02,
+          "strictly_positive_advantage_seed_count_at_least": 4
+        }
+      }
+    },
+    "oracle_winner_dominance_hard_stop": {
+      "hard_stop_if_pooled_modal_share_at_least": 0.9,
+      "tie_break": "alternative_id_ascending",
+      "unit": "pooled_1000_external_test_contexts_across_five_seeds"
+    },
+    "random_equivalence_hard_stop": {
+      "failure_to_reject_null_used_as_equivalence": false,
+      "hard_stop_if": "no_structured_gate_method_separates_random",
+      "method_separates_random_if": {
+        "eligible": true,
+        "kendall_clause": {
+          "cross_seed_median_advantage_at_least": 0.05,
+          "strictly_positive_advantage_seed_count_at_least": 4
+        },
+        "logic": "OR",
+        "regret_clause": {
+          "cross_seed_median_advantage_at_least": 0.01,
+          "strictly_positive_advantage_seed_count_at_least": 4
+        }
+      }
+    },
+    "weight_insensitivity_hard_stop": {
+      "context_invariance_clause": {
+        "pooled_fraction_of_invariant_seed_contexts_at_least": 0.9,
+        "random_draw_top1_modal_share_within_context_at_least": 0.95
+      },
+      "hard_stop_logic": "context_invariance_clause_OR_performance_width_clause",
+      "performance_width_clause": {
+        "all_three_width_conditions_required_within_seed": true,
+        "seed_count_at_least": 4,
+        "within_seed_random_kendall_p95_minus_p05_at_most": 0.05,
+        "within_seed_random_mean_regret_p95_minus_p05_at_most": 0.01,
+        "within_seed_random_top1_p95_minus_p05_at_most": 0.02
+      }
+    }
+  },
+  "interpretation": {
+    "pilot_B_is": "development_only_benchmark_validity_gate",
+    "pilot_B_is_not": "method_selection_or_winner_tuning",
+    "random_gate_is": "prospective_practical_separation_with_replication_consistency",
+    "random_gate_is_not": "post_hoc_p_value_or_failure_to_reject_equivalence"
+  },
+  "method_roles": {
+    "direct_xgboost_role": "parallel_predictive_decision_reference_only",
+    "equal_role": "deterministic_uninformative_weight_reference",
+    "majority_winner_role": "constant_top1_reference_only",
+    "reported_not_allowed_to_clear_structured_gate": [
+      "Equal",
+      "RandomWeights",
+      "MajorityWinner",
+      "DirectXGBoost"
+    ],
+    "structured_gate_methods": [
+      "OracleAttribution",
+      "SHAP",
+      "PermutationImportance",
+      "RidgePlus",
+      "CRITIC",
+      "Entropy"
+    ]
+  },
+  "overall_decision": {
+    "hard_stop_logic": "OR_across_all_five_hard_stop_gates",
+    "on_hard_stop": {
+      "create_new_git_tag_before_retry": true,
+      "create_new_specification_version": true,
+      "document_finding": true,
+      "revise_using_development_data_only": true,
+      "run_primary_factorial": false
+    },
+    "pass_requires_all_hard_stop_flags_false": true
+  },
+  "parent_commit": "c2d557957f0110d7a0c1be6a9b157a8f8ca795f3",
+  "practical_margins": {
+    "modal_winner_escape": {
+      "median_mean_regret_advantage_at_least": 0.01,
+      "median_top1_advantage_at_least": 0.02
+    },
+    "oracle_winner_dominance": {
+      "pooled_modal_winner_share_at_least": 0.9
+    },
+    "random_context_top1_invariance": {
+      "pooled_invariant_context_fraction_at_least": 0.9,
+      "within_context_modal_share_at_least": 0.95
+    },
+    "random_performance_width_insensitivity": {
+      "kendall_p95_minus_p05_at_most": 0.05,
+      "mean_regret_p95_minus_p05_at_most": 0.01,
+      "seed_count_required": 4,
+      "top1_p95_minus_p05_at_most": 0.02
+    },
+    "random_separation": {
+      "median_kendall_advantage_at_least": 0.05,
+      "median_mean_regret_advantage_at_least": 0.01
+    }
+  },
+  "purpose": "end_to_end_decision_sensitivity_gate_before_primary_factorial",
+  "reporting": {
+    "report_all_per_seed_metrics": true,
+    "report_defined_undefined_coverage": true,
+    "report_each_gate_value_threshold_and_boolean": true,
+    "report_equal_fallback_events": true,
+    "report_random_p05_median_p95": true,
+    "report_winner_identities_descriptively": true
+  },
+  "schema": "pilot_b_hard_stop_protocol_v1",
+  "scope": {
+    "development_seeds": [
+      21001,
+      21002,
+      21003,
+      21004,
+      21005
+    ],
+    "evaluation_partition": "fixed_external_test",
+    "pooled_seed_contexts": 1000,
+    "primary_mcdm": "MOORA",
+    "primary_seeds_used": false,
+    "random_weight_distribution": "Dirichlet(1,...,1)",
+    "random_weight_draws_per_seed": 200,
+    "random_weight_master_seed": 81001,
+    "reference_condition": {
+      "N": 250,
+      "c": 0.3,
+      "lambda": 0.5,
+      "rho": 0.4
+    },
+    "reserve_seeds_used": false,
+    "test_contexts_per_seed": 200,
+    "topsis_used_for_hard_stop": false
+  },
+  "status": "FROZEN_PROSPECTIVELY_BEFORE_ANY_PILOT_B_RESULT"
+}
