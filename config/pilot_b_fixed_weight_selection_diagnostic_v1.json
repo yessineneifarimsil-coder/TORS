@@ -1,0 +1,186 @@
+{
+  "bootstrap_policy": {
+    "existing_frozen_TEST_contexts_resampled": false,
+    "fresh_TEST_contexts_generated": false,
+    "paired_context_bootstrap_executed_in_this_layer": false,
+    "reason": "first_freeze_and_audit_the_missing_context_level_selection_artifact;_any_resampling_analysis_requires_a_separate_prospectively_frozen_protocol"
+  },
+  "closure_tag": "pilot-b-v1-hard-stop-f2f573a",
+  "decision_authority": {
+    "may_authorize_primary_factorial": false,
+    "may_authorize_primary_or_reserve_seeds": false,
+    "may_change_any_frozen_pilot_b_threshold": false,
+    "may_change_frozen_pilot_b_result": false,
+    "may_reopen_closed_v1": false,
+    "may_select_a_preferred_method": false
+  },
+  "execution_policy": {
+    "executor_requires_clean_committed_state": true,
+    "executor_requires_explicit_execute_flag": true,
+    "implementation_requires_separate_commit": true,
+    "independent_read_only_result_audit_required": true,
+    "output_path": "results/pilot_b_fixed_weight_selection_diagnostic_v1/pilot_b_fixed_weight_selection_N250_c0p30_rho0p4_lambda0p5.json",
+    "result_overwrite_forbidden": true,
+    "result_requires_separate_freeze_commit": true
+  },
+  "firewalls": {
+    "development_worlds_executed_by_protocol_preparation": false,
+    "fixed_weight_selection_diagnostic_results_computed_before_protocol_freeze": false,
+    "frozen_pilot_b_result_modified": false,
+    "frozen_thresholds_modified": false,
+    "protected_seed_namespace_accessed": false,
+    "scientific_results_computed_by_protocol_preparation": false
+  },
+  "frozen_inputs": {
+    "decision_metrics": "frozen_decision_fidelity_metrics_v1",
+    "decision_operator": "frozen_MOORA_v1",
+    "equal_weight_vector": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "execution_commit": "a63efc5d8cf0f8f0dc196da907e342713e31a914",
+    "generator": "frozen_D29",
+    "result_commit": "f2f573aad96e1813cfc55938a101fdee18aa7395",
+    "result_path": "results/pilot_b_reference_v1/pilot_b_reference_N250_c0p30_rho0p4_lambda0p5.json",
+    "result_sha256": "0507285715b0f21d32744da543cd769fc269e12084b6c6819a863fca9f787a88",
+    "threshold_commit": "90079c4b9917b0859878a855ed5fbeeac3d69282",
+    "weights_source": "archived_per_world_method_weight_vectors_in_frozen_pilot_b_result"
+  },
+  "interpretation": {
+    "aggregate_metric_equality_implies_identical_context_decisions": false,
+    "can_establish_for_observed_vector": [
+      "whether_its_MOORA_selection_is_constant_across_the_200_TEST_contexts",
+      "whether_it_matches_the_frozen_MajorityWinner_choice_context_by_context",
+      "context_level_selection_agreement_between_observed_archived_vectors"
+    ],
+    "cannot_establish": [
+      "causal_mechanism_for_the_closed_pilot_b_stop",
+      "geometry_of_unobserved_regions_of_the_weight_simplex",
+      "universal_weight_insensitivity",
+      "generalization_beyond_the_five_development_worlds_and_reference_condition",
+      "performance_of_any_primary_or_reserve_seed"
+    ],
+    "descriptive_only": true,
+    "different_mean_kendall_implies_different_context_argmax": false
+  },
+  "parent_commit": "f2f573aad96e1813cfc55938a101fdee18aa7395",
+  "per_context_output": {
+    "context_order": "frozen_TEST_context_order",
+    "fields": [
+      "development_world",
+      "test_context_id",
+      "method",
+      "selected_alternative_id",
+      "moora_scores_A1_to_A6",
+      "moora_ranks_A1_to_A6",
+      "oracle_selected_alternative_id",
+      "oracle_utilities_A1_to_A6",
+      "oracle_ranks_A1_to_A6",
+      "top1_match",
+      "normalized_oracle_regret_contribution",
+      "majority_winner_alternative_id",
+      "agrees_with_majority_winner"
+    ],
+    "method_order": "protocol_observed_fixed_weight_methods_order",
+    "one_record_per_world_method_context": true,
+    "required_record_count": 7000,
+    "retain_full_precision": true
+  },
+  "reconstruction": {
+    "apply_benefit_oriented_G": true,
+    "apply_common_MOORA_vector_normalization": true,
+    "critic_weights_reestimated": false,
+    "entropy_weights_reestimated": false,
+    "epsilon": 1e-12,
+    "model_fit_executed": false,
+    "model_prediction_executed": false,
+    "oracle_weights_reestimated": false,
+    "permutation_importance_executed": false,
+    "rank_ties": "anchor_based_average_no_chaining",
+    "reconstruct_frozen_TEST_decision_matrices": true,
+    "reconstruct_frozen_oracle_utility_for_validation": true,
+    "ridge_plus_executed": false,
+    "shap_executed": false,
+    "target_y_generated": false,
+    "top1_tie_break": "alternative_id_ascending",
+    "use_archived_method_weights_without_reestimation": true,
+    "use_equal_vector_exactly": true
+  },
+  "schema": "pilot_b_fixed_weight_selection_diagnostic_protocol_v1",
+  "scientific_role": "post_hoc_development_only_descriptive_diagnostic_of_observed_fixed_weight_selection_maps",
+  "scope": {
+    "alternatives_per_context": 6,
+    "constant_reference": "MajorityWinner",
+    "criteria": 10,
+    "development_worlds": [
+      21001,
+      21002,
+      21003,
+      21004,
+      21005
+    ],
+    "evaluation_partition": "fixed_external_TEST_only",
+    "observed_fixed_weight_methods": [
+      "OracleAttribution",
+      "SHAP",
+      "PermutationImportance",
+      "RidgePlus",
+      "CRITIC",
+      "Entropy",
+      "Equal"
+    ],
+    "primary_seeds_used": false,
+    "random_weight_draws_evaluated": false,
+    "reference_condition": {
+      "N": 250,
+      "c": 0.3,
+      "lambda": 0.5,
+      "rho": 0.4
+    },
+    "reserve_seeds_used": false,
+    "test_contexts_per_world": 200,
+    "unobserved_weight_vectors_evaluated": false
+  },
+  "status": "FROZEN_PROSPECTIVELY_BEFORE_ANY_FIXED_WEIGHT_SELECTION_DIAGNOSTIC_RESULT",
+  "summaries": {
+    "no_cross_world_pass_fail_threshold": true,
+    "no_method_ranking_or_selection": true,
+    "pairwise_within_world": [
+      "selected_alternative_agreement_rate",
+      "selected_alternative_agreement_all_200_contexts"
+    ],
+    "per_world_method": [
+      "selected_alternative_counts_A1_to_A6",
+      "number_of_unique_selected_alternatives",
+      "modal_selected_alternative_id",
+      "modal_selected_share",
+      "selection_constant_across_200_contexts",
+      "agreement_rate_with_majority_winner",
+      "agreement_with_majority_winner_all_200_contexts",
+      "mean_kendall_tau_b",
+      "defined_kendall_context_count",
+      "top1_accuracy",
+      "mean_normalized_oracle_regret"
+    ]
+  },
+  "validation_guards": {
+    "aggregate_match_absolute_tolerance": 1e-12,
+    "archived_weight_vectors_must_be_defined_without_fallback": true,
+    "development_worlds_and_condition_must_match": true,
+    "frozen_result_hash_must_match": true,
+    "on_any_guard_failure": "abort_without_writing_result",
+    "reconstructed_mean_kendall_must_match_frozen_aggregate": true,
+    "reconstructed_mean_regret_must_match_frozen_aggregate": true,
+    "reconstructed_top1_must_match_frozen_aggregate": true,
+    "required_context_record_count_must_match": true,
+    "test_context_identity_and_order_must_match_frozen_pipeline": true
+  }
+}
