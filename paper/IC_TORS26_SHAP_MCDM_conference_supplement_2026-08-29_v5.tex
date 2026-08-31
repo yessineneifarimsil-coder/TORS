@@ -1,0 +1,1068 @@
+% ============================================================
+% Supplement to the concise conference-facing main manuscript (v12)
+% Detailed methods/audit archive plus frozen post-closure descriptive diagnostic
+% Development audits were executed; no primary or reserve seed was accessed.
+% 29 August 2026
+%
+% BUILD MODES
+%   Anonymous review build (DEFAULT):
+%       pdflatex IC_TORS26_SHAP_MCDM_conference_supplement_2026-08-29_v5.tex
+%   Identified camera-ready build:
+%       pdflatex "\def\CAMERAREADY{1}\input{IC_TORS26_SHAP_MCDM_conference_supplement_2026-08-29_v5}"
+% ============================================================
+% ChkTeX: intentional en dashes, literal digest ellipses, label placement,
+% acronym punctuation and LNCS name/bibliography conventions.
+% chktex-file 8
+% chktex-file 11
+% chktex-file 13
+% chktex-file 24
+% chktex-file 36
+% chktex-file 38
+
+\documentclass[runningheads,orivec]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\median}{\operatorname{median}}
+\newcommand{\IQR}{\operatorname{IQR}}
+\newcommand{\SD}{\operatorname{SD}}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\XGB}{XGBoost}
+
+% ---- build-mode switch: anonymous by default -----------------
+\providecommand{\CAMERAREADY}{0}
+\newif\ifanon
+\anontrue
+\ifnum\CAMERAREADY=1 \anonfalse \fi
+% --------------------------------------------------------------
+
+\begin{document}
+\emergencystretch=1.5em
+
+\title{Supplementary Methods and Audit Archive for\texorpdfstring{\\}{ }
+``From Predictive Importance to Decision Value: Evaluating XAI-Based Weights for
+ITS Prioritisation''}
+\titlerunning{Supplementary Benchmark-Adequacy Record}
+
+\ifanon
+  \author{Anonymous Author(s)}
+  \authorrunning{Anonymous Author(s)}
+  \institute{Anonymous Institution(s)}
+\else
+  \author{Mohamed Yassine Neifar\inst{1,2} \and
+  Ahmed Frikha\inst{2} \and
+  Nadir Farhi\inst{1}}
+  \authorrunning{Neifar et al.}
+  \institute{Universit\'e Gustave Eiffel, COSYS--GRETTIA,
+  Champs-sur-Marne, F-77447 Marne-la-Vall\'ee Cedex 2, France
+  \and
+  Institut Sup\'erieur de Gestion Industrielle de Sfax (ISGIS),
+  OLID, University of Sfax, Sfax 3038, Tunisia}
+\fi
+
+\maketitle
+
+\section{Status and Interpretation Boundary}
+
+This supplement reports executed development audits and preserves the detailed primary and
+robustness analyses that had been specified before the prospectively frozen Pilot-B
+benchmark-adequacy gate was executed. The latter analyses were conditional on all five Pilot-B
+hard-stop flags being false. The modal-winner effective-tie stop fired, so the primary factorial
+was not authorized. Primary seeds 11001--11030 and reserve seeds 30001--30005 were never
+accessed; all sections explicitly labelled ``Archived'' remain unexecuted protocols rather than
+results.
+
+The closed v1 state is anchored by an immutable version-control reference.
+\ifanon
+Exact repository identifiers and complete digests are withheld from this anonymous reviewer
+file; they are available confidentially to editors and will accompany the public
+reproducibility archive after review.
+\else
+Exact repository identifiers and complete digests accompany the public reproducibility archive.
+\fi
+This document is therefore a methods, audit-results and archival-protocol supplement. It is not
+authorization to execute the protected design.
+After permanent Pilot-B closure, one separately frozen development-only descriptive diagnostic
+reconstructed the context-level MOORA selection maps of the seven observed archived fixed
+vectors. It used no primary/reserve world, generated no target outcome, fitted or queried no
+model, re-estimated no weight and could not alter the gate. Its protocol, implementation,
+independent audit and result were frozen as a distinct post-closure layer.
+Methodological citations are provided in the main manuscript and are not duplicated here.
+
+\subsection*{Question Structure and Evidential Status}
+
+The main manuscript states two prospective research questions and one separate post-closure
+descriptive question. RQ1 asks whether structural diagnostics can reveal that apparent
+contextual variation disappears under the normalization used by the downstream MCDM operator.
+RQ2 asks whether, after that structural defect is corrected, structured global-weight pipelines
+provide sufficient incremental decision value over random-weight and constant-decision
+references to justify protected primary evaluation. Both are addressed by the prospectively
+structured benchmark-development record and the frozen Pilot-B result reported here.
+
+DQ1 asks what the archived context-level selection maps reveal about the observed decision
+behaviour of the seven frozen fixed-weight vectors. DQ1 is post-closure and descriptive. It is
+non-confirmatory, it carries no pass/fail role, and it cannot modify, reinterpret or reopen the
+Pilot-B gate. Section~\ref{supp:sec:fixedselection} reports it under that label.
+
+Throughout this supplement, \emph{each replication seed defines one benchmark world}, and the
+world is the statistical unit. Where a numbered identifier such as 21001 appears it names a
+world; the phrase ``replication seed'' is retained only when the frozen artefact field or
+protocol clause is itself named that way. \emph{Validity} denotes conceptual scientific
+properties of the benchmark; \emph{adequacy} denotes the operational prospectively frozen gate
+used to decide whether protected primary execution was warranted.
+
+\subsection*{Reader Map}
+
+The conference-facing main manuscript follows a problem--method--result--meaning structure and
+deliberately omits most development chronology. Table~\ref{supp:tab:readermap} directs readers
+to the corresponding detailed evidence. This separation changes presentation only: the frozen
+scientific record, Pilot-B decision and post-closure interpretation boundary are unchanged.
+
+\begin{table}[t]
+\centering
+\caption{Navigation from the concise main argument to the detailed reproducibility record,
+with the evidential status of each block. Status codes are: EDA, executed development audit;
+PBA, Pilot-B confirmatory adequacy result; PCD, post-closure descriptive diagnostic; ANE,
+archived and not executed.}
+\label{supp:tab:readermap}
+\small
+\begin{tabularx}{\linewidth}{@{}lXc@{}}
+\toprule
+\textbf{Main-paper element} & \textbf{Detailed supplementary evidence} & \textbf{Status}\\
+\midrule
+Controlled ITS laboratory & Criterion definitions, capability pathways, copula contexts and
+opportunity functions in Sect.~2. & EDA\\
+Oracle and global attribution & Closed-form functional, joint-background moments, \XGB,
+TreeSHAP and B100 checks in Sect.~3. & EDA\\
+Structural correction & Calibration, positive control, numerical null and candidate screening
+in Sect.~4. & EDA\\
+D29 decision geometry & World-resolved oracle orderings, winners, modal shares and regret in
+Sect.~5. & EDA\\
+Pilot-B evidence (RQ2) & Per-world method contrasts, gate decision and objective-weight vectors
+in Sects.~5 and 7. & PBA\\
+Observed selection maps (DQ1) & All audited modal identities, shares, unique-choice counts and
+pairwise agreement summaries in Sect.~5. & PCD\\
+Decision operators and gate & Exact weighting, tie, regret and hard-stop rules in Sects.~6--7.
+& EDA\\
+Unexecuted primary plan & Clearly labelled archival protocols in Sects.~8--12. & ANE\\
+Integrity and closure & Content digests, software tests and permanent-stop record in
+Sects.~13--14. & EDA\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Detailed Benchmark Construction}
+
+\subsection{Criteria and Capability Pathways}
+
+The six alternatives in the main manuscript were evaluated on the ten technology-agnostic
+criteria in Table~\ref{supp:tab:criteria}. The original lifecycle-burden criterion was a cost;
+all other criteria were benefits.
+
+\begin{table}[t]
+\centering
+\caption{Controlled evaluation criteria.}
+\label{supp:tab:criteria}
+\small
+\begin{tabularx}{\linewidth}{@{}c X c@{}}
+\toprule
+Code & Criterion & Original direction\\
+\midrule
+$C_1$ & Mobility-efficiency improvement & Benefit\\
+$C_2$ & Travel-time reliability improvement & Benefit\\
+$C_3$ & Person-throughput improvement & Benefit\\
+$C_4$ & Safety-surrogate improvement & Benefit\\
+$C_5$ & Non-recurring-congestion resilience & Benefit\\
+$C_6$ & Environmental-efficiency improvement & Benefit\\
+$C_7$ & User and accessibility benefit & Benefit\\
+$C_8$ & Infrastructure and data readiness & Benefit\\
+$C_9$ & Interoperability and scalability & Benefit\\
+$C_{10}$ & Annualised lifecycle deployment burden & Cost\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The pre-specified capability mask in Table~\ref{supp:tab:mask} defines synthetic functional
+pathways, not empirical impact magnitudes. Direct (D), indirect (I) and zero (0) pathways set
+broad response-amplitude bands.
+
+\begin{table}[t]
+\centering
+\caption{Pre-specified structural capability mask.}
+\label{supp:tab:mask}
+\scriptsize
+\begin{tabular}{@{}lccccccc ccc@{}}
+\toprule
+ & $C_1$ & $C_2$ & $C_3$ & $C_4$ & $C_5$ & $C_6$ & $C_7$ & Ready & Interop. & Burden\\
+\midrule
+ATSC      & D & D & D & I & I & I & I & M    & H & M\\
+TSP       & I & D & D & I & 0 & I & D & M    & H & L--M\\
+TIDM      & I & D & I & D & D & I & I & M    & H & M\\
+RMTI--DRG & I & I & I & I & D & I & D & L--M & H & L--M\\
+V2X--CS   & I & I & 0 & D & I & I & I & H    & H & H\\
+DSM       & D & D & I & D & D & I & I & M--H & H & M--H\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gaussian-Copula Contexts and Opportunity Functions}
+
+For demand, incident, person-movement, environmental and readiness factors, generate
+$z_{0,s},z_{1,s},\ldots,z_{5,s}\overset{iid}{\sim}\mathcal N(0,1)$ and set
+\begin{equation}
+\widetilde h_{k,s}^{(\rho)}
+=\sqrt{\rho}\,z_{0,s}+\sqrt{1-\rho}\,z_{k,s},
+\qquad h_{k,s}^{(\rho)}=\Phi(\widetilde h_{k,s}^{(\rho)}).
+\label{supp:eq:copula}
+\end{equation}
+The same base draws were reused across dependence levels, while estimation and external TEST
+streams used disjoint namespaces. The first seven criterion opportunities were
+\begin{align}
+o_{s1}&=h_D, & o_{s2}&=0.60h_D+0.40h_I, & o_{s3}&=0.60h_D+0.40h_T,\nonumber\\
+o_{s4}&=0.50h_D+0.50h_I, & o_{s5}&=h_I, & o_{s6}&=0.60h_D+0.40h_E,\nonumber\\
+o_{s7}&=0.40h_D+0.60h_T.&&&
+\label{supp:eq:opportunities}
+\end{align}
+
+Each replication seed $r$ defined one benchmark world $W_r$: technology parameters, a master
+context stream and all common-random-number streams. The conditional method target had been
+\begin{equation}
+\Psi_m(x)=\E_W\!\left[\E_{H,\varepsilon}
+\{L_m(x;W,H,\varepsilon)\mid W\}\right].
+\label{supp:eq:estimand}
+\end{equation}
+The world, rather than an alternative--context row, was the intended statistical unit. The
+primary worlds needed to estimate this quantity were never accessed after the gate fired.
+
+\subsection{Historical and Frozen Response Layers}
+
+For $C_1$--$C_7$, capability amplitudes were drawn once per world:
+\begin{equation}
+\theta_{aj}\sim
+\begin{cases}
+0,&M_{aj}=0,\\
+\mathcal U(0.05,0.20),&M_{aj}=I,\\
+\mathcal U(0.20,0.40),&M_{aj}=D.
+\end{cases}
+\label{supp:eq:effectbands}
+\end{equation}
+The historical v2.1 response was
+\begin{equation}
+x_{asj}=\clip\!\left(\theta_{aj}o_{sj}+\sigma_x\xi_{asj},0,1\right).
+\label{supp:eq:v21}
+\end{equation}
+The deployment classes were
+\begin{equation}
+L\sim U(0.25,0.40),\qquad
+M\sim U(0.45,0.60),\qquad
+H\sim U(0.65,0.80).
+\label{supp:eq:deploymentclasses}
+\end{equation}
+Compound classes were equal-probability mixtures. With readiness
+requirement $r_a$, interoperability $\iota_a$ and burden $\kappa_a$,
+\begin{align}
+x_{as8}&=\clip\!\left(1-\max(0,r_a-h_{R,s})+\eta_{as8},0,1\right),\nonumber\\
+x_{as9}&=\clip\!\left(\iota_a+0.10h_{R,s}+\eta_{as9},0,1\right),\nonumber\\
+x_{as,10}&=\clip\!\left(\kappa_a+0.20(1-h_{R,s})r_a+\eta_{as,10},0,1\right).
+\label{supp:eq:c8c10}
+\end{align}
+Benefit orientation used $g_{asj}=x_{asj}$ for $j\le9$ and
+$g_{as,10}=1-x_{as,10}$. At $\sigma_x=0$, the first seven criteria reduced to
+$g_{asj}=\theta_{aj}o_{sj}$, which explains the exact normalization cancellation in the main
+paper.
+
+The frozen D29 kernel was
+\begin{equation}
+g_{asj}=\theta_{aj}o_{sj}+0.05v_{aj}o_{sj}(1-o_{sj}),\qquad j\le7.
+\label{supp:eq:d29}
+\end{equation}
+For $m_j$ active alternatives, its ordered contrast grid was
+$v^{grid}_{\ell j}=-1+2(\ell-1)/(m_j-1)$. After sorting active IDs, one deterministic NumPy
+permutation used
+\begin{equation}
+\texttt{SeedSequence([r, 2010, j])}.
+\label{supp:eq:d29seedsequence}
+\end{equation}
+No outcome or
+winner information entered this assignment. Active $\theta_{aj}\ge0.05$ ensured
+$\partial g/\partial o=\theta_{aj}+0.05v_{aj}(1-2o)\ge0$. Structural-zero pathways remained
+zero, and $C_8$--$C_{10}$ retained Eq.~\eqref{supp:eq:c8c10}.
+
+For $o_{sj}>0$, within-context vector normalization over active alternatives gives the exact
+geometry
+\begin{equation}
+r_{asj}=
+\frac{\theta_{aj}+0.05v_{aj}(1-o_{sj})}
+{\sqrt{\sum_{b\in\mathcal A_j}
+[\theta_{bj}+0.05v_{bj}(1-o_{sj})]^2}}.
+\label{supp:eq:d29normalized}
+\end{equation}
+Thus D29 removes the v2.1 cancellation, but each criterion-specific normalized profile remains
+on a one-parameter curve indexed by $o_{sj}$. Because opportunities differ across criteria,
+Eq.~\eqref{supp:eq:d29normalized} alone does not prove that a fixed-weight MOORA winner is
+context invariant. At Pilot-B closure, fixed-weight invariance was therefore an untested
+hypothesis rather than an explanation of the stop. The subsequently frozen descriptive
+selection-map diagnostic reported below resolves this question for the seven observed vectors
+only; it does not establish a causal effect of Eq.~\eqref{supp:eq:d29normalized} or characterize
+unobserved weight vectors.
+
+\section{Oracle, Learning and Background Details}
+
+\subsection{Oracle Utility and Closed-Form Attribution}
+
+The monotone transform, coefficient vector and interaction graph were
+\begin{align}
+q_j(g)&=\frac{\log(1+2g)}{\log3},\nonumber\\
+\boldsymbol\alpha&=(0.11,0.04,0.05,0.07,0.10,0.14,0.12,0.16,0.08,0.13),\nonumber\\
+\mathcal E&=\{(1,2),(3,7),(4,5),(6,10),(8,9)\},\qquad \beta_{jk}=0.20.
+\label{supp:eq:oraclecomponents}
+\end{align}
+For $z_j=q_j(g_j)$, the empirical FIT-background moments were
+$\mu_j=\E_{bg}(z_j)$ and $\mu_{jk}=\E_{bg}(z_jz_k)$; dependence was retained by not replacing
+$\mu_{jk}$ with $\mu_j\mu_k$. The main-effect contribution was
+$\phi_j^{main}=\alpha_j(z_j-\mu_j)$. For pair $\beta_{jk}z_jz_k$, feature $j$ received
+\begin{equation}
+\phi_j^{(jk)}=\frac{\beta_{jk}}{2}
+\{z_j\mu_k-\mu_{jk}+z_jz_k-\mu_jz_k\},
+\label{supp:eq:pairshap}
+\end{equation}
+with the symmetric expression for $k$. The closed-form attribution was
+\begin{equation}
+\phi_j^\star(\mathbf g)=\frac{1}{1+\lambda}
+\left[\alpha_j(z_j-\mu_j)+\lambda\!\sum_{k:(j,k)\in\mathcal E}\phi_j^{(jk)}\right],
+\label{supp:eq:closedshap}
+\end{equation}
+with symmetric handling when $j$ was second in a pair. Exhaustive coalition enumeration was a
+unit-test reference. Global weights normalized mean absolute WEIGHT-row attributions; total
+importance at most $10^{-12}$ made the vector undefined, with no Equal substitution.
+
+\subsection{XGBoost and TreeSHAP Freeze}
+
+XGBoost was selected once by context-grouped cross-validation on development FIT rows at the
+reference condition. Candidate 45 attained mean RMSE $0.017757058913365983$ with
+\begin{equation}
+\begin{split}
+&n_{\mathrm{estimators}}=600,\quad d_{\max}=2,\quad \eta=0.05,\\
+&\text{subsample}=0.8,\quad \text{colsample\_bytree}=0.8,\quad
+\text{min\_child\_weight}=5,\\
+&\text{reg\_alpha}=0,\quad \text{reg\_lambda}=1.
+\end{split}
+\label{supp:eq:xgbparams}
+\end{equation}
+The objective was \texttt{reg:squarederror}, with one computational thread and estimator
+random-state namespace 82002. The selected model was then fixed. Interventional TreeSHAP used 100 deterministic FIT
+identities selected with row-priority namespace 83001 and evaluated mean absolute attributions
+on WEIGHT. External TEST did not enter calibration, background selection or weighting.
+
+\subsection{Matched B100 Oracle Diagnostic}
+
+The primary oracle used all eligible FIT rows for $\mu_j$ and $\mu_{jk}$. The secondary B100
+diagnostic changed only these moments to the exact 100 frozen TreeSHAP identities; WEIGHT rows,
+the oracle functional and every other setting were unchanged. It compared full-FIT and B100
+weight vectors through mean absolute difference, total variation, maximum absolute difference,
+Spearman correlation, Top-3/Top-5 overlap and maximum marginal/joint moment changes. Undefined
+vectors remained undefined. The only authorized pre-primary execution was seed 21001 at
+$N=250$, $\rho=0.4$ and $\lambda=0.5$; no $Y$, SHAP package call or MCDM operation was involved.
+
+\section{Detailed Structural Calibration and Candidate Screening}
+
+\subsection{Structural and Reachability Metrics}
+
+Let $G_j\in\mathbb R^{S\times A_j}$ denote the active-alternative response matrix for criterion
+$j$ at zero measurement noise. If its singular values are
+$\sigma_{1j}\ge\sigma_{2j}\ge\cdots$ and
+$E_j=\sum_\ell\sigma_{\ell j}^2$, the rank-one residual was
+\begin{equation}
+NS_j=1-\frac{\sigma_{1j}^2}{E_j},
+\qquad E_j>10^{-24}.
+\label{supp:eq:NS}
+\end{equation}
+No epsilon was inserted into this ratio; structural-zero matrices were reported as undefined.
+For each jointly positive active alternative pair,
+\begin{equation}
+LRV_{ab,j}=\SD_s\!\left[\log(g_{asj}/g_{bsj})\right],
+\qquad
+LRV50_j=\median_{a<b}LRV_{ab,j},
+\label{supp:eq:LRV}
+\end{equation}
+using population SD. For normalization family $m$,
+\begin{equation}
+NSV_{j,m}=\left\{S^{-1}\sum_s
+\left\|\mathbf r_{sj}^{(m)}-\bar{\mathbf r}_j^{(m)}\right\|_2^2\right\}^{1/2}.
+\label{supp:eq:NSV}
+\end{equation}
+Vector normalization was the primary structural gate; sum, max and min--max variants were
+robustness diagnostics.
+
+Reachability reflected one idiosyncratic Gaussian-copula shock while holding the shared and all
+other idiosyncratic shocks fixed. With opportunity functions recomputed after reflection,
+\begin{equation}
+RE_{kj}=\median_{s,a\in\mathcal A_j}|g_{asj}^{(-k)}-g_{asj}|,
+\qquad
+SRE_{kj}=\frac{RE_{kj}}{\IQR(g_j)+10^{-12}}.
+\label{supp:eq:SRE}
+\end{equation}
+
+\subsection{Scientific Positive Control}
+
+For active $C_1$--$C_7$ pathways, the dedicated positive control was
+\begin{equation}
+g_{asj}^{PC,\ell}=\left[\theta_{aj}+0.05c_a^{(\ell)}(2o_{sj}-1)\right]o_{sj},
+\label{supp:eq:positivecontrol}
+\end{equation}
+with contrast base $(-1,-0.6,-0.2,0.2,0.6,1)$ and all six cyclic rotations. Structural-zero
+pathways remained zero and $C_8$--$C_{10}$ were unchanged. Rotation medians were formed within
+development worlds 21001--21005 and world medians were then used as scientific references.
+
+\begin{table}[t]
+\centering
+\caption{Frozen D2.7 criterion-level scientific references.}
+\label{supp:tab:d27layera}
+\small
+\begin{tabular}{@{}ccc@{}}
+\toprule
+Criterion & $T^{sci}_{LRV,j}$ & $T^{sci}_{NSV,j}$\\
+\midrule
+$C_1$ & 0.185606 & 0.101685\\
+$C_2$ & 0.107107 & 0.069436\\
+$C_3$ & 0.163029 & 0.064900\\
+$C_4$ & 0.115796 & 0.069423\\
+$C_5$ & 0.127964 & 0.073681\\
+$C_6$ & 0.194899 & 0.129935\\
+$C_7$ & 0.144080 & 0.073092\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Frozen D2.7 latent-pathway reachability references.}
+\label{supp:tab:d27sre}
+\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+Pathway & $T^{sci}_{SRE,kj}$\\
+\midrule
+$h_D\rightarrow C_1$ & 0.556245\\
+$h_D\rightarrow C_2$ & 0.334437\\
+$h_D\rightarrow C_3$ & 0.284878\\
+$h_D\rightarrow C_4$ & 0.292844\\
+$h_D\rightarrow C_6$ & 0.431612\\
+$h_D\rightarrow C_7$ & 0.252576\\
+$h_E\rightarrow C_6$ & 0.296869\\
+$h_I\rightarrow C_2$ & 0.212043\\
+$h_I\rightarrow C_4$ & 0.294905\\
+$h_I\rightarrow C_5$ & 0.455271\\
+$h_T\rightarrow C_3$ & 0.186995\\
+$h_T\rightarrow C_7$ & 0.373380\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The paired positive-control uplift in mean normalized constant-modal regret was
+$(0.001485,0.020022,-0.013836,0.015534,0.006161)$ for worlds 21001--21005. Because the activation
+rule required positive uplift in all five worlds, no Layer-B scientific regret reference was
+defined and no post-hoc value was introduced.
+
+\subsection{Numerical Null and Candidate Outcomes}
+
+Numerical thresholds were calibrated from 2000 exact rank-one replicates for each of five- and
+six-alternative active sets:
+\begin{equation}
+T^{num}_{NS}=10^{-12},\qquad
+T^{num}_{LRV}=10^{-10},\qquad
+T^{num}_{NSV}=3.2506084454\times10^{-8}.
+\label{supp:eq:nullthresholds}
+\end{equation}
+All 35 historical v2.1 world--criterion rows fell below every threshold. For active pathways
+\(j\leq7\), the D4-F1 curvature family was
+\(g_{asj}^{D4F1}(\chi)=\theta_{aj}o_{sj}[1+\chi v_{aj}(1-o_{sj})]\), with structural-zero
+pathways fixed at zero. It cleared some structural references at higher curvature but lost reachability; no
+$\chi\in\{0.1,\ldots,1.0\}$ passed all gates, so the family was rejected.
+
+The later exact D2.9 audit evaluated all $6^5=7776$ prespecified positive-control profile
+assignments. None met the old simultaneous binary conjunction. This established non-viability
+for that calibrated design, not mathematical impossibility. Under the corrected prospective
+rule, 54 candidates were eligible. D29 was retained solely for protocol continuity and minimal
+intervention, not scientific preference, downstream performance, SHAP pattern or ITS identity.
+
+The count of 54 is composed rather than directly observed in a single artefact, and is
+decomposed here to prevent confusion. The nonselective retrospective re-adjudication examined 54
+historical parameter points and returned 44 \texttt{VERIFIED\_\allowbreak ELIGIBLE},
+0 \texttt{VERIFIED\_\allowbreak INELIGIBLE} and 10
+\texttt{INSUFFICIENT\_\allowbreak FROZEN\_\allowbreak EVIDENCE}. The 10
+unresolved points were all v2.2 points whose frozen artefact schema did not record C8--C10
+invariance. A separate supplemental resolution then established that invariance from the
+contemporaneous frozen source contract, and all 10 satisfied the corrected hard constraints.
+The frozen retention artefact therefore records an eligible universe of
+$44+10=54$ specifications. Eligibility is explicitly non-unique: the retention of D29 is a
+minimal-intervention and provenance-stability decision, not a superiority, uniqueness or
+statistical-selection claim, and no ranking or re-optimization over the 54 points was
+performed.
+
+\section{Detailed Development Audit Results}
+
+\subsection{D29 Layer-B Decision Geometry}
+
+The one-shot characterization used development worlds 21001--21005, the complete $N=1000$
+FIT+WEIGHT pool, $\rho=0.4$, $\sigma_x=0$ and $\lambda=0.5$. It generated no $Y$ and executed
+no learned model, SHAP package or MCDM method. Regret used the exact context-specific oracle
+range and was undefined only if that range was at most $10^{-12}$; no context was undefined.
+
+\begin{table}[t]
+\centering
+\caption{Complete frozen D29 Layer-B development record.}
+\label{supp:tab:d29layerb}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}r r r l r r r r@{}}
+\toprule
+World & Orderings & Winners & Modal & Modal share & Mean regret & Median regret & $P_{95}$ regret\\
+\midrule
+21001 & 23 & 2 & $A_6$ & 0.983 & 0.00042018 & 0 & 0\\
+21002 & 78 & 5 & $A_1$ & 0.519 & 0.05992337 & 0 & 0.29155475\\
+21003 & 24 & 4 & $A_2$ & 0.745 & 0.04523642 & 0 & 0.28747533\\
+21004 & 17 & 3 & $A_2$ & 0.827 & 0.01734351 & 0 & 0.12641643\\
+21005 & 38 & 4 & $A_2$ & 0.809 & 0.01606539 & 0 & 0.12654230\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Across worlds, the medians were 24 orderings, four winners, modal share $0.809$, mean regret
+$0.01734351$, median regret zero and $P_{95}$ regret $0.12654230$. At the directly comparable
+world 21001, the historical v2.1 record had 19 orderings, two winners, modal share $0.962$ and
+mean always-modal regret $0.0011106$ under its frozen $D_s+10^{-12}$ denominator. D29 had 23
+orderings, two winners, modal share $0.983$ and mean regret $0.00042018$ under exact $D_s$.
+The comparison therefore supports neither universal degeneration nor universal improvement.
+
+\subsection{XGBoost and TreeSHAP Development Checks}
+
+The selected XGBoost hyperparameters are reported in Eq.~\eqref{supp:eq:xgbparams}; candidate
+number and grouped-CV RMSE are given above. At world 21001 and the reference condition, total mean-absolute
+TreeSHAP importance was $0.07006131011183041$ and maximum local-accuracy error was
+$6.45\times10^{-7}$. The development-only weight vector for $(C_1,\ldots,C_{10})$ was
+\begin{equation}
+\begin{split}
+&(0.124860,\ 0.113194,\ 0.069426,\ 0.025945,\ 0.155169,\\
+&\qquad 0.078339,\ 0.071621,\ 0.265059,\ 0.020729,\ 0.075658).
+\end{split}
+\label{supp:eq:devshapweights}
+\end{equation}
+These observations did not tune comparator definitions, MCDM rules or winner semantics.
+
+\subsection{B100-Matched Background Result}
+
+Both oracle vectors were defined, and the 100 identities exactly matched the frozen TreeSHAP
+membership. Total mean-absolute importance was $0.06961866590$ under full-FIT moments and
+$0.06992189186$ under B100 moments.
+
+\begin{table}[t]
+\centering
+\caption{Development-only oracle-attribution weights under full-FIT and matched B100 moments.}
+\label{supp:tab:b100weights}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Criterion & Full-FIT & B100 & Absolute difference\\
+\midrule
+$C_1$  & 0.09663438 & 0.09712037 & 0.00048600\\
+$C_2$  & 0.04849942 & 0.04854063 & 0.00004122\\
+$C_3$  & 0.05910838 & 0.05913637 & 0.00002799\\
+$C_4$  & 0.06665455 & 0.06559847 & 0.00105608\\
+$C_5$  & 0.14880967 & 0.14667297 & 0.00213669\\
+$C_6$  & 0.09368358 & 0.09388953 & 0.00020596\\
+$C_7$  & 0.07615062 & 0.07594850 & 0.00020212\\
+$C_8$  & 0.24766693 & 0.25232065 & 0.00465372\\
+$C_9$  & 0.04819959 & 0.04935317 & 0.00115358\\
+$C_{10}$ & 0.11459290 & 0.11141932 & 0.00317357\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The weight-vector discrepancies were
+\begin{equation}
+\operatorname{MAE}_w=0.0013136928,\quad
+TV_w=0.0065684640,\quad
+\max_j|\Delta w_j|=0.0046537223.
+\label{supp:eq:b100distances}
+\end{equation}
+Spearman correlation was $0.98787879$, and Top-3 and Top-5 overlaps were both $1.0$.
+Maximum absolute marginal- and joint-moment changes were $0.0098907938$ and $0.0041811926$,
+respectively. Equal fallback was not used. These results show small
+finite-background sensitivity at this one development reference, not uniform robustness.
+
+\subsection{World-Resolved Pilot-B Oracle and SHAP Comparison}
+
+Table~\ref{supp:tab:pilotboracleshap} retains the full comparison moved from the main paper.
+Each entry is an advantage over the world-specific MajorityWinner reference; positive values
+favour the structured method.
+
+\begin{table}[t]
+\centering
+\caption{Per-world closed-form oracle-attribution and SHAP advantages over MajorityWinner.}
+\label{supp:tab:pilotboracleshap}
+\small
+\begin{tabular}{@{}crrrr@{}}
+\toprule
+World & Oracle $\Delta$Top-1 & SHAP $\Delta$Top-1 & Oracle $\Delta$regret & SHAP $\Delta$regret\\
+\midrule
+21001 & $ 0.000$ & $ 0.000$ & $ 0.000000$ & $ 0.000000$\\
+21002 & $ 0.035$ & $ 0.030$ & $ 0.001538$ & $ 0.003064$\\
+21003 & $-0.465$ & $ 0.020$ & $-0.143522$ & $ 0.006717$\\
+21004 & $-0.010$ & $ 0.000$ & $-0.002119$ & $ 0.000000$\\
+21005 & $-0.380$ & $-0.035$ & $-0.090328$ & $-0.002986$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The closed-form method exactly implements the frozen global interventional attribution
+functional; it is not an exact representation of context-specific oracle utility. Thus its
+failure to escape MajorityWinner is evidence about the frozen global-compression--MOORA
+pipeline, not a numerical error in the attribution formula.
+
+\subsection{Illustrative Frozen Objective-Weight Vectors}
+
+Table~\ref{supp:tab:objectivevectors} directly transcribes the CRITIC and Entropy vectors stored
+for development world 21001; no new transformation of TEST decisions was performed. The display
+cannot alter the frozen gate or establish a performance mechanism. Both vectors were defined
+without Equal fallback, and neither has its largest component on C8 or C10. Thus concentration
+on those two criteria is not supported in this world. The table is deliberately not combined
+with five-world median performance to infer cross-world geometry.
+
+\begin{table}[t]
+\centering
+\caption{Frozen objective-weight vectors for development world 21001.}
+\label{supp:tab:objectivevectors}
+\scriptsize
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\toprule
+Method & C1 & C2 & C3 & C4 & C5 & C6 & C7 & C8 & C9 & C10\\
+\midrule
+CRITIC & .079 & .075 & .101 & .093 & .150 & .099 & .097 & .111 & .084 & .111\\
+Entropy & .131 & .114 & .175 & .099 & .236 & .064 & .084 & .027 & .032 & .038\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The aggregate coincidence in world 21003 did not, by itself, identify a common decision map.
+Equal, CRITIC and Entropy each recorded Top-1 accuracy $0.190$ and mean normalized regret
+$0.316758$, but their mean Kendall $\tau_b$ values were respectively $0.5493$, $0.5427$ and
+$0.5113$. Top-1 accuracy and normalized regret depend on the selected alternative, whereas
+Kendall $\tau_b$ depends on the complete ranking. The $\tau_b$ differences therefore establish
+different lower-order ranking behaviour on average but are logically uninformative about
+argmax equality. That ambiguity motivated the separately frozen diagnostic below.
+
+\subsection{Frozen Post-Closure Fixed-Weight Selection-Map Diagnostic (DQ1)}
+\label{supp:sec:fixedselection}
+
+\noindent\textbf{Evidential status: post-closure, descriptive, non-confirmatory.} This
+subsection answers DQ1 only. It cannot modify, reinterpret, rescue or reopen the Pilot-B gate,
+it defines no pass/fail criterion, and none of its content is confirmatory evidence for RQ1 or
+RQ2.
+
+The diagnostic was specified only after the Pilot-B result had been independently audited,
+frozen and permanently closed. Its protocol was committed before any context-level
+fixed-weight result was reconstructed. It used worlds 21001--21005 at the same reference
+condition and the 200 frozen external TEST identities per world. The six structured vectors
+were read from the immutable Pilot-B result without re-estimation; Equal was exactly
+$(0.1,\ldots,0.1)$. D29 TEST decision matrices and oracle utilities were reconstructed only to
+validate the archived aggregates. No target $Y$, model fit/prediction, SHAP, PI, RandomWeights,
+bootstrap or protected seed was executed.
+
+For each world, method and context the result stores the selected alternative; all six MOORA
+scores and ranks; oracle utilities, ranks and selected alternative; Top-1 match; normalized
+regret contribution; and agreement with the frozen MajorityWinner identity. Exactly
+$5\times7\times200=7000$ records were independently audited. The audit reconstructed every
+selection, anchor-based rank and regret directly from the stored full-precision vectors,
+matched all 35 archived method--world aggregates within $10^{-12}$, and rebuilt all 105
+pairwise selection-agreement summaries without executing the generator.
+
+Table~\ref{supp:tab:fixedselectionmaps} reports each method's modal selected alternative,
+modal share and number of distinct selected alternatives. Entries use the format
+``alternative/\allowbreak share/\allowbreak $k$'', where $k=1$ denotes
+context-invariant selection in that world.
+MajorityWinner (MW) is a single frozen alternative by construction.
+
+\begin{table}[t]
+\centering
+\caption{Audited selection maps for the seven observed fixed vectors. Each method entry is
+modal alternative/modal share/number of distinct selected alternatives over 200 TEST contexts.}
+\label{supp:tab:fixedselectionmaps}
+\scriptsize
+\setlength{\tabcolsep}{2.1pt}
+\begin{tabular}{@{}rclllllll@{}}
+\toprule
+World & MW & Oracle & SHAP & PI & Ridge+ & CRITIC & Entropy & Equal\\
+\midrule
+21001 & A6 & A6/1.000/1 & A6/1.000/1 & A6/.980/2 & A6/1.000/1 & A6/1.000/1 & A6/1.000/1 & A6/1.000/1\\
+21002 & A1 & A1/.700/3 & A1/.950/2 & A1/.630/2 & A1/.875/3 & A3/.800/3 & A1/1.000/1 & A1/1.000/1\\
+21003 & A2 & A6/.720/4 & A2/.690/3 & A2/.530/3 & A6/.495/3 & A6/1.000/1 & A6/1.000/1 & A6/1.000/1\\
+21004 & A2 & A2/.990/2 & A2/1.000/1 & A2/.775/4 & A2/.990/2 & A3/.750/3 & A3/.985/3 & A2/1.000/1\\
+21005 & A2 & A6/.350/4 & A2/.790/3 & A3/.675/5 & A6/.375/4 & A6/.915/3 & A6/.800/3 & A2/1.000/1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Equal was context invariant in all five worlds and exactly matched MajorityWinner across all
+200 contexts in worlds 21001, 21002, 21004 and 21005. In world 21003, Equal instead selected A6
+throughout while MajorityWinner was A2. The numbers of constant-selection worlds were
+Oracle 1, SHAP 2, PI 0, Ridge+ 1, CRITIC 2, Entropy 3 and Equal 5; exact all-context
+MajorityWinner agreement occurred in 1, 2, 0, 1, 1, 2 and 4 worlds, respectively.
+
+The world-21003 ambiguity is now directly resolved: Equal, CRITIC and Entropy all selected A6
+in every TEST context. Their different mean $\tau_b$ values therefore reflect differences below
+the argmax, not different selected alternatives. More broadly, the heterogeneous constancy
+counts show that fixed-vector MOORA was neither universally context invariant nor uniformly
+context responsive over the seven observed vectors. The result supports coarse
+observed-vector decision regions as a descriptive hypothesis, but cannot establish the causal
+mechanism of the Pilot-B stop, characterize unobserved regions of the weight simplex, rank
+methods or generalize beyond these five development worlds.
+
+The new artefact makes paired context resampling technically possible, but the prospectively
+frozen diagnostic explicitly excluded bootstrap and defined no inferential or pass/fail role.
+No resampling was executed. Any future paired sensitivity analysis requires its own protocol,
+frozen before inspecting bootstrap output, and cannot revise the closed Pilot-B decision.
+
+\section{Detailed Weighting and Decision Operators}
+
+The primary information partitions were fixed: Oracle, SHAP, PI, CRITIC and Entropy used WEIGHT;
+Ridge+ used FIT; no method used external TEST for fitting or weight estimation. Oracle and SHAP
+normalized mean absolute attributions. SHAP was declared undefined if total importance was at
+most $10^{-12}$ and was never replaced by Equal weights.
+
+CRITIC applied criterion-wise min--max scaling, population SD and Pearson conflict over
+nonconstant columns. Entropy applied the same min--max scaling followed by Shannon
+diversification with $0\log0=0$. Ridge+ standardized predictors and target with fold-local
+population moments, solved non-negative L2-augmented least squares without an intercept, and
+used the frozen grid
+\begin{equation}
+\tau\in\{10^{-4},10^{-3},10^{-2},10^{-1},1,10,100\}.
+\label{supp:eq:ridgegrid}
+\end{equation}
+Five-fold context-grouped original-scale RMSE selected $\tau$, with the smallest value as tie
+break.
+
+Permutation importance kept the fitted XGBoost model fixed. For each criterion, it copied the
+complete six-alternative block from source context $\pi(d)$ to destination context $d$ under 20
+unique derangements. Their frozen generator was
+\begin{equation}
+\texttt{SeedSequence([replication, 84001, N])}.
+\label{supp:eq:piseedsequence}
+\end{equation}
+The same
+derangements were reused across criteria and factor levels for a given seed and $N$. Importance
+was permuted minus baseline WEIGHT MSE; negative means were truncated before normalization and
+repeat dispersion used sample SD. CRITIC, Entropy, Ridge+ and PI used Equal weights only under
+their frozen zero-information rules, with fallback recorded.
+
+Equal was $(0.1,\ldots,0.1)$. RandomWeights used 200
+$\operatorname{Dirichlet}(1,\ldots,1)$ vectors per world from namespace 81001 and reused them
+across conditions. MajorityWinner estimated the oracle modal winner on WEIGHT and applied that
+constant choice to TEST. MajorityWinner was intentionally oracle-informed: it was the
+context-free oracle-modal alternative estimated on WEIGHT and evaluated on TEST, and it was
+optimal only for empirical oracle Top-1 frequency among constant choices. It is not claimed to
+minimize regret or to constitute an operational transportation policy. It was neither a
+deployable competitor nor a universally optimal choice, and it was not stakeholder-derived or
+normative. The regret arm of the frozen gate uses this same
+prospectively frozen Top-1-derived constant reference rather than a separately optimized
+regret-minimizing constant policy; a future benchmark could prospectively define metric-matched
+constant references. The frozen gate itself is unchanged by this observation. Direct-XGBoost was a parallel
+predictive-decision reference rather than a weighting
+method. MOORA used within-context vector normalization and a weighted sum; TOPSIS used the same
+normalized benefit matrix as a conditional aggregation robustness operator.
+
+\subsection{Frozen Tie Semantics and Archived Decision Margin}
+
+Within each context, alternatives were sorted by descending raw score and ascending
+\texttt{alternative\_id}. The highest unassigned score anchored a tie group; every remaining
+alternative within absolute distance $10^{-12}$ of that anchor joined the group and received
+the average of the occupied one-based rank positions. Ties were not chained through adjacent
+near-equalities. Deterministic Top-1 used
+\begin{equation}
+\mathcal T_s=\{a:S_{\max,s}-S_{as}\le10^{-12}\}
+\label{supp:eq:top1tieset}
+\end{equation}
+and selected the smallest alternative ID in $\mathcal T_s$. Relative tolerance was zero. These
+semantics applied to oracle, MOORA, TOPSIS and Direct-XGBoost scores.
+
+The conditional primary plan also defined the guarded oracle decision margin
+\begin{equation}
+M_s=\frac{U_{(1),s}^\star-U_{(2),s}^\star}
+{\max_aU_{as}^\star-\min_aU_{as}^\star+10^{-12}}.
+\label{supp:eq:margin}
+\end{equation}
+Margin-conditioned analyses were not executed because Pilot B stopped the primary study.
+
+\section{Frozen Pilot-B Gate and Complete Decision}
+
+Pilot B reused development worlds 21001--21005 at the frozen reference
+\begin{equation}
+(N,c,\rho,\lambda)=(250,0.30,0.4,0.5).
+\label{supp:eq:pilotbreference}
+\end{equation}
+Each world used 200 external TEST contexts and 200 common
+RandomWeights draws per world. It was a protocol-level adequacy screen, not independent
+population validation. A structured method was eligible only if it was defined without Equal
+fallback in all five worlds and Kendall's $\tau_b$ was defined in at least 190 TEST contexts per
+world; at least 190 RandomWeights draws also had to be eligible. Cross-world advantages used
+medians and required strict positivity in at least four worlds.
+
+The five independently sufficient hard stops were: incomplete coverage; no eligible method
+clearing median $\Delta\tau_b=0.05$ or $\Delta$mean-regret $=0.01$ versus RandomWeights; no
+eligible method clearing median $\Delta$Top-1 $=0.02$ or $\Delta$mean-regret $=0.01$ versus
+MajorityWinner; pooled oracle modal share at least $0.90$; or the frozen random-weight
+insensitivity criterion, including its $0.90$ invariant fraction and joint width limits
+$0.05$ ($\tau_b$), $0.02$ (Top-1) and $0.01$ (mean regret) in at least four worlds. Passage
+required every stop to be false.
+
+\begin{table}[t]
+\centering
+\caption{Complete frozen Pilot-B gate decision.}
+\label{supp:tab:pilotbgates}
+\small
+\begin{tabularx}{\linewidth}{@{}lXc@{}}
+\toprule
+Gate & Audited result & Stop\\
+\midrule
+Coverage & Six structured methods eligible without fallback & No\\
+Random equivalence & Four of six methods separated from RandomWeights & No\\
+Modal-winner effective tie & Zero of six methods escaped MajorityWinner & \textbf{Yes}\\
+Oracle-winner dominance & Pooled modal share $0.526<0.90$ & No\\
+Weight insensitivity & Invariant fraction $0.004<0.90$; width-qualified worlds $0<4$ & No\\
+\midrule
+Overall OR rule & At least one frozen stop fired & \textbf{Yes}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The best strictly positive consistency count was two of five worlds for either Top-1 or mean
+regret, and the best cross-world medians were zero. The independently reconstructed decision
+therefore barred the protected factorial. This is a negative result about the adequacy of the
+frozen comparison at one condition, not evidence that SHAP, weights or MCDM fail universally.
+
+\section{Archived Stage-Wise Fidelity Ladder}
+
+The conditional primary analysis contained nine representations:
+\begin{enumerate}
+\item \texttt{OracleUtility}, the full interacting oracle;
+\item \texttt{OracleMainEffectReference}, with the interaction removed;
+\item \texttt{OracleGlobalAttributionNonlinearQ};
+\item \texttt{SHAPGlobalAttributionNonlinearQ};
+\item \texttt{OracleGlobalAttributionLinearG};
+\item \texttt{SHAPGlobalAttributionLinearG};
+\item \texttt{OracleWeightMOORA};
+\item \texttt{SHAPWeightMOORA};
+\item \texttt{DirectXGBoost}, a parallel reference rather than a sequential stage.
+\end{enumerate}
+Eight paired contrasts isolated interaction removal, oracle global compression, SHAP estimation
+on the nonlinear scale, nonlinear-to-linear transformation under each weight vector, MOORA
+transformation under each vector and post-MOORA Oracle-versus-SHAP attribution. Kendall's
+$\tau_b$ and normalized oracle regret were specified for every representation. The ladder was
+diagnostic, not an additive error decomposition, and was not executed because Pilot B stopped
+the primary study.
+
+\section{Conditional Primary Factorial}
+
+The four planned primary factors were
+\begin{align}
+N&\in\{25,50,100,250,1000\}, &
+c&\in\{0.10,0.30,0.60\},\label{supp:eq:factors1}\\
+\rho&\in\{0,0.4,0.8\}, &
+\lambda&\in\{0,0.5,1\}.
+\label{supp:eq:factors2}
+\end{align}
+The resulting $5\times3\times3\times3=135$ conditions were to be repeated over 30
+prespecified primary benchmark-instance seeds, giving 4050 seed--condition replications. The
+reference condition was
+\begin{equation}
+(N,c,\rho,\lambda)=(250,0.30,0.4,0.5).
+\label{supp:eq:reference}
+\end{equation}
+
+\begin{table}[t]
+\centering
+\caption{Archived nested estimation partitions and fixed TEST size.}
+\label{supp:tab:partitions}
+\small
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$N$ & FIT & WEIGHT & external TEST\\
+\midrule
+25 & 20 & 5 & 200\\
+50 & 40 & 10 & 200\\
+100 & 80 & 20 & 200\\
+250 & 200 & 50 & 200\\
+1000 & 800 & 200 & 200\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Technology-response parameters and common-random-number streams were to be sampled once per
+seed and reused across factor levels. For each $(\rho,\lambda)$ cell, the oracle signal scale
+$s_U$ was to be calculated on the complete 1000-context FIT+WEIGHT master pool so that changing
+$N$ would not change the imposed noise-to-signal ratio. Realized signal-to-noise ratio was to
+be logged for every cell. FIT, WEIGHT and external TEST partitions were to remain
+context-disjoint, and no TEST row was to be used for model fitting or weight estimation.
+
+\section{Archived Alpha-Dispersion Stress Analysis}
+
+The conditional primary analysis retained the frozen heterogeneous coefficient vector. At the
+reference condition only, three additional coefficient structures had been fixed: balanced,
+dispersion-aligned and dispersion-anti-aligned. The mapping was obtained from an independent
+200-world technology ensemble using
+\begin{equation}
+D_{j,w}^{attr}
+=\frac{1}{M_w}\sum_i\left|q_j(g_{ijw})-\bar q_{j,w}\right|,
+\qquad
+\bar D_j^{attr}=\E_W[D_{j,W}^{attr}].
+\label{supp:eq:qmad}
+\end{equation}
+The complete ordering agreed between 150 and 200 worlds:
+\begin{equation}
+C_8>C_{10}>C_5>C_2>C_3>C_4>C_1>C_7>C_6>C_9.
+\label{supp:eq:d3order}
+\end{equation}
+
+\begin{table}[t]
+\centering
+\caption{Frozen 200-world mean attribution-scale dispersion.}
+\label{supp:tab:d3dispersion}
+\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+Criterion & Mean dispersion\\
+\midrule
+$C_8$ & 0.122873493\\
+$C_{10}$ & 0.119403289\\
+$C_5$ & 0.110114266\\
+$C_2$ & 0.094820283\\
+$C_3$ & 0.090482741\\
+$C_4$ & 0.088452971\\
+$C_1$ & 0.087135074\\
+$C_7$ & 0.078706704\\
+$C_6$ & 0.049591336\\
+$C_9$ & 0.028266887\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Balanced coefficients were $\alpha_j=0.10$. The aligned and anti-aligned mappings were
+\begin{align}
+\boldsymbol\alpha^{aligned}:
+&(C_8,C_{10},C_5,C_2,C_3,C_4,C_1,C_7,C_6,C_9)
+\nonumber\\
+&\mapsto(0.16,0.14,0.13,0.12,0.11,0.10,0.08,0.07,0.05,0.04),
+\label{supp:eq:alphaaligned}\\
+\boldsymbol\alpha^{anti}:
+&(C_9,C_6,C_7,C_1,C_4,C_3,C_2,C_5,C_{10},C_8)
+\nonumber\\
+&\mapsto(0.16,0.14,0.13,0.12,0.11,0.10,0.08,0.07,0.05,0.04).
+\label{supp:eq:alphaanti}
+\end{align}
+The frozen primary heterogeneous assignment had weak rank association with the dispersion
+ordering ($\rho_S=0.1273$, $\tau_b=0.0222$), so it was not changed. Although the D3 mapping
+itself was a completed development artefact, the planned primary stress comparisons were never
+executed.
+
+\section{Archived Bootstrap and Robustness Plan}
+
+At the reference condition, $B=200$ context-level bootstrap replications were to resample FIT
+and WEIGHT contexts separately, refit the model, recompute attributions and weights, and
+evaluate decisions on the fixed original external TEST contexts. Confidence intervals were to
+be reported for criterion weights, total-variation weight error, Kendall's $\tau_b$, Top-1
+accuracy and normalized oracle regret. No cross-context probability that a particular ITS was
+ranked first was to be interpreted as a global deployment probability.
+
+A 50-oracle ensemble was to leave the frozen D29 technology-response kernel unchanged while
+varying oracle coefficient vectors, nonlinearities and semantically admissible interaction
+pairs. Relative outcome noise was to be recalibrated to each oracle variant's signal standard
+deviation. This ensemble would not replace the response generator and therefore would not
+reintroduce the historical v2.1 separability defect through oracle-only perturbations.
+
+Two distribution-shift analyses were specified: holding out the upper 20\% of demand pressure
+and holding out the lower 20\% of infrastructure readiness. Secondary robustness analyses were
+to include criterion removal, $\pm10/20/30\%$ SHAP-weight perturbations,
+leave-one-alternative-out analysis and MOORA--TOPSIS comparison.
+
+\section{Archived Statistical Analysis Plan}
+
+Factor effects were to be summarized with repeated-seed regression or mixed-effects models,
+emphasizing effect sizes and uncertainty intervals rather than binary significance alone.
+Method comparisons were paired because every method would share the same benchmark instance.
+The 30 primary seeds were to be treated as benchmark-instance clusters; alternative--context
+rows were not to be interpreted as independent superpopulation replications.
+
+Method availability was to be reported explicitly. For each factorial cell, undefined
+Oracle/SHAP weight rates and recorded Equal-fallback rates were to accompany conditional
+decision-fidelity summaries. Pairwise contrasts were to use only benchmark instances on which
+both methods were defined, with coverage and fallback rates reported alongside them. Undefined
+Oracle or SHAP vectors were never to be silently replaced by Equal weights.
+
+Planned outputs included predictive-performance and Direct-XGBoost references, weight-recovery
+tables, decision-fidelity summaries, factorial effect summaries, alpha-alignment stress results,
+bootstrap intervals, validity-boundary figures and the prespecified stage-wise fidelity ladder.
+None of these primary outputs exists under v1.
+
+\section{Reproducibility and Content-Integrity Record}
+\label{supp:sec:integrity}
+
+Table~\ref{supp:tab:digests} gives non-identifying truncated content digests. The selected B100
+background exactly matched the frozen TreeSHAP identity set.
+
+\begin{table}[t]
+\centering
+\caption{Truncated, non-identifying content digests of the frozen artefacts underlying the
+reported numbers.}
+\label{supp:tab:digests}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+Artifact & Truncated SHA-256\\
+\midrule
+Oracle B100 result & \texttt{7f9864bd...439c9fb0}\\
+TreeSHAP background identities & \texttt{3184c675...1646eda1}\\
+Pilot-B result & \texttt{05072857...9f787a88}\\
+Fixed-weight selection-map result & \texttt{a1f293b6...d7e20f4e}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The full anonymous provenance package records, in order, the
+threshold freeze, evaluator/executor freeze, scientifically invariant direct-file loader repair,
+audited Pilot-B result freeze, immutable closure reference, post-closure diagnostic protocol
+freeze, implementation freeze and independently audited result freeze. The worktree was clean
+after each closure point, and the final complete test run reported 836 passes with three
+pre-existing external plotting warnings.
+\ifanon
+Exact repository identifiers are intentionally omitted here to protect anonymous review.
+\else
+Exact repository identifiers accompany the public reproducibility archive.
+\fi
+These facts document software and artefact integrity; they are not statistical evidence.
+
+\section{Prospective Stop and Permanent Closure}
+
+Pilot B was governed by five independently sufficient hard stops: coverage failure, failure to
+separate RandomWeights, failure to escape MajorityWinner, pooled oracle-winner dominance and
+weight insensitivity. Passage required every flag to be false. In the frozen result, only the
+modal-winner effective-tie flag was true, but the overall OR rule therefore barred every
+analysis in this supplement.
+
+The immutable version-control, digest and test record appears in
+Section~\ref{supp:sec:integrity}. Pilot B v1 is closed and must not be rerun. Any later study
+requires a new specification and version reference, explicit disclosure of the v1 failure and
+development-only design work; it cannot alter the v1 thresholds, result or closure reference.
+The fixed-weight selection-map diagnostic in Section~\ref{supp:sec:fixedselection} is such a
+separately frozen descriptive layer; it neither reopened Pilot B nor authorized any protected
+analysis.
+
+\end{document}

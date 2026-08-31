@@ -1,0 +1,26 @@
+{
+ "status": "PASS",
+ "findings": [],
+ "notes": [
+  {
+   "file": "main",
+   "rule": "forbidden phrasing (inside a denial)",
+   "detail": "line ~619: 'SHAP failed'"
+  },
+  {
+   "file": "main",
+   "rule": "forbidden phrasing (inside a denial)",
+   "detail": "line ~644: 'global weights never'"
+  },
+  {
+   "file": "main",
+   "rule": "forbidden phrasing (inside a denial)",
+   "detail": "line ~646: 'should be deployed'"
+  },
+  {
+   "file": "main",
+   "rule": "primary-result mention (inside a denial)",
+   "detail": "line ~717: 'primary result'"
+  }
+ ]
+}

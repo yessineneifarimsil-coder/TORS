@@ -1,0 +1,88 @@
+[
+ {
+  "label": "main / anonymous review",
+  "anonymous": true,
+  "pages": 14,
+  "ok": true,
+  "errors": [],
+  "undefined_refs": [],
+  "undefined_citations": [],
+  "multiply_defined": [],
+  "missing_files": [],
+  "overfull_boxes": [
+   "15.50902pt"
+  ],
+  "underfull_boxes": [
+   "1052"
+  ],
+  "identifying_hits": [],
+  "stale_hits": [],
+  "pdf": "outputs/paper/pdf/IC_TORS26_SHAP_MCDM_conference_final_2026-08-29_v12.pdf"
+ },
+ {
+  "label": "main / identified camera-ready",
+  "anonymous": false,
+  "pages": 14,
+  "ok": true,
+  "errors": [],
+  "undefined_refs": [],
+  "undefined_citations": [],
+  "multiply_defined": [],
+  "missing_files": [],
+  "overfull_boxes": [
+   "15.50902pt"
+  ],
+  "underfull_boxes": [
+   "1052"
+  ],
+  "identifying_hits": [],
+  "stale_hits": [],
+  "pdf": "outputs/paper/pdf/IC_TORS26_SHAP_MCDM_conference_final_2026-08-29_v12-cameraready.pdf"
+ },
+ {
+  "label": "supplement / anonymous review",
+  "anonymous": true,
+  "pages": 18,
+  "ok": true,
+  "errors": [],
+  "undefined_refs": [],
+  "undefined_citations": [],
+  "multiply_defined": [],
+  "missing_files": [],
+  "overfull_boxes": [],
+  "underfull_boxes": [
+   "1132",
+   "2680",
+   "5217",
+   "10000",
+   "10000",
+   "1769"
+  ],
+  "identifying_hits": [],
+  "stale_hits": [],
+  "pdf": "outputs/paper/pdf/IC_TORS26_SHAP_MCDM_conference_supplement_2026-08-29_v5.pdf"
+ },
+ {
+  "label": "supplement / identified camera-ready",
+  "anonymous": false,
+  "pages": 18,
+  "ok": true,
+  "errors": [],
+  "undefined_refs": [],
+  "undefined_citations": [],
+  "multiply_defined": [],
+  "missing_files": [],
+  "overfull_boxes": [],
+  "underfull_boxes": [
+   "1132",
+   "2680",
+   "5217",
+   "10000",
+   "6961",
+   "1769"
+  ],
+  "identifying_hits": [],
+  "stale_hits": [],
+  "pdf": "outputs/paper/pdf/IC_TORS26_SHAP_MCDM_conference_supplement_2026-08-29_v5-cameraready.pdf"
+ }
+]

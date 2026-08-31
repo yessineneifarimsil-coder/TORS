@@ -1,0 +1,7 @@
+method,mw_dtop1,mw_dtop1_positive_worlds,mw_dregret,mw_dregret_positive_worlds,rw_dtau_b,rw_dtau_b_positive_worlds,rw_dregret,rw_dregret_positive_worlds,separates_random,escapes_majority_winner
+Oracle attribution,-0.010,1,-0.002119,1,0.209,5,0.023940,4,Yes,No
+SHAP,0.000,2,0.000000,2,0.288,5,0.026060,4,Yes,No
+Permutation importance,-0.120,1,-0.004425,1,0.194,5,0.010658,4,Yes,No
+Ridge+,-0.010,1,-0.002119,1,0.237,5,0.011492,4,Yes,No
+CRITIC,-0.580,0,-0.124414,0,0.030,3,-0.098354,0,No,No
+Entropy,-0.580,0,-0.156641,0,0.035,3,-0.002807,1,No,No

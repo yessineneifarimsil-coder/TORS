@@ -1,0 +1,7 @@
+gate,audited_result,stop
+Coverage,6 structured methods eligible without fallback,False
+Random equivalence,4 of 6 methods separated from RandomWeights,False
+Modal-winner tie,0 of 6 methods escaped MajorityWinner,True
+Oracle dominance,Pooled modal share 0.526 < 0.90,False
+Weight insensitivity,Invariant fraction 0.004 < 0.90; qualified worlds 0 < 4,False
+Overall (OR),At least one prospectively frozen stop fired,True

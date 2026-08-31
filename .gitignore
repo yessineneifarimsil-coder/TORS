@@ -72,3 +72,15 @@ protocol_v2_1_migration.py
 *.out
 *.synctex.gz
 *.toc
+
+# ============================================================
+# Manuscript build scratch (presentation only; never scientific results).
+# Frozen scientific artefacts live in results/ and are never ignored.
+# ============================================================
+outputs/paper/build/
+
+# Identified camera-ready PDFs are regenerated on demand from the same source
+# via \def\CAMERAREADY{1}. They are deliberately not version-controlled: this
+# tree has previously been zipped as the reviewer archive, and committing
+# author-identified PDFs would defeat anonymous review.
+outputs/paper/pdf/*-cameraready.pdf

@@ -1,0 +1,2606 @@
+{
+ "checks_total": 252,
+ "checks_failed": 0,
+ "status": "PASS",
+ "checks": [
+  {
+   "name": "reference condition",
+   "source": "results/pilot_b_reference_v1/...json :: condition",
+   "frozen": "{'N': 250, 'c': 0.3, 'lambda': 0.5, 'rho': 0.4}",
+   "literal": "(250,0.30,0.4,0.5)",
+   "where": [
+    "main",
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '(250,0.30,0.4,0.5)' present in main, supp"
+  },
+  {
+   "name": "development worlds",
+   "source": "results/pilot_b_reference_v1/...json :: condition",
+   "frozen": "[21001, 21002, 21003, 21004, 21005]",
+   "literal": "21001--21005",
+   "where": [
+    "main",
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '21001--21005' present in main, supp"
+  },
+  {
+   "name": "OracleAttribution MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.009999999999999898",
+   "literal": "$-0.010$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.010$' present in main"
+  },
+  {
+   "name": "OracleAttribution MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.002119339734971328",
+   "literal": "$-0.002119$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.002119$' present in main"
+  },
+  {
+   "name": "OracleAttribution RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.20899999999999996",
+   "literal": "$0.209$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.209$' present in main"
+  },
+  {
+   "name": "OracleAttribution RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.02394039038727579",
+   "literal": "$0.023940$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.023940$' present in main"
+  },
+  {
+   "name": "OracleAttribution MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "OracleAttribution MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "OracleAttribution RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "5",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 5"
+  },
+  {
+   "name": "OracleAttribution RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "4",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 4"
+  },
+  {
+   "name": "OracleAttribution eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "OracleAttribution separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "OracleAttribution escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "SHAP MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.0",
+   "literal": "$0.000$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000$' present in main"
+  },
+  {
+   "name": "SHAP MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.0",
+   "literal": "$0.000000$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000000$' present in main"
+  },
+  {
+   "name": "SHAP RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.28800000000000003",
+   "literal": "$0.288$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.288$' present in main"
+  },
+  {
+   "name": "SHAP RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.02605973012224712",
+   "literal": "$0.026060$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.026060$' present in main"
+  },
+  {
+   "name": "SHAP MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "2",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 2"
+  },
+  {
+   "name": "SHAP MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "2",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 2"
+  },
+  {
+   "name": "SHAP RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "5",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 5"
+  },
+  {
+   "name": "SHAP RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "4",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 4"
+  },
+  {
+   "name": "SHAP eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "SHAP separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "SHAP escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "PermutationImportance MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.12",
+   "literal": "$-0.120$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.120$' present in main"
+  },
+  {
+   "name": "PermutationImportance MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.0044246348566214025",
+   "literal": "$-0.004425$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.004425$' present in main"
+  },
+  {
+   "name": "PermutationImportance RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.19399999999999995",
+   "literal": "$0.194$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.194$' present in main"
+  },
+  {
+   "name": "PermutationImportance RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.010657717690992066",
+   "literal": "$0.010658$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.010658$' present in main"
+  },
+  {
+   "name": "PermutationImportance MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "PermutationImportance MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "PermutationImportance RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "5",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 5"
+  },
+  {
+   "name": "PermutationImportance RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "4",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 4"
+  },
+  {
+   "name": "PermutationImportance eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "PermutationImportance separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "PermutationImportance escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "RidgePlus MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.009999999999999898",
+   "literal": "$-0.010$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.010$' present in main"
+  },
+  {
+   "name": "RidgePlus MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.002119339734971328",
+   "literal": "$-0.002119$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.002119$' present in main"
+  },
+  {
+   "name": "RidgePlus RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.23733333333333329",
+   "literal": "$0.237$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.237$' present in main"
+  },
+  {
+   "name": "RidgePlus RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.01149174771757211",
+   "literal": "$0.011492$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.011492$' present in main"
+  },
+  {
+   "name": "RidgePlus MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "RidgePlus MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "RidgePlus RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "5",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 5"
+  },
+  {
+   "name": "RidgePlus RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "4",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 4"
+  },
+  {
+   "name": "RidgePlus eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "RidgePlus separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "RidgePlus escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "CRITIC MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.5800000000000001",
+   "literal": "$-0.580$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.580$' present in main"
+  },
+  {
+   "name": "CRITIC MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.12441410603994982",
+   "literal": "$-0.124414$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.124414$' present in main"
+  },
+  {
+   "name": "CRITIC RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.030333333333333268",
+   "literal": "$0.030$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.030$' present in main"
+  },
+  {
+   "name": "CRITIC RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.0983543759177027",
+   "literal": "$-0.098354$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.098354$' present in main"
+  },
+  {
+   "name": "CRITIC MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 0"
+  },
+  {
+   "name": "CRITIC MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 0"
+  },
+  {
+   "name": "CRITIC RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "3",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 3"
+  },
+  {
+   "name": "CRITIC RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 0"
+  },
+  {
+   "name": "CRITIC eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "CRITIC separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "CRITIC escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "Entropy MW dTop1",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.5800000000000001",
+   "literal": "$-0.580$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.580$' present in main"
+  },
+  {
+   "name": "Entropy MW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.1566407511315089",
+   "literal": "$-0.156641$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.156641$' present in main"
+  },
+  {
+   "name": "Entropy RW dtau_b",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0.034999999999999976",
+   "literal": "$0.035$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.035$' present in main"
+  },
+  {
+   "name": "Entropy RW dregret",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "-0.00280712115954862",
+   "literal": "$-0.002807$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.002807$' present in main"
+  },
+  {
+   "name": "Entropy MW dTop1 P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 0"
+  },
+  {
+   "name": "Entropy MW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 0"
+  },
+  {
+   "name": "Entropy RW dtau_b P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "3",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 3"
+  },
+  {
+   "name": "Entropy RW dregret P",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "1",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "positive-world count 1"
+  },
+  {
+   "name": "Entropy eligible",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "Entropy separates_random",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "Entropy escapes_majority_winner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "methods escaping MajorityWinner",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "0",
+   "literal": "Zero of six methods escaped MajorityWinner",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'Zero of six methods escaped MajorityWinner' present in main"
+  },
+  {
+   "name": "methods separating from RandomWeights",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "4",
+   "literal": "Four of six methods separated from RandomWeights",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'Four of six methods separated from RandomWeights' present in main"
+  },
+  {
+   "name": "eligible structured methods",
+   "source": "results/pilot_b_reference_v1/...json :: structured_method_assessments",
+   "frozen": "6",
+   "literal": "Six structured methods eligible without fallback",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'Six structured methods eligible without fallback' present in main"
+  },
+  {
+   "name": "gate coverage_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "flag is False"
+  },
+  {
+   "name": "gate random_equivalence_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "flag is False"
+  },
+  {
+   "name": "gate modal_winner_effective_tie_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "flag is True"
+  },
+  {
+   "name": "gate oracle_winner_dominance_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "flag is False"
+  },
+  {
+   "name": "gate weight_insensitivity_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "flag is False"
+  },
+  {
+   "name": "exactly one stop fired",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "['modal_winner_effective_tie_hard_stop']",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "pilot_b_pass",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "coverage_complete",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "primary_or_reserve_seed_used",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "thresholds_changed_after_inspection",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "topsis_used_for_hard_stop",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "pooled oracle modal share",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "0.526",
+   "literal": "$0.526$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.526$' present in main"
+  },
+  {
+   "name": "pooled modal winner id",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "'A2'",
+   "literal": "$A_2$ in $526$ of $1000$ TEST contexts",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$A_2$ in $526$ of $1000$ TEST contexts' present in main"
+  },
+  {
+   "name": "pooled modal winner count",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "526",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "random invariant fraction",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "0.004",
+   "literal": "Invariant fraction $0.004<0.90$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'Invariant fraction $0.004<0.90$' present in main"
+  },
+  {
+   "name": "performance width qualified worlds",
+   "source": "results/pilot_b_reference_v1/...json :: hard_stop_evaluation",
+   "frozen": "0",
+   "literal": "qualified worlds $0<4$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'qualified worlds $0<4$' present in main"
+  },
+  {
+   "name": "min modal share",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.519",
+   "literal": "$0.519$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.519$' present in main"
+  },
+  {
+   "name": "max modal share",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.983",
+   "literal": "$0.983$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.983$' present in main"
+  },
+  {
+   "name": "median modal share",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.809",
+   "literal": "$0.809$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.809$' present in main"
+  },
+  {
+   "name": "min distinct orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "17",
+   "literal": "$17$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$17$' present in main"
+  },
+  {
+   "name": "max distinct orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "78",
+   "literal": "$78$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$78$' present in main"
+  },
+  {
+   "name": "distinct winners range",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "(2, 5)",
+   "literal": "between two and five",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'between two and five' present in main"
+  },
+  {
+   "name": "worlds with modal share > 0.80",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "3",
+   "literal": "In three of five worlds a single alternative was already",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'In three of five worlds a single alternative was already' present in main"
+  },
+  {
+   "name": "21001 D29 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "23",
+   "literal": "from $19$ to $23$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal 'from $19$ to $23$' present in main"
+  },
+  {
+   "name": "21001 D29 modal share",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.983",
+   "literal": "$0.983$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.983$' present in main"
+  },
+  {
+   "name": "21001 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "23",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21001 mean regret",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.00042017663809418456",
+   "literal": "0.00042018",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.00042018' present in supp"
+  },
+  {
+   "name": "21002 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "78",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21002 mean regret",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.059923366107311325",
+   "literal": "0.05992337",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.05992337' present in supp"
+  },
+  {
+   "name": "21003 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "24",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21003 mean regret",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.045236420115230096",
+   "literal": "0.04523642",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.04523642' present in supp"
+  },
+  {
+   "name": "21004 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "17",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21004 mean regret",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.017343513436078886",
+   "literal": "0.01734351",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.01734351' present in supp"
+  },
+  {
+   "name": "21005 orderings",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "38",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21005 mean regret",
+   "source": "results/d29_layer_b_characterization_v1/seed_metrics.csv",
+   "frozen": "0.016065385133267943",
+   "literal": "0.01606539",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.01606539' present in supp"
+  },
+  {
+   "name": "historical max LRV",
+   "source": "docs/v2_2_d2_8_numerical_null_results.md (frozen record)",
+   "frozen": "7.222425309945365e-16",
+   "literal": "$7.2224\\times10^{-16}$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$7.2224\\\\times10^{-16}$' present in main"
+  },
+  {
+   "name": "historical max vector NSV",
+   "source": "docs/v2_2_d2_8_numerical_null_results.md (frozen record)",
+   "frozen": "1.803557624200258e-09",
+   "literal": "$1.8036\\times10^{-9}$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$1.8036\\\\times10^{-9}$' present in main"
+  },
+  {
+   "name": "world-criterion combinations",
+   "source": "5 worlds x 7 active criteria",
+   "frozen": "35",
+   "literal": "$35$ world--criterion combinations",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$35$ world--criterion combinations' present in main"
+  },
+  {
+   "name": "21001 historical orderings",
+   "source": "docs/v2_1_structural_audit.md (frozen record)",
+   "frozen": "19",
+   "literal": "$19$ to $23$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$19$ to $23$' present in main"
+  },
+  {
+   "name": "21001 historical modal share",
+   "source": "docs/v2_1_structural_audit.md (frozen record)",
+   "frozen": "0.962",
+   "literal": "$0.962$ to $0.983$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.962$ to $0.983$' present in main"
+  },
+  {
+   "name": "audited selection records",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "7000",
+   "literal": "$5\\times7\\times200=7000$",
+   "where": [
+    "main",
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$5\\\\times7\\\\times200=7000$' present in main, supp"
+  },
+  {
+   "name": "OracleAttribution constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "1",
+   "literal": "1/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '1/5' present in main"
+  },
+  {
+   "name": "OracleAttribution all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "1",
+   "literal": "1/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '1/5' present in main"
+  },
+  {
+   "name": "SHAP constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "2",
+   "literal": "2/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '2/5' present in main"
+  },
+  {
+   "name": "SHAP all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "2",
+   "literal": "2/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '2/5' present in main"
+  },
+  {
+   "name": "PermutationImportance constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0",
+   "literal": "0/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '0/5' present in main"
+  },
+  {
+   "name": "PermutationImportance all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0",
+   "literal": "0/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '0/5' present in main"
+  },
+  {
+   "name": "RidgePlus constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "1",
+   "literal": "1/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '1/5' present in main"
+  },
+  {
+   "name": "RidgePlus all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "1",
+   "literal": "1/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '1/5' present in main"
+  },
+  {
+   "name": "CRITIC constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "2",
+   "literal": "2/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '2/5' present in main"
+  },
+  {
+   "name": "CRITIC all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "1",
+   "literal": "1/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '1/5' present in main"
+  },
+  {
+   "name": "Entropy constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "3",
+   "literal": "3/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '3/5' present in main"
+  },
+  {
+   "name": "Entropy all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "2",
+   "literal": "2/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '2/5' present in main"
+  },
+  {
+   "name": "Equal constant-selection worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "5",
+   "literal": "5/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '5/5' present in main"
+  },
+  {
+   "name": "Equal all-context MW-match worlds",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "4",
+   "literal": "4/5",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '4/5' present in main"
+  },
+  {
+   "name": "21003 Equal Top-1",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.19",
+   "literal": "$0.190$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.190$' present in main"
+  },
+  {
+   "name": "21003 Equal mean regret",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.31675757251240505",
+   "literal": "$0.316758$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.316758$' present in main"
+  },
+  {
+   "name": "21003 Equal mean tau_b",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.5493333333333333",
+   "literal": "$0.5493$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.5493$' present in main"
+  },
+  {
+   "name": "21003 Equal selects A6 in all contexts",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "'A6'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21003 CRITIC Top-1",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.19",
+   "literal": "$0.190$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.190$' present in main"
+  },
+  {
+   "name": "21003 CRITIC mean regret",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.31675757251240505",
+   "literal": "$0.316758$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.316758$' present in main"
+  },
+  {
+   "name": "21003 CRITIC mean tau_b",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.5426666666666666",
+   "literal": "$0.5427$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.5427$' present in main"
+  },
+  {
+   "name": "21003 CRITIC selects A6 in all contexts",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "'A6'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "21003 Entropy Top-1",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.19",
+   "literal": "$0.190$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.190$' present in main"
+  },
+  {
+   "name": "21003 Entropy mean regret",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.31675757251240505",
+   "literal": "$0.316758$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.316758$' present in main"
+  },
+  {
+   "name": "21003 Entropy mean tau_b",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "0.5113333333333333",
+   "literal": "$0.5113$",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$0.5113$' present in main"
+  },
+  {
+   "name": "21003 Entropy selects A6 in all contexts",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "'A6'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure model_fit_or_prediction_executed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure weight_reestimation_executed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure shap_or_pi_executed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure random_weights_executed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure paired_context_bootstrap_executed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure primary_or_reserve_seed_used",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure primary_factorial_authorized",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure closed_pilot_b_decision_or_thresholds_changed",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "post-closure descriptive_only",
+   "source": "results/pilot_b_fixed_weight_selection_diagnostic_v1/...json",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "B100 MAE_w",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.0013136927920894721",
+   "literal": "0.0013136928",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.0013136928' present in supp"
+  },
+  {
+   "name": "B100 TV_w",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.006568463960447361",
+   "literal": "0.0065684640",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.0065684640' present in supp"
+  },
+  {
+   "name": "B100 max |dw|",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.004653722307853714",
+   "literal": "0.0046537223",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.0046537223' present in supp"
+  },
+  {
+   "name": "B100 Spearman",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.9878787878787879",
+   "literal": "0.98787879",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.98787879' present in supp"
+  },
+  {
+   "name": "B100 max marginal moment diff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.009890793751681004",
+   "literal": "0.0098907938",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.0098907938' present in supp"
+  },
+  {
+   "name": "B100 max joint moment diff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.004181192591977356",
+   "literal": "0.0041811926",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.0041811926' present in supp"
+  },
+  {
+   "name": "B100 full-FIT total importance",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.06961866589808356",
+   "literal": "0.06961866590",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.06961866590' present in supp"
+  },
+  {
+   "name": "B100 B100 total importance",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.06992189186160186",
+   "literal": "0.06992189186",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.06992189186' present in supp"
+  },
+  {
+   "name": "B100 C1 full-FIT",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.09663437764001136",
+   "literal": "0.09663438",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.09663438' present in supp"
+  },
+  {
+   "name": "B100 C1 B100",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.09712037363747067",
+   "literal": "0.09712037",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.09712037' present in supp"
+  },
+  {
+   "name": "B100 C1 absdiff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.00048599599745931255",
+   "literal": "0.00048600",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.00048600' present in supp"
+  },
+  {
+   "name": "B100 C5 full-FIT",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.1488096670480456",
+   "literal": "0.14880967",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.14880967' present in supp"
+  },
+  {
+   "name": "B100 C5 B100",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.14667297308707883",
+   "literal": "0.14667297",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.14667297' present in supp"
+  },
+  {
+   "name": "B100 C5 absdiff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.0021366939609667734",
+   "literal": "0.00213669",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.00213669' present in supp"
+  },
+  {
+   "name": "B100 C8 full-FIT",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.247666930443595",
+   "literal": "0.24766693",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.24766693' present in supp"
+  },
+  {
+   "name": "B100 C8 B100",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.2523206527514487",
+   "literal": "0.25232065",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.25232065' present in supp"
+  },
+  {
+   "name": "B100 C8 absdiff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.004653722307853714",
+   "literal": "0.00465372",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.00465372' present in supp"
+  },
+  {
+   "name": "B100 C10 full-FIT",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.11459289673275234",
+   "literal": "0.11459290",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.11459290' present in supp"
+  },
+  {
+   "name": "B100 C10 B100",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.11141932386564912",
+   "literal": "0.11141932",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.11141932' present in supp"
+  },
+  {
+   "name": "B100 C10 absdiff",
+   "source": "results/oracle_b100_background_diagnostic_reference_v1/...json",
+   "frozen": "0.003173572867103222",
+   "literal": "0.00317357",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.00317357' present in supp"
+  },
+  {
+   "name": "XGBoost candidate id",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "45",
+   "literal": "Candidate 45",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal 'Candidate 45' present in supp"
+  },
+  {
+   "name": "XGBoost grouped-CV RMSE",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "0.017757058913365983",
+   "literal": "0.017757058913365983",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.017757058913365983' present in supp"
+  },
+  {
+   "name": "XGBoost n_estimators",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "600",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "XGBoost max_depth",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "2",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "XGBoost learning_rate",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "0.05",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "XGBoost subsample",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "0.8",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "XGBoost colsample_bytree",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "0.8",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "XGBoost min_child_weight",
+   "source": "results/xgboost_development_calibration_v1/selected_parameters.json",
+   "frozen": "5",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "TreeSHAP total importance",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.07006131011183041",
+   "literal": "0.07006131011183041",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.07006131011183041' present in supp"
+  },
+  {
+   "name": "TreeSHAP local-accuracy max error",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "6.450018720793871e-07",
+   "literal": "$6.45\\times10^{-7}$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$6.45\\\\times10^{-7}$' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C1",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.12485997021030092",
+   "literal": "0.124860",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.124860' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C2",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.11319433367400525",
+   "literal": "0.113194",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.113194' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C3",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.0694257676407179",
+   "literal": "0.069426",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.069426' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C4",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.025944586910523114",
+   "literal": "0.025945",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.025945' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C5",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.15516928343428107",
+   "literal": "0.155169",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.155169' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C6",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.07833893121868753",
+   "literal": "0.078339",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.078339' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C7",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.07162146085984178",
+   "literal": "0.071621",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.071621' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C8",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.26505866177998144",
+   "literal": "0.265059",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.265059' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C9",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.0207294535006672",
+   "literal": "0.020729",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.020729' present in supp"
+  },
+  {
+   "name": "dev SHAP weight C10",
+   "source": "results/treeshap_reference_development_v1/...json",
+   "frozen": "0.07565755077099383",
+   "literal": "0.075658",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.075658' present in supp"
+  },
+  {
+   "name": "CRITIC 21001 vector",
+   "source": "results/pilot_b_reference_v1/...json :: seed_results[21001].method_details",
+   "frozen": "'.079 & .075 & .101 & .093 & .150 & .099 & .097 & .111 & .084 & .111'",
+   "literal": ".079 & .075 & .101 & .093 & .150 & .099 & .097 & .111 & .084 & .111",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '.079 & .075 & .101 & .093 & .150 & .099 & .097 & .111 & .084 & .111' present in supp"
+  },
+  {
+   "name": "CRITIC 21001 argmax not C8/C10",
+   "source": "results/pilot_b_reference_v1/...json :: seed_results[21001].method_details",
+   "frozen": "'g_C5'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "Entropy 21001 vector",
+   "source": "results/pilot_b_reference_v1/...json :: seed_results[21001].method_details",
+   "frozen": "'.131 & .114 & .175 & .099 & .236 & .064 & .084 & .027 & .032 & .038'",
+   "literal": ".131 & .114 & .175 & .099 & .236 & .064 & .084 & .027 & .032 & .038",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '.131 & .114 & .175 & .099 & .236 & .064 & .084 & .027 & .032 & .038' present in supp"
+  },
+  {
+   "name": "Entropy 21001 argmax not C8/C10",
+   "source": "results/pilot_b_reference_v1/...json :: seed_results[21001].method_details",
+   "frozen": "'g_C5'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "OracleAttribution modal_top1_advantages_by_seed 21001",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_top1_advantages_by_seed 21002",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.03500000000000003",
+   "literal": "$0.035$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.035$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_top1_advantages_by_seed 21003",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.465",
+   "literal": "$-0.465$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.465$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_top1_advantages_by_seed 21004",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.009999999999999898",
+   "literal": "$-0.010$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.010$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_top1_advantages_by_seed 21005",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.38000000000000006",
+   "literal": "$-0.380$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.380$' present in supp"
+  },
+  {
+   "name": "SHAP modal_top1_advantages_by_seed 21001",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000$' present in supp"
+  },
+  {
+   "name": "SHAP modal_top1_advantages_by_seed 21002",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.030000000000000027",
+   "literal": "$0.030$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.030$' present in supp"
+  },
+  {
+   "name": "SHAP modal_top1_advantages_by_seed 21003",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.020000000000000018",
+   "literal": "$0.020$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.020$' present in supp"
+  },
+  {
+   "name": "SHAP modal_top1_advantages_by_seed 21004",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000$' present in supp"
+  },
+  {
+   "name": "SHAP modal_top1_advantages_by_seed 21005",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.03500000000000003",
+   "literal": "$-0.035$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.035$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_regret_advantages_by_seed 21001",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000000$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_regret_advantages_by_seed 21002",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0015376678070878474",
+   "literal": "$0.001538$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.001538$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_regret_advantages_by_seed 21003",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.14352184894548944",
+   "literal": "$-0.143522$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.143522$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_regret_advantages_by_seed 21004",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.002119339734971328",
+   "literal": "$-0.002119$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.002119$' present in supp"
+  },
+  {
+   "name": "OracleAttribution modal_regret_advantages_by_seed 21005",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.09032788774175793",
+   "literal": "$-0.090328$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.090328$' present in supp"
+  },
+  {
+   "name": "SHAP modal_regret_advantages_by_seed 21001",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000000$' present in supp"
+  },
+  {
+   "name": "SHAP modal_regret_advantages_by_seed 21002",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0030640655605804618",
+   "literal": "$0.003064$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.003064$' present in supp"
+  },
+  {
+   "name": "SHAP modal_regret_advantages_by_seed 21003",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.006717039504659544",
+   "literal": "$0.006717$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.006717$' present in supp"
+  },
+  {
+   "name": "SHAP modal_regret_advantages_by_seed 21004",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "0.0",
+   "literal": "$0.000000$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$0.000000$' present in supp"
+  },
+  {
+   "name": "SHAP modal_regret_advantages_by_seed 21005",
+   "source": "results/pilot_b_reference_v1/...json :: per-world advantages",
+   "frozen": "-0.002986483727104427",
+   "literal": "$-0.002986$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$-0.002986$' present in supp"
+  },
+  {
+   "name": "D3 dispersion C8",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.1228734926083942",
+   "literal": "0.122873493",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.122873493' present in supp"
+  },
+  {
+   "name": "D3 dispersion C10",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.1194032889463656",
+   "literal": "0.119403289",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.119403289' present in supp"
+  },
+  {
+   "name": "D3 dispersion C5",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.1101142659912216",
+   "literal": "0.110114266",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.110114266' present in supp"
+  },
+  {
+   "name": "D3 dispersion C2",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.094820282535257",
+   "literal": "0.094820283",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.094820283' present in supp"
+  },
+  {
+   "name": "D3 dispersion C3",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0904827413347779",
+   "literal": "0.090482741",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.090482741' present in supp"
+  },
+  {
+   "name": "D3 dispersion C4",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0884529714929842",
+   "literal": "0.088452971",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.088452971' present in supp"
+  },
+  {
+   "name": "D3 dispersion C1",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0871350744775041",
+   "literal": "0.087135074",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.087135074' present in supp"
+  },
+  {
+   "name": "D3 dispersion C7",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0787067036970875",
+   "literal": "0.078706704",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.078706704' present in supp"
+  },
+  {
+   "name": "D3 dispersion C6",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0495913359538847",
+   "literal": "0.049591336",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.049591336' present in supp"
+  },
+  {
+   "name": "D3 dispersion C9",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "0.0282668866085579",
+   "literal": "0.028266887",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.028266887' present in supp"
+  },
+  {
+   "name": "D3 descending order",
+   "source": "results/d3_alpha_dispersion_execution_v1/freeze_summary.json",
+   "frozen": "['C8', 'C10', 'C5', 'C2', 'C3', 'C4', 'C1', 'C7', 'C6', 'C9']",
+   "literal": "C_8>C_{10}>C_5>C_2>C_3>C_4>C_1>C_7>C_6>C_9",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal 'C_8>C_{10}>C_5>C_2>C_3>C_4>C_1>C_7>C_6>C_9' present in supp"
+  },
+  {
+   "name": "numerical null NSV threshold",
+   "source": "docs/v2_2_d2_8_numerical_null_results.md (frozen record)",
+   "frozen": "3.2506084454037334e-08",
+   "literal": "3.2506084454\\times10^{-8}",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '3.2506084454\\\\times10^{-8}' present in supp"
+  },
+  {
+   "name": "D2.7 C1 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.185606069637",
+   "literal": "0.185606",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.185606' present in supp"
+  },
+  {
+   "name": "D2.7 C1 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.101684713011",
+   "literal": "0.101685",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.101685' present in supp"
+  },
+  {
+   "name": "D2.7 C2 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.107107049866",
+   "literal": "0.107107",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.107107' present in supp"
+  },
+  {
+   "name": "D2.7 C2 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.069436369626",
+   "literal": "0.069436",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.069436' present in supp"
+  },
+  {
+   "name": "D2.7 C3 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.163029400527",
+   "literal": "0.163029",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.163029' present in supp"
+  },
+  {
+   "name": "D2.7 C3 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.064900129844",
+   "literal": "0.064900",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.064900' present in supp"
+  },
+  {
+   "name": "D2.7 C4 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.115796231973",
+   "literal": "0.115796",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.115796' present in supp"
+  },
+  {
+   "name": "D2.7 C4 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.069422647369",
+   "literal": "0.069423",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.069423' present in supp"
+  },
+  {
+   "name": "D2.7 C5 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.127963802848",
+   "literal": "0.127964",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.127964' present in supp"
+  },
+  {
+   "name": "D2.7 C5 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.073680744007",
+   "literal": "0.073681",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.073681' present in supp"
+  },
+  {
+   "name": "D2.7 C6 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.194899307365",
+   "literal": "0.194899",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.194899' present in supp"
+  },
+  {
+   "name": "D2.7 C6 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.129935248436",
+   "literal": "0.129935",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.129935' present in supp"
+  },
+  {
+   "name": "D2.7 C7 LRV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.144080052499",
+   "literal": "0.144080",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.144080' present in supp"
+  },
+  {
+   "name": "D2.7 C7 NSV",
+   "source": "docs/v2_2_d2_7_calibration_results.md (frozen record)",
+   "frozen": "0.073091969211",
+   "literal": "0.073092",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '0.073092' present in supp"
+  },
+  {
+   "name": "eligible universe 54 = 44 + 10",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "(54, 44, 10)",
+   "literal": "$44+10=54$",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '$44+10=54$' present in supp"
+  },
+  {
+   "name": "54 corrected-eligible candidates in main",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "54",
+   "literal": "$54$ corrected-eligible candidates",
+   "where": [
+    "main"
+   ],
+   "ok": true,
+   "detail": "literal '$54$ corrected-eligible candidates' present in main"
+  },
+  {
+   "name": "retention corrected_eligibility_nonunique",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "True",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention ranking_or_reoptimization_performed",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention SHAP_used_for_selection",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention MCDM_used_for_selection",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention D29_LRV_NSV_SRE_used_for_selection",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention primary_11001_11030_used",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "retention reserve_30001_30005_used",
+   "source": "results/production_generator_retention_resolution_v1/audit_summary.json",
+   "frozen": "False",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  },
+  {
+   "name": "digest Oracle B100 result",
+   "source": "recomputed SHA-256 of the frozen artefacts",
+   "frozen": "'7f9864bd...439c9fb0'",
+   "literal": "\\texttt{7f9864bd...439c9fb0}",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '\\\\texttt{7f9864bd...439c9fb0}' present in supp"
+  },
+  {
+   "name": "digest Pilot-B result",
+   "source": "recomputed SHA-256 of the frozen artefacts",
+   "frozen": "'05072857...9f787a88'",
+   "literal": "\\texttt{05072857...9f787a88}",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '\\\\texttt{05072857...9f787a88}' present in supp"
+  },
+  {
+   "name": "digest Fixed-weight selection-map result",
+   "source": "recomputed SHA-256 of the frozen artefacts",
+   "frozen": "'a1f293b6...d7e20f4e'",
+   "literal": "\\texttt{a1f293b6...d7e20f4e}",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '\\\\texttt{a1f293b6...d7e20f4e}' present in supp"
+  },
+  {
+   "name": "digest TreeSHAP background identities",
+   "source": "frozen field background_identity_sha256",
+   "frozen": "'3184c675...1646eda1'",
+   "literal": "\\texttt{3184c675...1646eda1}",
+   "where": [
+    "supp"
+   ],
+   "ok": true,
+   "detail": "literal '\\\\texttt{3184c675...1646eda1}' present in supp"
+  },
+  {
+   "name": "post-closure references the frozen Pilot-B digest",
+   "source": "selection diagnostic :: frozen_pilot_b_result_sha256",
+   "frozen": "'0507285715b0f21d32744da543cd769fc269e12084b6c6819a863fca9f787a88'",
+   "literal": null,
+   "where": [],
+   "ok": true,
+   "detail": "frozen value recorded; no manuscript literal claimed"
+  }
+ ]
+}
