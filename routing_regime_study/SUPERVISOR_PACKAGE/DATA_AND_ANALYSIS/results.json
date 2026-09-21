@@ -1,0 +1,233 @@
+{
+ "n_runs": 432,
+ "n_contexts": 24,
+ "portfolio": [
+  "SP",
+  "DTT",
+  "TECO10"
+ ],
+ "ref_time": 542.8443345247481,
+ "ref_co2": 1263.5148273965992,
+ "leakage_audit": {
+  "features_are_pre_decision": [
+   "demand(scheduled)",
+   "restriction location(planned)",
+   "restriction speed ratio(planned)",
+   "signal regime(controller plan)"
+  ],
+  "no_outcome_in_features": true,
+  "scales_fit_on_training_only": true,
+  "model_refit_per_fold": true,
+  "seeds_grouped_with_context": true,
+  "hyperparameters_fixed_a_priori": "depth 3, min_samples_leaf 2 (pre-registered depth3/leaf8 rescaled: 8/84 training contexts -> 2/23)"
+ },
+ "pred_mae_time": 44.632569962700266,
+ "pred_rmse_time": 79.72881358090093,
+ "pred_mae_co2": 82.38177268312174,
+ "pred_rmse_co2": 122.09228173016567,
+ "fixed": {
+  "SP": {
+   "mean": 0.3182479299845482,
+   "max": 1.113682867722139,
+   "zero": 11,
+   "near": 11
+  },
+  "DTT": {
+   "mean": 0.03018495176809767,
+   "max": 0.13175666593740964,
+   "zero": 10,
+   "near": 11
+  },
+  "TECO10": {
+   "mean": 0.2075695471853653,
+   "max": 1.0139358265164677,
+   "zero": 9,
+   "near": 9
+  }
+ },
+ "adaptive_loco": {
+  "mean": 0.006058934383805105,
+  "max": 0.11544780838074353,
+  "zero": 21,
+  "near": 22
+ },
+ "hindsight": {
+  "mean": 0.0,
+  "max": 0.0,
+  "zero": 24,
+  "near": 24
+ },
+ "headroom_mean": 0.03018495176809767,
+ "captured_pct": 79.92730142372213,
+ "chosen_loco": {
+  "D001": "SP",
+  "D002": "SP",
+  "D003": "SP",
+  "D004": "SP",
+  "D005": "SP",
+  "D006": "SP",
+  "D007": "SP",
+  "D008": "SP",
+  "D009": "DTT",
+  "D010": "TECO10",
+  "D011": "DTT",
+  "D012": "TECO10",
+  "D013": "DTT",
+  "D014": "SP",
+  "D015": "DTT",
+  "D016": "TECO10",
+  "D017": "DTT",
+  "D018": "DTT",
+  "D019": "DTT",
+  "D020": "DTT",
+  "D021": "DTT",
+  "D022": "DTT",
+  "D023": "DTT",
+  "D024": "DTT"
+ },
+ "extrapolation": {
+  "720": {
+   "cart": 0.024561650085237724,
+   "dtt": 0.0342216650517166,
+   "chosen": [
+    "DTT",
+    "TECO10"
+   ]
+  },
+  "1200": {
+   "cart": 0.05633319025257641,
+   "dtt": 0.05633319025257641,
+   "chosen": [
+    "DTT"
+   ]
+  },
+  "1680": {
+   "cart": 0.14856084664314717,
+   "dtt": 0.0,
+   "chosen": [
+    "DTT",
+    "TECO10"
+   ]
+  }
+ },
+ "extrap_pooled_cart": 0.07648522899365377,
+ "extrap_pooled_dtt": 0.03018495176809767,
+ "extrap_captured_pct": -153.38860761238863,
+ "transition": {
+  "Balanced|None": {
+   "margins": [
+    -0.055097117346800895,
+    0.4203769314421386,
+    1.0139358265164677
+   ],
+   "bracket": [
+    720,
+    1200
+   ]
+  },
+  "Balanced|U": {
+   "margins": [
+    -0.051482650915995576,
+    0.4381848140996072,
+    0.9418408773530573
+   ],
+   "bracket": [
+    720,
+    1200
+   ]
+  },
+  "Balanced|C": {
+   "margins": [
+    -0.01947868129058361,
+    0.8055589594708575,
+    1.113682867722139
+   ],
+   "bracket": [
+    720,
+    1200
+   ]
+  },
+  "Balanced|L": {
+   "margins": [
+    -0.05622078660653562,
+    0.4195698475031021,
+    1.0134208931536657
+   ],
+   "bracket": [
+    720,
+    1200
+   ]
+  },
+  "Arterial|None": {
+   "margins": [
+    -0.01837634243532893,
+    -0.12687560288956634,
+    0.3248541636194302
+   ],
+   "bracket": [
+    1200,
+    1680
+   ]
+  },
+  "Arterial|U": {
+   "margins": [
+    -0.019833534971980815,
+    -0.13175666593740964,
+    0.31654827708806565
+   ],
+   "bracket": [
+    1200,
+    1680
+   ]
+  },
+  "Arterial|C": {
+   "margins": [
+    -0.042302735548115145,
+    0.04879355285731646,
+    0.38933724857069385
+   ],
+   "bracket": [
+    720,
+    1200
+   ]
+  },
+  "Arterial|L": {
+   "margins": [
+    -0.01098147129839222,
+    -0.09541238083962922,
+    0.29522518787860985
+   ],
+   "bracket": [
+    1200,
+    1680
+   ]
+  }
+ },
+ "worst_policy_regret": {
+  "720": 0.0342216650517166,
+  "1200": 0.32289370342420415,
+  "1680": 0.6761056677377661
+ },
+ "seed_stable_winner": 20,
+ "seed_unstable_ctx": [
+  "D005",
+  "D009",
+  "D011",
+  "D015"
+ ],
+ "seed_stable_margin_sign": 22,
+ "seed_margin_flip_ctx": [
+  "D005",
+  "D014"
+ ],
+ "eco_identical_to_sp": 21,
+ "mcdm_identical_across_weights": true,
+ "mcdm_weights_tested": [
+  0.0,
+  0.25,
+  0.5,
+  0.75,
+  1.0
+ ],
+ "hindsight_winner_identical_across_weights": false
+}

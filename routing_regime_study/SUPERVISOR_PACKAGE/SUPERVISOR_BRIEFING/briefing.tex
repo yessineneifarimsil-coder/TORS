@@ -1,0 +1,69 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+\usepackage[margin=17mm]{geometry}
+\usepackage{lmodern,microtype,booktabs,xcolor,amsmath}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\setlength{\parskip}{3pt}\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\newcommand{\CO}{CO\textsubscript{2}}
+\begin{document}
+{\large\bfseries Supervisor briefing --- routing-policy selection study}\\[2pt]
+{\small 21 September 2026 \quad$\cdot$\quad What changed, why, and what we can now claim}
+
+\vspace{4pt}\hrule\vspace{6pt}
+
+\textbf{1. The problem we set out to solve.}
+When should an intelligent transportation system use one established routing policy rather than another, and can that choice be learned and evaluated as a \emph{decision} rather than merely predicted?
+
+\textbf{2. What the earlier evidence said.}
+The 270-run pilot found dynamic travel-time routing (DTT) best on both criteria in all 30 contexts --- zero adaptive headroom, no study. The 432-run development matrix on a richer 12-signal network was built to create headroom. It did, but the \emph{environmental} part of the design failed: the eco-routing estimator passed aggregate prediction (WAPE 14.71\%) yet failed route ordering (21.62\% selection loss, best route found in 3 of 8 probe panels), and ECO turned out to be outcome-identical to shortest-path routing in 21 of 24 contexts. The earlier conclusion was that the portfolio was insufficient and the study should be withheld.
+
+\textbf{3. What changed, and why.}
+That conclusion was too broad. It correctly diagnosed the \emph{environmental} axis as degenerate, but the \emph{policy-selection} problem was intact underneath it. Re-analysing the same 432 runs showed shortest-path routing preferred in all eight low-demand contexts and DTT preferred in all eight high-demand contexts --- a genuine, strong context-to-policy relationship that nobody had looked for, because attention was on the time--\CO\ trade-off that does not exist here. We therefore dropped ECO from the portfolio on evidence, kept it as an audited negative control, and rebuilt the study around demand-regime structure. \textbf{No new simulations were run and no existing result was discarded or reinterpreted.}
+
+\textbf{4. What we can now claim, from completed evidence.}
+\begin{itemize}\itemsep1pt
+\item \textbf{Policy preference is regime-structured.} The preference between the two main policies reverses with demand, monotonically, in all eight restriction/signal cells.
+\item \textbf{The signal regime moves the reversal.} Under balanced signal timing it occurs between 720 and 1200\,veh/h; under arterial-priority timing, between 1200 and 1680\,veh/h. Signal policy, not demand alone, sets where adaptation starts to pay.
+\item \textbf{Adaptation is worth something and is recoverable.} Available headroom against the best fixed policy is 0.03018 mean regret units. A depth-3 regression tree, evaluated leave-one-context-out with scales and model refit per fold, recovers \textbf{79.9\%} of it (regret 0.00606) and is optimal in 21 of 24 held-out contexts.
+\item \textbf{There is a hard boundary.} Hold out an entire demand level and the selector becomes \emph{worse} than the fixed policy (0.07649 vs 0.03018). The requirement is regime coverage, not model capacity --- a single split on demand already captures 53\%.
+\end{itemize}
+
+\textbf{5. The two negative controls we kept.}
+ECO was removed from the portfolio because the environment gave it no independent environmental decision dimension --- this is reported, not hidden. The multi-criteria preference layer is nearly inert here: time and \CO\ correlate at 0.982, and across the full weight range from pure-time to pure-emissions \emph{not one} of the 24 selector decisions changes. Both controls are what stop the 79.9\% figure being over-read as a rich multi-objective result.
+
+\textbf{6. What we deliberately did not do.}
+We did not repair the emissions observer (not needed once ECO left the portfolio), did not rebuild the network, did not run the planned 2{,}800-run experiment, and did not fit any model more complex than a shallow tree. We also did not claim novelty: a targeted literature audit found demand-dependent routing benefit already established for re-routing decisions, so the paper states differences from named prior studies rather than asserting a first.
+
+\textbf{7. The one open item.}
+The demand grid is 480\,veh/h coarse, so the reversal is \emph{bracketed, not localised}. Localising it needs two extra demand levels (960 and 1440\,veh/h) over the existing cells: \textbf{144 runs, about 1.5 minutes of compute}. This was designed and scripted but \textbf{not run}, because the SUMO network and configuration files were not in the material supplied --- a reconstructed network would not be comparable with the 432 completed runs. The paper reports brackets and makes no threshold estimate, so nothing in it depends on this experiment.
+
+\textbf{8. Contribution statement.}
+An empirical characterisation of demand- and signal-regime-dependent routing-policy preference in a controlled microsimulation; quantification of the decision headroom that policy switching creates; a held-out, decision-focused evaluation showing an interpretable selector recovers most of that headroom; and identification of an extrapolation boundary beyond which adaptive selection is harmful. No new routing algorithm, no new multi-criteria method, no new learning algorithm.
+
+\vspace{4pt}\hrule\vspace{4pt}
+{\large\bfseries Anticipated questions}\vspace{2pt}
+
+\textbf{Why does SP win at low demand?} Because its structural advantage is not offset. DTT's routes are about 8\% longer, but at 720\,veh/h both policies achieve nearly the same speed (37.80 vs 38.43\,km/h) and nearly the same queueing (176 vs 170 stopped veh-s per vehicle). The detour buys almost no congestion relief, so the shorter route wins on time \emph{and} emissions at once.
+
+\textbf{Why does DTT win at high demand?} Because the shortest corridor degrades faster than the alternatives. From 720 to 1680\,veh/h, SP's mean speed falls $51.6\%$ (37.80 to 18.31\,km/h) against DTT's $38.1\%$, and SP's emission intensity rises to 590.7\,g/km against DTT's 423.2. The congestion penalty overtakes the distance penalty.
+
+\textbf{What underlies the transition?} A fixed cost crossing a growing one. The distance penalty is essentially constant across regimes ($-250$, $-288$, $-277$\,m); the congestion penalty grows from $-17.9$\,s to $+113.7$\,s. The margin flips where the second exceeds the first. We report this as a consistent decomposition, not an identified cause --- the runs record cohort means, not per-signal exposure.
+
+\textbf{Why does the signal regime move it?} Observationally it does: balanced timing crosses in $(720,1200]$ in all four restriction cells, arterial priority in $(1200,1680]$ in three of four --- a shift of at least one grid step (480\,veh/h), stable across all three seeds in seven of eight cells. The green split changes the delay on the competing corridors and hence their relative attractiveness, which is consistent with the observation, but we did not run a mechanism-separating condition and so claim no causal effect.
+
+\textbf{What exactly is 79.9\%?} The fraction of \emph{available decision headroom} captured relative to the best fixed policy: of the gap between fixing DTT (0.03018 mean regret) and the retrospective benchmark (0), the selector closes about four fifths (to 0.00606). It is \emph{not} a 79.9\% improvement in any physical quantity. Physically it is 13.0\,s and 30.7\,g per vehicle on average, or 22.3\,s and 52.7\,g over the 14 contexts where DTT is not already optimal.
+
+\textbf{Where does the selector fail?} Only in the transition band. It attains zero regret in all eight low-demand and all eight high-demand contexts, and carries all residual regret (0.01818) at 1200\,veh/h, in three contexts. Its decision is optimal in 21 of 24 held-out contexts.
+
+\textbf{Is it just a demand classifier?} Largely, yes --- and we say so. All figures here are \emph{headroom capture}, the same metric throughout. A single split on demand captures $53.1\%$. Adding the signal split (depth 2) captures $52.8\%$, i.e.\ gains nothing. The rise to $79.9\%$ comes at depth 3, from a \emph{second demand split} at 960\,veh/h separating low-demand from transition contexts. Removing the signal feature entirely at depth 3 still gives $72.9\%$, so the signalisation plan is worth about $7$ percentage points --- real, but secondary to demand. The model's $25.4\%$ ``feature importance'' for signal regime is a variance-reduction share in the regression, not a share of recovered decision value, and the two should not be equated. Restriction location is never used at all.
+
+\textbf{Why not always use DTT?} Because DTT is not optimal in 14 of the 24 contexts, and all of the headroom sits at low and transition demand ($37.8\%$ and $62.2\%$ of the total). At high demand DTT \emph{is} optimal everywhere, so there adaptation wins nothing --- the risk there is using the wrong \emph{fixed} policy, since fixed SP costs 0.67611. Conversely, above the trained demand range a fixed DTT is the safer choice: our own selector is worse than it there (0.14856 vs 0).
+
+\textbf{What does MCDM contribute?} Formally it defines ``preferred''; empirically, in this benchmark, it changes nothing. Sweeping the time/emissions weight over 21 values from 0 to 1, SP remains best in every low-demand context and DTT in every high-demand context, and all 24 selector decisions are unchanged. That is a useful negative result --- it shows the regime pattern is not an artefact of our weight choice --- and it is why we did not add further MCDM methods to two criteria correlated at 0.982.
+
+\textbf{What is genuinely new here?} Not context-aware routing, not learned selection, not multi-criteria evaluation --- all established, and cited as such. What this experiment adds, on one benchmark: the demand bracket in which the preference between two established pre-trip policies reverses; the observed displacement of that bracket by signal regime; the finding that all decision headroom lies at low and transition demand and none at high demand; and an explicit above-support boundary where adaptive selection becomes worse than not adapting.
+
+\vspace{3pt}\hrule\vspace{4pt}
+{\small\textbf{Status:} manuscript, figures, tables, bibliography and analysis scripts complete; every reported number regenerates from the exported run table. Outstanding decisions for you: conference template/page limit (none was supplied --- currently generic A4) and the author block.}
+\end{document}
