@@ -108,7 +108,7 @@ cm = R["complementarity"]
 n = cm["n_contexts"]
 rows = []
 for p in K.POLICIES:
-    rows.append(f"{p} & {cm['winner_counts_all'].get(p,0)} & "
+    rows.append(f"{p} & {R['G1_confirmatory']['winner_counts_all'].get(p,0)} & "
                 f"{R['G1_confirmatory']['winner_counts_resolved'].get(p,0)} & "
                 f"{cm['pareto_membership'][p]} & "
                 f"{pc(cm['pareto_membership'][p]/n)}\\\\")

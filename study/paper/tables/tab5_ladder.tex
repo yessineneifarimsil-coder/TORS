@@ -1,0 +1,22 @@
+\begin{table}[t]
+\caption{Decision quality under leave-one-context-out evaluation. Regret is in
+seconds of system mean journey time per vehicle. ``Within noise'' is the share
+of contexts whose regret falls below that context's own seed noise floor.}
+\label{tab:ladder}
+\centering\small
+\begin{tabular}{@{}l r r r r r r@{}}
+\toprule
+& \multicolumn{4}{c}{Decision regret (s/veh)} & within & gap closed\\
+\cmidrule(lr){2-5}
+& mean & median & max & CVaR$_{90}$ & noise & vs.\ SBS\\
+\midrule
+B0 ~~best fixed policy (SBS) & 0.42 & 0.08 & 6.1 & 2.6 & 98\% & ---\\
+B1 ~~mechanistic rule & 0.49 & 0.00 & 6.6 & 3.5 & 95\% & -0.151\\
+B2 ~~decision tree, depth 3 & 0.69 & 0.02 & 8.0 & 4.3 & 93\% & -0.638\\
+B3 ~~multinomial logistic & 0.14 & 0.00 & 2.1 & 1.0 & 100\% & 0.676\\
+B4 ~~GBDT advantage selector & 0.32 & 0.00 & 6.9 & 2.5 & 93\% & 0.247\\
+B5 ~~selective GBDT with abstention & 0.42 & 0.07 & 6.1 & 2.6 & 98\% & 0.011\\
+~~~~~~VBS (retrospective, not deployable) & 0.00 & 0.00 & 0.0 & 0.0 & 100\% & 1.000\\
+\bottomrule
+\end{tabular}
+\end{table}

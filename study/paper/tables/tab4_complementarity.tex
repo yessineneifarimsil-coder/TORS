@@ -1,0 +1,31 @@
+\begin{table}[t]
+\caption{Policy complementarity over 142 contexts. A win is
+\emph{resolved} when the paired seed difference against the runner-up exceeds
+twice its standard error. Pareto membership is over all three criteria.}
+\label{tab:complementarity}
+\centering\small
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+& \multicolumn{2}{c}{Best on journey time} & \multicolumn{2}{c}{Non-dominated}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& any margin & resolved & contexts & share\\
+\midrule
+P1 & 14 & 6 & 14 & 9.9\%\\
+P2 & 42 & 0 & 74 & 52.1\%\\
+P3 & 41 & 5 & 114 & 80.3\%\\
+P4 & 45 & 5 & 133 & 93.7\%\\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Pairwise differences in system mean journey time
+(s/veh), positive means the first policy is slower}}\\
+\midrule
+Pair & mean & 5--95\% range & outcome-identical\\
+\midrule
+P1--P2 & +46.28 & [-1.4, +205.1] & 0.0\%\\
+P1--P3 & +46.65 & [-1.6, +205.2] & 0.0\%\\
+P1--P4 & +46.45 & [-1.4, +205.1] & 0.0\%\\
+P2--P3 & +0.38 & [-0.5, +2.8] & 45.1\%\\
+P2--P4 & +0.17 & [-0.6, +0.9] & 50.0\%\\
+P3--P4 & -0.21 & [-2.4, +0.8] & 38.0\%\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -22,6 +22,29 @@ def load(path):
     return df, bad
 
 
+def analysable(df, need_seeds=None, policies=None, completion_min=0.98):
+    """The single definition of an analysable context, used by every consumer.
+
+    A context is analysable when all of its runs are valid (completion above the
+    declared threshold, no teleports) AND every policy has the full seed set.
+    Returns (filtered_df, report)."""
+    policies = policies or POLICIES
+    inval = df[(df.completion < completion_min) | (df.teleports > 0)]
+    bad = sorted(inval.ctx_key.unique())
+    out = df[~df.ctx_key.isin(bad)]
+    cnt = out.groupby(["ctx_key", "policy"]).size().unstack(fill_value=0)
+    if need_seeds is None:
+        need_seeds = int(cnt.to_numpy().max()) if len(cnt) else 0
+    ok = cnt.index[(cnt.reindex(columns=policies, fill_value=0)
+                    >= need_seeds).all(axis=1)]
+    rep = dict(n_invalid_runs=int(len(inval)),
+               n_invalid_contexts=len(bad),
+               n_incomplete_contexts=int(out.ctx_key.nunique() - len(ok)),
+               need_seeds=int(need_seeds),
+               excluded_contexts=bad)
+    return out[out.ctx_key.isin(set(ok))], rep
+
+
 def ctx_key(r):
     return (f"d{int(r['demand'])}_g{float(r['gc']):.2f}_p{float(r['penetration']):.1f}"
             f"_l{int(r['lag'])}_i{int(r['incident'])}_a{int(r['alt'])}")

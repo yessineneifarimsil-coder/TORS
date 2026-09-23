@@ -37,28 +37,17 @@ R["campaign"] = dict(
     factor_levels={f: sorted(df[f].unique().tolist()) for f in K.FACTORS})
 
 # ------------------------------------------------------- 2. validity audit
-inval = df[(df.completion < 0.98) | (df.teleports > 0)]
-bad_ctx = sorted(inval.ctx_key.unique())
-R["validity"] = dict(
-    n_invalid_runs=int(len(inval)),
-    n_invalid_contexts=len(bad_ctx),
-    min_completion=float(df.completion.min()),
-    mean_completion=float(df.completion.mean()),
-    total_teleports=int(df.teleports.sum()),
-    excluded_contexts=bad_ctx[:50],
-    rule="completion >= 0.98 and teleports == 0, declared in the frozen spec")
-df = df[~df.ctx_key.isin(bad_ctx)]
-
-# completeness: a context is analysable only with all policies present
-cnt = df.groupby(["ctx_key", "policy"]).size().unstack(fill_value=0)
 need = max(R["campaign"]["seeds_per_cell"])
-complete = cnt.index[(cnt.reindex(columns=K.POLICIES, fill_value=0) >= need).all(axis=1)]
-R["validity"]["n_incomplete_contexts"] = int(df.ctx_key.nunique() - len(complete))
-R["validity"]["completeness_rule"] = (
-    f"a context is analysed only if all {len(K.POLICIES)} policies have "
-    f"{need} valid seeds")
-df = df[df.ctx_key.isin(set(complete))]
-R["validity"]["n_contexts_analysed"] = int(df.ctx_key.nunique())
+raw_min, raw_mean = float(df.completion.min()), float(df.completion.mean())
+raw_tele = int(df.teleports.sum())
+df, vrep = K.analysable(df, need_seeds=need)
+R["validity"] = dict(
+    min_completion=raw_min, mean_completion=raw_mean, total_teleports=raw_tele,
+    rule="completion >= 0.98 and teleports == 0, declared in the frozen spec",
+    completeness_rule=(f"a context is analysed only if all {len(K.POLICIES)} "
+                       f"policies have {need} valid seeds"),
+    n_contexts_analysed=int(df.ctx_key.nunique()), **vrep)
+R["validity"]["excluded_contexts"] = vrep["excluded_contexts"][:50]
 
 ct = K.context_table(df)
 W = K.winners(ct)

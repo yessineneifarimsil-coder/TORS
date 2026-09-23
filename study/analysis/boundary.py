@@ -93,7 +93,7 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "plan"
     df, _ = K.load(os.path.join(RES, "main.jsonl"))
     R = json.load(open(os.path.join(RES, "results.json")))
-    df = df[~df.ctx_key.isin(set(R["validity"]["excluded_contexts"]))]
+    df, _ = K.analysable(df, need_seeds=R["validity"]["need_seeds"])
     ct = K.context_table(df)
     if mode == "plan":
         bs, jobs = plan(ct, os.path.join(RES, "boundary_jobs.json"))

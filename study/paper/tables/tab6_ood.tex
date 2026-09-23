@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{Distribution shift, reported separately by shift type. Regret in
+seconds of system mean journey time per vehicle on the held-out regime. The
+support column is the share of held-out contexts the support gate flagged as
+outside the training envelope.}
+\label{tab:ood}
+\centering\small
+\begin{tabular}{@{}l l l r r r r r r@{}}
+\toprule
+& Held out & Shift type & B0 & B1 & B4 & B5 & flagged & abstained\\
+\midrule
+O2 & demand = 1200.0 & extrapolation & 0.53 & 0.63 & 0.53 & 0.53 & 100\% & 0\%\\
+O4 & lag = 300.0 & extrapolation & 0.49 & 0.42 & 0.69 & 0.49 & 100\% & 63\%\\
+O5 & penetration = 0.8 & extrapolation & 1.56 & 1.01 & 0.38 & 1.56 & 100\% & 54\%\\
+O6 & gc = 0.65 & extrapolation & 0.95 & 1.67 & 0.68 & 0.95 & 100\% & 86\%\\
+O7 & incident = 1.0 & covariate + concept shift & 0.21 & 1.62 & 5.57 & 0.21 & 0\% & 64\%\\
+\bottomrule
+\end{tabular}
+\end{table}

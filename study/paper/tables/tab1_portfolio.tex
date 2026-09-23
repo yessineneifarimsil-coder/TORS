@@ -1,0 +1,26 @@
+\begin{table}[t]
+\caption{The routing-policy portfolio. Every policy is an established family;
+none is introduced here. The last column states a hypothesis fixed before the
+experiment.}
+\label{tab:portfolio}
+\centering\small
+\begin{tabularx}{\textwidth}{@{}l l l X X@{}}
+\toprule
+& Objective & Information used & Intended strength & Hypothesised failure mode\\
+\midrule
+P1 & $\min_p L(p)$ & none &
+  needs no infrastructure and cannot oscillate &
+  loads the shortest corridor past its capacity\\[2pt]
+P2 & $\min_p \hat\mu_p(t-\Delta)$ & lagged link travel times &
+  follows congestion as it forms &
+  moves the whole guided cohort together on stale information\\[2pt]
+P3 & $\min_{p\in\mathcal{A}} \max_{e\in p}\rho_e$ &
+  lagged travel times and flows, plus its own recent assignments &
+  spreads load when capacity is unevenly distributed &
+  diverts to longer corridors when no capacity shortage exists\\[2pt]
+P4 & $\min_p [\hat\mu_p + \lambda\hat\sigma_p]$ & lagged link travel times &
+  avoids corridors whose travel time is volatile &
+  pays a detour for variance that carries no risk\\
+\bottomrule
+\end{tabularx}
+\end{table}

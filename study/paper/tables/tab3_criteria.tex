@@ -1,0 +1,23 @@
+\begin{table}[t]
+\caption{The three decision criteria. All are measured over the same cohort:
+every vehicle in the network, guided or not, whose intended departure falls in
+the measurement window.}
+\label{tab:criteria}
+\centering\small
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+& Criterion & Measurement\\
+\midrule
+C1 & Mean journey time (s/veh) &
+  mean over the cohort of insertion delay plus in-network time. Insertion delay
+  is included: a policy that oversaturates the network produces vehicles that
+  cannot enter it, and excluding their wait would credit the policy for the
+  queue it caused.\\[2pt]
+C2 & \CO{} emissions (kg) &
+  total \CO{} over the cohort, HBEFA3 passenger-car petrol Euro-4 class.\\[2pt]
+C3 & Total stopped delay (veh\,s) &
+  total time spent below 0.1\,m/s --- the time vehicles spend \emph{stationary}
+  in queues, as distinct from the time they spend travelling slowly.\\
+\bottomrule
+\end{tabularx}
+\end{table}

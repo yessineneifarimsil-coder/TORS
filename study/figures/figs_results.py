@@ -14,8 +14,7 @@ import policy_selectors as S
 
 RES = json.load(open(os.path.join(HERE, "..", "results", "results.json")))
 df, _ = K.load(os.path.join(HERE, "..", "results", "main.jsonl"))
-bad = set(RES["validity"]["excluded_contexts"])
-df = df[~df.ctx_key.isin(bad)]
+df, _ = K.analysable(df, need_seeds=RES["validity"]["need_seeds"])
 CT = K.context_table(df)
 W = K.winners(CT)
 PAR = K.pareto_by_context(CT)
@@ -23,16 +22,17 @@ PAR = K.pareto_by_context(CT)
 
 # ------------------------------------------------------------------ fig 4
 def fig4():
-    fig = plt.figure(figsize=(6.6, 4.1))
-    gs = fig.add_gridspec(2, 3, height_ratios=[1.0, 0.78], hspace=0.62, wspace=0.28)
+    fig = plt.figure(figsize=(6.6, 4.35))
+    gs = fig.add_gridspec(2, 3, height_ratios=[1.0, 0.80], hspace=0.78, wspace=0.34)
     pens = sorted(CT.penetration.unique())
     for j, pen in enumerate(pens):
         ax = fig.add_subplot(gs[0, j])
         sub = CT[CT.penetration == pen]
         for p in K.POLICIES:
             g = sub[sub.policy == p].groupby("demand")["C1"].mean()
-            ax.plot(g.index, g.values, ST.LS[p], color=ST.POL[p], marker=ST.MARK[p],
-                    ms=3.4, lw=1.3, label=ST.POLNAME[p], zorder=3)
+            ax.plot(g.index, g.values, ls=ST.LS[p], color=ST.POL[p],
+                    marker=ST.MARK[p], ms=3.4, lw=1.3, label=ST.POLNAME[p],
+                    zorder=3)
         ax.set_title(f"penetration {pen:.0%}", pad=4, color=ST.INK2)
         ax.set_xticks([1200, 2400, 3600])
         ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True); ST.despine(ax)
@@ -55,8 +55,10 @@ def fig4():
         ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
                 color=ST.INK2)
     ax.set_xticks(range(4)); ax.set_xticklabels(K.POLICIES)
-    ax.set_ylabel("contexts where the\npolicy is non-dominated")
-    ax.set_ylim(0, 108); ax.set_yticks([0, 50, 100])
+    ax.set_title("non-dominated on all three criteria", pad=4, color=ST.INK2,
+                 fontsize=ST.TEXT - 0.8)
+    ax.set_ylabel("contexts (%)")
+    ax.set_ylim(0, 112); ax.set_yticks([0, 50, 100])
     ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
 
     # how often each policy is strictly best on C1
@@ -68,23 +70,25 @@ def fig4():
         ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
                 color=ST.INK2)
     ax.set_xticks(range(4)); ax.set_xticklabels(K.POLICIES)
-    ax.set_ylabel("contexts where it is\nbest on journey time")
-    ax.set_ylim(0, 108); ax.set_yticks([0, 50, 100])
+    ax.set_title("strictly best on journey time", pad=4, color=ST.INK2,
+                 fontsize=ST.TEXT - 0.8)
+    ax.set_ylim(0, 112); ax.set_yticks([0, 50, 100])
     ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
 
     # criterion conflict
     ax = fig.add_subplot(gs[1, 2])
     c = RES["criteria"]
-    labs = ["time\nvs CO$_2$", "time vs\nstopped delay", "CO$_2$ vs\nstopped delay"]
+    labs = ["time\nvs CO$_2$", "time\nvs stopped", "CO$_2$\nvs stopped"]
     keys = ["C1_vs_C2", "C1_vs_C3", "C2_vs_C3"]
     vals = [100 * (1 - c[k]["frac_identical_ordering"]) for k in keys]
     ax.bar(range(3), vals, color=ST.INK2, width=0.6)
     for i, v in enumerate(vals):
         ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
                 color=ST.INK2)
-    ax.set_xticks(range(3)); ax.set_xticklabels(labs, fontsize=ST.TEXT - 1.6)
-    ax.set_ylabel("contexts where the two\ncriteria rank policies\ndifferently")
-    ax.set_ylim(0, max(vals) * 1.3 + 4)
+    ax.set_xticks(range(3)); ax.set_xticklabels(labs, fontsize=ST.TEXT - 1.8)
+    ax.set_title("criteria rank policies differently", pad=4, color=ST.INK2,
+                 fontsize=ST.TEXT - 0.8)
+    ax.set_ylim(0, max(max(vals) * 1.3 + 4, 10))
     ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
     ST.save(fig, "fig4_performance_pareto")
 
@@ -124,8 +128,8 @@ def fig5():
         for d in dem:
             s = W[(W.demand == d) & W.resolved]
             fr.append(100 * (s.winner == p).sum() / max(len(W[W.demand == d]), 1))
-        ax.plot(dem, fr, ST.LS[p], color=ST.POL[p], marker=ST.MARK[p], ms=3.4,
-                lw=1.3, label=ST.POLNAME[p])
+        ax.plot(dem, fr, ls=ST.LS[p], color=ST.POL[p], marker=ST.MARK[p],
+                ms=3.4, lw=1.3, label=ST.POLNAME[p])
     ax.set_xlabel("corridor demand (veh/h)")
     ax.set_ylabel("share of contexts where the\npolicy is the resolved winner (%)")
     ax.set_xticks([1200, 2400, 3600]); ax.set_ylim(-3, 103)
