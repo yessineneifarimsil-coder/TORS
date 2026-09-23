@@ -1,0 +1,57 @@
+{
+ "G1": {
+  "passed": false,
+  "n_policies_winning": 2,
+  "policies": [
+   "P1",
+   "P3"
+  ],
+  "threshold": 3,
+  "counts_all": {
+   "P2": 1,
+   "P3": 12,
+   "P4": 1,
+   "P1": 2
+  },
+  "counts_resolved": {
+   "P3": 6,
+   "P1": 1
+  },
+  "n_unresolved": 9
+ },
+ "G2": {
+  "passed": true,
+  "fraction": 0.6875,
+  "threshold": 0.25,
+  "size_distribution": {
+   "2": 6,
+   "1": 5,
+   "4": 2,
+   "3": 3
+  }
+ },
+ "G3": {
+  "passed": true,
+  "mean_identity": 0.15625,
+  "threshold": 0.5,
+  "by_pair": {
+   "P1-P2": 0.0,
+   "P1-P3": 0.0,
+   "P1-P4": 0.0,
+   "P2-P3": 0.25,
+   "P2-P4": 0.4375,
+   "P3-P4": 0.25
+  }
+ },
+ "G4": {
+  "passed": true,
+  "best_single_factor": "demand",
+  "best_stump_accuracy": 0.75,
+  "constant_rule_accuracy": 0.75,
+  "threshold": 0.95
+ },
+ "verdict": {
+  "GO": false,
+  "note": "G2 is diagnostic: it does not gate the study, it determines what may be claimed about multi-criteria structure and whether a standalone eco-routing policy is admissible."
+ }
+}
