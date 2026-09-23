@@ -113,3 +113,40 @@ campaign might produce:
 * A confirmatory gate **G1'** — the identical G1 definition, evaluated on all
   648 contexts with 5 seeds — is declared here, before the campaign is run, and
   its result is reported whatever it is.
+
+---
+
+## Addendum: the confirmatory gate G1', evaluated on all 648 contexts
+
+Gate G1' was declared in this document before the main campaign was launched,
+with its result to be reported whichever way it came out.
+
+**G1' PASSES.** Three policies --- P1, P3 and P4 --- are strictly best in at
+least one context with a resolved margin, against the threshold of three. The
+resolved winner counts over 648 contexts are P3 227, P4 19, P1 11, with 257 of
+648 contexts resolved. **P2 is never a resolved winner**, confirming on the full
+factor space what the screen saw in its 16.
+
+The screen's STOP verdict was therefore a **sampling artefact of the screening
+design**, not a property of the portfolio. The screen sampled 16 contexts at
+extreme factor levels only and never sampled the demand transition region at
+all; it had the power to detect near-ties, which it did correctly, but not the
+coverage to find the regions where P4 and P1 win. This is exactly the
+possibility that was given as the second reason for deviation D-1, and it is
+what the full campaign shows.
+
+This vindicates the reasoning behind the deviation. It does not retrospectively
+make the deviation unnecessary, and the deviation stands on the record as taken.
+A gate that is passed only after being overridden is a gate that was badly
+designed, and the lesson is recorded as such: **a complementarity screen must
+cover the interior of the factor space, not only its corners.** A
+resolution-IV fraction at extreme levels is an efficient design for estimating
+main effects and a poor one for discovering where a winner map changes.
+
+### What G1' passing does *not* establish
+
+Passing G1' establishes that the winner map is genuinely multi-policy. It says
+nothing about whether exploiting that map is worth anything, which is a
+separate quantity --- the gap between the best fixed policy and the hindsight
+best --- and is reported in the results. The two are easy to conflate and are
+kept apart throughout this study.

@@ -12,8 +12,10 @@ import common as K
 import policy_selectors as S
 import ood as OOD
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+RESDIR = os.path.join(HERE, "..", "results")
 R = {}
-OUT = "../results/results.json"
+OUT = os.path.join(RESDIR, "results.json")
 
 
 def jd(x):
@@ -29,7 +31,7 @@ def jd(x):
 
 
 # ---------------------------------------------------------------- 1. load
-df, bad = K.load("../results/main.jsonl")
+df, bad = K.load(os.path.join(RESDIR, "main.jsonl"))
 R["campaign"] = dict(
     n_runs=len(df), n_failed=len(bad), n_contexts=int(df.ctx_key.nunique()),
     n_policies=int(df.policy.nunique()),
@@ -189,6 +191,18 @@ R["headroom"] = dict(
 
 # -------------------------------------------------------- 7. OOD splits
 R["ood"] = OOD.all_splits(X, C, noise, meta)
+
+# O8: incident on the bypass -- a corridor that carries no disruption in any
+# training context.  Trained on the main campaign, tested on a separate one.
+_p8 = os.path.join(RESDIR, "ood_bypass.jsonl")
+if os.path.exists(_p8):
+    d8, _ = K.load(_p8)
+    d8, rep8 = K.analysable(d8, need_seeds=need)
+    if d8.ctx_key.nunique() >= 10:
+        ct8 = K.context_table(d8)
+        _, X8, C8, n8, _m8 = S.matrices(ct8)
+        R["ood"]["O8_bypass"] = OOD.domain_split(X, C, noise, X8, C8, n8)
+        R["ood"]["O8_bypass"]["_excluded"] = rep8["n_incomplete_contexts"]
 
 json.dump(R, open(OUT, "w"), indent=1, default=jd)
 print(f"wrote {OUT} with {len(R)} top-level sections")

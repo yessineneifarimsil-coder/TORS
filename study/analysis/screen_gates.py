@@ -3,7 +3,7 @@
 The thresholds are read from the frozen specification and are not arguments.
 The script reports whichever answer the data gives.
 """
-import sys, json, itertools, collections
+import sys, os, json, itertools, collections
 import numpy as np
 import common as K
 
@@ -12,7 +12,8 @@ G2_MIN_PARETO_FRACTION = 0.25
 G3_MAX_IDENTITY = 0.50
 G4_MAX_STUMP_ACC = 0.95
 
-df, bad = K.load(sys.argv[1] if len(sys.argv) > 1 else "../results/screen.jsonl")
+df, bad = K.load(sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "results", "screen.jsonl"))
 print(f"runs={len(df)}  failed={len(bad)}  contexts={df.ctx_key.nunique()}  "
       f"seeds/cell={df.groupby(['ctx_key','policy']).size().min()}-"
       f"{df.groupby(['ctx_key','policy']).size().max()}")
@@ -105,4 +106,4 @@ for g in ("G1", "G2", "G3", "G4"):
           + ("   (diagnostic, not a gate)" if g == "G2" else ""))
 print(f"  VERDICT: {'GO' if go else 'STOP'}  (requires G1, G3, G4)")
 print("=" * 68)
-json.dump(res, open("../results/screen_gates.json", "w"), indent=1, default=str)
+json.dump(res, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "screen_gates.json"), "w"), indent=1, default=str)
