@@ -145,8 +145,8 @@ def fig6():
     n = len(X)
     out, ex = S.fit_predict(np.arange(n), np.arange(n), X, C)   # in-sample map
     i2, i5 = K.XCOLS.index("x2_short_sat"), K.XCOLS.index("x5_penetration")
-    fig, axs = plt.subplots(1, 3, figsize=(6.6, 2.5),
-                            gridspec_kw=dict(wspace=0.26))
+    fig, axs = plt.subplots(1, 3, figsize=(6.6, 2.75),
+                            gridspec_kw=dict(wspace=0.26, top=0.76, bottom=0.20))
     titles = ["true best policy", "mechanistic rule  B1", "learned selector  B4"]
     series = [np.argmin(C, axis=1), out["B1_mechanistic"], out["B4_GBDT"]]
     rs = np.random.RandomState(0)
@@ -154,18 +154,20 @@ def fig6():
         for j, p in enumerate(K.POLICIES):
             m = ser == j
             if m.sum():
-                ax.scatter(X[m, i2], X[m, i5] + rs.uniform(-0.022, 0.022, m.sum()),
-                           s=8, c=ST.POL[p], marker=ST.MARK[p], linewidths=0,
-                           alpha=0.8, label=ST.POLNAME[p])
+                ax.scatter(X[m, i2] * (1 + rs.uniform(-0.018, 0.018, m.sum())),
+                           X[m, i5] + rs.uniform(-0.030, 0.030, m.sum()),
+                           s=7, c=ST.POL[p], marker=ST.MARK[p], linewidths=0,
+                           alpha=0.7, label=ST.POLNAME[p])
         ax.set_title(t, pad=4, color=ST.INK2)
-        ax.set_xlabel("$x_2$ = demand / shortest-corridor capacity")
         ax.set_yticks([0.2, 0.5, 0.8])
         ST.despine(ax); ax.grid(lw=0.5); ax.set_axisbelow(True)
     axs[0].set_ylabel("penetration  $x_5$")
+    axs[1].set_xlabel("$x_2$   demand / capacity of the shortest corridor")
     h = [Line2D([], [], color=ST.POL[p], marker=ST.MARK[p], ls="none", ms=4,
                 label=ST.POLNAME[p]) for p in K.POLICIES]
-    fig.legend(handles=h, loc="lower center", ncol=4, fontsize=ST.TEXT - 1.5,
-               bbox_to_anchor=(0.5, -0.09), handletextpad=0.3, columnspacing=1.4)
+    fig.legend(handles=h, loc="upper center", ncol=4, fontsize=ST.TEXT - 1.5,
+               bbox_to_anchor=(0.5, 1.005), handletextpad=0.3, columnspacing=1.6,
+               frameon=False)
     ST.save(fig, "fig6_selection_regions")
 
 
@@ -265,14 +267,14 @@ def fig9():
     mix = (np.cumsum(reg4[o]) + np.cumsum(reg0[o][::-1])[::-1] - reg0[o]) / n
     tot = np.array([(reg4[o][:k].sum() + reg0[o][k:].sum()) / n
                     for k in range(n + 1)])
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.6, 2.5),
-                                 gridspec_kw=dict(wspace=0.32))
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.6, 2.7),
+                                 gridspec_kw=dict(wspace=0.40))
     ax.plot(100 * cov, risk, color=ST.ACCENT, lw=1.6)
     ax.axhline(reg4.mean(), color=ST.INK3, lw=0.9, ls="--")
     ax.text(99, reg4.mean(), " act everywhere", fontsize=ST.TEXT - 1.5,
             color=ST.INK3, va="bottom", ha="right")
-    ax.set_xlabel("coverage: most-confident contexts acted on (%)")
-    ax.set_ylabel("mean regret among\nthe contexts acted on (s)")
+    ax.set_xlabel("coverage (%), most confident first")
+    ax.set_ylabel("regret among contexts\nacted on (s)")
     ST.despine(ax); ax.grid(lw=0.5); ax.set_axisbelow(True)
 
     bx.plot(100 * np.arange(n + 1) / n, tot, color=ST.POL["P4"], lw=1.6)
@@ -287,8 +289,8 @@ def fig9():
     bx.annotate(f"best coverage {100*k/n:.0f}%\nregret {tot[k]:.2f} s",
                 (100 * k / n, tot[k]), textcoords="offset points", xytext=(6, 8),
                 fontsize=ST.TEXT - 1.5, color=ST.POL["P4"])
-    bx.set_xlabel("coverage (%)")
-    bx.set_ylabel("mean regret over ALL contexts,\nabstaining below the cut (s)")
+    bx.set_xlabel("coverage (%), most confident first")
+    bx.set_ylabel("overall mean regret,\nabstaining below the cut (s)")
     ST.despine(bx); bx.grid(lw=0.5); bx.set_axisbelow(True)
     ST.save(fig, "fig9_risk_coverage")
 
