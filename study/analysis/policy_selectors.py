@@ -23,7 +23,7 @@ SUPPORT_Q = 95        # frozen support-gate percentile
 CAL_FRAC = 0.30       # frozen calibration share
 LGB = dict(n_estimators=400, learning_rate=0.05, num_leaves=15,
            min_child_samples=20, subsample=0.9, subsample_freq=1,
-           colsample_bytree=0.9, reg_lambda=1.0, random_state=0,
+           colsample_bytree=0.9, reg_lambda=1.0, random_state=0, n_jobs=1,
            verbose=-1)
 
 

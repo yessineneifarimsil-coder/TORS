@@ -48,6 +48,16 @@ R["validity"] = dict(
     excluded_contexts=bad_ctx[:50],
     rule="completion >= 0.98 and teleports == 0, declared in the frozen spec")
 df = df[~df.ctx_key.isin(bad_ctx)]
+
+# completeness: a context is analysable only with all policies present
+cnt = df.groupby(["ctx_key", "policy"]).size().unstack(fill_value=0)
+need = max(R["campaign"]["seeds_per_cell"])
+complete = cnt.index[(cnt.reindex(columns=K.POLICIES, fill_value=0) >= need).all(axis=1)]
+R["validity"]["n_incomplete_contexts"] = int(df.ctx_key.nunique() - len(complete))
+R["validity"]["completeness_rule"] = (
+    f"a context is analysed only if all {len(K.POLICIES)} policies have "
+    f"{need} valid seeds")
+df = df[df.ctx_key.isin(set(complete))]
 R["validity"]["n_contexts_analysed"] = int(df.ctx_key.nunique())
 
 ct = K.context_table(df)

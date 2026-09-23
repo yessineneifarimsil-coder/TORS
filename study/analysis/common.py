@@ -95,6 +95,8 @@ def winners(ct):
     for ck, g in ct.groupby("ctx_key"):
         g = g.set_index("policy")
         order = g["C1"].sort_values().index.tolist()
+        if len(order) < 2:
+            continue
         best, second = order[0], order[1]
         res, diff, se = paired_resolved(g.loc[second, "vec"], g.loc[best, "vec"])
         rec = {"ctx_key": ck, "winner": best, "runner_up": second,
