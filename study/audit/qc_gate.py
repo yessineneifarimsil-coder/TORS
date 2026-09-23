@@ -39,9 +39,11 @@ chk("C", "no test information in training (LOCO builds train by exclusion)",
     "j for j in range(n) if j != i" in open(P("analysis", "policy_selectors.py")).read())
 chk("D", "SBS selected on training folds only",
     "sbs = int(np.argmin(Ctr.mean(axis=0)))" in src)
+PAPER = re.sub(r"\s+", " ", "".join(
+    open(f).read() for f in sorted(glob.glob(P("paper", "sec*.tex")))
+    + [P("paper", "abstract.tex")]))
 chk("E", "VBS stated as non-deployable in the manuscript",
-    "not deployable" in open(P("paper", "body_methods.tex")).read().lower()
-    or "retrospective" in open(P("paper", "body_methods.tex")).read().lower())
+    "not deployable" in PAPER.lower() and "retrospective" in PAPER.lower())
 
 # F/G. mechanistic rule out-of-sample; ML compared against it
 lad = {r["selector"]: r for r in R["ladder_loco"]}
@@ -75,14 +77,12 @@ chk("L", "abstention uses only training-fold quantities",
     "np.quantile(resid, 1 - ALPHA)" in src and "Ztr" in src)
 
 # M. no continuous threshold claimed
-res = open(P("paper", "body_results.tex")).read()
 chk("M", "boundaries reported as brackets, not point thresholds",
-    "bracket" in res.lower() and "point estimate" in res.lower())
+    "bracket" in PAPER.lower() and "point estimate" in PAPER.lower())
 
 # N. no causal claim
-lim = open(P("paper", "body_limits.tex")).read()
 chk("N", "no causal mechanism claimed without identification",
-    "No causal identification" in lim or "not an identified causal" in lim)
+    "not an identified causal mechanism" in PAPER)
 
 # O/P. no version language
 bad = []
@@ -99,7 +99,7 @@ chk("P", "manuscript compiles with no errors and no undefined references",
 
 # Q. contribution legible to a non-ML reader
 chk("Q", "contributions stated without requiring ML background",
-    "We introduce no routing algorithm" in open(P("paper", "body_methods.tex")).read())
+    "We introduce no routing algorithm, no learning algorithm" in PAPER)
 
 print(f"{'':3s}{'check':68s}result")
 print("-" * 82)

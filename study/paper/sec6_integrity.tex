@@ -1,0 +1,64 @@
+\section{Experimental Integrity and Deviations}
+\label{sec:integrity}
+
+\paragraph{What was frozen, and when.} The experiment specification --- factors
+and levels, criteria, seed count, the resolution criterion, screening gates,
+baseline ladder, model class and hyperparameters, abstention rules and shift
+splits --- was written and committed to version control \emph{before any
+evaluation run was executed}. Policy parameters were frozen at the same time and
+varied afterwards only as sensitivity (Section~\ref{sec:sensitivity}). No factor level was chosen
+because it produced a particular outcome; the demand levels follow from measured
+capacity.
+
+\paragraph{Execution reconciliation.} The main campaign comprises
+\NumRunsMain{} valid runs ($\NumContexts \times \NumPolicies \times \NumSeeds$),
+and this is the number underlying every result in Section~5 unless stated
+otherwise. The project executed \NumRunsTotalAttempted{} simulations in total,
+of which \NumRunsTotalSucceeded{} succeeded: \NumRunsValidate{}
+scenario-validation, \NumRunsScreen{} screening, \NumRunsMain{} main,
+\NumRunsSens{} sensitivity, \NumRunsOODNorth{} domain-shift and
+\NumRunsBoundary{} boundary-refinement runs, plus \NumRunsFailedBypass{} runs
+that failed for the reason given below. These counts are distinct and are not
+interchangeable.
+
+\paragraph{Protocol deviation D-1.} The pre-specified complementarity screen did
+not satisfy criterion G1 and therefore triggered the declared stopping rule. The
+main campaign was nevertheless executed, under the documented protocol deviation
+D-1. The reasons for continuation were recorded before campaign launch: a
+selection problem demonstrably existed; G1 was written against the scalar
+criterion and was blind to the three-criterion structure beside it; and the
+negative finding rested on 16 of \NumContexts{} contexts sampled at extreme
+factor levels only. A confirmatory criterion G1$'$, declared before the main
+campaign and identical in definition to G1, was then evaluated on all
+\NumContexts{} contexts. G1$'$ \NumGOneVerdict{}
+(Section~\ref{sec:complementarity}).
+
+We do not present G1$'$ as erasing the deviation, and we do not describe the
+original screen as having passed. It did not. The methodological lesson is that
+the screen sampled corner conditions and did not sample the interior transition
+region, so it had power to detect near-ties but not coverage to find where the
+minority policies win. A resolution-IV fraction at extreme levels is an
+efficient design for main effects and a poor one for discovering where a winner
+map changes. That is a limitation of our screening design, not a justification
+for having continued.
+
+\paragraph{An infeasible shift split and its replacement.} One declared shift
+split placed the disruption on the bypass corridor. The bypass is single-lane,
+so the specified capacity-reducing lane closure does not constrain it --- it
+disconnects it, leaving vehicles already routed there without a valid path. All
+\NumRunsFailedBypass{} attempted runs failed for this reason. The split was
+replaced by the nearest feasible construction, a disruption on the two-lane
+north corridor, which preserves the intent (a corridor carrying no disruption in
+any training context) while remaining a capacity reduction rather than a
+severance. A guard now refuses any incident on a single-lane edge. The
+replacement is reported as split O8 and is \emph{not} the originally declared
+split.
+
+\paragraph{Traceability.} Every numeric claim in this paper is generated from a
+single machine-readable results file by a script, and rendered through a macro;
+a build-time check fails if the text references a quantity the analysis did not
+produce. Seventeen automated quality-control checks cover leakage discipline,
+training-fold-only baseline selection, freeze ordering, shift reporting and
+citation completeness. All \NumRefs{} references were verified against publisher
+records; DOIs that could not be confirmed directly were omitted rather than
+inferred.

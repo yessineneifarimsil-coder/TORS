@@ -7,7 +7,10 @@ Start with `study/README.md` for the layout and exact reproduction steps.
 
 | | |
 |---|---|
-| Manuscript | `study/paper/main.pdf` (source: `main.tex`, `references.bib`) |
+| **Submission package** | `SUBMISSION_TORS26.zip` — manuscript, sources, figures, tables, audits |
+| Manuscript | `study/paper/main.pdf` (LNCS, 25 pp) · sources in `study/paper/` |
+| Submission README | `study/paper/README_SUBMISSION.md` — includes the unresolved template dependency |
+| Changelog | `study/CHANGELOG.md` |
 | Frozen specification | `study/spec/FROZEN_SPEC.md` — committed before any evaluation run |
 | Screening result and protocol deviation | `study/results/SCREENING_REPORT.md` |
 | Every reported number | `study/results/results.json` |

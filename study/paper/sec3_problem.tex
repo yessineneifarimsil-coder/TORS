@@ -1,0 +1,70 @@
+\section{Problem Formulation}
+
+\paragraph{Objects.}
+A \emph{context} $x \in \mathcal{X}$ is a set of operating conditions known
+before a policy is activated: demand, signal timing, guidance penetration,
+information lag, disruption regime and alternative capacity. A \emph{policy}
+$a \in \mathcal{A} = \{\mathrm{P1},\dots,\mathrm{P4}\}$ maps individual vehicles
+to routes according to its own published objective. Running policy $a$ in
+context $x$ produces an outcome vector; we write $C(x,a)$ for the scalar
+decision cost, system mean journey time, and treat the other two criteria by
+dominance (Section~\ref{sec:criteria}).
+
+\paragraph{The two levels.}
+The decision studied here is the map
+\begin{equation}
+\pi : \mathcal{X} \to \mathcal{A},
+\qquad
+x \;\xrightarrow{\ \pi\ }\; a \;\xrightarrow{\ \text{policy } a\ }\;
+\text{routes} \;\longrightarrow\; \text{traffic outcome}.
+\end{equation}
+Level~1 is $\pi$; level~2 is the policy's own route assignment, which is fixed
+and not learned. This is not route prediction, not vehicle-level action
+learning, not signal control, and not joint routing--signal optimisation.
+
+\paragraph{Reference points.}
+Two quantities from the algorithm-selection literature~\cite{bischl2016aslib}
+bound what any $\pi$ can achieve. The \emph{single-best policy} (SBS) is the one
+fixed policy with the lowest mean cost, chosen on training contexts only:
+\begin{equation}
+a_{\mathrm{SBS}} \;=\; \arg\min_{a \in \mathcal{A}}\
+\mathbb{E}_{x \in \mathcal{X}_{\mathrm{train}}}\,[\,C(x,a)\,].
+\end{equation}
+It is what a deployed fixed-policy system achieves, and the baseline any
+selector must beat to be worth building. The \emph{virtual-best policy} (VBS)
+chooses per context using that context's realised outcomes,
+$C_{\mathrm{VBS}}(x) = \min_{a} C(x,a)$. \emph{VBS is retrospective: it is not
+an algorithm, cannot be deployed, and is used only as an upper reference.}
+
+\paragraph{Regret and headroom.}
+The regret of selecting $a$ in context $x$, and the mean regret of a selector,
+are
+\begin{equation}
+R(x,a) \;=\; C(x,a) - \min_{b \in \mathcal{A}} C(x,b),
+\qquad
+\bar{R}(\pi) \;=\; \mathbb{E}_x\,[\,R(x,\pi(x))\,].
+\end{equation}
+The \emph{headroom} is the total decision value available to any selector:
+\begin{equation}
+H \;=\; \bar{R}(a_{\mathrm{SBS}})
+   \;=\; \mathbb{E}_x\big[\,C(x,a_{\mathrm{SBS}}) - \min_b C(x,b)\,\big].
+\label{eq:headroom}
+\end{equation}
+$H$ is the quantity that decides whether context-dependent selection is worth
+attempting at all, and it is measurable without building a selector. We report
+it in seconds per vehicle and, where a percentage is given, always as a share of
+$\mathbb{E}_x[C(x,a_{\mathrm{SBS}})]$, the single-best policy's mean journey
+time, stated alongside.
+
+\paragraph{Three distinct questions.}
+The paper keeps apart three properties that are often merged:
+\begin{center}
+\textbf{complementarity} $\;\neq\;$ \textbf{decision value} $\;\neq\;$
+\textbf{deployability.}
+\end{center}
+Complementarity asks whether $\arg\min_a C(x,a)$ varies with $x$. Decision value
+asks how large $H$ is. Deployability asks whether an estimate $\hat{\pi}$ built
+from finite data retains that value outside the conditions it was fitted on. A
+portfolio can be strongly complementary, carry almost no decision value, and
+still produce a selector that is unsafe under shift --- which is what we
+observe.

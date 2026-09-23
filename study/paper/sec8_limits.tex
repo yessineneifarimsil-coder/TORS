@@ -1,0 +1,47 @@
+\section{Limitations}
+
+\paragraph{Environment and scope.} The network is synthetic: a controlled
+instrument built to isolate mechanisms, not a model of any city. Corridor demand
+is a single origin--destination pair choosing among three corridors; the four
+minor streets couple the routing decision to traffic that is not routed, but
+many simultaneously-routed pairs, with the interactions between their choices,
+are outside what is tested. No claim of real-world validation is made anywhere
+in this paper. What is portable is the method rather than the numbers: the
+descriptors are dimensionless, so a boundary is stated as a degree of saturation
+and a controlled-flow share, both measurable on a real network.
+
+\paragraph{Decision context and compliance.} The selector is given the operating
+conditions; a deployed system would have to forecast them and would inherit the
+forecast's error on top of the selector's. Guided vehicles comply fully with the
+policy, and unguided vehicles never respond to conditions at all; real behaviour
+lies between these. The reported decision quality is therefore an upper bound on
+what the same selector would achieve behind a forecast and partial compliance.
+
+\paragraph{Resolution and statistical reach.} The experiment samples a finite
+grid with \NumSeeds{} seeds. Boundaries are reported as brackets between
+adjacent sampled levels and never as continuous thresholds, and no refined
+switching step is seed-resolved (Section~5.9); resolving the campaign-wide
+adaptation effect would need roughly \NumResolvSeedsNeeded{} seeds per context.
+Where a factor is associated with a change of preferred policy, that is an
+association within a designed factorial, not an identified causal mechanism.
+
+\paragraph{Protocol.} Two deviations are on the record and are described in
+Section~\ref{sec:integrity}: the screening gate G1 failed and the campaign proceeded under
+deviation D-1, and one declared shift split was infeasible and was replaced by
+the nearest feasible construction. Neither is presented as neutral.
+
+\paragraph{Uncertainty machinery.} Split conformal coverage requires
+exchangeability, which covariate shift breaks; the conformal gate is calibrated
+in-distribution and heuristic outside it, the support gate detects only
+extrapolation visible in the feature space, and neither detects concept shift.
+Split O8 is a demonstrated instance of a shift the support gate does not see.
+
+\paragraph{Frozen parameters and the emission model.} The policy parameters were
+fixed before the experiment and are not optima; a better-tuned load-balancing
+tolerance improves that policy by \NumEpsGainPct{}, which strengthens the
+central conclusion but means the reported value is not the best available.
+\CO{} is computed by the simulator's HBEFA3 implementation for one vehicle
+class, without fleet composition, cold starts or gradient, so C2 should be read
+as a consistent comparative index rather than an absolute emissions estimate.
+Finally, no monetary valuation is used anywhere, which keeps the study free of
+invented constants but also means it cannot express a trade-off in currency.

@@ -1,0 +1,76 @@
+\section{Related Work}
+
+\subsection{Dynamic and Traffic-Aware Routing}
+
+Route choice under congestion rests on the equilibrium tradition founded by
+Wardrop~\cite{wardrop1952}. Reactive guidance --- routing on recently measured
+link travel times --- is the operational descendant of that tradition, and its
+central difficulty is well documented: information supplied to drivers need not
+reduce congestion, because the response to the information changes the state
+it described~\cite{arnott1991information}. Acemoglu et al.~\cite{acemoglu2018braess}
+give this a sharp game-theoretic form, showing that additional information can
+strictly worsen equilibrium outcomes. The severity depends on how much of the
+demand responds, which makes guidance penetration a first-order variable rather
+than an implementation detail~\cite{yang1998penetration}.
+
+Two policy families respond to these failures directly. Load-balancing guidance
+distributes vehicles over a set of travel-time-acceptable alternatives according
+to predicted link load; we use the flow-balanced $k$-shortest-path construction
+of Pan et al.~\cite{pan2013proactive}. Reliability-aware guidance adds a
+dispersion term to expected travel time, following the mean-variance
+formulation of Sen et al.~\cite{sen2001meanvariance}. Both are established
+families with published objectives, and we take them as given.
+
+\subsection{Environmental, Multi-Criteria, and Context-Dependent Routing}
+
+Eco-routing minimises an emissions proxy rather than
+time~\cite{boriboonsomsin2012eco}, and raises the question of whether an
+environmental objective is \emph{distinct} from a temporal one in a given
+network. That is an empirical property of the environment, not a property of
+the objective, and we treat it as a measurement rather than an assumption
+(Section~\ref{sec:pareto}).
+
+More generally, comparing routing policies on a single scalar hides the
+structure that multiple criteria expose. Where several criteria disagree, the
+identity of the preferred policy depends on which is chosen, and a Pareto
+analysis makes that dependence visible before any weighting is applied. We
+adopt that ordering --- dominance first, scalarisation only as sensitivity ---
+and avoid monetary valuation entirely, since no verified value of time, value
+of reliability or carbon price was available for this setting.
+
+\subsection{Algorithm Selection and Decision-Oriented Evaluation}
+
+Choosing among algorithms by instance features is Rice's algorithm-selection
+problem~\cite{rice1976}, with a mature methodology developed largely in
+combinatorial search~\cite{xu2008satzilla,smithmiles2009,kotthoff2014survey}
+and standard reference points --- the virtual best and single best solver ---
+from benchmarking practice~\cite{bischl2016aslib}. Instance-space analysis asks
+where in a feature space each algorithm is strong~\cite{smithmiles2014instance},
+which is precisely the form RQ1 takes for routing policies.
+
+Two further strands matter here. First, evaluating a predictor by the cost of
+the decision it induces rather than by its predictive error is the
+predict-then-optimise distinction of Elmachtoub and
+Grigas~\cite{elmachtoub2022spo}; our results show the two criteria ranking
+methods differently. Second, declining to decide is
+classical~\cite{chow1970reject}, and split conformal prediction supplies
+distribution-free intervals to decide when~\cite{vovk2005alrw,lei2018conformal}.
+Its coverage guarantee rests on exchangeability, which covariate shift
+breaks~\cite{shimodaira2000,tibshirani2019covshift} --- a limitation we treat
+as a design constraint rather than a caveat.
+
+\subsection{Positioning}
+\label{sec:positioning}
+
+The literature supplies the routing objectives, the traffic-feedback mechanisms
+that make them fail, the algorithm-selection framework, the regret and
+virtual-best reference points, and the uncertainty tools --- each separately and
+each well developed. This study combines them into a single empirical
+policy-selection evaluation, run under a controlled factorial of traffic
+conditions in a physical microsimulation, and reports decision regret rather
+than selection accuracy as the primary quantity.
+
+We do not claim that regime-dependent routing has not been studied, nor that no
+prior work has combined any subset of these ideas. What we offer is the
+measurement: how much decision value the combination actually carries in a
+setting where every component is held fixed and known.

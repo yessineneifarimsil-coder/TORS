@@ -3,20 +3,21 @@
 seconds of system mean journey time per vehicle. ``Within noise'' is the share
 of contexts whose regret falls below that context's own seed noise floor.}
 \label{tab:ladder}
-\centering\small
+\centering\footnotesize
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{@{}l r r r r r r@{}}
 \toprule
-& \multicolumn{4}{c}{Decision regret (s/veh)} & within & gap closed\\
+& \multicolumn{4}{c}{Regret (s/veh)} & in & gap\\
 \cmidrule(lr){2-5}
-& mean & median & max & CVaR$_{90}$ & noise & vs.\ SBS\\
+& mean & med. & max & CVaR$_{90}$ & noise & closed\\
 \midrule
-B0 ~~best fixed policy (SBS) & 0.45 & 0.00 & 17.2 & 3.7 & 99\% & ---\\
+B0 ~~best fixed policy & 0.45 & 0.00 & 17.2 & 3.7 & 99\% & ---\\
 B1 ~~mechanistic rule & 0.77 & 0.00 & 17.2 & 6.5 & 96\% & -0.714\\
-B2 ~~decision tree, depth 3 & 0.34 & 0.00 & 17.2 & 3.0 & 99\% & 0.238\\
-B3 ~~multinomial logistic & 0.28 & 0.00 & 17.2 & 2.5 & 100\% & 0.373\\
-B4 ~~GBDT advantage selector & 0.20 & 0.00 & 7.0 & 1.7 & 100\% & 0.558\\
-B5 ~~selective GBDT with abstention & 0.45 & 0.00 & 17.2 & 3.7 & 99\% & 0.000\\
-~~~~~~VBS (retrospective, not deployable) & 0.00 & 0.00 & 0.0 & 0.0 & 100\% & 1.000\\
+B2 ~~tree, depth 3 & 0.34 & 0.00 & 17.2 & 3.0 & 99\% & 0.238\\
+B3 ~~logistic & 0.28 & 0.00 & 17.2 & 2.5 & 100\% & 0.373\\
+B4 ~~GBDT advantage & 0.20 & 0.00 & 7.0 & 1.7 & 100\% & 0.558\\
+B5 ~~selective, abstaining & 0.45 & 0.00 & 17.2 & 3.7 & 99\% & 0.000\\
+~~~VBS (not deployable) & 0.00 & 0.00 & 0.0 & 0.0 & 100\% & 1.000\\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -1,38 +1,36 @@
 \begin{abstract}
 Navigation systems implement established routing objectives --- shortest
-distance, dynamic travel time, capacity-aware load balancing, reliability-aware
-routing --- but commit to one by design rather than by traffic condition. We
-characterise that choice empirically. In \NumRuns{} SUMO runs over
-\NumContexts{} controlled contexts spanning demand, signal timing, guidance
-penetration, information lag, disruption and alternative capacity, with every
-comparison paired under common random numbers, we separate two questions that
-are routinely conflated: whether the preferred policy varies with context, and
-whether exploiting that variation is worth anything.
+distance, reactive travel time, capacity-aware load balancing,
+reliability-aware routing --- but commit to one by design rather than by traffic
+condition. We ask whether that commitment should be made per context, and
+separate two questions usually merged: whether the preferred policy varies with
+conditions, and whether exploiting that variation is worth anything.
 
-It does vary. Three of four policies are strictly best in some context by a
-seed-resolved margin, the winner map needs more than one factor, and
-\NumParetoNonSingleton{} of contexts have a non-singleton Pareto set over
-journey time, \CO{} and stopped delay --- with the reliability-aware policy
-minimising stopped delay in \NumSpecCThreePct{} of contexts while almost never
-minimising journey time. Exploiting it is worth \NumHeadroom\,s per vehicle
-(\NumHeadroomPct{}), because the best fixed policy is near-dominant, with an
-upside \NumAsymRatio$\times$ its downside; choosing the wrong fixed policy costs
-\NumFixedWorstPenaltyPct{}. Within that margin, a selector trained to predict
-the winner's identity is \emph{more accurate and more expensive} than the fixed
-policy (\NumBOneTopOne{} vs \NumBZeroTopOne{} accuracy;
-\NumBOneRegret\,s vs \NumBZeroRegret\,s regret), whereas one trained to predict
-each policy's \emph{advantage} is less accurate and closes
-\NumBFourGapClosed{} of the available gap. Adaptation helps in-distribution and
-harms under every extrapolation and shift tested; a support-and-confidence gate
-prevented all of that harm by abstaining, correctly, because the conformal
-interval is wider than the effect.
+In \NumRunsMain{} microsimulation runs over \NumContexts{} contexts
+(\NumSeeds{} paired seeds per policy) spanning demand, signal timing,
+penetration, information lag, disruption and alternative capacity, the
+preference does vary: three of four policies are strictly best somewhere by a
+seed-resolved margin, and \NumParetoNonSingleton{} of contexts have a
+non-singleton Pareto set over journey time, \CO{} and stopped delay --- with the
+reliability-aware policy minimising stopped delay in \NumSpecCThreePct{} of
+contexts while rarely minimising journey time. Exploiting it is nevertheless
+worth \NumHeadroom\,s per vehicle, \NumHeadroomPct{} of the single-best fixed
+policy's mean journey time, because that policy's average gain where it wins is
+\NumAsymRatio$\times$ its average loss where it does not; selecting the wrong
+fixed policy costs \NumFixedPenPctAbsPOne{} of the same baseline.
 
-The operational finding is that the decision worth making here is which fixed
-policy to run and which criterion to optimise, not which policy to run in which
-context --- and that this can be established before any model is built, by
-comparing the best fixed policy with the retrospective best and both with the
-noise floor of the same comparison. We introduce no routing, learning or
-multi-criteria decision algorithm.
+Within that margin, a selector predicting the winner's identity is \emph{more
+accurate and more costly} than the fixed policy, whereas one predicting each
+policy's \emph{advantage} closes \NumBFourGapClosed{} of the available gap.
+Across \NumOODNTotal{} shift splits the unguarded selector helps on
+\NumOODNHelps{}, is indistinguishable on \NumOODNNeutral{} and harms on
+\NumOODNHarms{}; a support-and-confidence gate recovered the fixed policy
+exactly on every harmful split, at the cost of the in-distribution gain, and one
+split shows a shift the gate cannot see because it leaves the feature space
+unchanged. The benchmark separates three questions usually treated as one:
+complementarity, decision value, and deployability. We introduce no routing,
+learning or multi-criteria decision algorithm.
+
+\keywords{Routing-policy selection \and Algorithm selection \and Decision
+regret \and Microsimulation \and Distribution shift \and Selective prediction.}
 \end{abstract}
-\textbf{Keywords:} routing-policy selection; traffic regimes; decision regret;
-algorithm selection; microsimulation; distribution shift; selective prediction.

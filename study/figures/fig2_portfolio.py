@@ -32,7 +32,7 @@ COLS = {"policy": (4.0, 22), "obj": (26.0, 0), "info": (43.0, 22),
 
 def main():
     ST.setup()
-    fig, ax = plt.subplots(figsize=(6.6, 3.75))
+    fig, ax = plt.subplots(figsize=(4.80, 3.00))
     ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
     for key, head in (("policy", "policy"), ("obj", "objective"),
                       ("info", "information used"),

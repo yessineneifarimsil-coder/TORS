@@ -1,0 +1,201 @@
+\section{Methodology}
+
+\subsection{Simulation Environment and Network}
+
+All experiments run in SUMO~\cite{lopez2018sumo}; \CO{} comes from its HBEFA3
+implementation~\cite{krajzewicz2015emissions}. Policies act through the
+simulator's online control interface, so every routing decision is taken inside
+the running simulation from information available at that instant.
+
+Figure~\ref{fig:network} shows the environment: one origin--destination pair
+served by three structurally different corridors between a common diverge and
+merge, crossed by four minor streets carrying independent demand through the
+same signals, so a policy that loads a corridor also delays traffic it does not
+route. Because every junction permits straight-through movements only, the
+loopless path set is exactly these three --- the candidate catalogue is complete,
+not a $k$-shortest approximation.
+
+Two structural choices were fixed before the experiment, both identified by
+capacity validation. The destination portal gives each approach a dedicated exit
+lane, so an alternative corridor is not penalised by junction priority rather
+than by its own capacity; and the diverge carries no turn-radius speed ceiling,
+which in schematic node geometry would cap the bypass at a value belonging to
+the drawing rather than to the road.
+
+\paragraph{Measured capacity.} Each corridor was driven to saturation alone and
+its discharge measured: \NumSatArterial~veh/h/lane on the arterial and
+\NumSatNorth~veh/h/lane on the slower street, consistent to within
+\NumSatSpread{} across green ratios, and \NumCapBypass~veh/h on the
+uninterrupted bypass --- below queue-discharge saturation flow, as free-flow
+headways require. The demand levels of Table~\ref{tab:factors} follow from these
+measurements rather than from a textbook constant.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig1_network.pdf}
+\caption{The scenario network. One origin--destination pair is served by three
+structurally different corridors between a common diverge and merge, crossed by
+four minor streets carrying independent demand through the same signals.
+Geometry, lane counts and speed limits are read from the built network file;
+corridor capacities are measured rather than assumed.}
+\label{fig:network}
+\end{figure}
+
+\subsection{Routing Policy Portfolio}
+
+Table~\ref{tab:portfolio} gives each policy's objective, information
+requirement, intended strength and expected failure mode. \emph{The failure
+modes were specified before the experiment}, and each factor exists to make one
+of them reachable: P1 $\rightarrow$ capacity shortage on the shortest corridor;
+P2 $\rightarrow$ information lag and herding; P3 $\rightarrow$ unevenly
+distributed alternative capacity; P4 $\rightarrow$ travel-time variability under
+disruption.
+
+All four read traffic state from one shared buffer: a policy acting at time $t$
+may read link travel times sampled no later than $t-\Delta$ over a 120\,s
+window, falling back to free-flow values before any admissible sample exists. No
+policy sees the future or any realised outcome of the run it is part of. Policy
+parameters were frozen before the experiment ($\varepsilon=\NumEpsFrozen$ and a
+120\,s assignment window for P3, $\lambda=1.0$ for P4).
+
+Each policy was validated before use by twelve known-answer tests covering the
+observation lag, the free-flow fallback, and each policy's defining behaviour.
+A two-path integration test inside the simulator, with equal path lengths and a
+2:1 capacity ratio, confirms that P3 splits demand \NumTwoPathRatio{} against
+that ratio while P1 commits the entire cohort to one path.
+
+\input{tables/tab1_portfolio}
+
+\subsection{Experimental Factors and Common Random Numbers}
+\label{sec:factors}
+
+Six factors (Table~\ref{tab:factors}) are crossed fully: \NumContexts{}
+contexts, \NumSeeds{} seeds, four policies, \NumRunsMain{} runs. The demand
+levels span uncongested to oversaturated conditions relative to the measured
+capacity (Figure~\ref{fig:design}).
+
+The vehicle set, departure times, guided/unguided labelling, habitual corridor
+choice, background traffic and the incident realisation depend on the seed and
+context alone, never on the policy, so two runs of a context under different
+policies face identical vehicles and every comparison is paired. Unguided
+drivers follow a habitual corridor drawn once from a frozen logit over free-flow
+path times; at penetration $p$, a fraction $1-p$ of corridor demand is therefore
+inert with respect to the policy under test.
+
+\paragraph{Disruption as risk, not as a known event.} When the incident regime
+is active, one lane closure is drawn --- location, onset and duration --- from a
+declared distribution seeded by the run seed. Within a context and seed the
+realisation is identical across policies, preserving the pairing; across seeds
+it differs, so the context carries travel-time risk no policy can know in
+advance. An incident occurring identically in every replication would be a known
+event rather than a risk, and could not test a reliability-aware policy.
+
+\paragraph{Statistical treatment.} The experimental unit is the context. An
+advantage of $a$ over $b$ is \emph{resolved} only when the paired seed
+differences satisfy $|\overline{d}| > 2\,\mathrm{SE}(\overline{d})$; unresolved
+differences are treated as ties, so no claim rests on a difference the seeds
+cannot separate.
+
+\input{tables/tab2_factors}
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig3_design.pdf}
+\caption{Demand levels against measured network capacity. The shaded band spans
+the six capacity configurations produced by the green-ratio and
+alternative-capacity factors; the line marks the median configuration. The grid
+spans uncongested to oversaturated conditions, and the levels follow from
+measurement rather than from a chosen range.}
+\label{fig:design}
+\end{figure}
+
+\subsection{Outcome Criteria and Pareto Evaluation}
+\label{sec:criteria}
+
+Three criteria (Table~\ref{tab:criteria}) capture different burdens.
+\textbf{C1 mean journey time} is the travel burden per vehicle, including
+insertion delay --- a policy that oversaturates the network produces vehicles
+that cannot enter it, and excluding their wait would credit the policy for the
+queue it caused. \textbf{C2 \CO{}} is the environmental outcome. \textbf{C3
+total stopped delay} is the stationary burden, time below 0.1\,m/s in queues,
+distinct from time spent travelling slowly.
+
+All three are measured over every vehicle in the network, guided or not, with
+intended departure in the measurement window, so a policy cannot be rewarded for
+helping guided vehicles at the expense of background traffic. Policies are
+compared by \textbf{Pareto dominance first}; the scalar cost used for regret is
+C1, which requires no weights. Scalarisation appears only as sensitivity,
+through three declared normalised preference profiles. No monetary value of
+time, value of reliability or carbon price is used: none was available from a
+verified source, and inventing one would make the conclusion an artefact of the
+invented number.
+
+\input{tables/tab3_criteria}
+
+\subsection{Mechanistic Rule}
+
+Each context is expressed through eight dimensionless descriptors computable
+before activation: network saturation $x_1$; shortest-corridor saturation
+$x_2 = D/\mathrm{cap}_C$; alternative capacity share $x_3$; effective green
+ratio $x_4$; penetration $x_5$; information staleness
+$x_6 = \Delta/T^{\mathrm{ff}}_C$; incident regime $x_7$; and controlled-flow
+saturation $x_8 = p\,D/\mathrm{cap}_C$, the share of the shortest corridor's
+capacity the guided cohort alone would consume. Capacities are the measured
+values, so $x_1$, $x_2$ and $x_8$ are genuine degrees of saturation. A
+route-overlap index is omitted: the corridors share only access and egress
+edges, so overlap is structurally constant here.
+
+The mechanistic rule B1 is an axis-aligned region rule on $x_1$--$x_8$ of depth
+at most two, fitted on training contexts only. Thresholds are reported as
+\emph{brackets between adjacent sampled levels}, since a grid cannot locate a
+boundary more finely than its own spacing.
+
+\subsection{Context-Aware Selector}
+
+The learned selector predicts \emph{advantage}, not identity:
+\begin{equation}
+\Delta_a(x) \;=\; C(x, a_{\mathrm{SBS}}) - C(x,a),
+\qquad \hat{\pi}(x) = \arg\max_a \hat{\Delta}_a(x),
+\label{eq:advantage}
+\end{equation}
+with $a_{\mathrm{SBS}}$ determined on training contexts only. A positive
+$\Delta_a$ means $a$ beats the fixed policy a deployed system would otherwise
+run, so the learned quantity is the one a decision-maker needs. The model is
+gradient-boosted decision trees~\cite{friedman2001gbm,ke2017lightgbm}, one
+regressor per policy, with hyperparameters fixed before evaluation and never
+tuned on a test fold. With a few hundred context-level instances and full
+feedback from every policy, higher capacity is neither needed nor defensible; we
+use no graph neural network, deep network, reinforcement learning or contextual
+bandit.
+
+The ladder is B0 fixed policy, B1 mechanistic rule, B2 depth-3 tree, B3
+multinomial logistic regression, B4 the advantage selector and B5 its selective
+variant, with VBS as reference. \textbf{The primary comparison is B4 against
+B1}: B0 is a low bar, and beating it shows only that the decision varies with
+context at all.
+
+\subsection{Validation, Uncertainty, and Distribution Shift}
+
+Evaluation is leave-one-context-out. Inside each fold, standardisation, the
+identity of the SBS, tree thresholds, conformal quantiles and the support
+envelope are recomputed from training data alone. No seed of a held-out context
+appears in training, and no realised outcome is used as a feature.
+
+\paragraph{Two gates.} B5 acts only if both pass. The \emph{support gate}
+measures mean distance to the five nearest training contexts in standardised
+descriptor space and abstains above the 95th percentile of the training fold's
+own distances; it is a feature-space extrapolation detector. The
+\emph{confidence gate} is a split-conformal interval on the predicted advantage
+($\alpha=0.10$, calibrated on 30\% of the training fold); the selector acts only
+when the lower bound on the advantage over the fixed policy is positive, and it
+is calibrated under exchangeability, hence in-distribution. If either gate
+fails, the fixed policy is used. Neither gate detects concept shift, and the
+conformal guarantee does not survive covariate
+shift~\cite{shimodaira2000,tibshirani2019covshift}, so we report gate behaviour
+rather than coverage guarantees outside the training distribution.
+
+\paragraph{Shift splits.} Eight held-out splits are evaluated separately and
+never pooled: demand above and below the training range, an interior demand
+level as an interpolation control, unseen information lag, unseen penetration,
+unseen green ratio, training without disruption and testing under it, and a
+disruption on a corridor that carries none in training. Pooling them would
+average an interpolation control with a domain shift and hide the only thing the
+experiment can say, which is that they differ.

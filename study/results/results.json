@@ -3109,5 +3109,24 @@
   "n_seed_resolved_narrowed": 0,
   "median_point_bracket_width": 150.0,
   "original_grid_spacing": 600.0
+ },
+ "ood_summary": {
+  "classification": {
+   "O1_demand_high": "harms",
+   "O2_demand_low": "neutral",
+   "O3_demand_mid": "helps",
+   "O4_lag_long": "neutral",
+   "O5_penetration": "neutral",
+   "O6_green_high": "harms",
+   "O7_incident": "harms",
+   "O8_northcorridor": "helps"
+  },
+  "tolerance_s": 0.05,
+  "n_helps": 2,
+  "n_neutral": 3,
+  "n_harms": 3,
+  "worst_harm_split": "O7_incident",
+  "worst_harm_b0": 0.6300705700607326,
+  "worst_harm_b4": 2.2162166253478595
  }
 }

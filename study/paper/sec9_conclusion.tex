@@ -1,0 +1,38 @@
+\section{Conclusion}
+
+We characterised context-dependent selection among four established urban
+routing policies in \NumRunsMain{} microsimulation runs over \NumContexts{}
+controlled contexts, with every policy decision taken from information available
+before activation and every comparison paired under common random numbers.
+
+The portfolio is complementary: three of four policies are strictly best
+somewhere by a seed-resolved margin, the winner map depends on more than one
+factor, and \NumParetoNonSingleton{} of contexts have a non-singleton Pareto set
+over journey time, \CO{} and stopped delay. The reliability-aware policy, which
+rarely minimises journey time, minimises stopped delay in \NumSpecCThreePct{} of
+contexts. Complementarity in this portfolio lives in the criterion vector rather
+than in the scalar cost.
+
+Exploiting it is nevertheless worth \NumHeadroom~s of system mean journey time
+per vehicle, \NumHeadroomPct{} of the single-best fixed policy's
+\NumSBSMeanCost~s, because that policy's upside where it wins is
+\NumAsymRatio$\times$ its downside where it does not. Selecting the wrong fixed
+policy costs \NumFixedPenAbsPOne~s per vehicle, \NumFixedPenPctAbsPOne{} of the
+same baseline.
+
+Within that margin the methodological findings are clear. A selector trained to
+predict the winner's identity is more accurate than the fixed policy and more
+costly than it; one trained to predict each policy's advantage is less accurate
+and closes \NumBFourGapClosed{} of the available gap. Across
+\NumOODNTotal{} shift splits the unguarded selector helped on \NumOODNHelps{},
+was indistinguishable on \NumOODNNeutral{} and harmed on \NumOODNHarms{}, and a
+support-and-confidence gate recovered the fixed policy exactly on every harmful
+split while forgoing the in-distribution gain. One split showed a shift the
+support gate cannot see, because it left the feature space unchanged.
+
+The benchmark's contribution is to separate three questions usually treated as
+one: whether policies are complementary, whether adaptation carries decision
+value, and whether a selector can be deployed safely. Here the answers are yes,
+barely, and only with a gate that mostly declines to act. Both of the first two
+quantities are measurable before any model is built, and we suggest measuring
+them first.

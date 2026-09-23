@@ -1,26 +1,32 @@
-\begin{table}[t]
+\begin{table}[tbp]
 \caption{The routing-policy portfolio. Every policy is an established family;
 none is introduced here. The last column states a hypothesis fixed before the
 experiment.}
 \label{tab:portfolio}
-\centering\small
-\begin{tabularx}{\textwidth}{@{}l l l X X@{}}
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l p{0.30\textwidth} p{0.26\textwidth} p{0.26\textwidth}@{}}
 \toprule
-& Objective & Information used & Intended strength & Hypothesised failure mode\\
+& Objective and information & Intended strength & Hypothesised failure mode\\
 \midrule
-P1 & $\min_p L(p)$ & none &
-  needs no infrastructure and cannot oscillate &
-  loads the shortest corridor past its capacity\\[2pt]
-P2 & $\min_p \hat\mu_p(t-\Delta)$ & lagged link travel times &
+P1 & $\min_p L(p)$; no traffic state &
+  no infrastructure, cannot oscillate &
+  loads the shortest corridor past its capacity\\[3pt]
+P2 & $\min_p \hat\mu_p(t-\Delta)$; lagged link travel times &
   follows congestion as it forms &
-  moves the whole guided cohort together on stale information\\[2pt]
-P3 & $\min_{p\in\mathcal{A}} \max_{e\in p}\rho_e$ &
-  lagged travel times and flows, plus its own recent assignments &
-  spreads load when capacity is unevenly distributed &
-  diverts to longer corridors when no capacity shortage exists\\[2pt]
-P4 & $\min_p [\hat\mu_p + \lambda\hat\sigma_p]$ & lagged link travel times &
-  avoids corridors whose travel time is volatile &
-  pays a detour for variance that carries no risk\\
+  moves the whole guided cohort on stale information\\[3pt]
+P3 & $\min_{p\in\mathcal{A}} \max_{e\in p}\rho_e$; lagged times, flows and own
+  assignments &
+  spreads load when capacity is uneven &
+  diverts to longer corridors with no capacity shortage\\[3pt]
+P4 & $\min_p [\hat\mu_p + \lambda\hat\sigma_p]$; lagged link travel times &
+  avoids corridors with volatile travel time &
+  pays a detour for variance carrying no risk\\
 \bottomrule
-\end{tabularx}
+\end{tabular}
+
+\medskip
+\footnotesize $\mathcal{A}$: paths within a declared travel-time tolerance of
+the best. $\rho_e$: link utilisation. $\Delta$: information lag. $\lambda$:
+dispersion weight.
 \end{table}

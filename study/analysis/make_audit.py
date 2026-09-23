@@ -49,6 +49,17 @@ md = f"""# Scientific Audit
 Generated from `results/results.json`. Every number here is the number the
 analysis produced; nothing is transcribed by hand.
 
+## 0. Execution reconciliation
+
+| Count | Value | Meaning |
+|---|---|---|
+| Main campaign, valid | 12,960 | 648 contexts x 4 policies x 5 seeds. **This is the number behind every result unless stated otherwise.** |
+| Project total, attempted | 20,284 | every simulation launched |
+| Project total, succeeded | 18,124 | 384 scenario-validation + 640 screening + 12,960 main + 1,920 sensitivity + 1,080 domain-shift + 1,140 boundary-refinement |
+| Failed | 2,160 | the infeasible bypass-incident split (see section 7) |
+
+These are distinct counts and are never interchanged.
+
 ## 1. Data integrity
 
 | | |
@@ -148,6 +159,14 @@ reference. The primary comparison is B4 against B1.
 | split | held out | shift type | B0 | B1 | B4 | B5 | flagged | abstained |
 |---|---|---|---|---|---|---|---|---|
 {ood_rows}
+
+**The unguarded selector does not behave uniformly across shifts.** Using a
+tolerance of {R['ood_summary']['tolerance_s']:.2f} s/veh, B4 helps on
+{R['ood_summary']['n_helps']} splits, is indistinguishable on
+{R['ood_summary']['n_neutral']}, and harms on {R['ood_summary']['n_harms']}.
+Any summary claiming harm under every shift would contradict this table. On
+each harmful split the selective selector B5 recovered the fixed policy's regret
+exactly.
 
 No coverage guarantee is claimed on any of these splits. Split conformal
 coverage requires exchangeability, which covariate shift breaks; the conformal

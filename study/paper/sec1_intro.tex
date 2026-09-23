@@ -1,0 +1,67 @@
+\section{Introduction}
+
+A guidance system makes two decisions, not one.
+
+\begin{description}
+\item[Level 1.] Which routing \emph{policy} should be active under the current
+traffic conditions?
+\item[Level 2.] Given that policy, which route does each guided vehicle
+receive?
+\end{description}
+
+Level 2 is the subject of a large literature. This paper concerns Level 1, and
+treats the policies themselves as fixed, published objectives.
+
+The question matters because established policies embody different assumptions.
+Distance minimisation assumes the shortest corridor can absorb what is sent to
+it. Reactive travel-time routing assumes recent measurements predict the near
+future, which fails when a large guided cohort acts on them
+simultaneously~\cite{arnott1991information,acemoglu2018braess}. Load balancing
+assumes capacity is unevenly distributed and worth equalising. Reliability-aware
+routing assumes travel-time variability is itself a cost. Each assumption holds
+in some conditions and not others, so the policy that should be active plausibly
+depends on the traffic --- and production systems nevertheless fix it at design
+time.
+
+\paragraph{The gap this paper addresses.}
+Showing that the preferred policy changes with conditions is not the same as
+showing that a context-aware selector is worth building. A winner map can vary
+substantially while the cost of ignoring it remains negligible, if the best
+fixed policy loses only slightly wherever it is not best. These are separate
+empirical quantities, and conflating them is easy because the first is the more
+visible. We therefore measure both, and a third: whether a selector that
+captures the available value can be trusted outside the conditions it was
+trained on.
+
+\paragraph{Research questions.}
+\textbf{RQ1} Under which traffic, signal, information, penetration, capacity and
+disruption conditions do established routing policies exhibit complementary
+strengths?
+\textbf{RQ2} Are the preference boundaries explicable by mechanistic traffic
+variables rather than only by a statistical model?
+\textbf{RQ3} Does a learned selector identify useful selection structure beyond
+a strong mechanistic rule?
+\textbf{RQ4} When the operating context lies outside the training support, or
+uncertainty is too large, can the system abstain safely?
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item A factorial characterisation of the operating regions in which four
+established routing policies are complementary, over \NumContexts{} contexts
+and \NumRunsMain{} paired microsimulation runs.
+\item A mechanistic account of the preference boundary in dimensionless traffic
+descriptors, reported as brackets between sampled levels.
+\item A decision-oriented evaluation in which the primary comparison is a
+learned selector against a mechanistic rule, not against a fixed policy, and in
+which selection accuracy and decision regret are shown to rank methods
+differently.
+\item A selective mechanism with a support gate and a confidence gate,
+evaluated separately under interpolation, extrapolation, concept shift and
+domain shift, including a case it does not detect.
+\end{enumerate}
+
+We introduce no routing algorithm, no learning algorithm and no multi-criteria
+decision method; every policy and model class used here is established and
+cited. The contribution is the measurement and its interpretation. We make no
+priority claim: each component below has precedent, and the positioning in
+Section~\ref{sec:positioning} states what is and is not new.

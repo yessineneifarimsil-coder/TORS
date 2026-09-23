@@ -22,8 +22,8 @@ PAR = K.pareto_by_context(CT)
 
 # ------------------------------------------------------------------ fig 4
 def fig4():
-    fig = plt.figure(figsize=(6.6, 4.35))
-    gs = fig.add_gridspec(2, 3, height_ratios=[1.0, 0.80], hspace=0.78, wspace=0.34)
+    fig = plt.figure(figsize=(4.80, 1.95))
+    gs = fig.add_gridspec(1, 3, wspace=0.10)
     pens = sorted(CT.penetration.unique())
     for j, pen in enumerate(pens):
         ax = fig.add_subplot(gs[0, j])
@@ -33,63 +33,22 @@ def fig4():
             ax.plot(g.index, g.values, ls=ST.LS[p], color=ST.POL[p],
                     marker=ST.MARK[p], ms=3.4, lw=1.3, label=ST.POLNAME[p],
                     zorder=3)
-        ax.set_title(f"penetration {pen:.0%}", pad=4, color=ST.INK2)
+        ax.set_title(f"penetration {pen:.0%}", pad=3, color=ST.INK2,
+                     fontsize=ST.TEXT - 0.6)
         ax.set_xticks([1200, 2400, 3600])
         ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True); ST.despine(ax)
         if j == 0:
-            ax.set_ylabel("system mean\njourney time (s)")
+            ax.set_ylabel("system mean journey time (s)")
+        else:
+            ax.set_yticklabels([])
+            ax.tick_params(axis="y", length=0)
         ax.set_xlabel("demand (veh/h)")
     ymax = max(a.get_ylim()[1] for a in fig.axes)
     for a in fig.axes:
         a.set_ylim(250, ymax)
-    fig.axes[0].legend(loc="upper left", fontsize=ST.TEXT - 1.6, handlelength=2.0,
-                       labelspacing=0.25, borderpad=0.0)
+    fig.axes[0].legend(loc="upper left", fontsize=ST.TEXT - 2.0, handlelength=1.6,
+                       labelspacing=0.18, borderpad=0.0, handletextpad=0.4)
 
-    # Pareto membership
-    ax = fig.add_subplot(gs[1, 0])
-    pm = RES["complementarity"]["pareto_membership"]
-    n = RES["complementarity"]["n_contexts"]
-    vals = [100 * pm[p] / n for p in K.POLICIES]
-    ax.bar(range(4), vals, color=[ST.POL[p] for p in K.POLICIES], width=0.66)
-    for i, v in enumerate(vals):
-        ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
-                color=ST.INK2)
-    ax.set_xticks(range(4)); ax.set_xticklabels(K.POLICIES)
-    ax.set_title("non-dominated on all three criteria", pad=4, color=ST.INK2,
-                 fontsize=ST.TEXT - 0.8)
-    ax.set_ylabel("contexts (%)")
-    ax.set_ylim(0, 112); ax.set_yticks([0, 50, 100])
-    ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
-
-    # how often each policy is strictly best on C1
-    ax = fig.add_subplot(gs[1, 1])
-    wc = collections.Counter(W[W.resolved].winner)
-    vals = [100 * wc.get(p, 0) / len(W) for p in K.POLICIES]
-    ax.bar(range(4), vals, color=[ST.POL[p] for p in K.POLICIES], width=0.66)
-    for i, v in enumerate(vals):
-        ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
-                color=ST.INK2)
-    ax.set_xticks(range(4)); ax.set_xticklabels(K.POLICIES)
-    ax.set_title("strictly best on journey time", pad=4, color=ST.INK2,
-                 fontsize=ST.TEXT - 0.8)
-    ax.set_ylim(0, 112); ax.set_yticks([0, 50, 100])
-    ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
-
-    # criterion conflict
-    ax = fig.add_subplot(gs[1, 2])
-    c = RES["criteria"]
-    labs = ["time\nvs CO$_2$", "time\nvs stopped", "CO$_2$\nvs stopped"]
-    keys = ["C1_vs_C2", "C1_vs_C3", "C2_vs_C3"]
-    vals = [100 * (1 - c[k]["frac_identical_ordering"]) for k in keys]
-    ax.bar(range(3), vals, color=ST.INK2, width=0.6)
-    for i, v in enumerate(vals):
-        ax.text(i, v + 1.5, f"{v:.0f}%", ha="center", fontsize=ST.TEXT - 1.4,
-                color=ST.INK2)
-    ax.set_xticks(range(3)); ax.set_xticklabels(labs, fontsize=ST.TEXT - 1.8)
-    ax.set_title("criteria rank policies differently", pad=4, color=ST.INK2,
-                 fontsize=ST.TEXT - 0.8)
-    ax.set_ylim(0, max(max(vals) * 1.3 + 4, 10))
-    ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
     ST.save(fig, "fig4_performance_pareto")
 
 
@@ -97,7 +56,7 @@ def fig4():
 def fig5():
     """Winner map in the mechanistic plane, with the demand brackets in which
     the preferred policy changes."""
-    fig, axs = plt.subplots(1, 2, figsize=(6.6, 2.9), gridspec_kw=dict(wspace=0.38))
+    fig, axs = plt.subplots(1, 2, figsize=(4.80, 2.32), gridspec_kw=dict(wspace=0.38))
     ax = axs[0]
     for p in K.POLICIES:
         s = W[(W.winner == p) & W.resolved]
@@ -147,9 +106,9 @@ def fig6():
     n = len(X)
     out, ex = S.fit_predict(np.arange(n), np.arange(n), X, C)   # in-sample map
     i2, i5 = K.XCOLS.index("x2_short_sat"), K.XCOLS.index("x5_penetration")
-    fig, axs = plt.subplots(1, 3, figsize=(6.6, 2.75),
-                            gridspec_kw=dict(wspace=0.26, top=0.76, bottom=0.20))
-    titles = ["true best policy", "mechanistic rule  B1", "learned selector  B4"]
+    fig, axs = plt.subplots(1, 3, figsize=(4.80, 2.05),
+                            gridspec_kw=dict(wspace=0.10, top=0.74, bottom=0.22))
+    titles = ["true best", "mechanistic B1", "learned B4"]
     series = [np.argmin(C, axis=1), out["B1_mechanistic"], out["B4_GBDT"]]
     rs = np.random.RandomState(0)
     for ax, t, ser in zip(axs, titles, series):
@@ -160,11 +119,13 @@ def fig6():
                            X[m, i5] + rs.uniform(-0.030, 0.030, m.sum()),
                            s=7, c=ST.POL[p], marker=ST.MARK[p], linewidths=0,
                            alpha=0.7, label=ST.POLNAME[p])
-        ax.set_title(t, pad=4, color=ST.INK2)
+        ax.set_title(t, pad=3, color=ST.INK2, fontsize=ST.TEXT - 0.8)
         ax.set_yticks([0.2, 0.5, 0.8])
         ST.despine(ax); ax.grid(lw=0.5); ax.set_axisbelow(True)
+    for ax in axs[1:]:
+        ax.set_yticklabels([]); ax.tick_params(axis="y", length=0)
     axs[0].set_ylabel("penetration  $x_5$")
-    axs[1].set_xlabel("$x_2$   demand / capacity of the shortest corridor")
+    axs[1].set_xlabel("$x_2$  demand / shortest-corridor capacity")
     h = [Line2D([], [], color=ST.POL[p], marker=ST.MARK[p], ls="none", ms=4,
                 label=ST.POLNAME[p]) for p in K.POLICIES]
     fig.legend(handles=h, loc="upper center", ncol=4, fontsize=ST.TEXT - 1.5,
@@ -182,7 +143,7 @@ def fig7():
             "B4\nGBDT", "B5\nselective", "VBS\n(not deployable)"]
     vals = [lad[k]["mean_regret"] for k in order]
     cols = [ST.INK2, ST.POL["P3"], ST.INK3, ST.INK3, ST.ACCENT, ST.ACCENT, ST.INK3]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.6, 2.6),
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(4.80, 2.08),
                                  gridspec_kw=dict(wspace=0.32, width_ratios=[1.35, 1]))
     b = ax.bar(range(len(order)), vals, color=cols, width=0.66)
     b[-1].set_hatch("///"); b[-1].set_edgecolor("white"); b[-1].set_linewidth(0)
@@ -217,7 +178,7 @@ def fig8():
     keys = ["B0_SBS", "B1_mechanistic", "B4_GBDT", "B5_selective"]
     cols = {"B0_SBS": ST.INK2, "B1_mechanistic": ST.POL["P3"],
             "B4_GBDT": ST.ACCENT, "B5_selective": ST.POL["P4"]}
-    fig, (ax, bx) = plt.subplots(2, 1, figsize=(6.6, 3.9),
+    fig, (ax, bx) = plt.subplots(2, 1, figsize=(4.80, 3.12),
                                  gridspec_kw=dict(height_ratios=[1.6, 1.0],
                                                   hspace=0.42))
     x = np.arange(len(order)); w = 0.2
@@ -269,7 +230,7 @@ def fig9():
     mix = (np.cumsum(reg4[o]) + np.cumsum(reg0[o][::-1])[::-1] - reg0[o]) / n
     tot = np.array([(reg4[o][:k].sum() + reg0[o][k:].sum()) / n
                     for k in range(n + 1)])
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.6, 2.7),
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(4.80, 2.16),
                                  gridspec_kw=dict(wspace=0.40))
     ax.plot(100 * cov, risk, color=ST.ACCENT, lw=1.6)
     ax.axhline(reg4.mean(), color=ST.INK3, lw=0.9, ls="--")

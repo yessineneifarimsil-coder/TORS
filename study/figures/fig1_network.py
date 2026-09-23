@@ -34,7 +34,7 @@ def read_net(path):
 def main():
     ST.setup()
     nodes, edges = read_net(NET)
-    fig = plt.figure(figsize=(6.6, 2.95))
+    fig = plt.figure(figsize=(4.80, 2.36))
     gs = GridSpec(1, 2, width_ratios=[1.0, 0.72], wspace=0.06, figure=fig)
     ax = fig.add_subplot(gs[0, 0]); tx = fig.add_subplot(gs[0, 1]); tx.axis("off")
     COL = {"C": ST.POL["P1"], "N": ST.POL["P3"], "S": ST.POL["P4"]}

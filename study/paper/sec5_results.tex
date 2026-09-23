@@ -1,0 +1,310 @@
+\section{Results}
+
+\subsection{Campaign Validity}
+
+The main campaign executed \NumRunsMain{} runs over \NumContexts{} contexts with
+\NumPolicies{} policies and \NumSeeds{} paired seeds. No run failed. Every run
+completed every vehicle it generated (minimum completion \NumMinCompletion{}),
+with \NumTeleports{} teleports in the entire campaign, so no result rests on a
+vehicle the simulator removed. All \NumContextsAnalysed{} contexts satisfy the
+validity and completeness rules declared in advance; none is excluded.
+
+\subsection{Policy Complementarity}
+\label{sec:complementarity}
+
+The confirmatory criterion G1$'$ --- declared before the campaign and reported
+here whichever way it came out --- \NumGOneVerdict{}:
+\NumGOneNPolicies{} policies (\NumGOnePolicies) are strictly best in at least
+one context with a seed-resolved margin. \textbf{P2 is never a resolved winner
+anywhere in the factor space.} Resolved winner counts are P3 \NumWinResPThree{},
+P4 \NumWinResPFour{} and P1 \NumWinResPOne{} (Table~\ref{tab:complementarity}).
+
+The winner map is multi-factor but shallow. Naming the same policy everywhere is
+correct in \NumWinMapConst{} of contexts; the best single factor
+(\NumWinMapOneFactor) reaches \NumWinMapOne{}, and the best pair
+\NumWinMapTwo{}. The structure is interpretable and matches the design: P1 wins
+only where the shortest corridor is uncongested \emph{and} penetration is high
+enough for adaptive policies to over-divert; P4 wins at low demand with generous
+green; P3 wins every context at the highest demand level
+(Figure~\ref{fig:regime}).
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig5_regime_map.pdf}
+\caption{The regime map. Left: the resolved winner in the plane of
+shortest-corridor saturation against guidance penetration; open circles mark
+contexts where the seeds resolve no winner. Right: the share of contexts each
+policy wins, by demand level.}
+\label{fig:regime}
+\end{figure}
+
+\input{tables/tab4_complementarity}
+
+\subsection{Decision Value of Adaptation}
+
+Complementarity and decision value are different quantities, and here they point
+in opposite directions.
+
+The single-best fixed policy is \NumGlobalSBS{}, optimal in \NumSBSOptimalPct{}
+of contexts. Figure~\ref{fig:performance} shows why: the distance-minimising policy
+diverges with demand while the three adaptive policies track one another.
+Running the single-best policy always costs \NumSBSMeanCost~s of system mean
+journey time per vehicle; the retrospective best-per-context choice costs
+\NumCostVBS~s. The headroom of Eq.~\ref{eq:headroom} is therefore
+\begin{equation}
+H \;=\; \NumHeadroom\ \text{s per vehicle},
+\qquad
+\frac{H}{\mathbb{E}_x[C(x,a_{\mathrm{SBS}})]}
+\;=\; \frac{\NumHeadroom}{\NumSBSMeanCost} \;=\; \NumHeadroomPct .
+\end{equation}
+
+Selecting the wrong \emph{fixed} policy costs far more. Using the
+distance-minimising policy throughout increases system mean journey time by
+\NumFixedPenAbsPOne~s per vehicle relative to the single-best fixed policy, which
+is \NumFixedPenPctAbsPOne{} of that policy's mean journey time of
+\NumSBSMeanCost~s. The reactive and reliability-aware policies cost
+\NumFixedPenPTwo~s (\NumFixedPenPctPTwo{}) and \NumFixedPenPFour~s
+(\NumFixedPenPctPFour{}) on the same basis.
+
+\begin{quote}
+Choosing the fixed policy well is worth \NumFixedPenPctAbsPOne{} of mean journey
+time. Choosing it \emph{per context}, given that the best fixed policy is
+already in use, is worth \NumHeadroomPct{}.
+\end{quote}
+
+\subsection{Why the Adaptation Value Is Small}
+\label{sec:asymmetry}
+
+The explanation is not that the policies behave alike; Section~\ref{sec:complementarity} shows they do
+not. It is that the best fixed policy is near-dominant in a measurable sense.
+
+Define the \emph{downside} of the fixed policy as its mean loss in those
+contexts where it is not best, and its \emph{upside} as its mean gain over the
+best alternative in those contexts where it is. In \NumAsymNotBestPct{} of
+contexts \NumGlobalSBS{} is not best, and there it loses \NumAsymLoss~s on
+average (at most \NumAsymMaxLoss~s). In \NumAsymBestPct{} of contexts it is
+best, and there it wins by \NumAsymMargin~s on average (at most
+\NumAsymMaxMargin~s). Its upside is \textbf{\NumAsymRatio$\times$ its
+downside}.
+
+A portfolio containing such a member has a large ranking structure and a small
+decision structure: any selector moving away from it risks a large loss to chase
+a small gain. This is an empirical characterisation of this portfolio in this
+environment, not a general theorem --- but it is measurable in any portfolio,
+before a selector is built.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig4_performance_pareto.pdf}
+\caption{System mean journey time against demand at each guidance penetration
+level, averaged over the remaining factors. The distance-minimising policy
+diverges once the shortest corridor saturates, while the three adaptive policies
+track one another closely --- the visual form of the small decision value
+quantified in Section~\ref{sec:asymmetry}.}
+\label{fig:performance}
+\end{figure}
+
+\subsection{Noise and Resolution of the Adaptation Effect}
+
+Among the \NumResolvNContexts{} contexts where the fixed policy is not best, the
+mean headroom is \NumResolvHeadroomNZ~s against a mean two-standard-error band
+of \NumResolvNoiseNZ~s on the same paired comparison, and the headroom exceeds
+its own noise in \NumResolvExceeds{} of them (\NumResolvExceedsPct{}). Resolving
+the campaign-wide mean effect of \NumResolvHeadroom~s would require roughly
+\NumResolvSeedsNeeded{} seeds per context, about \NumResolvRunsNeeded{} runs.
+We report this rather than presenting a near-noise-floor improvement as an
+achievement.
+
+\subsection{Mechanistic Rule}
+
+Fitted on all contexts for exposition, the depth-2 rule splits first on
+$\NumMechFeature = p\,D/\mathrm{cap}_C$, the share of the shortest corridor's
+capacity the guided cohort alone would consume, at a threshold bracketed between
+\NumMechBracketLo{} and \NumMechBracketHi{}. The rule is physically readable:
+below that share the decision turns on the effective green ratio; above it, on
+whether the arterial is already oversaturated (Figure~\ref{fig:regions}).
+
+The rule identifies the best policy in \NumMechTopOne{} of contexts, more often
+than always naming the fixed policy. Its mean decision regret is nevertheless
+\NumMechRegret~s against \NumMechFixedRegret~s for the fixed policy.
+\textbf{It is more accurate and more costly.} Under leave-one-context-out the
+same pattern holds: B1 reaches \NumBOneTopOne{} top-1 accuracy against B0's
+\NumBZeroTopOne{}, and \NumBOneRegret~s of regret against \NumBZeroRegret~s.
+
+This is the predict-then-optimise distinction~\cite{elmachtoub2022spo} in a
+traffic setting. A rule trained to name the winner is rewarded for being right
+where the margin is negligible and punished only mildly for being wrong where it
+is large --- the wrong trade under an \NumAsymRatio$\times$ asymmetry.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig6_selection_regions.pdf}
+\caption{Selection regions in the mechanistic feature space: the true best
+policy, the depth-2 mechanistic rule, and the advantage-based selector, over
+controlled-flow saturation and guidance penetration.}
+\label{fig:regions}
+\end{figure}
+
+\subsection{Advantage-Based Selector}
+
+Predicting advantage (Eq.~\ref{eq:advantage}) rather than identity reverses the
+failure. B4 reaches \NumBFourRegret~s of mean regret, closing
+\NumBFourGapClosed{} of the gap between the fixed policy and the retrospective
+best, while being \emph{less} accurate at naming the winner (\NumBFourTopOne{})
+than the logistic baseline (\NumBThreeTopOne{}, \NumBThreeRegret~s). It also has
+the lowest maximum regret of any selector, \NumBFourMax~s against
+\NumBZeroMax~s (Table~\ref{tab:ladder}, Figure~\ref{fig:ladder}).
+
+The primary comparison declared in advance was B4 against B1, and B4 wins it
+decisively: \NumBFourRegret~s against \NumBOneRegret~s. Beating B0 alone would
+not have been evidence of much, since B0 is near-dominant by
+Section~\ref{sec:asymmetry}.
+
+The magnitude is what matters operationally. B4 reduces mean regret by
+\NumBFourVsBZero~s per vehicle relative to the fixed policy --- 
+\NumBFourVsBZeroPct{} of a \NumSBSMeanCost~s mean journey time. The selector is
+real and reproducible, and below the threshold at which an operator would act on
+it.
+
+\input{tables/tab5_ladder}
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig7_decision_ladder.pdf}
+\caption{Decision quality under leave-one-context-out evaluation. Left: mean
+regret for each selector; the retrospective best is hatched because it is not
+deployable. Right: the share of contexts in which each selector is within the
+seed noise floor, and exactly optimal.}
+\label{fig:ladder}
+\end{figure}
+
+\subsection{Selective Prediction and Distribution Shift}
+
+B5 abstains in \NumAbstainRate{} of in-distribution contexts and returns exactly
+the fixed policy's regret, \NumBFiveRegret~s. The mechanism is explicit: the
+conformal interval on the predicted advantage is wider than the advantage, so
+the requirement that its lower bound exceed zero is never met. A calibrated gate
+refuses to act on an effect smaller than its own uncertainty.
+
+Across the \NumOODNTotal{} shift splits (Table~\ref{tab:ood},
+Figure~\ref{fig:ood}), the unguarded selector B4 does not behave uniformly. Using
+a tolerance of \NumOODTolerance~s per vehicle, it \textbf{helps} on
+\NumOODNHelps{} splits, is \textbf{indistinguishable} on \NumOODNNeutral{}, and
+\textbf{harms} on \NumOODNHarms{}:
+\begin{itemize}
+\item \emph{helps}: the interpolation control O3 (\NumOODThreeMidBZero{} to
+\NumOODThreeMidBFour~s) and, notably, the domain shift O8
+(\NumOODEightNorthBZero{} to \NumOODEightNorthBFour~s);
+\item \emph{indistinguishable}: unseen low demand O2, unseen lag O4, unseen
+penetration O5;
+\item \emph{harms}: unseen high demand O1 (\NumOODOneHighBZero{} to
+\NumOODOneHighBFour~s), unseen green ratio O6, and worst of all the concept
+shift O7 (\NumOODSevenIncBZero{} to \NumOODSevenIncBFour~s).
+\end{itemize}
+\textbf{On every one of the \NumOODNHarms{} harmful splits, B5 recovered the
+fixed policy's regret exactly.} The selective rule therefore prevented the
+observed harms; it does not guarantee protection against harms not observed
+here.
+
+The support gate flags \NumOODFourLagSupport{}, \NumOODFivePenSupport{} and
+\NumOODSixGreenSupport{} of held-out contexts as outside the training envelope
+on the lag, penetration and green-ratio extrapolations respectively. B1 degrades
+worst of all under shift, reaching \NumOODFivePenBOne~s on unseen penetration.
+
+\paragraph{A shift the gate cannot see.} O8 is instructive precisely because the
+support gate does \emph{not} fire: it flags \NumOODEightNorthSupport{} of
+held-out contexts, because those contexts' descriptors are identical to
+descriptors seen in training --- the incident's \emph{location} is not among the
+eight. The selector happens to do well there, but it does so unguarded. A
+support gate defined on a feature space cannot detect a shift that leaves that
+feature space unchanged, and this is a concrete instance rather than a
+theoretical caveat.
+
+\input{tables/tab6_ood}
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\textwidth]{fig8_ood.pdf}
+\caption{Distribution shift, reported separately by shift type. Top: mean regret
+on the held-out regime for each selector. Bottom: the share of held-out contexts
+flagged outside the training support, and the share on which the selective
+selector abstained.}
+\label{fig:ood}
+\end{figure}
+
+\subsection{Boundary Refinement}
+\label{sec:boundary}
+
+Where the main grid showed the preferred policy changing between adjacent demand
+levels, three intermediate levels were run in each of the \NumBoundN{}
+widest-margin cells.
+
+\NumBoundMono{} of \NumBoundN{} refined sequences are monotone, with a single
+change point, and in point estimate they narrow the switching bracket from the
+\NumBoundGrid~veh/h grid spacing to a median of \NumBoundWidth~veh/h. All
+\NumBoundPOneN{} shortest-to-load-balancing transitions are monotone; their
+change points sit in a \NumBoundWidth~veh/h bracket whose position differs by
+cell, from \NumBoundPOneEarliestLo--\NumBoundPOneEarliestHi~veh/h to
+\NumBoundPOneLatestLo--\NumBoundPOneLatestHi~veh/h. That the position moves with
+the cell is the point: the boundary is a property of the operating conditions,
+not a single number for the network.
+
+\textbf{None of these refined steps is seed-resolved.} The point estimates move
+consistently, but no individual step between adjacent refined levels exceeds
+twice its own standard error at \NumSeeds{} seeds. The remaining
+\NumBoundNonMono{} sequences are non-monotone, and all involve the
+reliability-aware policy. We therefore report the transition as a point-estimate
+bracket and state that it is unresolved: the shortest-path to load-balancing
+reversal is an ordered regime change, while the apparent reliability-aware
+transitions near it are not distinguishable from noise.
+
+\subsection{Three-Criterion Pareto Structure}
+\label{sec:pareto}
+
+Over all \NumContextsAnalysed{} contexts, \NumParetoNonSingleton{} have a
+non-singleton Pareto set. Non-domination is not concentrated in one policy: P3
+is non-dominated in \NumParetoPctPThree{} of contexts, P4 in
+\NumParetoPctPFour{}, P2 in \NumParetoPctPTwo{} and P1 in \NumParetoPctPOne{}.
+
+The criteria are not interchangeable. Journey time and \CO{} correlate at
+\NumCorrCOneCTwo{} and rank the four policies identically in
+\NumSameOrderCOneCTwo{} of contexts; journey time and stopped delay correlate at
+\NumCorrCOneCThree{} and agree in only \NumSameOrderCOneCThree{}. The best
+policy on \CO{} differs from the best on journey time in
+\NumBestCTwoDiffersPct{} of contexts; on stopped delay it differs in
+\NumBestCThreeDiffersPct{}.
+
+The policies specialise by criterion rather than by regime.
+\NumSpecCOnePolicy{} minimises journey time in \NumSpecCOneN{} contexts and
+\NumSpecCTwoPolicy{} minimises \CO{} in \NumSpecCTwoN{}, but
+\textbf{\NumSpecCThreePolicy{} minimises stopped delay in \NumSpecCThreeN{}
+contexts (\NumSpecCThreePct{})} while minimising journey time in only
+\NumSpecCOnePFour{}. The reliability-aware policy routes towards the steady,
+unsignalised corridor: its vehicles spend less time stationary and more time
+moving. \textbf{This is where the portfolio's complementarity lives} --- on the
+criterion vector, not on the scalar cost.
+
+\paragraph{Eco-routing remains excluded, on evidence.} \CO{} and journey time
+correlate at \NumCorrCOneCTwo{} and select the same policy in
+\NumSameOrderCOneCTwo{} of contexts. An objective nearly monotone in travel time
+adds a label rather than a policy; the numbers are given so a reader may
+disagree with the threshold rather than with an assertion.
+
+\input{tables/tab7_sensitivity}
+
+\subsection{Sensitivity}
+\label{sec:sensitivity}
+
+Across the three declared preference profiles the preferred policy changes in
+\NumPrefChanges{} of contexts (Table~\ref{tab:sensitivity}). The journey-time
+choice is reproduced by the time-weighted profile in \NumPrefAgreeTime{} of
+contexts, the balanced profile in \NumPrefAgreeBalanced{} and the
+environment-weighted profile in \NumPrefAgreeEnvironment{}. The decision is
+stable under reasonable preference assumptions, and where it is not, stopped
+delay is what moves it.
+
+The two frozen policy parameters behave differently. The dispersion weight of
+the reliability-aware policy is close to immaterial, changing that policy's own
+mean journey time by at most \NumLambdaMaxChangePct{}; across all four parameter
+changes the identity of the best policy is unchanged in \NumWinnerStableMin{} to
+\NumWinnerStableMax{} of the contexts tested. The admissibility tolerance of the
+load-balancing policy is not immaterial: loosening it from \NumEpsFrozen{} to
+\NumEpsAlt{} improves that policy's own mean journey time by \NumEpsGainPct{}
+(\NumEpsGainSec~s). The frozen value therefore \emph{understates} how dominant
+the load-balancing policy is, which strengthens rather than weakens the central
+conclusion. We report this rather than retrofitting the better value.

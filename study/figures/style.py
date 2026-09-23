@@ -15,7 +15,7 @@ INK, INK2, INK3 = "#1a1a1a", "#4d4d4d", "#8c8c8c"
 GRID, SURF = "#e6e6e6", "#ffffff"
 ACCENT, WARN = "#1F5FA9", "#B3261E"
 
-TEXT = 8.0
+TEXT = 7.2   # LNCS body is 10pt; figures are placed at 1:1
 
 
 def setup():
@@ -34,7 +34,7 @@ def setup():
         "xtick.major.width": 0.6, "ytick.major.width": 0.6,
         "xtick.major.size": 2.5, "ytick.major.size": 2.5,
         "grid.color": GRID, "grid.linewidth": 0.5,
-        "lines.linewidth": 1.4, "lines.markersize": 4.0,
+        "lines.linewidth": 1.2, "lines.markersize": 3.4,
         "legend.frameon": False, "pdf.fonttype": 42, "ps.fonttype": 42,
     })
 

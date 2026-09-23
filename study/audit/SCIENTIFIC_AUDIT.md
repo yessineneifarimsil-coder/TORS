@@ -3,6 +3,17 @@
 Generated from `results/results.json`. Every number here is the number the
 analysis produced; nothing is transcribed by hand.
 
+## 0. Execution reconciliation
+
+| Count | Value | Meaning |
+|---|---|---|
+| Main campaign, valid | 12,960 | 648 contexts x 4 policies x 5 seeds. **This is the number behind every result unless stated otherwise.** |
+| Project total, attempted | 20,284 | every simulation launched |
+| Project total, succeeded | 18,124 | 384 scenario-validation + 640 screening + 12,960 main + 1,920 sensitivity + 1,080 domain-shift + 1,140 boundary-refinement |
+| Failed | 2,160 | the infeasible bypass-incident split (see section 7) |
+
+These are distinct counts and are never interchanged.
+
 ## 1. Data integrity
 
 | | |
@@ -115,6 +126,14 @@ reference. The primary comparison is B4 against B1.
 | O6_green_high | gc = 0.65 | extrapolation | 1.04 | 3.68 | 1.16 | 1.04 | 100% | 51% |
 | O7_incident | incident = 1.0 | covariate + concept shift | 0.63 | 5.33 | 2.22 | 0.63 | 32% | 36% |
 | O8_northcorridor | incident located on the north corridor | domain shift | 0.31 | 0.29 | 0.18 | 0.31 | 0% | 31% |
+
+**The unguarded selector does not behave uniformly across shifts.** Using a
+tolerance of 0.05 s/veh, B4 helps on
+2 splits, is indistinguishable on
+3, and harms on 3.
+Any summary claiming harm under every shift would contradict this table. On
+each harmful split the selective selector B5 recovered the fixed policy's regret
+exactly.
 
 No coverage guarantee is claimed on any of these splits. Split conformal
 coverage requires exchangeability, which covariate shift breaks; the conformal

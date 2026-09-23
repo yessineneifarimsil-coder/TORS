@@ -17,8 +17,9 @@ if missing:
     print("UNDEFINED:", missing)
 # a bare digit in running text is a number that did not come through a macro
 suspicious = []
-for f in ("body_results.tex", "body_discussion.tex", "body_conclusion.tex",
-          "abstract.tex"):
+for f in [x for x in ("sec5_results.tex", "sec7_discussion.tex",
+                      "sec9_conclusion.tex", "abstract.tex")
+          if os.path.exists(x)]:
     for i, line in enumerate(open(f), 1):
         t = re.sub(r'\\[A-Za-z]+', '', line)
         t = re.sub(r'\\label\{[^}]*\}|\\ref\{[^}]*\}|\\cite\{[^}]*\}', '', t)

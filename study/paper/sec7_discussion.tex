@@ -1,0 +1,88 @@
+\section{Discussion}
+
+\subsection{Complementarity Does Not Imply Adaptation Value}
+
+The portfolio is complementary: three policies win somewhere by a resolved
+margin, the winner map needs more than one factor, and
+\NumParetoNonSingleton{} of contexts have a non-singleton Pareto set. On the
+usual reading, that is the evidence for building a selector.
+
+It is not sufficient evidence. The decision value of the entire winner map is
+\NumHeadroom~s per vehicle, \NumHeadroomPct{} of the mean journey time under the
+single-best fixed policy, because that policy's upside where it wins is
+\NumAsymRatio$\times$ its downside where it does not. The two quantities are
+computable from the same data, one is small when the other is large, and only
+the second determines whether adaptation is worth attempting.
+
+The practical implication is a cheap first step. Before choosing a model class,
+compute the gap between the best fixed policy and the retrospective best, and
+compare it with the noise floor of that same paired comparison. Neither requires
+a model. Had we done so here, the answer would have been a \NumHeadroomPct{} gap
+sitting close to the resolution of a \NumSeeds{}-seed design.
+
+\subsection{Decision-Oriented Evaluation Changes the Interpretation of Accuracy}
+
+Selection accuracy and decision regret rank the methods differently in this
+study, and the disagreement is not marginal. The mechanistic rule is more
+accurate than the fixed policy (\NumBOneTopOne{} versus \NumBZeroTopOne{}) and
+more costly (\NumBOneRegret~s versus \NumBZeroRegret~s). The advantage-based
+selector is less accurate than the logistic baseline and cheaper than it.
+
+The cause is not model capacity but the training target. Methods trained to name
+the winner optimise a loss that treats every context alike; a context where the
+margin is 20\,s contributes no more than one where it is 0.2\,s. Predicting
+advantage weights each context by what is actually at stake, which under an
+\NumAsymRatio$\times$ asymmetry is the difference between a selector that helps
+and one that hurts. This is the predict-then-optimise
+argument~\cite{elmachtoub2022spo}, appearing here not as a refinement but as a
+sign change.
+
+For anyone reporting such a system: report decision regret, and do not present
+selection accuracy as a proxy for it.
+
+\subsection{A Strong Fixed Policy Can Be a Rational Default}
+
+In this benchmark the load-balancing policy is optimal in
+\NumSBSOptimalPct{} of contexts and loses only \NumAsymLoss~s on average where
+it is not. Against that, the distance-minimising policy costs
+\NumFixedPenAbsPOne~s per vehicle more --- \NumFixedPenPctAbsPOne{} of the
+single-best policy's \NumSBSMeanCost~s mean journey time.
+
+Two decisions therefore sit three orders of magnitude apart: which fixed policy
+to run, and whether to vary it by context. A benchmark that reports only the
+second makes the first invisible.
+
+\subsection{Selective Adaptation and the Limits of Feature-Space Support}
+
+The selective rule prevented the observed harms: on each of the
+\NumOODNHarms{} harmful shift splits it recovered the fixed policy's regret
+exactly. It did so by declining to act --- the conformal interval is wider than
+the effect --- and the price is the in-distribution gain the unguarded selector
+achieves.
+
+Its limits are equally concrete. The conformal gate is calibrated under
+exchangeability and so is an in-distribution instrument; the support gate is a
+feature-space extrapolation detector; neither detects concept shift. Split O8
+shows what that means in practice: a disruption moved to a corridor carrying
+none in training left every descriptor unchanged, the support gate flagged
+\NumOODEightNorthSupport{} of those contexts, and the selector acted unguarded.
+It happened to do well. A support gate cannot detect a shift its feature space
+does not represent, and reporting the case is more useful than asserting the
+principle.
+
+\subsection{Implications for Routing-Policy Deployment}
+
+We state what this benchmark demonstrates, not what an operator should do.
+
+The benchmark shows that in this environment the decision carrying the
+substantial value is the choice of fixed policy, and that the incremental value
+of context-dependent selection is small relative to it and close to the
+resolution of the experiment. It shows that if such a selector is built, the
+training target determines whether it helps, and that a support-and-confidence
+gate removed the harms observed under shift while also removing the gains. And
+it shows that the criterion matters as much as the policy: the policy
+minimising stopped delay is not the policy minimising journey time in
+\NumBestCThreeDiffersPct{} of contexts, which is a different argmin rather than
+a preference weighting.
+
+Whether these carry to a real network is not established by anything here.
