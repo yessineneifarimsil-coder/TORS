@@ -46,7 +46,7 @@ membership across the 16 contexts:
 |---|---|
 | P1 | 2/16 |
 | P2 | 6/16 |
-| P3 | 10/16 |
+| P3 | 15/16 |
 | P4 | 11/16 |
 
 **P4 is the most frequently non-dominated policy in the portfolio**, despite
