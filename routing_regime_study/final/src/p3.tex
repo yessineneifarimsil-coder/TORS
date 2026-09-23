@@ -1,0 +1,71 @@
+
+\section{Problem Formulation}
+
+\subsection{Contexts, policies and the two-level decision}
+
+Let $\mathcal{S}$ be a set of operating contexts and $\mathcal{A}$ a finite set of
+retained routing policies. A context $s\in\mathcal{S}$ contains only quantities known
+\emph{before} the policy is activated; here it is the triple (scheduled primary demand,
+planned restriction configuration, signal-control plan), and no realised travel time,
+queue, flow or emission is part of it. A policy $a\in\mathcal{A}$ maps a route request to
+one path from a finite admissible catalogue according to its own objective.
+
+The decision has two levels: \emph{Level 1}, policy selection, maps the context $s$ to one
+policy $a\in\mathcal{A}$; \emph{Level 2}, route assignment, is performed by that policy
+according to its own objective. Only Level 1 is learned. The unit of analysis is the context, not the vehicle and not the
+replication: a context is one instance in the algorithm-selection sense, all of its
+replications move together through every evaluation protocol, and the selector never
+observes the realised outcome of any candidate policy in the context it decides about.
+
+\subsection{Decision cost, regret and headroom}
+
+Let $y_{sak}$ be the mean outcome of criterion $k$ in context $s$ under policy $a$,
+averaged over replications after run-level aggregation. With positive fixed references
+$r_k$ and weights $w_k\ge0$, $\sum_k w_k=1$, the scalar decision cost is
+\begin{equation}
+C_{sa}=\sum_k w_k\,y_{sak}/r_k ,
+\label{eq:cost}
+\end{equation}
+lower being preferred. The references are fixed for the whole benchmark rather than
+recomputed per context, so costs are comparable across contexts and a context in which
+every policy is slow is not rescaled into apparent equality; one cost unit is one
+benchmark-average criterion value.
+
+The best policy actually observed in a context is
+$a_s^{*}\in\arg\min_{a\in\mathcal{A}} C_{sa}$, with cost $C_{s}^{\mathrm{VB}}$. Selecting
+$a_s^{*}$ everywhere defines the \emph{hindsight} (virtual best) policy: a bound, not a
+method, since it uses the realised performance of every candidate. For a selection rule
+$\pi:\mathcal{S}\rightarrow\mathcal{A}$ the \emph{decision regret}
+$R_s(\pi)=C_{s,\pi(s)}-C^{\mathrm{VB}}_{s}\ge0$ measures the cost of the decision, not the
+error of a prediction. The strongest deployable non-adaptive rule is the \emph{single best
+fixed policy} $a^{\mathrm{SB}}=\arg\min_{a}|\mathcal{S}|^{-1}\sum_{s}R_s(a)$, and the
+quantity adaptation can win is the \emph{decision headroom} $\bar H$, of which a rule
+recovers the fraction $G(\pi)$:
+\begin{equation}
+\bar H=\frac{1}{|\mathcal{S}|}\sum_{s\in\mathcal{S}}
+\bigl(C_{s,a^{\mathrm{SB}}}-C^{\mathrm{VB}}_{s}\bigr),
+\qquad
+G(\pi)=\frac{\bar H-\overline{R(\pi)}}{\bar H} .
+\label{eq:headroom}
+\end{equation}
+Thus $G=1$ for the hindsight bound, $G=0$ for the single best fixed policy, and $G<0$ for
+a rule worse than doing nothing adaptive. Because $\bar H$ is defined on a finite context
+set, $G$ is a benchmark-specific decision statistic. It is \emph{not} a percentage
+reduction in travel time, emissions or any other physical quantity; the two are reported
+separately throughout.
+
+\subsection{Three properties that must not be confused}
+
+\emph{Complementarity} asks whether different policies win in different contexts. It is a
+property of the portfolio and environment alone, established by observing that $a^{*}_{s}$
+is not constant over $\mathcal{S}$, and it says nothing about how much the variation is
+worth. \emph{Decision value} asks how much cost the variation carries, and is $\bar H$ in
+\eqref{eq:headroom}; a portfolio can be strongly complementary while $\bar H$ is
+negligible, if the single best fixed policy is nearly optimal wherever it is not optimal,
+so complementarity is necessary for decision value but not sufficient.
+\emph{Deployability} asks whether the variation can be exploited from pre-decision
+information on contexts not used for fitting, and is $G(\pi)$ under a held-out protocol
+together with evidence about the range of contexts over which the rule remains valid;
+positive decision value does not imply it, and a rule deployable on one region of the
+context space need not be deployable outside it. All three are measured separately in
+Section~\ref{sec:results}, and this study reports a different answer for each.

@@ -1,0 +1,120 @@
+%% ---------------------------------------------------------------------------
+%%  Context-Dependent Selection of Urban Routing Policies
+%%  IC_TORS'26 submission manuscript.  Standalone: compile main.tex directly.
+%%    pdflatex main -> bibtex main -> pdflatex main -> pdflatex main
+%%  Figures are external PDFs in figures/.  Tables are inline.
+%% ---------------------------------------------------------------------------
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+\renewcommand{\UrlFont}{\ttfamily\small}
+\newcommand{\CO}{CO\textsubscript{2}}
+\newcolumntype{R}{>{\raggedright\arraybackslash}X}
+\setlength{\tabcolsep}{4pt}
+
+\begin{document}
+
+\title{Context-Dependent Selection of Urban Routing Policies:\\
+Regime Effects, Decision Value and Generalisation Limits}
+\titlerunning{Context-Dependent Selection of Urban Routing Policies}
+
+\author{Anonymous author(s)}
+\authorrunning{Anonymous submission}
+\institute{Affiliations withheld for review}
+
+\maketitle
+
+\begin{abstract}
+Route guidance systems normally commit to one routing objective before any trip is
+planned, even though the relative merit of established objectives can depend on the
+traffic state. This paper studies the selection of the routing \emph{policy} rather than
+of a route. Using 432 completed SUMO simulations over 24 controlled contexts on a
+twelve-signal urban mesh, we evaluate shortest-distance routing (SP), dynamic
+travel-time routing (DTT) and constrained travel-time-aware eco-routing under three
+demand levels, four restriction configurations and two signal plans, with preference
+expressed as a fixed-reference additive cost over mean journey time and tailpipe \CO.
+SP has the lowest observed cost in all eight low-demand contexts and DTT in all eight
+high-demand contexts, and the signal plan displaces the crossing by at least one step of
+the demand grid. Relative to the single best fixed policy, leave-one-context-out
+selection lowers mean decision regret from 0.03018 to 0.00606 normalised cost units ---
+79.9\,\% of the available decision headroom captured, with the lowest-cost policy chosen
+in 21 of 24 contexts. A two-threshold rule on demand and signal plan reproduces that
+result exactly, so the benefit follows from the regime structure rather than from model
+capacity. A leave-one-demand-out test reverses the conclusion: pooled regret rises to
+0.07649, above the fixed-policy benchmark. Policy selection therefore has measurable
+value inside the regimes represented during fitting and can be worse than a fixed policy
+outside them. The contribution is the empirical characterisation of this decision
+boundary and its limits; no new routing, multi-criteria or learning algorithm is
+proposed.
+\keywords{Routing-policy selection \and Urban traffic simulation \and Algorithm
+selection \and Decision regret \and Traffic regimes \and Generalisation.}
+\end{abstract}
+
+\section{Introduction}
+
+A route guidance system makes two decisions that are easy to conflate. The first is
+the classical route-choice problem: which path should a vehicle take from an origin to
+a destination? The second is rarely treated as a decision in its own right: which
+routing \emph{policy} should generate that path? An operator may minimise static
+distance, respond to recently observed travel times, or minimise estimated emissions
+subject to a travel-time budget. Each policy returns a different path for the same
+request, so the choice of policy precedes and constrains the choice of route. This
+paper studies the second decision.
+
+The distinction matters because congestion changes the relative value of routing
+objectives. On a lightly loaded network the shortest path is usually also fast, and
+minimising distance gives up little. As load rises, repeated concentration of traffic
+on the shortest corridor raises delay there faster than on the alternatives, and a
+policy that reacts to observed travel times can become preferable. Signal timing
+modifies the same relationship, because the green split determines how much capacity
+each competing movement receives. These mechanisms are individually well documented at
+the level of routes and traffic dynamics, but they do not answer the question an
+operator faces: should one routing objective be fixed for the whole day, or should the
+active objective change with the operating context, and how much is that change worth?
+
+We treat this as a context-dependent algorithm-selection problem in the sense of
+Rice~\cite{rice1976algorithm}. The object being selected is a routing policy, not a
+route: each policy remains responsible for assigning paths according to its own
+objective, and a context-aware layer only decides which policy is active for the
+current operating episode. Separating the two levels makes it possible to measure the
+value of adapting the policy without attributing it to any particular route-generation
+mechanism.
+
+The central research question is:
+
+\begin{quote}
+\emph{Under which traffic regimes does the preferred established routing policy
+change, how much decision value is available from adapting that policy, and how
+reliably can the resulting structure be identified on unseen contexts?}
+\end{quote}
+
+Three subsidiary questions follow. How does the signal plan move the demand range in
+which the preferred policy changes? How much of the available decision headroom can a
+simple interpretable rule recover on held-out contexts, and does a flexible model
+recover more? And what happens when the rule is applied outside the range of operating
+conditions represented while it was fitted?
+
+The paper makes four empirical contributions on a benchmark of 432 completed
+simulations. It characterises a regime-dependent preference structure among established
+routing policies on a signalised network, and shows that the signal plan displaces the
+switching range by at least one step of the tested demand grid. It quantifies the value
+of adaptation with context-level decision regret against a hindsight benchmark rather
+than with prediction error, and reports how that value is distributed across regimes. It
+shows that a two-threshold rule on demand and signal plan attains the same held-out
+decision quality as a fitted regression tree, which bounds what the learned model
+contributes. And it identifies an explicit generalisation boundary: the procedure that
+helps inside the represented regime space becomes worse than the fixed policy it
+replaces when an entire demand regime lies outside it. No new routing algorithm,
+multi-criteria method or learning method is proposed, and no claim of priority is
+made.

@@ -1,0 +1,82 @@
+
+\section{Literature Review}
+
+The relevant work spans three strands. Each is summarised below in terms of what it
+establishes; the third closes with the position of the present study.
+
+\subsection{Dynamic and Traffic-Aware Routing}
+
+Shortest-path computation on a static network is the classical starting
+point~\cite{dijkstra1959note}. Dynamic routing replaces static link attributes with
+time-dependent or observed travel times, and stochastic formulations treat network
+conditions as random and solve for routing policies rather than fixed
+paths~\cite{gao2006optimal,levering2021framework}. Proactive rerouting distributes
+vehicles over alternatives to relieve anticipated congestion, and stochastic
+optimal-control formulations extend this to uncertain demand and heterogeneous
+behaviour~\cite{pan2013proactive,pi2017stochastic}.
+
+A second body of work establishes that the benefit of traffic information depends on the
+operating state. Empirical studies of real-time rerouting report larger gains during
+congested periods and for trips whose alternatives materially change experienced travel
+time~\cite{falek2021reroute}; simulation and analytical studies identify demand-dependent
+transitions in the effectiveness of dynamic guidance, including regimes in which
+rerouting ceases to help~\cite{novikov2018dynamic,routing2026phase,chen2025detour}; and
+work on route choice under different control systems shows that the control regime itself
+can change the relative performance of route-choice
+strategies~\cite{xie2014unified,papageorgiou2003review}. What this literature does not
+establish, and what is measured here, is where the \emph{preference order} between
+established policies reverses as a joint function of demand and signal plan, and what an
+operator gains by acting on that reversal rather than by improving any single mechanism.
+
+\subsection{Environmental, Multi-Criteria, and Context-Dependent Routing}
+
+Environmental routing incorporates emissions or fuel use into path costs using historical
+or real-time traffic information~\cite{boriboonsomsin2012ecorouting,zeng2016prediction}.
+Because a minimum-emission path can be much slower than the fastest path, emission
+objectives are commonly constrained by a travel-time budget, producing the constrained
+eco-routing family used here~\cite{zeng2017svm,huang2018ecorouting}; vehicle-specific
+formulations show further that the relationship between route choice, traffic state and
+emissions depends on vehicle and network characteristics~\cite{wang2019ecorouting}.
+
+The multi-criteria literature supplies established ways of representing preferences over
+competing outcomes, including additive value models and outranking or compromise
+methods~\cite{keeney1993decisions,hwang1981multiple,opricovic2004compromise,%
+brans1985preference,ehrgott2005multicriteria}. Here such a model is used only to make
+``preferred policy'' operational, not as a contribution, and the check it implies ---
+reported in Section~\ref{sec:robust} --- is whether the chosen criteria discriminate among
+the candidate policies at all, since a preference model that changes no decision adds
+nothing however sophisticated. What is measured here is whether the two primary criteria
+are sufficiently independent in a signalised urban setting for a preference model to
+matter, and whether a third, system-level congestion criterion changes which policies are
+mutually incomparable.
+
+\subsection{Algorithm Selection and Decision-Oriented Evaluation}
+
+The algorithm-selection framework formalises the observation that different algorithms are
+preferable on different problem instances, and that instance features can be mapped to
+expected performance~\cite{rice1976algorithm}; portfolio systems operationalise this and
+benchmark libraries standardise how they are
+evaluated~\cite{xu2008satzilla,bischl2016aslib,kotthoff2014survey}, while instance-space
+analysis shows how performance varies across the problem space~\cite{smithmiles2023isa}.
+Two reference points from that literature are used throughout: the single best fixed
+algorithm, the strongest deployable non-adaptive choice, and the virtual or hindsight
+best, which selects per instance using knowledge available only after the fact. A second
+relevant distinction is between predictive accuracy and decision quality: a model may
+predict poorly yet decide well when the ranking of alternatives is preserved, while a small
+prediction error can be costly if it changes the selected
+alternative~\cite{elmachtoub2022smart}. This motivates evaluating a selector by decision
+regret against the per-instance best~\cite{kouvelis1997robust} rather than by regression
+error.
+
+\paragraph{Position of this study.}
+The three strands meet at a question none answers alone. The routing literature
+establishes that policy performance is state-dependent but compares mechanisms rather than
+deciding among them; the multi-criteria literature supplies preference models but does not
+test whether they discriminate in a given environment; the algorithm-selection literature
+supplies the decision-theoretic apparatus but has not been applied to routing policies
+under controlled traffic regimes. This study occupies that intersection and contributes no
+new mechanism --- the policies are established objectives, the preference model is a
+standard fixed-reference additive cost and the selector is a shallow regression tree. What
+is new is the measurement: a controlled, fully replicated characterisation of when the
+preferred routing policy changes, what that change is worth in decision terms, how little
+model capacity is needed to exploit it, and where the resulting rule stops being valid.

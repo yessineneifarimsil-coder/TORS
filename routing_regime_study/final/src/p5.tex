@@ -1,0 +1,78 @@
+
+\section{Experiments}
+
+\subsection{Experimental Design}
+
+The design is a full factorial of three primary demand levels (720, 1200 and
+1680\,veh/h), four restriction configurations (none, upper, central or lower corridor)
+and two signal plans (balanced and arterial priority), giving 24 contexts. Each is
+simulated under six policy settings with three paired seeds, so the campaign consists of
+$24\times6\times3=432$ runs. Demand levels are separated by 480\,veh/h, and that spacing
+determines what the experiment can resolve about the location of a preference change
+(Section~\ref{sec:boundary-exp}).
+
+Four experiments are run on this campaign, ordered so that no later result can redefine an
+earlier procedure. \textbf{E1} measures the switching margin between SP and DTT in every
+context and determines, per restriction and signal-plan cell, the demand interval in which
+it changes sign; \textbf{E2} compares the fixed policies, the ladder R0--R4 and the
+hindsight bound using context-level regret; \textbf{E3} withholds entire demand levels to
+separate interpolation inside the fitted support from extrapolation beyond it; and
+\textbf{E4} runs the sensitivity checks and the two negative controls.
+
+\subsection{Main Simulation Campaign}
+
+All 432 runs completed and were retained; no run was discarded, re-run or replaced, and no
+cell is missing. Accounting validity was checked before any decision analysis: the largest
+discrepancy between edge-accumulated and trip-accumulated emission mass is
+$1.69\times10^{-3}$ against a $10^{-2}$ tolerance, and the largest relative error of the
+native emission algebra is $6.9\times10^{-7}$ against a $10^{-4}$ tolerance. A separate
+route-probe campaign of 232 runs --- four contexts, two seeds and all 29 admissible paths
+driven explicitly --- screened the emission forecast that the ECO and TECO policies
+consume; it is the source of the decision to exclude ECO and is reported with the negative
+controls in Section~\ref{sec:robust}.
+
+\subsection{Switching-Boundary Resolution}
+\label{sec:boundary-exp}
+
+The experiment measures the switching margin at three demand levels per cell. When the
+margin changes sign between adjacent levels it identifies the \emph{interval} containing
+the change, not a threshold inside that interval, and no interpolated threshold is
+reported anywhere in this paper. What the completed data can establish is whether each
+bracket is itself resolved --- whether the observed sign of the margin at each endpoint is
+large relative to dispersion across paired replications --- and that analysis, in
+Section~\ref{sec:noise}, requires no additional simulation.
+
+Localising the change would require simulating intermediate demand levels on this same
+network: two additional levels across the eight cells and three portfolio policies, at
+three seeds, is 144 runs. Those runs were not executed. The network and scenario
+configuration files for this benchmark are not present in the analysis environment, and a
+reconstructed network would not be comparable with the 432 completed runs, so the
+additional runs could not be produced on the same footing as the existing evidence. No
+claim here depends on them: every statement about the switching location is a statement
+about an interval of the tested demand grid.
+
+\subsection{Sensitivity and Robustness Experiments}
+
+Fifteen combinations of tree depth $\in\{1,2,3,4,\text{unlimited}\}$ and minimum leaf size
+$\in\{1,2,3\}$ are evaluated under the primary protocol; the time weight is swept over
+$\{0,0.25,0.5,0.75,1\}$; the three seed blocks are each held out in turn; the scoring
+scales are recomputed from training contexts only; and every decision is recomputed with
+journey time replaced by in-network time, with the tail criterion in place of the mean,
+and with route distance and then network stopped vehicle-time added as a third criterion.
+The two negative controls are the ECO route-ordering gate and the weight sweep, both
+designed to fail visibly if the corresponding component is doing no work.
+
+\subsection{Statistical Treatment}
+
+Each context is replicated three times with paired seeds, so a comparison between two
+policies in one context is a paired difference $d_j$, $j=1,2,3$. We report the mean margin
+$\bar d$ and the standard error $\mathrm{SE}(\bar d)=s_d/\sqrt{3}$, and call a margin
+\emph{resolved} when $|\bar d|>2\,\mathrm{SE}(\bar d)$. This criterion is descriptive: it
+marks which observed orderings are larger than the replication dispersion that produced
+them. It is \textbf{not} a test of statistical significance --- with three replications the
+standard error rests on two degrees of freedom, no distributional assumption is made, no
+null hypothesis is specified and no multiplicity correction is applied. The paper contains
+no hypothesis test and makes no claim of statistical significance anywhere. Aggregate
+quantities such as mean regret are reported as benchmark statistics, and where their
+sensitivity to replication matters the seed-block analysis of Section~\ref{sec:robust}
+shows the spread directly rather than substituting an interval for it.
