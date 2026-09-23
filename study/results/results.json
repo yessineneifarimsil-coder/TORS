@@ -1024,9 +1024,91 @@
    "_shift_type": "covariate + concept shift",
    "_description": "trained without any disruption, tested under disruption",
    "_held_out": "incident = 1.0"
+  },
+  "O8_northcorridor": {
+   "B0_SBS": {
+    "mean_regret": 0.31442648129152384,
+    "median_regret": 0.0,
+    "max_regret": 3.4180745929340333,
+    "cvar90": 1.8127444547406715,
+    "pct_exact_optimal": 0.5925925925925926,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 0.9814814814814815,
+    "mean_cost": 435.91080947339077,
+    "regret_pct_of_best": 0.0009693411940496381
+   },
+   "B1_mechanistic": {
+    "mean_regret": 0.29145576205943013,
+    "median_regret": 0.0,
+    "max_regret": 3.6470602530893075,
+    "cvar90": 1.9874200540352926,
+    "pct_exact_optimal": 0.7037037037037037,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 1.0,
+    "mean_cost": 435.8878387541587,
+    "regret_pct_of_best": 0.0006421728443754652
+   },
+   "B2_tree3": {
+    "mean_regret": 0.1513246372269508,
+    "median_regret": 0.0,
+    "max_regret": 3.4180745929340333,
+    "cvar90": 1.3014906508648398,
+    "pct_exact_optimal": 0.8148148148148148,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 0.9814814814814815,
+    "mean_cost": 435.74770762932616,
+    "regret_pct_of_best": 0.0004708824821178459
+   },
+   "B3_logit": {
+    "mean_regret": 0.08106662136595298,
+    "median_regret": 0.0,
+    "max_regret": 1.5517080815257032,
+    "cvar90": 0.6691685081158596,
+    "pct_exact_optimal": 0.8148148148148148,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 1.0,
+    "mean_cost": 435.67744961346517,
+    "regret_pct_of_best": 0.0002476308238935507
+   },
+   "B4_GBDT": {
+    "mean_regret": 0.17624202183132334,
+    "median_regret": 0.0,
+    "max_regret": 1.5517080815257032,
+    "cvar90": 1.0248799300584797,
+    "pct_exact_optimal": 0.6481481481481481,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 1.0,
+    "mean_cost": 435.77262501393056,
+    "regret_pct_of_best": 0.0004863431763646423
+   },
+   "B5_selective": {
+    "mean_regret": 0.31442648129152384,
+    "median_regret": 0.0,
+    "max_regret": 3.4180745929340333,
+    "cvar90": 1.8127444547406715,
+    "pct_exact_optimal": 0.5925925925925926,
+    "pct_within_noise": 1.0,
+    "pct_within_tol": 0.9814814814814815,
+    "mean_cost": 435.91080947339077,
+    "regret_pct_of_best": 0.0009693411940496381
+   },
+   "_n_test": 54,
+   "_n_train": 648,
+   "_abstain_rate": 0.3148148148148148,
+   "_out_of_support_rate": 0.0,
+   "_sbs_policy": "P3",
+   "_shift_type": "domain shift",
+   "_held_out": "incident located on the north corridor",
+   "_description": "the disruption occurs on a corridor that carries no disruption in any training context",
+   "_on_abstained": {
+    "B4_mean_regret": 0.3906602140054561,
+    "B5_mean_regret": 0.8295990852319752,
+    "n": 17
+   },
+   "_excluded": 0,
+   "_n_contexts": 54
   }
  },
- "ood_O8_status": "bypass split skipped: AttributeError: 'DataFrame' object has no attribute 'completion'",
  "fixed_policy_choice": {
   "sbs": "P3",
   "mean_cost": {
@@ -1210,5 +1292,1822 @@
     "frac_winner_unchanged": 0.9791666666666666
    }
   }
+ },
+ "boundary": [
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 120.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 1800.0,
+   "hi": 3000.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 4.1356107479364255,
+   "margin_hi": 35.209812969736845,
+   "refined_lo": 1800.0,
+   "refined_hi": 3000.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1800.0,
+     "P1",
+     true
+    ],
+    [
+     1950.0,
+     "P1",
+     false
+    ],
+    [
+     2100.0,
+     "P1",
+     false
+    ],
+    [
+     2250.0,
+     "P3",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 2,
+   "lo": 1800.0,
+   "hi": 3000.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 3.3332343639463033,
+   "margin_hi": 29.66258600905644,
+   "refined_lo": 1800.0,
+   "refined_hi": 3000.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1800.0,
+     "P1",
+     true
+    ],
+    [
+     1950.0,
+     "P1",
+     true
+    ],
+    [
+     2100.0,
+     "P1",
+     false
+    ],
+    [
+     2250.0,
+     "P1",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.5,
+   "penetration": 0.5,
+   "lag": 120.0,
+   "incident": 1,
+   "alt": 1,
+   "lo": 1200.0,
+   "hi": 3600.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.17439969275864087,
+   "margin_hi": 32.49084609038323,
+   "refined_lo": 1200.0,
+   "refined_hi": 3600.0,
+   "width_before": 2400.0,
+   "width_after": 2400.0,
+   "sequence": [
+    [
+     1200.0,
+     "P4",
+     true
+    ],
+    [
+     1350.0,
+     "P3",
+     false
+    ],
+    [
+     1500.0,
+     "P3",
+     false
+    ],
+    [
+     1650.0,
+     "P4",
+     false
+    ],
+    [
+     1800.0,
+     "P2",
+     false
+    ],
+    [
+     2400.0,
+     "P4",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 120.0,
+   "incident": 0,
+   "alt": 2,
+   "lo": 1800.0,
+   "hi": 3000.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 4.81317438709533,
+   "margin_hi": 27.301183074245046,
+   "refined_lo": 1800.0,
+   "refined_hi": 3000.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1800.0,
+     "P1",
+     true
+    ],
+    [
+     1950.0,
+     "P1",
+     false
+    ],
+    [
+     2100.0,
+     "P1",
+     false
+    ],
+    [
+     2250.0,
+     "P1",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.5,
+   "lag": 120.0,
+   "incident": 1,
+   "alt": 1,
+   "lo": 1800.0,
+   "hi": 3600.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 1.756479610300289,
+   "margin_hi": 27.67916403747546,
+   "refined_lo": 1800.0,
+   "refined_hi": 3600.0,
+   "width_before": 1800.0,
+   "width_after": 1800.0,
+   "sequence": [
+    [
+     1800.0,
+     "P4",
+     true
+    ],
+    [
+     1950.0,
+     "P4",
+     false
+    ],
+    [
+     2100.0,
+     "P4",
+     true
+    ],
+    [
+     2250.0,
+     "P4",
+     false
+    ],
+    [
+     2400.0,
+     "P4",
+     false
+    ],
+    [
+     3000.0,
+     "P4",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 1800.0,
+   "hi": 3000.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 3.4465752953618107,
+   "margin_hi": 22.279011807816232,
+   "refined_lo": 1800.0,
+   "refined_hi": 3000.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1800.0,
+     "P1",
+     true
+    ],
+    [
+     1950.0,
+     "P1",
+     true
+    ],
+    [
+     2100.0,
+     "P1",
+     false
+    ],
+    [
+     2250.0,
+     "P1",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.5,
+   "penetration": 0.5,
+   "lag": 300.0,
+   "incident": 1,
+   "alt": 2,
+   "lo": 1200.0,
+   "hi": 3600.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.23578189403451688,
+   "margin_hi": 23.23382918892048,
+   "refined_lo": 1200.0,
+   "refined_hi": 3600.0,
+   "width_before": 2400.0,
+   "width_after": 2400.0,
+   "sequence": [
+    [
+     1200.0,
+     "P4",
+     true
+    ],
+    [
+     1350.0,
+     "P4",
+     false
+    ],
+    [
+     1500.0,
+     "P4",
+     false
+    ],
+    [
+     1650.0,
+     "P2",
+     false
+    ],
+    [
+     1800.0,
+     "P3",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.5,
+   "lag": 30.0,
+   "incident": 1,
+   "alt": 1,
+   "lo": 3000.0,
+   "hi": 3600.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 7.032007898961126,
+   "margin_hi": 11.48780346043094,
+   "refined_lo": 3000.0,
+   "refined_hi": 3600.0,
+   "width_before": 600.0,
+   "width_after": 600.0,
+   "sequence": [
+    [
+     3000.0,
+     "P4",
+     true
+    ],
+    [
+     3150.0,
+     "P3",
+     false
+    ],
+    [
+     3300.0,
+     "P3",
+     false
+    ],
+    [
+     3450.0,
+     "P3",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 120.0,
+   "incident": 1,
+   "alt": 1,
+   "lo": 2400.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 3.3350627911800643,
+   "margin_hi": 10.547455551446888,
+   "refined_lo": 2400.0,
+   "refined_hi": 4200.0,
+   "width_before": 1800.0,
+   "width_after": 1800.0,
+   "sequence": [
+    [
+     2400.0,
+     "P4",
+     true
+    ],
+    [
+     2550.0,
+     "P4",
+     false
+    ],
+    [
+     2700.0,
+     "P4",
+     false
+    ],
+    [
+     2850.0,
+     "P4",
+     true
+    ],
+    [
+     3000.0,
+     "P4",
+     false
+    ],
+    [
+     3600.0,
+     "P4",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 30.0,
+   "incident": 1,
+   "alt": 2,
+   "lo": 3000.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 4.74712156362267,
+   "margin_hi": 9.031870531798177,
+   "refined_lo": 3000.0,
+   "refined_hi": 4200.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     3000.0,
+     "P4",
+     true
+    ],
+    [
+     3150.0,
+     "P4",
+     true
+    ],
+    [
+     3300.0,
+     "P4",
+     true
+    ],
+    [
+     3450.0,
+     "P4",
+     true
+    ],
+    [
+     3600.0,
+     "P4",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 30.0,
+   "incident": 1,
+   "alt": 1,
+   "lo": 3600.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 6.018367861580089,
+   "margin_hi": 6.7278703226870675,
+   "refined_lo": 3600.0,
+   "refined_hi": 4200.0,
+   "width_before": 600.0,
+   "width_after": 600.0,
+   "sequence": [
+    [
+     3600.0,
+     "P4",
+     true
+    ],
+    [
+     3750.0,
+     "P4",
+     true
+    ],
+    [
+     3900.0,
+     "P4",
+     true
+    ],
+    [
+     4050.0,
+     "P3",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 30.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 1800.0,
+   "hi": 2400.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 3.077246951060147,
+   "margin_hi": 8.923779043273953,
+   "refined_lo": 1800.0,
+   "refined_hi": 2400.0,
+   "width_before": 600.0,
+   "width_after": 600.0,
+   "sequence": [
+    [
+     1800.0,
+     "P1",
+     true
+    ],
+    [
+     1950.0,
+     "P1",
+     false
+    ],
+    [
+     2100.0,
+     "P1",
+     false
+    ],
+    [
+     2250.0,
+     "P3",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 120.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 3000.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 1.10717944723541,
+   "margin_hi": 10.150954623909627,
+   "refined_lo": 3000.0,
+   "refined_hi": 4200.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     3000.0,
+     "P4",
+     true
+    ],
+    [
+     3150.0,
+     "P4",
+     false
+    ],
+    [
+     3300.0,
+     "P4",
+     true
+    ],
+    [
+     3450.0,
+     "P4",
+     true
+    ],
+    [
+     3600.0,
+     "P3",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.8,
+   "lag": 30.0,
+   "incident": 0,
+   "alt": 2,
+   "lo": 1200.0,
+   "hi": 2400.0,
+   "from_policy": "P1",
+   "to_policy": "P3",
+   "margin_lo": 3.799586707698154,
+   "margin_hi": 7.045903582733047,
+   "refined_lo": 1200.0,
+   "refined_hi": 2400.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1200.0,
+     "P1",
+     true
+    ],
+    [
+     1350.0,
+     "P1",
+     true
+    ],
+    [
+     1500.0,
+     "P1",
+     true
+    ],
+    [
+     1650.0,
+     "P1",
+     true
+    ],
+    [
+     1800.0,
+     "P1",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 120.0,
+   "incident": 1,
+   "alt": 2,
+   "lo": 1200.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.5205703056943776,
+   "margin_hi": 9.5398964941337,
+   "refined_lo": 1200.0,
+   "refined_hi": 4200.0,
+   "width_before": 3000.0,
+   "width_after": 3000.0,
+   "sequence": [
+    [
+     1200.0,
+     "P4",
+     true
+    ],
+    [
+     1350.0,
+     "P2",
+     false
+    ],
+    [
+     1500.0,
+     "P3",
+     false
+    ],
+    [
+     1650.0,
+     "P4",
+     false
+    ],
+    [
+     1800.0,
+     "P4",
+     false
+    ],
+    [
+     2400.0,
+     "P4",
+     false
+    ],
+    [
+     3000.0,
+     "P4",
+     false
+    ],
+    [
+     3600.0,
+     "P4",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 2400.0,
+   "hi": 4200.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.29603181758346864,
+   "margin_hi": 7.707919857566196,
+   "refined_lo": 2400.0,
+   "refined_hi": 4200.0,
+   "width_before": 1800.0,
+   "width_after": 1800.0,
+   "sequence": [
+    [
+     2400.0,
+     "P4",
+     true
+    ],
+    [
+     2550.0,
+     "P4",
+     false
+    ],
+    [
+     2700.0,
+     "P4",
+     true
+    ],
+    [
+     2850.0,
+     "P3",
+     false
+    ],
+    [
+     3000.0,
+     "P2",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     false
+    ],
+    [
+     4200.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.5,
+   "penetration": 0.2,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 2400.0,
+   "hi": 3600.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.5052413228638102,
+   "margin_hi": 0.5031661565161585,
+   "refined_lo": 2400.0,
+   "refined_hi": 3600.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     2400.0,
+     "P4",
+     true
+    ],
+    [
+     2550.0,
+     "P4",
+     false
+    ],
+    [
+     2700.0,
+     "P4",
+     false
+    ],
+    [
+     2850.0,
+     "P4",
+     false
+    ],
+    [
+     3000.0,
+     "P3",
+     false
+    ],
+    [
+     3600.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.5,
+   "penetration": 0.5,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 2,
+   "lo": 1200.0,
+   "hi": 2400.0,
+   "from_policy": "P4",
+   "to_policy": "P3",
+   "margin_lo": 0.25519203669517765,
+   "margin_hi": 0.525450156301531,
+   "refined_lo": 1200.0,
+   "refined_hi": 2400.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1200.0,
+     "P4",
+     true
+    ],
+    [
+     1350.0,
+     "P3",
+     false
+    ],
+    [
+     1500.0,
+     "P4",
+     false
+    ],
+    [
+     1650.0,
+     "P3",
+     false
+    ],
+    [
+     1800.0,
+     "P3",
+     false
+    ],
+    [
+     2400.0,
+     "P3",
+     true
+    ]
+   ]
+  },
+  {
+   "gc": 0.65,
+   "penetration": 0.2,
+   "lag": 300.0,
+   "incident": 0,
+   "alt": 1,
+   "lo": 1200.0,
+   "hi": 2400.0,
+   "from_policy": "P3",
+   "to_policy": "P4",
+   "margin_lo": 0.4737157550716802,
+   "margin_hi": 0.29603181758346864,
+   "refined_lo": 1200.0,
+   "refined_hi": 2400.0,
+   "width_before": 1200.0,
+   "width_after": 1200.0,
+   "sequence": [
+    [
+     1200.0,
+     "P3",
+     true
+    ],
+    [
+     1350.0,
+     "P4",
+     false
+    ],
+    [
+     1500.0,
+     "P2",
+     false
+    ],
+    [
+     1650.0,
+     "P4",
+     false
+    ],
+    [
+     1800.0,
+     "P2",
+     false
+    ],
+    [
+     2400.0,
+     "P4",
+     true
+    ]
+   ]
+  }
+ ],
+ "boundary_summary": {
+  "n_brackets": 19,
+  "n_narrowed": 0,
+  "monotone": [
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 120.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0,
+     3000.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P3",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2100.0,
+     2250.0
+    ],
+    "original_bracket": [
+     1800.0,
+     3000.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   },
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 2
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0,
+     3000.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P1",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2250.0,
+     2400.0
+    ],
+    "original_bracket": [
+     1800.0,
+     3000.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   },
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 120.0,
+     "incident": 0,
+     "alt": 2
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0,
+     3000.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P1",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2250.0,
+     2400.0
+    ],
+    "original_bracket": [
+     1800.0,
+     3000.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.5,
+     "lag": 120.0,
+     "incident": 1,
+     "alt": 1
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0,
+     3000.0,
+     3600.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3000.0,
+     3600.0
+    ],
+    "original_bracket": [
+     1800.0,
+     3600.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0,
+     3000.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P1",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2250.0,
+     2400.0
+    ],
+    "original_bracket": [
+     1800.0,
+     3000.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.5,
+     "lag": 30.0,
+     "incident": 1,
+     "alt": 1
+    },
+    "grid": [
+     3000.0,
+     3150.0,
+     3300.0,
+     3450.0,
+     3600.0
+    ],
+    "winners": [
+     "P4",
+     "P3",
+     "P3",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3000.0,
+     3150.0
+    ],
+    "original_bracket": [
+     3000.0,
+     3600.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 120.0,
+     "incident": 1,
+     "alt": 1
+    },
+    "grid": [
+     2400.0,
+     2550.0,
+     2700.0,
+     2850.0,
+     3000.0,
+     3600.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     true,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3600.0,
+     4200.0
+    ],
+    "original_bracket": [
+     2400.0,
+     4200.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 30.0,
+     "incident": 1,
+     "alt": 2
+    },
+    "grid": [
+     3000.0,
+     3150.0,
+     3300.0,
+     3450.0,
+     3600.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3600.0,
+     4200.0
+    ],
+    "original_bracket": [
+     3000.0,
+     4200.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 30.0,
+     "incident": 1,
+     "alt": 1
+    },
+    "grid": [
+     3600.0,
+     3750.0,
+     3900.0,
+     4050.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     true,
+     true,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3900.0,
+     4050.0
+    ],
+    "original_bracket": [
+     3600.0,
+     4200.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 30.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     1800.0,
+     1950.0,
+     2100.0,
+     2250.0,
+     2400.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2100.0,
+     2250.0
+    ],
+    "original_bracket": [
+     1800.0,
+     2400.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 120.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     3000.0,
+     3150.0,
+     3300.0,
+     3450.0,
+     3600.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     true,
+     true,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     3450.0,
+     3600.0
+    ],
+    "original_bracket": [
+     3000.0,
+     4200.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P1",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.8,
+     "lag": 30.0,
+     "incident": 0,
+     "alt": 2
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0
+    ],
+    "winners": [
+     "P1",
+     "P1",
+     "P1",
+     "P1",
+     "P1",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     true,
+     true,
+     true,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     1800.0,
+     2400.0
+    ],
+    "original_bracket": [
+     1200.0,
+     2400.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": true
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.5,
+     "penetration": 0.2,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     2400.0,
+     2550.0,
+     2700.0,
+     2850.0,
+     3000.0,
+     3600.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 1,
+    "point_estimate_bracket": [
+     2850.0,
+     3000.0
+    ],
+    "original_bracket": [
+     2400.0,
+     3600.0
+    ],
+    "narrowed": true,
+    "either_end_resolved": false
+   }
+  ],
+  "nonmonotone": [
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.5,
+     "penetration": 0.5,
+     "lag": 120.0,
+     "incident": 1,
+     "alt": 1
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0,
+     3000.0,
+     3600.0
+    ],
+    "winners": [
+     "P4",
+     "P3",
+     "P3",
+     "P4",
+     "P2",
+     "P4",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 5
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.5,
+     "penetration": 0.5,
+     "lag": 300.0,
+     "incident": 1,
+     "alt": 2
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0,
+     3000.0,
+     3600.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P2",
+     "P3",
+     "P3",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 2
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 120.0,
+     "incident": 1,
+     "alt": 2
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0,
+     3000.0,
+     3600.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P2",
+     "P3",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P4",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 4
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     2400.0,
+     2550.0,
+     2700.0,
+     2850.0,
+     3000.0,
+     3600.0,
+     4200.0
+    ],
+    "winners": [
+     "P4",
+     "P4",
+     "P4",
+     "P3",
+     "P2",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     true,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 3
+   },
+   {
+    "from": "P4",
+    "to": "P3",
+    "cell": {
+     "gc": 0.5,
+     "penetration": 0.5,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 2
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0
+    ],
+    "winners": [
+     "P4",
+     "P3",
+     "P4",
+     "P3",
+     "P3",
+     "P3"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 3
+   },
+   {
+    "from": "P3",
+    "to": "P4",
+    "cell": {
+     "gc": 0.65,
+     "penetration": 0.2,
+     "lag": 300.0,
+     "incident": 0,
+     "alt": 1
+    },
+    "grid": [
+     1200.0,
+     1350.0,
+     1500.0,
+     1650.0,
+     1800.0,
+     2400.0
+    ],
+    "winners": [
+     "P3",
+     "P4",
+     "P2",
+     "P4",
+     "P2",
+     "P4"
+    ],
+    "resolved": [
+     true,
+     false,
+     false,
+     false,
+     false,
+     true
+    ],
+    "n_changepoints": 5
+   }
+  ],
+  "n_monotone": 13,
+  "n_nonmonotone": 6,
+  "n_point_narrowed": 13,
+  "n_seed_resolved_narrowed": 0,
+  "median_point_bracket_width": 150.0,
+  "original_grid_spacing": 600.0
  }
 }

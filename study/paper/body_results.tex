@@ -147,6 +147,48 @@ outside the training envelope on the lag, penetration and green-ratio
 extrapolations respectively. The mechanistic rule degrades worst of all under
 shift, reaching \NumOODFivePenBOne~s on unseen penetration.
 
+One shift is instructive precisely because the gates do \emph{not} fire. When
+the disruption is moved to a corridor that carries none in any training context
+(O8), the support gate flags \NumOODEightNorthSupport{} of held-out contexts,
+because the descriptors of those contexts are identical to descriptors seen in
+training --- the incident's \emph{location} is not among them. The learned
+selector happens to do well there (\NumOODEightNorthBFour~s against
+\NumOODEightNorthBZero~s for the fixed policy), but it does so unguarded. A
+support gate defined on a feature space cannot detect a shift that leaves that
+feature space unchanged, and this is a concrete instance rather than a
+theoretical caveat.
+
+\subsection{The switching boundaries cannot be narrowed at this seed count}
+
+Where the main grid showed the preferred policy changing between adjacent
+demand levels, we ran three intermediate demand levels in each of the
+\NumBoundN{} widest-margin cells.
+
+\NumBoundMono{} of the \NumBoundN{} refined sequences are monotone, with a
+single change point, and in the point estimate they narrow the switching
+bracket from the \NumBoundGrid~veh/h grid spacing to a median of
+\NumBoundWidth~veh/h. All \NumBoundPOneN{} of the shortest-to-load-balancing
+transitions are monotone. Their change points sit in a
+\NumBoundWidth~veh/h bracket whose \emph{position} differs by cell, from
+\NumBoundPOneEarliestLo--\NumBoundPOneEarliestHi~veh/h in the earliest cell to
+\NumBoundPOneLatestLo--\NumBoundPOneLatestHi~veh/h in the latest, with a median
+of \NumBoundPOneMedLo--\NumBoundPOneMedHi~veh/h. That the position moves with
+the cell is the point: the boundary is a property of the operating conditions,
+not a single number for the network.
+
+\textbf{None of these refined steps is seed-resolved.} The point estimates move
+consistently, but at five seeds no individual step between adjacent refined
+levels exceeds twice its own standard error. The remaining \NumBoundNonMono{}
+sequences are non-monotone --- the winner changes back and forth across the
+refined grid --- and \NumBoundNonMonoPFour{} of those involve the
+reliability-aware policy.
+
+We therefore report the transition as a bracket and state that it is a point
+estimate, not a resolved boundary. The refinement tells us the shortest-path to
+load-balancing reversal is a genuine, ordered regime change, and that the
+apparent reliability-aware transitions near it are not distinguishable from
+noise.
+
 \subsection{The criteria disagree, and the policies specialise}
 
 Over all \NumContextsAnalysed{} contexts, \NumParetoNonSingleton{} have a

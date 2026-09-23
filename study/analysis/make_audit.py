@@ -10,8 +10,8 @@ AUD = os.path.join(HERE, "..", "audit")
 R = json.load(open(os.path.join(RES, "results.json")))
 CAL = json.load(open(os.path.join(RES, "capacity_calibration.json")))
 lad = {r["selector"]: r for r in R["ladder_loco"]}
-v, g, cm, cr, h = (R["validity"], R["G1_confirmatory"], R["complementarity"],
-                   R["criteria"], R["headroom"])
+v, g_, cm, cr, h = (R["validity"], R["G1_confirmatory"], R["complementarity"],
+                    R["criteria"], R["headroom"])
 
 
 def pc(x, d=1):
@@ -104,7 +104,7 @@ context alone. The experimental unit is the context. A difference is claimed
 only when the paired seed difference exceeds twice its standard error; the mean
 noise floor is {R['dataset']['mean_noise_floor_s']:.2f} s of journey time.
 Unresolved differences are reported as ties, and the number of them is reported
-rather than suppressed: {g['n_unresolved']} of {g['n_contexts']} contexts.
+rather than suppressed: {g_['n_unresolved']} of {g_['n_contexts']} contexts.
 
 ## 5. Metric audit
 
@@ -175,3 +175,80 @@ what addresses extrapolation, and neither detects concept shift.
 """
 open(os.path.join(AUD, "SCIENTIFIC_AUDIT.md"), "w").write(md)
 print("wrote audit/SCIENTIFIC_AUDIT.md")
+
+# ----------------------------------------------------------- contribution map
+fp, asy, rz = R["fixed_policy_choice"], R["asymmetry"], R["resolvability"]
+mr, cs = R["mechanistic_rule"], R["criterion_specialisation"]
+ood = R.get("ood", {})
+
+
+def g(split, sel, default="n/a"):
+    try:
+        return f"{ood[split][sel]['mean_regret']:.2f}"
+    except Exception:
+        return default
+
+
+cmap = f"""# Contribution Map
+
+Each contribution, the research question it answers, the result that supports
+it, and where that result appears. Every number is generated from
+`results/results.json`.
+
+## Contribution 1 --- Characterisation of the operating regions (RQ1)
+
+| | |
+|---|---|
+| **Claim** | Four established routing policies exhibit complementary performance across a factorial of demand, signal timing, penetration, information lag, disruption and alternative capacity. |
+| **Evidence** | Confirmatory gate G1', declared before the campaign: {g_['n_policies_with_resolved_win']} of 4 policies are strictly best in at least one context with a seed-resolved margin ({', '.join(g_['policies'])}). P2 is never a resolved winner. |
+| **Scale** | {R['campaign']['n_runs']:,} runs, {v['n_contexts_analysed']} contexts, {max(R['campaign']['seeds_per_cell'])} seeds, 0 failures, completion {v['min_completion']:.4f}. |
+| **Where** | Results 7.2; Table 4; Figures 4 and 5. |
+| **Qualification** | The winner map is multi-factor but shallow: a constant rule is correct in {pc(cm['winner_map']['constant_rule'],1)} of contexts, the best single factor reaches {pc(cm['winner_map']['best_single'],1)}. |
+
+## Contribution 2 --- Mechanistic explanation of the boundary (RQ2)
+
+| | |
+|---|---|
+| **Claim** | The preference boundary is explicable in dimensionless traffic terms, not only statistically. |
+| **Evidence** | The depth-2 rule splits first on `{mr['root_feature']}` = p*D/cap_C, the share of the shortest corridor's capacity the guided cohort alone would consume, at a threshold bracketed in [{mr['bracket_low']:.3f}, {mr['bracket_high']:.3f}]. |
+| **Where** | Section 6; Results 7.6; Figure 6. |
+| **Qualification** | Reported as a bracket between adjacent sampled levels, never as a point threshold. The rule is an association inside a designed factorial, not an identified causal mechanism. |
+
+## Contribution 3 --- Decision-oriented evaluation against a mechanistic rule (RQ3)
+
+| | |
+|---|---|
+| **Claim** | A learner adds value over a mechanistic rule only when it is trained on decision cost rather than on the winner's identity. |
+| **Evidence** | B1 is *more accurate and more expensive* than the fixed policy: {pc(R['top1_accuracy']['B1_mechanistic'],0)} vs {pc(R['top1_accuracy']['B0_SBS'],0)} top-1, {lad['B1_mechanistic']['mean_regret']:.2f} s vs {lad['B0_SBS']['mean_regret']:.2f} s regret. B4, predicting advantage, reaches {lad['B4_GBDT']['mean_regret']:.2f} s while being *less* accurate than B3 ({pc(R['top1_accuracy']['B4_GBDT'],0)} vs {pc(R['top1_accuracy']['B3_logit'],0)}). |
+| **Where** | Results 7.6--7.7; Table 5; Figure 7. |
+| **Qualification** | The absolute saving is {float(lad['B0_SBS']['mean_regret'])-float(lad['B4_GBDT']['mean_regret']):.3f} s per vehicle on a mean journey time of {fp['mean_cost'][fp['sbs']]:.1f} s --- under a tenth of one per cent. The selector works and is not worth deploying. |
+
+## Contribution 4 --- A selective mechanism with a safety envelope (RQ4)
+
+| | |
+|---|---|
+| **Claim** | A support-and-confidence gate prevents out-of-distribution harm by abstaining. |
+| **Evidence** | B5 abstains in {pc(R['ladder_loco_abstention']['rate'],0)} of contexts and recovers the fixed policy exactly. Under shift, the unguarded selector harms: unseen high demand {g('O1_demand_high','B0_SBS')} -> {g('O1_demand_high','B4_GBDT')} s; unseen disruption regime {g('O7_incident','B0_SBS')} -> {g('O7_incident','B4_GBDT')} s. B5 returns both to the fixed policy's value. |
+| **Where** | Results 7.8; Table 6; Figures 8 and 9. |
+| **Qualification** | The gate forgoes the in-distribution gain. It abstains because the conformal interval is wider than the effect --- correct behaviour, not a tuning failure. No coverage guarantee is claimed out of distribution. |
+
+## The result that reframes all four
+
+| | |
+|---|---|
+| **Finding** | The value of adapting the policy is {rz['mean_headroom_s']:.3f} s per vehicle ({100*rz['mean_headroom_s']/fp['mean_cost'][fp['sbs']]:.3f}%). The value of choosing the right *fixed* policy is {fp['worst_penalty_s']:.1f} s ({fp['worst_penalty_pct']:.1f}%). |
+| **Why** | The best fixed policy is near-dominant: it loses {asy['mean_loss_when_not_best_s']:.2f} s on average when it is not best ({pc(asy['frac_contexts_sbs_not_best'],1)} of contexts) and wins by {asy['mean_margin_when_best_s']:.1f} s when it is --- an upside {asy['upside_downside_ratio']:.0f}x its downside. |
+| **Resolution** | Among the {rz['n_contexts_sbs_not_best']} contexts where the fixed policy is not best, the headroom exceeds its own noise band in {rz['n_headroom_exceeds_own_noise']} ({pc(rz['frac_headroom_exceeds_own_noise'],0)}). Resolving the campaign-wide mean would need about {rz['seeds_needed_for_mean_effect']} seeds per context. |
+| **Where complementarity does live** | On the criterion vector: {pc(cm['frac_non_singleton_pareto'],1)} of contexts have a non-singleton Pareto set, and the reliability-aware policy minimises stopped delay in {cs['C3']['P4']} of {v['n_contexts_analysed']} contexts while minimising journey time in only {cs['C1']['P4']}. |
+
+## What is deliberately not claimed
+
+* No new routing, learning or multi-criteria decision algorithm.
+* No claim that regime-dependent routing has not been studied before.
+* No external validity: the environment is synthetic and every result is scoped to it.
+* No causal mechanism beyond association within a designed factorial.
+* No continuous threshold: boundaries are brackets between sampled levels.
+* No out-of-distribution coverage guarantee from conformal prediction.
+"""
+open(os.path.join(AUD, "CONTRIBUTION_MAP.md"), "w").write(cmap)
+print("wrote audit/CONTRIBUTION_MAP.md")

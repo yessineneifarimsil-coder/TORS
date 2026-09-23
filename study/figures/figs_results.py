@@ -97,7 +97,7 @@ def fig4():
 def fig5():
     """Winner map in the mechanistic plane, with the demand brackets in which
     the preferred policy changes."""
-    fig, axs = plt.subplots(1, 2, figsize=(6.6, 2.7), gridspec_kw=dict(wspace=0.3))
+    fig, axs = plt.subplots(1, 2, figsize=(6.6, 2.9), gridspec_kw=dict(wspace=0.38))
     ax = axs[0]
     for p in K.POLICIES:
         s = W[(W.winner == p) & W.resolved]
@@ -112,14 +112,16 @@ def fig5():
         -0.022, 0.022, len(u)), s=9, facecolors="none", edgecolors=ST.INK3,
         linewidths=0.5, label="no resolved winner", zorder=2)
     ax.axvline(1.0, color=ST.WARN, lw=0.9, ls=":")
-    ax.text(1.03, 0.905, "shortest corridor\nat capacity", fontsize=ST.TEXT - 1.5,
-            color=ST.WARN, va="top")
+    ax.text(1.05, 0.33, "shortest corridor\nat capacity", fontsize=ST.TEXT - 1.5,
+            color=ST.WARN, va="center")
     ax.set_xlabel("demand / capacity of the shortest corridor  $x_2$")
     ax.set_ylabel("guidance penetration  $x_5$")
     ax.set_yticks([0.2, 0.5, 0.8])
     ST.despine(ax); ax.grid(lw=0.5); ax.set_axisbelow(True)
-    ax.legend(fontsize=ST.TEXT - 1.7, loc="upper left", bbox_to_anchor=(-0.02, 1.02),
-              handletextpad=0.3, labelspacing=0.22, borderpad=0.0)
+    ax.set_ylim(0.08, 0.95)
+    ax.legend(fontsize=ST.TEXT - 1.7, loc="upper left", bbox_to_anchor=(0.30, 1.03),
+              handletextpad=0.3, labelspacing=0.2, borderpad=0.0, ncol=2,
+              columnspacing=0.9)
 
     ax = axs[1]
     dem = sorted(CT.demand.unique())
@@ -131,7 +133,7 @@ def fig5():
         ax.plot(dem, fr, ls=ST.LS[p], color=ST.POL[p], marker=ST.MARK[p],
                 ms=3.4, lw=1.3, label=ST.POLNAME[p])
     ax.set_xlabel("corridor demand (veh/h)")
-    ax.set_ylabel("share of contexts where the\npolicy is the resolved winner (%)")
+    ax.set_ylabel("resolved wins (% of contexts)")
     ax.set_xticks([1200, 2400, 3600]); ax.set_ylim(-3, 103)
     ST.despine(ax); ax.grid(axis="y", lw=0.5); ax.set_axisbelow(True)
     ST.save(fig, "fig5_regime_map")

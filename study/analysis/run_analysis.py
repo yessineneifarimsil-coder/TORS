@@ -196,7 +196,7 @@ json.dump(R, open(OUT, "w"), indent=1, default=jd)   # checkpoint before optiona
 
 # O8: incident on the bypass -- a corridor that carries no disruption in any
 # training context.  Trained on the main campaign, tested on a separate one.
-_p8 = os.path.join(RESDIR, "ood_bypass.jsonl")
+_p8 = os.path.join(RESDIR, "ood_north.jsonl")
 try:
     if os.path.exists(_p8) and sum(1 for _ in open(_p8)) >= 200:
         d8, _ = K.load(_p8)
@@ -204,11 +204,11 @@ try:
         if d8.ctx_key.nunique() >= 10:
             ct8 = K.context_table(d8)
             _, X8, C8, n8, _m8 = S.matrices(ct8)
-            R["ood"]["O8_bypass"] = OOD.domain_split(X, C, noise, X8, C8, n8)
-            R["ood"]["O8_bypass"]["_excluded"] = rep8["n_incomplete_contexts"]
-            R["ood"]["O8_bypass"]["_n_contexts"] = int(d8.ctx_key.nunique())
+            R["ood"]["O8_northcorridor"] = OOD.domain_split(X, C, noise, X8, C8, n8)
+            R["ood"]["O8_northcorridor"]["_excluded"] = rep8["n_incomplete_contexts"]
+            R["ood"]["O8_northcorridor"]["_n_contexts"] = int(d8.ctx_key.nunique())
     else:
-        R["ood_O8_status"] = "bypass-incident campaign not yet complete"
+        R["ood_O8_status"] = "north-corridor incident campaign not present"
 except Exception as e:
     R["ood_O8_status"] = f"bypass split skipped: {type(e).__name__}: {e}"
 

@@ -7,12 +7,12 @@ analysis produced; nothing is transcribed by hand.
 
 | | |
 |---|---|
-| Runs executed | 2,853 |
+| Runs executed | 12,960 |
 | Runs failed | 0 |
-| Contexts designed | 143 |
-| Contexts analysed | 142 |
+| Contexts designed | 648 |
+| Contexts analysed | 648 |
 | Contexts excluded, invalid | 0 |
-| Contexts excluded, incomplete | 1 |
+| Contexts excluded, incomplete | 0 |
 | Minimum completion rate | 1.0000 |
 | Mean completion rate | 1.0000 |
 | Total teleports | 0 |
@@ -51,14 +51,14 @@ capacity ratio of 2.00 while P1 commits the whole cohort to one path.
 
 ## 4. Seed and pairing audit
 
-Seeds per cell: [3, 5]. Common random numbers: the
+Seeds per cell: [5]. Common random numbers: the
 vehicle set, departure times, guided/unguided labelling, habitual corridor,
 background traffic and the incident realisation are functions of the seed and
 context alone. The experimental unit is the context. A difference is claimed
 only when the paired seed difference exceeds twice its standard error; the mean
-noise floor is 8.44 s of journey time.
+noise floor is 20.90 s of journey time.
 Unresolved differences are reported as ties, and the number of them is reported
-rather than suppressed: 126 of 142 contexts.
+rather than suppressed: 391 of 648 contexts.
 
 ## 5. Metric audit
 
@@ -70,34 +70,34 @@ Criterion alignment across the analysed contexts:
 
 | pair | pooled r | identical policy ordering |
 |---|---|---|
-| journey time vs CO2 | +0.9645 | 46% |
-| journey time vs stopped delay | +0.9618 | 46% |
-| CO2 vs stopped delay | +0.8758 | 25% |
+| journey time vs CO2 | +0.9390 | 52% |
+| journey time vs stopped delay | +0.8916 | 34% |
+| CO2 vs stopped delay | +0.8948 | 34% |
 
 The best policy on CO2 differs from the best on journey time in
-59 contexts
-(42%); on stopped delay,
-61 (43%).
+192 contexts
+(30%); on stopped delay,
+363 (56%).
 
 Three quantities are kept distinct throughout and never substituted: top-1
 selection accuracy, the policy ranking, and decision regret in seconds.
 
 ## 6. Baseline audit
 
-Single best policy: **P3**, optimal in 31%
-of contexts. Mean cost 312.2 s against the hindsight best
-311.7 s, so the headroom available to any selector is
-0.42 s per vehicle (0.14%), with a
-maximum of 6.1 s in a single context.
+Single best policy: **P3**, optimal in 65%
+of contexts. Mean cost 474.4 s against the hindsight best
+473.9 s, so the headroom available to any selector is
+0.45 s per vehicle (0.12%), with a
+maximum of 17.2 s in a single context.
 
 | selector | mean regret (s) | median | max | within noise | gap closed vs SBS |
 |---|---|---|---|---|---|
-| B0_SBS | 0.42 | 0.08 | 6.1 | 98% | -- |
-| B1_mechanistic | 0.49 | 0.00 | 6.6 | 95% | -0.151 |
-| B2_tree3 | 0.69 | 0.02 | 8.0 | 93% | -0.638 |
-| B3_logit | 0.14 | 0.00 | 2.1 | 100% | 0.676 |
-| B4_GBDT | 0.32 | 0.00 | 6.9 | 93% | 0.247 |
-| B5_selective | 0.42 | 0.07 | 6.1 | 98% | 0.011 |
+| B0_SBS | 0.45 | 0.00 | 17.2 | 99% | -- |
+| B1_mechanistic | 0.77 | 0.00 | 17.2 | 96% | -0.714 |
+| B2_tree3 | 0.34 | 0.00 | 17.2 | 99% | 0.238 |
+| B3_logit | 0.28 | 0.00 | 17.2 | 100% | 0.373 |
+| B4_GBDT | 0.20 | 0.00 | 7.0 | 100% | 0.558 |
+| B5_selective | 0.45 | 0.00 | 17.2 | 99% | 0.000 |
 | VBS_reference | 0.00 | 0.00 | 0.0 | 100% | 1.000 |
 
 VBS is retrospective and is not deployable; it appears only as an upper
@@ -107,11 +107,14 @@ reference. The primary comparison is B4 against B1.
 
 | split | held out | shift type | B0 | B1 | B4 | B5 | flagged | abstained |
 |---|---|---|---|---|---|---|---|---|
-| O2_demand_low | demand = 1200.0 | extrapolation | 0.53 | 0.63 | 0.53 | 0.53 | 100% | 0% |
-| O4_lag_long | lag = 300.0 | extrapolation | 0.49 | 0.42 | 0.69 | 0.49 | 100% | 63% |
-| O5_penetration | penetration = 0.8 | extrapolation | 1.56 | 1.01 | 0.38 | 1.56 | 100% | 54% |
-| O6_green_high | gc = 0.65 | extrapolation | 0.95 | 1.67 | 0.68 | 0.95 | 100% | 86% |
-| O7_incident | incident = 1.0 | covariate + concept shift | 0.21 | 1.62 | 5.57 | 0.21 | 0% | 64% |
+| O1_demand_high | demand = 4200.0 | extrapolation | 0.00 | 2.35 | 0.98 | 0.00 | 43% | 17% |
+| O2_demand_low | demand = 1200.0 | extrapolation | 0.53 | 0.52 | 0.53 | 0.53 | 15% | 75% |
+| O3_demand_mid | demand = 2400.0 | interpolation | 0.56 | 0.64 | 0.17 | 0.56 | 0% | 25% |
+| O4_lag_long | lag = 300.0 | extrapolation | 0.23 | 0.66 | 0.24 | 0.23 | 100% | 38% |
+| O5_penetration | penetration = 0.8 | extrapolation | 0.30 | 6.15 | 0.29 | 0.30 | 100% | 14% |
+| O6_green_high | gc = 0.65 | extrapolation | 1.04 | 3.68 | 1.16 | 1.04 | 100% | 51% |
+| O7_incident | incident = 1.0 | covariate + concept shift | 0.63 | 5.33 | 2.22 | 0.63 | 32% | 36% |
+| O8_northcorridor | incident located on the north corridor | domain shift | 0.31 | 0.29 | 0.18 | 0.31 | 0% | 31% |
 
 No coverage guarantee is claimed on any of these splits. Split conformal
 coverage requires exchangeability, which covariate shift breaks; the conformal
@@ -120,7 +123,7 @@ what addresses extrapolation, and neither detects concept shift.
 
 ## 8. Sensitivity audit
 
-Sensitivity campaign not present.
+Preference profiles change the preferred policy in 14.5% of contexts. Under P3, changing p3_eps from 0.2 to 0.1 shifts mean journey time by +8.10 s (+1.27%), 0.3 shifts mean journey time by -16.66 s (-2.62%). Under P4, changing p4_lambda from 1.0 to 0.5 shifts mean journey time by -0.11 s (+0.00%), 1.5 shifts mean journey time by +1.27 s (+0.16%).
 
 ## 9. Reproducibility audit
 

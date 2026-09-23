@@ -70,7 +70,7 @@ def all_splits(X, C, noise, meta):
 
 
 def domain_split(Xtr, Ctr, noisetr, Xte, Cte, noisete):
-    """O8: incident on a corridor absent from every training context."""
+    """O8: a disruption on a corridor that carries none in training."""
     tr = np.arange(len(Xtr))
     Xall = np.vstack([Xtr, Xte]); Call = np.vstack([Ctr, Cte])
     te = np.arange(len(Xtr), len(Xall))
@@ -81,7 +81,7 @@ def domain_split(Xtr, Ctr, noisetr, Xte, Cte, noisete):
              _out_of_support_rate=float((~ex["support_ok"]).mean()),
              _sbs_policy=K.POLICIES[ex["sbs"]],
              _shift_type="domain shift",
-             _held_out="incident located on the bypass corridor",
+             _held_out="incident located on the north corridor",
              _description=("the disruption occurs on a corridor that carries no "
                            "disruption in any training context"))
     ab = ex["abstain"]

@@ -47,7 +47,9 @@ def despine(ax, keep=("left", "bottom")):
 def save(fig, name):
     import os
     p = os.path.join(os.path.dirname(os.path.abspath(__file__)), name)
-    fig.savefig(p + ".pdf")
-    fig.savefig(p + ".png", dpi=200)
+    # pass bbox explicitly: the rcParam form is not reliably honoured when a
+    # figure-level legend sits outside the axes, and silently crops axis labels
+    fig.savefig(p + ".pdf", bbox_inches="tight", pad_inches=0.03)
+    fig.savefig(p + ".png", dpi=200, bbox_inches="tight", pad_inches=0.03)
     plt.close(fig)
     print("  wrote", name + ".pdf")
