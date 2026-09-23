@@ -274,3 +274,29 @@ and vehicle-seconds are reported alongside every normalised figure.
 
 Prediction accuracy, ranking accuracy and decision regret are reported as
 three distinct quantities and are never substituted for one another.
+
+## 6.1 Screening design — FROZEN
+
+Sixteen contexts, a resolution-IV `2^(6-2)` fractional factorial with
+generators `E = ABC` and `F = BCD` over
+A = demand, B = green ratio, C = penetration, D = lag, E = incident, F = alternative capacity,
+each at its extreme levels. Ten seeds (1001-1010) per context per policy: 640 runs.
+
+| # | demand | g/C | penetration | lag | incident | north lanes |
+|---|---|---|---|---|---|---|
+| 1 | 1800 | 0.35 | 0.2 | 30 | 0 | 1 |
+| 2 | 1800 | 0.35 | 0.2 | 300 | 0 | 2 |
+| 3 | 1800 | 0.35 | 0.8 | 30 | 1 | 2 |
+| 4 | 1800 | 0.35 | 0.8 | 300 | 1 | 1 |
+| 5 | 1800 | 0.65 | 0.2 | 30 | 1 | 2 |
+| 6 | 1800 | 0.65 | 0.2 | 300 | 1 | 1 |
+| 7 | 1800 | 0.65 | 0.8 | 30 | 0 | 1 |
+| 8 | 1800 | 0.65 | 0.8 | 300 | 0 | 2 |
+| 9 | 3600 | 0.35 | 0.2 | 30 | 1 | 1 |
+| 10 | 3600 | 0.35 | 0.2 | 300 | 1 | 2 |
+| 11 | 3600 | 0.35 | 0.8 | 30 | 0 | 2 |
+| 12 | 3600 | 0.35 | 0.8 | 300 | 0 | 1 |
+| 13 | 3600 | 0.65 | 0.2 | 30 | 0 | 2 |
+| 14 | 3600 | 0.65 | 0.2 | 300 | 0 | 1 |
+| 15 | 3600 | 0.65 | 0.8 | 30 | 1 | 1 |
+| 16 | 3600 | 0.65 | 0.8 | 300 | 1 | 2 |
