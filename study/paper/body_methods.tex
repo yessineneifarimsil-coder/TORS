@@ -1,0 +1,315 @@
+\section{Introduction}
+
+Choosing a route and choosing a \emph{routing policy} are different decisions.
+A navigation service may minimise distance, or estimated travel time, or may
+spread demand across alternatives, or may avoid corridors whose travel time is
+unpredictable. Each of these is an established objective with its own
+literature. Production systems commit to one and apply it uniformly.
+
+Whether that commitment costs anything depends on the traffic, not on the
+planner. A distance-minimising policy is unimprovable when the shortest
+corridor is uncongested and indefensible when it is saturated. A policy that
+reacts to measured travel times is useful when congestion builds slowly and
+counterproductive when a large guided cohort acts together on information that
+is already stale~\cite{arnott1991information,acemoglu2018braess}. Whether these
+regimes exist, where their boundaries lie, and whether they can be recognised
+before a policy is activated, are empirical questions.
+
+This paper answers them for a controlled microsimulation environment. The
+question is:
+
+\begin{quote}
+\emph{Given a traffic context observable before a routing policy is activated,
+which established policy should be activated, why is it the right one in that
+regime, and when should the selector decline to adapt at all?}
+\end{quote}
+
+\paragraph{Research questions.}
+\textbf{RQ1} Under which traffic, signal, information, penetration, capacity and
+disruption conditions do established routing policies exhibit complementary
+strengths?
+\textbf{RQ2} Can the preference boundaries between them be explained by
+mechanistic traffic variables rather than only by a statistical learner?
+\textbf{RQ3} Can a machine-learning selector identify useful selection structure
+beyond a strong mechanistic baseline?
+\textbf{RQ4} When the operating context lies outside the training support, or
+uncertainty is too high, can the system abstain safely and fall back to a fixed
+policy?
+
+\paragraph{Contributions.}
+\textbf{(1)} A systematic characterisation of the operating regions in which
+four established routing policies exhibit complementary performance, under
+congestion, signal timing, information lag, guidance penetration, disruption
+and alternative capacity.
+\textbf{(2)} A mechanism-informed explanation of policy switching using
+interpretable dimensionless traffic descriptors, so that the boundary is a
+statement about traffic and not about a model.
+\textbf{(3)} A decision-oriented context-aware selector, evaluated by decision
+regret against both a strong fixed baseline and the mechanistic rule --- the
+latter being the comparison that matters.
+\textbf{(4)} A selective mechanism that recognises support and uncertainty
+limits and abstains to a fixed policy, evaluated separately under five kinds of
+distribution shift.
+
+We introduce no routing algorithm, no learning algorithm and no multi-criteria
+decision method. Every policy and every model class used here is established
+and cited. The contribution is the characterisation, the mechanism, the
+decision evaluation and the safety envelope.
+
+\section{Related work}
+
+\paragraph{Routing objectives.} Distance- and travel-time-minimising route
+choice sits within the equilibrium tradition founded by
+Wardrop~\cite{wardrop1952}. Load-balancing route guidance, in which vehicles
+are distributed over a set of travel-time-acceptable alternatives according to
+predicted link load, is established; we use the flow-balanced $k$-shortest-path
+construction of Pan et al.~\cite{pan2013proactive}. Reliability-aware guidance,
+in which a dispersion term is added to expected travel time, follows
+Sen et al.~\cite{sen2001meanvariance}. Eco-routing, which minimises an
+emissions proxy, is established~\cite{boriboonsomsin2012eco}; whether it is
+\emph{distinct} from time-based routing in a given network is an empirical
+question that we test rather than assume.
+
+\paragraph{Information, penetration and instability.} That providing
+information to drivers need not reduce congestion has been understood since
+Arnott et al.~\cite{arnott1991information}, and has been given a sharp
+game-theoretic form by Acemoglu et al.~\cite{acemoglu2018braess}. The benefit
+of guidance depends on how much of the demand is guided~\cite{yang1998penetration}.
+These results motivate treating penetration and information lag as
+\emph{factors}, not as fixed implementation details.
+
+\paragraph{Per-instance algorithm selection.} Choosing among algorithms by
+instance features is Rice's problem~\cite{rice1976}, with a mature
+methodology~\cite{xu2008satzilla,smithmiles2009,kotthoff2014survey} and
+standard reference points --- the virtual best and single best solver --- from
+the benchmarking literature~\cite{bischl2016aslib}. Instance-space analysis
+asks where in a feature space each algorithm is
+strong~\cite{smithmiles2014instance}, which is precisely the question RQ1 asks
+of routing policies. Evaluating a predictor by the cost of the decision it
+induces rather than by its prediction error is the predict-then-optimise
+distinction of Elmachtoub and Grigas~\cite{elmachtoub2022spo}.
+
+\paragraph{Abstention and distribution shift.} Deciding not to decide is
+classical~\cite{chow1970reject}. Split conformal prediction supplies
+distribution-free intervals~\cite{vovk2005alrw,lei2018conformal}, but its
+coverage guarantee rests on exchangeability, which covariate shift
+breaks~\cite{shimodaira2000,tibshirani2019covshift}. We therefore use a
+conformal gate as a calibrated in-distribution instrument and a separate
+support gate for extrapolation, and say so explicitly rather than claiming
+that conformal prediction solves the out-of-distribution problem.
+
+\paragraph{Positioning.} We do not claim that regime-dependent routing has
+never been studied. Each component above has precedent. What is offered is the
+combination: an explicitly established policy portfolio selected per context in
+a physical microsimulation, evaluated by decision regret against both a best
+fixed policy \emph{and} a mechanistic rule, with mechanism-informed features,
+distribution shift reported separately by shift type, and a support-and-
+confidence gate that abstains.
+
+\section{Problem formulation}
+
+A \emph{context} $s$ is a set of operating conditions known before a policy is
+activated. A \emph{policy} $a \in \mathcal{P}$ maps individual vehicles to
+routes by its own objective. The decision is the map $\pi: s \mapsto a$, taken
+once per context.
+
+\paragraph{Two levels.} At level~1 a context selects a policy; at level~2 the
+selected policy routes vehicles. This is not route prediction, not
+vehicle-level action learning, not signal control and not joint
+routing--signal optimisation. The policies are fixed, published objectives;
+only the choice among them is learned.
+
+\paragraph{Decision cost and regret.} Writing $C(s,a)$ for the cost of running
+policy $a$ in context $s$,
+\begin{equation}
+R(s,a) \;=\; C(s,a) \;-\; \min_{b \in \mathcal{P}} C(s,b).
+\end{equation}
+Two reference points from the algorithm-selection literature~\cite{bischl2016aslib}
+bound what is achievable. The \textbf{single best policy} (SBS) is the one
+fixed policy with the lowest mean cost, chosen on training contexts only; it is
+what a deployed fixed-policy system achieves, and it is the baseline any
+selector must beat to be worth deploying. The \textbf{virtual best policy}
+(VBS) chooses the best policy for each context using that context's realised
+outcomes. \emph{VBS is retrospective. It is not an algorithm, it cannot be
+deployed, and it is used here only as an upper reference.} The distance between
+them is the headroom available to any selector.
+
+\paragraph{Criteria.} Three criteria are measured (Table~\ref{tab:criteria}):
+mean journey time C1, \CO{} emissions C2, and total stopped delay C3 --- the
+time vehicles spend stationary in queues. Policies are first compared by Pareto
+dominance over all three. Scalarisation is used only for sensitivity, through
+three declared normalised weight profiles. No monetary value of time, value of
+reliability or carbon price is used: no verified source for them was available
+in this study, and inventing one would make the conclusion an artefact of the
+invented number.
+
+\section{Experimental methodology}
+
+\paragraph{Network.} Figure~\ref{fig:network} shows the environment. One
+origin--destination pair is served by three corridors between a common diverge
+and a common merge: a short, signalised, two-lane central arterial; a longer
+and slower signalised street with one or two lanes; and a longest,
+uninterrupted single-lane bypass. Four minor streets carry independent demand
+through the same signals, so that a routing policy that loads a corridor also
+delays traffic that is not being routed. Because every junction permits
+straight-through movements only, the set of loopless paths from origin to
+destination is exactly these three: the candidate path catalogue is complete,
+not a $k$-shortest approximation.
+
+Two structural choices are deliberate. The destination portal gives each
+approach a dedicated exit lane, so that an alternative corridor is not
+penalised by junction priority rather than by its own capacity; and the
+diverge is not subject to a turn-radius speed ceiling, which in schematic node
+geometry would cap the bypass at a value belonging to the drawing rather than
+to the road. Both were identified by capacity validation before the experiment
+was frozen.
+
+\paragraph{Measured capacity.} Each corridor was driven to saturation alone and
+its discharge measured. Queue-discharge saturation flow is
+\NumSatArterial~veh/h/lane on the arterial and \NumSatNorth~veh/h/lane on the
+slower street, consistent to within \NumSatSpread{} across green ratios; the
+uninterrupted bypass carries \NumCapBypass~veh/h, below queue-discharge
+saturation flow as free-flow headways require. Capacity is therefore a measured
+property of this network, not a textbook constant asserted about it, and the
+demand levels of Table~\ref{tab:factors} follow from it.
+
+\paragraph{Policies.} The four policies are given in
+Table~\ref{tab:portfolio} and Figure~\ref{fig:portfolio}. All read traffic
+state from one shared observation buffer: a policy acting at time $t$ may read
+link travel times sampled no later than $t-\Delta$, over a window of 120\,s,
+and falls back to free-flow values before any admissible sample exists. No
+policy sees the future and none sees any realised outcome of the run it is part
+of. Policy parameters were frozen before the experiment: admissibility
+tolerance $\varepsilon=0.20$ and a 120\,s assignment window for P3,
+$\lambda=1.0$ for P4.
+
+Each policy was validated before use. Twelve known-answer tests check that the
+observation lag hides newer samples, that the free-flow fallback engages, that
+P1 ignores congestion, that P2 follows the observed mean, that P4 prefers the
+steadier of two paths with equal means, and that P3 respects its admissibility
+tolerance. A two-path integration test inside the simulator, with equal path
+lengths and a 2:1 capacity ratio, confirms that P3 splits demand
+\NumTwoPathRatio{} against the capacity ratio of 2.00 while P1 commits the
+entire cohort to one path.
+
+\paragraph{Factors and common random numbers.} Six factors
+(Table~\ref{tab:factors}, Figure~\ref{fig:design}) are crossed fully, giving
+\NumContexts{} contexts, each run with \NumSeeds{} seeds and all four policies.
+The vehicle set, departure times, guided/unguided labelling, habitual corridor
+choice, background traffic and the incident realisation are functions of the
+seed and the context alone, never of the policy. Two runs of a context under
+different policies therefore face identical vehicles, and every comparison in
+this paper is paired.
+
+Unguided drivers are not re-routed by anything: they follow a habitual corridor
+drawn once from a frozen logit over free-flow path times. This is what makes
+penetration meaningful --- at penetration $p$, a fraction $1-p$ of corridor
+demand is inert with respect to the policy under test.
+
+\paragraph{Disruption as risk, not as a known event.} When the incident regime
+is active, one lane closure is drawn --- location, onset and duration --- from a
+declared distribution seeded by the run seed. Within a context and seed the
+realisation is identical across all four policies, preserving the pairing
+exactly; across the seeds of a context it differs, so the context carries
+genuine travel-time risk that no policy can know in advance. An incident that
+occurred at an identical time and place in every replication would be a known
+event rather than a risk, and could not test a reliability-aware policy at all.
+
+\paragraph{Statistical treatment.} The experimental unit is the context, not
+the vehicle. An advantage of $a$ over $b$ is \emph{resolved} only when, across
+the paired seed differences, $|\overline{d}| > 2\,\mathrm{SE}(\overline{d})$.
+Unresolved differences are treated as ties throughout, so that no claim in this
+paper rests on a difference the seeds cannot separate.
+
+\section{Mechanistic regime model}
+
+A selector that fires on raw demand explains nothing. We therefore express each
+context through dimensionless descriptors with physical meaning, all computable
+before policy activation:
+network saturation $x_1 = D/\sum_c \mathrm{cap}_c$;
+saturation of the shortest corridor $x_2 = D/\mathrm{cap}_C$;
+alternative capacity share $x_3$;
+effective green ratio $x_4$;
+penetration $x_5$;
+information staleness $x_6 = \Delta / T^{\mathrm{ff}}_C$, the lag as a fraction
+of the free-flow trip time it is meant to describe;
+incident regime $x_7$; and
+controlled-flow saturation $x_8 = p\,D/\mathrm{cap}_C$, the share of the
+shortest corridor's capacity that the policy actually commands.
+
+Corridor capacity uses the measured saturation flows, effective green and lane
+count, so $x_1$, $x_2$ and $x_8$ are genuine degrees of saturation rather than
+scaled demand. A route-overlap index is not used: the three corridors share only
+their access and egress edges, so overlap is structurally constant here and
+carries no information.
+
+The mechanistic rule B1 is an axis-aligned region rule on $x_1$--$x_8$, of depth
+at most two, fitted on training contexts only. Its thresholds are reported as
+\emph{brackets between adjacent sampled levels}, never as exact continuous
+values: the experiment samples a grid, and a grid cannot locate a boundary more
+finely than its own spacing.
+
+\section{Context-aware selector}
+
+\paragraph{Target.} The selector predicts \emph{advantage}, not cost. For each
+policy $a$,
+\begin{equation}
+\Delta_a(x) \;=\; C_{\mathrm{SBS}}(x) \;-\; C_a(x),
+\end{equation}
+where the single best policy is determined on \emph{training contexts only}.
+A positive $\Delta_a$ means $a$ is better in that context than the fixed policy
+a deployed system would otherwise run, so the quantity being learned is exactly
+the quantity a decision-maker needs. Selection is $\arg\max_a \hat\Delta_a(x)$.
+
+\paragraph{Model.} Gradient-boosted decision
+trees~\cite{friedman2001gbm,ke2017lightgbm}, one regressor per policy, with
+hyperparameters fixed before evaluation and never tuned on a test fold. The
+data are a few hundred context-level instances with full feedback from every
+policy; a high-capacity model is neither needed nor defensible at this sample
+size. We do not use graph neural networks, deep networks, reinforcement
+learning or contextual bandits: the decision is a one-shot choice over four
+alternatives with complete feedback, which none of those formalisms is required
+for.
+
+\paragraph{Baseline ladder.} B0 is the best fixed policy; B1 the mechanistic
+rule; B2 a depth-3 decision tree; B3 multinomial logistic regression; B4 the
+GBDT advantage selector; B5 the selective variant below. VBS is reported as a
+reference. \textbf{The primary comparison is B4 against B1}, not B4 against
+B0: B0 is a low bar, and beating it demonstrates only that the decision varies
+with context at all. If the mechanistic rule wins, the finding is that the
+decision structure is simple enough that a learner adds nothing --- and that is
+reported as the result.
+
+\paragraph{Leakage discipline.} Evaluation is leave-one-context-out. Inside
+each fold, standardisation, the identity of the SBS, tree thresholds,
+conformal quantiles and the support envelope are all recomputed from training
+data alone. No seed of a held-out context appears in training. No realised
+outcome of a test context is used as a feature; the eight descriptors are
+functions of the context definition and cannot be computed from an outcome.
+
+\paragraph{Abstention.} Two gates must both pass before the selector acts.
+The \emph{support} gate measures the mean distance to the five nearest training
+contexts in standardised descriptor space and abstains above the 95th
+percentile of the training fold's own such distances. The \emph{confidence}
+gate is a split-conformal interval on the predicted advantage
+($\alpha=0.10$, calibrated on 30\% of the training fold); the selector acts only
+when the lower bound on the advantage over the fixed policy is positive. If
+either gate fails, the selector abstains and the fixed policy is used.
+
+Split conformal prediction guarantees coverage under
+\emph{exchangeability}~\cite{vovk2005alrw,lei2018conformal}. Covariate shift
+breaks that assumption~\cite{shimodaira2000,tibshirani2019covshift}, so the
+conformal gate is a calibrated instrument in-distribution and a heuristic
+outside it. It is the support gate, not the conformal gate, that addresses
+extrapolation, and neither detects concept shift. We state this as a limitation
+of the design rather than presenting conformal prediction as a solution to
+out-of-distribution behaviour.
+
+\paragraph{Distribution shift.} Eight held-out splits are evaluated
+separately, never pooled: demand above and below the training range, an
+interior demand level as an interpolation control, an unseen information lag, an
+unseen penetration, an unseen green ratio, training without disruption and
+testing under it, and an incident located on a corridor that carries no
+disruption in any training context. Pooling these would average an
+interpolation control together with a domain shift and hide the only thing the
+experiment can say about them, which is that they differ.
