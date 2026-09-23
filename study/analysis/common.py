@@ -17,7 +17,12 @@ def load(path):
     rows = [json.loads(l) for l in open(path) if l.strip()]
     bad = [r for r in rows if "_error" in r]
     rows = [r for r in rows if "_error" not in r]
+    if not rows:
+        return pd.DataFrame(columns=FACTORS + ["policy", "seed", "ctx_key"]), bad
     df = pd.DataFrame(rows)
+    missing = [c for c in FACTORS if c not in df.columns]
+    if missing:
+        raise ValueError(f"{path}: run records are missing factor columns {missing}")
     df["ctx_key"] = [ctx_key(r) for _, r in df[FACTORS].iterrows()]
     return df, bad
 

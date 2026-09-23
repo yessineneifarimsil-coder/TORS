@@ -158,6 +158,14 @@ def run(a):
 
         inc = draw_incident(a)
         inc_lane = f"{inc['edge']}_0" if inc else None
+        if inc and net.getEdge(inc["edge"]).getLaneNumber() < 2:
+            # Closing the only lane of a corridor does not reduce its capacity,
+            # it disconnects it.  Refuse rather than produce vehicles with no
+            # valid route.
+            raise ValueError(
+                f"incident edge {inc['edge']} has "
+                f"{net.getEdge(inc['edge']).getLaneNumber()} lane(s); a "
+                f"capacity-reducing lane closure requires at least 2")
         inc_on = False
         picks = {"C": 0, "N": 0, "S": 0}
         uninformed = 0
