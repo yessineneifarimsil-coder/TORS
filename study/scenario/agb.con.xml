@@ -1,0 +1,36 @@
+<connections>
+  <connection from="w_d" to="c0"/>
+  <connection from="w_d" to="n0"/>
+  <connection from="w_d" to="s0"/>
+  <connection from="s0" to="s1"/>
+  <connection from="s1" to="s2"/>
+  <connection from="c0" to="c1"/>
+  <connection from="n0" to="n1"/>
+  <connection from="c1" to="c2"/>
+  <connection from="n1" to="n2"/>
+  <connection from="c2" to="c3"/>
+  <connection from="n2" to="n3"/>
+  <connection from="c3" to="c4"/>
+  <connection from="n3" to="n4"/>
+  <connection from="xn1a" to="xn1b"/>
+  <connection from="xn1b" to="xn1c"/>
+  <connection from="xs1a" to="xs1b"/>
+  <connection from="xs1b" to="xs1c"/>
+  <connection from="xn2a" to="xn2b"/>
+  <connection from="xn2b" to="xn2c"/>
+  <connection from="xs2a" to="xs2b"/>
+  <connection from="xs2b" to="xs2c"/>
+  <connection from="xn3a" to="xn3b"/>
+  <connection from="xn3b" to="xn3c"/>
+  <connection from="xs3a" to="xs3b"/>
+  <connection from="xs3b" to="xs3c"/>
+  <connection from="xn4a" to="xn4b"/>
+  <connection from="xn4b" to="xn4c"/>
+  <connection from="xs4a" to="xs4b"/>
+  <connection from="xs4b" to="xs4c"/>
+  <connection from="c4" to="m_e" fromLane="0" toLane="0"/>
+  <connection from="c4" to="m_e" fromLane="1" toLane="1"/>
+  <connection from="s2" to="m_e" fromLane="0" toLane="4"/>
+  <connection from="n4" to="m_e" fromLane="0" toLane="2"/>
+  <connection from="n4" to="m_e" fromLane="1" toLane="3"/>
+</connections>
