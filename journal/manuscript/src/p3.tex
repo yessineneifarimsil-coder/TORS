@@ -1,0 +1,122 @@
+
+\section{Decision Problem and Conceptual Framework}
+\label{sec:problem}
+
+\subsection{Policy Selection Versus Route Assignment}
+\label{sec:problem:levels}
+
+Write $\mathcal{S}$ for the space of operating contexts and $\mathcal{A}$ for the
+finite portfolio of routing policies. Two nested decisions are made. The outer
+one, which we call \emph{level~1}, observes a context $s \in \mathcal{S}$ and
+switches on a single policy $a \in \mathcal{A}$ for the episode. The inner one,
+\emph{level~2}, is carried out by that policy: it assigns a path to each guided
+vehicle from whatever traffic information it is entitled to read. Learning
+occurs only at level~1. The policies themselves are fixed constructions taken
+from the literature and are not altered, tuned or combined by the selector.
+
+The separation matters for what can be claimed. Because level~2 is unchanged, an
+improvement attributable to level~1 is an improvement in \emph{choosing}, not in
+routing, and it is bounded above by the best that the fixed portfolio can do. It
+also fixes the unit of analysis: a context is one instance, not one vehicle and
+not one replication, and every replication of a context moves together through
+every evaluation protocol.
+
+A context contains only quantities defined before the policy is activated. Here
+it is the six-tuple of corridor demand, effective green ratio, guidance
+penetration, information lag, presence of a disruption and alternative-corridor
+capacity. No realised travel time, queue, flow or emission enters it.
+
+\subsection{Context Space and Policy Portfolio}
+\label{sec:problem:space}
+
+The context space is the full factorial of the six factors, and the portfolio
+contains four established policies, described in Sections~\ref{sec:method:net}
+and~\ref{sec:method:pol}. Two properties of the portfolio are treated as
+empirical questions rather than assumptions: whether its members are
+behaviourally distinct in this environment, and whether their outcome
+differences survive replication noise. Both are reported.
+
+\subsection{Decision Cost and Regret}
+\label{sec:problem:regret}
+
+Let $C(s,a)$ be the decision cost of policy $a$ in context $s$, measured on the
+primary criterion and averaged over the replications of that context. The
+primary criterion is the system mean journey time in seconds per vehicle;
+Section~\ref{sec:method:crit} states why, and the other two criteria are carried
+alongside. Costs are reported in seconds throughout, so no normalisation
+convention can affect them.
+
+The per-context best and its cost are
+\begin{equation}
+a^{\mathrm{VB}}(s) \in \arg\min_{a \in \mathcal{A}} C(s,a),
+\qquad
+C^{\mathrm{VB}}(s) = \min_{a \in \mathcal{A}} C(s,a).
+\label{eq:vbs}
+\end{equation}
+Selecting $a^{\mathrm{VB}}(s)$ everywhere defines the \emph{virtual best}
+reference. It uses the realised performance of every candidate and is therefore
+a bound, not a deployable method. For a selection rule
+$\pi : \mathcal{S} \to \mathcal{A}$ the \emph{decision regret} in context $s$ is
+\begin{equation}
+R(s,\pi) \;=\; C\bigl(s,\pi(s)\bigr) - C^{\mathrm{VB}}(s) \;\ge\; 0 .
+\label{eq:regret}
+\end{equation}
+Regret measures the cost of the decision, in seconds per vehicle. It is not a
+prediction error, and the two are not monotonically related.
+
+The strongest deployable non-adaptive rule is the \emph{single best} fixed
+policy
+\begin{equation}
+a^{\mathrm{SB}} \;=\; \arg\min_{a \in \mathcal{A}}\;
+\frac{1}{|\mathcal{S}|}\sum_{s \in \mathcal{S}} C(s,a),
+\label{eq:sbs}
+\end{equation}
+and the quantity that adaptation competes for is the \emph{decision headroom}
+\begin{equation}
+H \;=\; \frac{1}{|\mathcal{S}|}\sum_{s \in \mathcal{S}}
+\Bigl( C\bigl(s,a^{\mathrm{SB}}\bigr) - C^{\mathrm{VB}}(s) \Bigr),
+\qquad
+G(\pi) \;=\; 1 - \frac{\overline{R(\pi)}}{H},
+\label{eq:headroom}
+\end{equation}
+where $G(\pi)$ is the share of the headroom a rule recovers: $G=1$ at the
+virtual best, $G=0$ at the single best fixed policy and $G<0$ for a rule that is
+worse than doing nothing adaptive. In every held-out protocol,
+$a^{\mathrm{SB}}$ is identified from training contexts only, so the baseline is
+itself a fitted quantity and not an oracle.
+
+\subsection{Complementarity, Decision Value and Deployability}
+\label{sec:problem:three}
+
+The framework separates three properties that are often treated as one.
+
+\paragraph{Complementarity} Different policies are best in different contexts:
+$a^{\mathrm{VB}}(s)$ is not constant over $\mathcal{S}$. This is a property of
+the portfolio and the environment alone. It can be asserted on a scalar
+criterion or on the criterion vector, and the two can disagree: a policy may be
+non-dominated in many contexts while never minimising any single criterion.
+Complementarity says nothing about magnitude.
+
+\paragraph{Decision value} The cost carried by that variation, $H$ in
+Eq.~\eqref{eq:headroom}. The two properties come apart whenever the fixed policy
+is merely \emph{narrowly} beaten in the contexts it loses: many distinct winners
+can then coexist with a vanishing $H$. Complementarity is thus a precondition
+for decision value and no more than that, and the two are not even commensurable
+--- one counts contexts, the other prices seconds per vehicle.
+
+\paragraph{Deployability} Whether any rule can actually collect $H$ using only
+what is knowable before the policy is switched on, in conditions it was not
+fitted to, and whether it keeps doing so once those conditions drift. Formally
+this is $G(\pi)$ measured out of sample, together with how $\pi$ behaves when the
+context distribution is deliberately moved. Decision value does not buy this:
+interpolating within a sampled region is a different act from extrapolating
+beyond it, and the second can cost more than it returns.
+
+A fourth quantity is needed to interpret the other three. Because every context
+is replicated, each has a \emph{replication noise band}: the dispersion of the
+paired seed differences between policies. A headroom smaller than that band is
+not merely uncertain, it is unobservable at the achieved sample size, and the
+distinction between a small real effect and an unresolved one must be reported
+rather than absorbed into an average. Section~\ref{sec:method:stats} states the
+criterion used, and Section~\ref{sec:value} reports headroom against noise
+context by context.

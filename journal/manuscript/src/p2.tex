@@ -1,0 +1,115 @@
+
+\section{Literature Review and Research Gap}
+\label{sec:lit}
+
+Three bodies of work bear on the problem. The first supplies the routing
+mechanisms and what is known about when they help. The second supplies the
+objectives beyond travel time and the machinery for comparing them. The third
+supplies the decision-theoretic apparatus for choosing among mechanisms and for
+judging whether the choice generalises. Each is summarised for what it
+establishes; Section~\ref{sec:gap} states what none of them settles.
+
+\subsection{Dynamic and Traffic-Aware Routing}
+\label{sec:lit:routing}
+
+Route guidance begins from the observation that individually optimal and
+system-optimal assignments differ \citep{wardrop1952}. Dynamic guidance replaces
+static link attributes with observed or predicted conditions, and proactive
+formulations spread vehicles over admissible alternatives rather than
+concentrating them on the current fastest path; the flow-balanced $k$-shortest
+path construction of \citet{pan2013proactive} is the direct ancestor of the
+capacity-aware policy used here.
+
+A second and more cautionary strand establishes that guidance is not
+monotonically beneficial. Providing travellers with information need not reduce
+congestion and can increase it, both in equilibrium models
+\citep{arnott1991information} and in networks where added capacity or added
+information degrades outcomes \citep{acemoglu2018braess}. The size and even the
+sign of the effect depends on how many vehicles are guided: \citet{yang1998penetration}
+shows that benefits vary non-monotonically with market penetration, and recent
+work reaches the same conclusion from other directions. \citet{toso2024detrimental}
+show in a dynamical network-flow model that recommendation-following can produce
+partial demand transfer and congestion build-up whose severity is governed by the
+penetration rate, and \citet{cornacchia2026concentration}, simulating commercial
+navigation services on three Italian cities, find that route diversity falls as
+adoption rises and that emission benefits diminish, vanish or reverse beyond a
+city- and service-specific adoption threshold.
+
+This literature therefore establishes that a routing policy's value is
+state-dependent and penetration-dependent, and that the dependence can change
+sign. What it does not do is treat the choice among established policies as the
+object of study: it compares mechanisms, or studies one mechanism as adoption
+varies, rather than asking which of several should be active in a given
+operating condition and what that choice is worth.
+
+\subsection{Environmental, Multi-Criteria and Context-Dependent Routing}
+\label{sec:lit:multi}
+
+Routing on criteria other than time is well established. Eco-routing assigns
+paths using modelled emissions or fuel consumption
+\citep{boriboonsomsin2012eco}, and microsimulation supplies per-vehicle emission
+models that make such criteria computable inside a simulation
+\citep{krajzewicz2015emissions}. Reliability-aware guidance treats the variance
+of travel time as a cost alongside its mean; the mean--variance formulation of
+\citet{sen2001meanvariance} is the ancestor of the reliability-aware policy used
+here.
+
+Where several criteria are in play, the question of which policy is
+``preferred'' becomes a question about the criterion vector rather than about a
+scalar. That distinction matters here for a specific reason: a policy can be
+non-dominated on the criterion vector while never being best on any single
+criterion, and a study that scalarises early will not see it. This study
+therefore reports Pareto structure directly, and uses scalarisation only as a
+declared sensitivity analysis. It does not propose a multi-criteria decision
+method, and it deliberately avoids monetary scalarisation, because no value of
+time, value of reliability or carbon price was available for this setting that
+could be sourced rather than assumed.
+
+\subsection{Algorithm Selection and Decision-Oriented Evaluation}
+\label{sec:lit:as}
+
+The selection problem was formalised by \citet{rice1976} as a mapping from
+measurable properties of a problem instance to the algorithm expected to solve
+it best. Solver portfolios put that mapping into practice
+\citep{xu2008satzilla}, benchmark libraries fix how the resulting systems are
+described and compared \citep{bischl2016aslib}, and surveys together with
+instance-space analysis set out the methodology and where it breaks
+\citep{kotthoff2014survey,smithmiles2009,smithmiles2014instance}. Two reference
+points from that literature are used throughout this paper: the single best
+solver, the strongest deployable fixed choice, and the virtual best solver, the
+per-instance best chosen with hindsight, which is a bound and not a method.
+
+The same literature supplies the argument for evaluating a selector by the cost
+of its decisions rather than by its predictive accuracy. A model may predict
+outcomes poorly and still decide well if it preserves the ordering of the
+alternatives, and may predict well and decide badly if a small error falls near a
+boundary \citep{elmachtoub2022spo}. Where a selector must be trusted outside the
+conditions it was fitted on, the relevant machinery is that of distribution shift
+and selective prediction: the failure of exchangeability under covariate shift
+\citep{shimodaira2000}, conformal prediction and its weighted extension
+\citep{vovk2005alrw,lei2018conformal,tibshirani2019covshift}, and the classical
+reject option \citep{chow1970reject}. Gradient boosting supplies the regression
+model used here \citep{friedman2001gbm,ke2017lightgbm}.
+
+\subsection{Research Gap and Positioning}
+\label{sec:gap}
+
+Each strand answers part of the question and none answers the whole of it.
+Traffic-aware routing research demonstrates state dependence but keeps the
+mechanism, not the choice between mechanisms, as its object. Multi-criteria
+routing research supplies objectives and the means of comparing them without
+asking whether, in a particular network, those objectives separate the
+candidates at all. Algorithm-selection research supplies baselines, regret and
+generalisation testing, but its traffic applications are scarce and none pairs a
+controlled factorial over operating conditions with a shift analysis reported by
+shift type.
+
+The gap is accordingly not a claim that regime-dependent routing is unstudied;
+it plainly is not. The gap is that the three quantities named at the end of
+Section~\ref{sec:intro} have not been measured on a common benchmark, so their
+relationship is unknown, and a reader has no basis for converting evidence of the
+first into an expectation about the third. Every ingredient used below has
+precedent and is cited above. The contribution is the joint measurement, on a
+design large enough to separate the three quantities from one another and from
+the replication noise of the simulator, and the reporting of what that
+measurement returns, including where it returns nothing.

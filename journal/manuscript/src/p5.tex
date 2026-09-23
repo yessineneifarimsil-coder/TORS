@@ -1,0 +1,162 @@
+
+\section{Experimental Design and Computational Study}
+\label{sec:design}
+
+\subsection{Screening and Study Specification}
+\label{sec:design:screen}
+
+The specification --- factors, levels, policies, parameters, criteria, primary
+decision cost, resolution criterion, descriptor set, selector ladder,
+hyperparameters, shift splits and validity rules --- was frozen and committed
+before any evaluation run. Everything reported below follows it, with one
+recorded exception described in Section~\ref{sec:integrity}.
+
+Before the main campaign, a 16-context screen with ten seeds per cell (640 runs)
+evaluated four pre-declared gates on the primary criterion: that at least three
+policies be strictly best somewhere with a resolved margin (G1); that at least
+25\,\% of contexts have a non-singleton Pareto set (G2); that policy pairs not be
+effectively identical on average (G3); and that no single factor explain the
+winner map almost entirely (G4). G2, G3 and G4 passed. G1 failed, with two
+policies rather than three.
+
+\subsection{Main Factorial Campaign}
+\label{sec:design:main}
+
+The main campaign is the $648 \times 4 \times 5$ design: every context under
+every policy at every seed, $12{,}960$ runs. It is the basis of every result in
+Sections~\ref{sec:validity}--\ref{sec:criteria} and \ref{sec:selection}.
+
+\subsection{Boundary Refinement}
+\label{sec:design:boundary}
+
+The main grid samples demand every 600\,veh/h, so it can locate a change in the
+preferred policy only to within a 600\,veh/h bracket. Where the resolved winner
+changes between adjacent demand levels, a refinement campaign inserts three
+intermediate levels at 150\,veh/h spacing inside that bracket, holding all other
+factors fixed. Nineteen such transitions were refined, at 1140 runs. A grid
+cannot locate a boundary more finely than its own spacing, so the refined result
+is reported as a bracket between adjacent sampled levels and never as a
+continuous threshold.
+
+\subsection{Sensitivity Experiments}
+\label{sec:design:sens}
+
+Two policy parameters had to be chosen and were frozen: the admissibility
+tolerance $\epsilon$ of P3 and the risk weight $\lambda$ of P4. A separate
+campaign of 1920 runs re-simulates a 96-context subset at
+$\epsilon \in \{0.1, 0.3\}$ and $\lambda \in \{0.5, 1.5\}$ to measure how much
+the frozen choice matters. The frozen values are not revised in the light of this
+experiment; the result is reported as a property of the benchmark
+(Section~\ref{sec:robust}).
+
+A second, purely analytical sensitivity varies the preference profile over the
+three criteria across three declared normalised weightings, to test whether the
+choice of preferred policy depends on the weights.
+
+\subsection{Distribution-Shift Experiments}
+\label{sec:design:shift}
+
+Splits O1--O7 are constructed from the main campaign by holding out factor
+levels. O8 required a campaign of its own, because no context in the main
+factorial contains a disruption anywhere other than on the arterial: 54 contexts
+with a north-corridor disruption, 1080 runs.
+
+\paragraph{A planned split that proved infeasible}
+The domain-shift split was originally specified as a disruption on the
+\emph{south bypass}, which would have been the strongest available test because
+the bypass is the reliability-aware policy's preferred corridor. The
+corresponding campaign of 2160 runs was generated and executed, and every one of
+the 2160 runs failed. The reason is structural rather than computational: the
+bypass is a single-lane corridor, so closing a lane on it does not reduce its
+capacity, it disconnects it, and the simulator correctly reported that affected
+vehicles had no valid route. A lane closure is a capacity reduction only on a
+link with more than one lane. The split was replaced by the north-corridor
+disruption reported as O8, which is a genuine domain shift --- no training
+context contains a disruption on that corridor --- but is a weaker test than the
+one originally planned, because the north corridor is not the corridor that any
+policy specialises in. The failed campaign is reported in the ledger, the
+replacement is not presented as the original design, and the substitution is
+counted as a deviation in Section~\ref{sec:integrity}.
+
+\subsection{Campaign Ledger}
+\label{sec:design:ledger}
+
+Table~\ref{tab:ledger} reconciles every simulation executed in the study. The
+distinction matters because two different totals are defensible and only one of
+them supports the results: $12{,}960$ valid runs constitute the main campaign and
+every result in Sections~\ref{sec:validity}--\ref{sec:criteria} derives from
+them, while $20{,}284$ simulations were attempted across all campaigns, of which
+$18{,}124$ succeeded. Neither number is used where the other is meant.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Campaign ledger. Every simulation executed in the study, reconciled.
+Completion is the fraction of generated vehicles that reached their destination
+within the simulated horizon; a run is valid only at completion $\ge 0.98$ with
+no teleports.}
+\label{tab:ledger}
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Campaign & Purpose & Runs & Failed & Contexts & Pol. & Seeds & Compl.\\
+\midrule
+Screen & complementarity screen & 640 & 0 & 16 & 4 & 10 & 1.000\\
+Validate & scenario validation & 384 & 0 & 96 & 4 & 1 & 0.973\\
+\textbf{Main} & \textbf{main factorial} & \textbf{12{,}960} & \textbf{0} & \textbf{648} & \textbf{4} & \textbf{5} & \textbf{1.000}\\
+Boundary & boundary refinement & 1{,}140 & 0 & 19 brack. & 4 & 5 & 1.000\\
+Sensitivity & policy parameters & 1{,}920 & 0 & 96 & 2 & 5 & 1.000\\
+O8 north & domain shift & 1{,}080 & 0 & 54 & 4 & 5 & 1.000\\
+O8 bypass & domain shift, infeasible & 0 & 2{,}160 & --- & 4 & 5 & ---\\
+\midrule
+\multicolumn{2}{@{}l}{Attempted} & 20{,}284 & & & & &\\
+\multicolumn{2}{@{}l}{Succeeded} & 18{,}124 & & & & &\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Experimental Integrity and Deviations}
+\label{sec:integrity}
+
+Two deviations from the frozen specification are recorded, and both are reported
+here rather than in a supplement because each changes how a reader should weigh
+a result.
+
+\paragraph{D-1: the screening gate failed and the campaign was run anyway}
+The frozen rule stated that if G1, G3 or G4 failed, the main campaign would not
+be run and the study would report a negative result about portfolio design. G1
+failed: only two policies, P1 and P3, were strictly best somewhere with a
+resolved margin, against a threshold of three. The main campaign was run
+regardless. This is a protocol deviation and is not resolved by reinterpreting
+the rule.
+
+The reasons were recorded before the campaign was launched and none of them is a
+result the campaign might produce. First, the gate's purpose was satisfied: it
+exists to prevent a selection study being built on a portfolio with no selection
+problem, and a selection problem demonstrably existed, with the preferred policy
+reversing between P1 and P3 at resolved margins up to 18.0\,\%. Second, the gate
+was written against the primary criterion alone and was blind to the
+multi-criteria structure beside it: G2 passed, and all four policies appeared in
+Pareto sets, the reliability-aware policy most often of all. Third, the negative
+finding was not yet supportable: the screen sampled 16 contexts at extreme factor
+levels only and never sampled the demand transition region, so stopping would
+have asserted a negative from a small and badly placed fraction of the design.
+
+Four constraints were declared at the same time, before the campaign: that the
+study may not claim four-way complementarity on the primary criterion; that it
+may not claim P2 or P4 is ever the best journey-time policy unless the full
+campaign resolves such a win; that G1's failure must be reported as a finding;
+and that a confirmatory gate G1$'$ --- the identical definition evaluated on all
+648 contexts --- be declared in advance and its result reported whichever way it
+came out. Section~\ref{sec:complementarity} reports that result.
+
+The methodological lesson is recorded as such, because it generalises beyond this
+study: a complementarity screen must cover the interior of the factor space and
+not only its corners. A resolution-IV fraction at extreme levels is an efficient
+design for estimating main effects and a poor one for discovering where a winner
+map changes. A gate that is passed only after being overridden was a badly
+designed gate.
+
+\paragraph{D-2: the domain-shift split was replaced}
+The originally specified O8 was infeasible for the structural reason given in
+Section~\ref{sec:design:shift}, and was replaced by a weaker but valid
+alternative. The replacement is labelled as such wherever it appears.

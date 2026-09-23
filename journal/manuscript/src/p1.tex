@@ -1,0 +1,183 @@
+%% ---------------------------------------------------------------------------
+%% Context-Dependent Selection Among Established Urban Routing Policies
+%% Journal manuscript.  Standalone: compile main.tex directly.
+%%   pdflatex main -> bibtex main -> pdflatex main -> pdflatex main
+%% Figures are external PDFs in figures/.  Tables are inline.
+%% ---------------------------------------------------------------------------
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+\journal{Transportation Research Part C}
+
+%% Float placement: keep tables and figures near the text that cites them.
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.55}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.68}
+
+\newcommand{\CO}{CO\textsubscript{2}}
+\newcolumntype{R}{>{\raggedright\arraybackslash}X}
+\newcolumntype{d}{>{\raggedleft\arraybackslash}p{0.085\linewidth}}
+\setlength{\tabcolsep}{4.5pt}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Context-Dependent Selection Among Established Urban Routing
+Policies: Complementarity, Decision Value and Generalisation Under
+Distribution Shift}
+
+\author{Anonymised for review}
+\address{Affiliations withheld for review}
+
+\begin{abstract}
+A route guidance system must commit to a routing objective before any trip is
+assigned, and the merit of that objective depends on the operating context.
+We study the selection of the routing \emph{policy} itself as a per-instance
+decision problem. Four established policies --- shortest distance, reactive
+travel time, capacity-aware load balancing and reliability-aware mean--variance
+guidance --- are evaluated on a 648-context full factorial over corridor demand,
+green ratio, guidance penetration, information lag, disruption and alternative
+capacity, with five paired seeds per cell: 12{,}960 valid microsimulation runs.
+Three of the four policies are strictly best somewhere with a seed-resolved
+margin, and 73.0\,\% of contexts have more than one non-dominated policy across
+journey time, \CO\ and stopped delay, so the portfolio is complementary. Its
+decision value is small: the best fixed policy leaves 0.45\,s per vehicle of
+headroom on a 474.4\,s mean journey time, whereas the worst fixed policy costs
+220.2\,s (46.4\,\%). A gradient-boosted selector trained on advantage rather than
+on the winner's identity recovers 55.8\,\% of that headroom under
+leave-one-context-out evaluation and halves the worst case, while a transparent
+mechanistic rule is \emph{more} accurate and \emph{more} costly than doing
+nothing. Across eight distribution shifts reported separately by type the
+selector helps on two, is indistinguishable on three and harms on three; a
+support-and-confidence gate never certified a deviation, because the conformal
+interval is two orders of magnitude wider than the effect, and flagged none of
+the domain shift its features cannot encode. The contribution is a measurement
+rather than an algorithm: complementarity, decision value and deployability are
+distinct and quantitatively disconnected here, so reporting the first as
+evidence for the third overstates the case for adaptive routing-policy
+selection. Results are scoped to one synthetic network.
+\end{abstract}
+
+\begin{keyword}
+routing-policy selection \sep algorithm selection \sep decision regret \sep
+distribution shift \sep selective prediction \sep traffic microsimulation
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{sec:intro}
+
+Every deployed route guidance system embeds an answer to a question it is rarely
+asked to justify: by what objective should its paths be computed? Minimising
+distance, tracking the most recently observed travel times, balancing predicted
+flow against link capacity and penalising the variance of travel time are all
+defensible answers, and they are not the same answer --- each sends a given
+request down a different corridor. The objective is therefore a decision
+variable in its own right, logically prior to and constraining the route
+computation that follows it. It is that prior decision, rather than the route
+computation, that this paper measures.
+
+The question is operational rather than algorithmic. An operator does not
+usually get to invent a routing mechanism; it gets to choose among established
+ones, and to change that choice as conditions change. Whether it should is not
+obvious. The relative merit of routing objectives is known to depend on the
+traffic state: reacting to observed travel times helps most when there is
+congestion to react to, and can hurt when there is not, because a policy that
+diverts traffic from the shortest corridor pays the diversion cost whether or
+not the corridor is loaded. Modern systems also expose far more of the operating
+context than demand alone. Guidance reaches a varying and often unknown share of
+vehicles; the information it acts on is delayed by a measurable lag; signal
+timing determines how much of the available capacity each movement receives;
+capacity itself changes with disruption. Each of these is a plausible reason for
+the preferred policy to change, and each is measurable before any vehicle
+departs.
+
+Treating an operating condition as a problem instance and a routing objective as
+a solver places the question inside the per-instance algorithm-selection
+framework \citep{rice1976,bischl2016aslib}, which supplies both the baselines
+and the vocabulary used here. The reason for adopting that framing is not
+convenience but the separation it forces. Whether some policies beat others in
+some conditions, how much money that variation is actually worth, and whether
+any rule can collect it from information available in advance are three
+questions with three different answers, measured in three different units --- a
+count of contexts, a cost per vehicle, and a held-out regret under shift. They
+are routinely reported as though the first implied the last. Work on routing
+objectives typically establishes the first and leaves the other two to
+inference, which is safe only when the gap between them is small. Measuring that
+gap is the purpose of this study.
+
+We therefore ask:
+
+\begin{description}
+\item[RQ1] Under which combinations of demand, signal timing, guidance
+penetration, information lag, disruption and alternative capacity do established
+routing policies exhibit complementary strengths?
+\item[RQ2] Which physical properties of the context explain where the preferred
+policy changes?
+\item[RQ3] How much decision value is available from context-dependent
+selection, relative to the strongest fixed policy and to the hindsight bound?
+\item[RQ4] Does a learned selector contribute anything beyond a transparent
+mechanistic rule, and by what measure?
+\item[RQ5] How does selector performance change under interpolation,
+extrapolation, concept shift and domain shift, and what can an abstention
+mechanism actually prevent?
+\end{description}
+
+The study answers these on a controlled microsimulation benchmark: a
+three-corridor urban network, four established policies, a 648-cell full
+factorial over the six factors above, five paired seeds per cell, and 12{,}960
+valid runs with no failures and no vehicle teleports. The contributions are
+empirical and methodological, and one of them is negative:
+
+\begin{enumerate}
+\item A controlled characterisation of routing-policy complementarity across six
+operating dimensions simultaneously, with an explicit account of ties and of
+which wins survive replication noise (Section~\ref{sec:complementarity}).
+\item A quantitative separation of complementarity from decision value. The
+portfolio is complementary on three of four policies and on the criterion
+vector in 73.0\,\% of contexts, yet the headroom over the best fixed policy is
+0.095\,\% of mean journey time, while the penalty for the wrong fixed policy is
+46.4\,\% (Section~\ref{sec:value}).
+\item Evidence that decision-oriented evaluation reverses the ordering that
+accuracy would give. A depth-2 mechanistic rule is more accurate than doing
+nothing and costs more; a gradient-boosted model trained on advantage is less
+accurate than a logistic classifier and costs less
+(Section~\ref{sec:selection}).
+\item A distribution-shift analysis reported separately by shift type, in which
+the selector helps on two splits, is indistinguishable on three and harms on
+three, and in which the support gate flags every context of three extrapolation
+splits but none of the domain shift it was intended for
+(Section~\ref{sec:shift}).
+\item A negative result about selective prediction in this regime: the
+confidence gate never certified a deviation in any context, in or out of
+distribution, because the conformal half-width exceeds the available advantage
+by two orders of magnitude (Section~\ref{sec:selective}).
+\end{enumerate}
+
+Nothing here is proposed as a new method. Each policy is taken from the
+literature unchanged, criteria are compared by dominance rather than through a
+new preference model, and the selectors are standard classifiers and regressors
+used off the shelf. All results belong to one synthetic environment and none has
+been checked against field data.
+Section~\ref{sec:lit} positions the study, Section~\ref{sec:problem} states the
+decision problem, Sections~\ref{sec:method} and~\ref{sec:design} describe the
+method and the computational study, Section~\ref{sec:results} reports results,
+Section~\ref{sec:discussion} interprets them, and
+Section~\ref{sec:conclusion} concludes.

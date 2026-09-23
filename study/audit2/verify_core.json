@@ -1,0 +1,124 @@
+{
+ "ties": {
+  "n_contexts_with_tied_minimum": 50,
+  "frac": 0.07716049382716049,
+  "composition": {
+   "P2+P3+P4": 8,
+   "P2+P4": 39,
+   "P3+P4": 3
+  }
+ },
+ "winner_counts_stable_tiebreak": {
+  "P2": 80,
+  "P3": 418,
+  "P4": 129,
+  "P1": 21
+ },
+ "winner_counts_unique_minimum_only": {
+  "P3": 415,
+  "P4": 129,
+  "P2": 33,
+  "P1": 21
+ },
+ "winner_counts_tie_inclusive": {
+  "P1": 21,
+  "P2": 80,
+  "P3": 426,
+  "P4": 179
+ },
+ "resolved_wins": {
+  "P4": 19,
+  "P3": 227,
+  "P1": 11
+ },
+ "n_unresolved": 391,
+ "headroom": {
+  "sbs": "P3",
+  "mean_cost": {
+   "P1": 694.5582860994776,
+   "P2": 490.6912122105254,
+   "P3": 474.3526735139371,
+   "P4": 492.68880448123053
+  },
+  "vbs": 473.9018159480207,
+  "headroom_s": 0.4508575659163512,
+  "headroom_pct_aggregate": 0.09504691152607248,
+  "headroom_pct_per_context": 0.12040000296174784,
+  "max_headroom_s": 17.193959283031006
+ },
+ "asymmetry": {
+  "n_sbs_not_best": 222,
+  "frac_sbs_not_best": 0.3425925925925926,
+  "n_sbs_attains_min": 426,
+  "frac_sbs_attains_min": 0.6574074074074074,
+  "mean_loss_when_not_best_s": 1.3160166788909933,
+  "mean_margin_when_best_s": 22.474502067674617,
+  "upside_downside_ratio": 17.07767266795879
+ },
+ "pareto": {
+  "sizes": {
+   "3": 220,
+   "2": 240,
+   "1": 175,
+   "4": 13
+  },
+  "membership": {
+   "P2": 266,
+   "P3": 555,
+   "P4": 525,
+   "P1": 21
+  },
+  "frac_non_singleton": 0.7299382716049383
+ },
+ "winner_map_stable": {
+  "constant": 0.6450617283950617,
+  "single": {
+   "demand": 0.6651234567901234,
+   "gc": 0.6450617283950617,
+   "penetration": 0.6450617283950617,
+   "lag": 0.6450617283950617,
+   "incident": 0.6450617283950617,
+   "alt": 0.6450617283950617
+  },
+  "best_two": 0.7067901234567902,
+  "best_two_pair": "demand+penetration",
+  "best_three": 0.7916666666666666,
+  "all_six": 1.0
+ },
+ "criteria": {
+  "C1_vs_C2": {
+   "pooled_pearson": 0.939035960813106,
+   "mean_within_context_rank_corr": 0.8020576131687243,
+   "n_identical_ordering": 338
+  },
+  "C1_vs_C3": {
+   "pooled_pearson": 0.891621405015287,
+   "mean_within_context_rank_corr": 0.5969372684640697,
+   "n_identical_ordering": 220
+  },
+  "C2_vs_C3": {
+   "pooled_pearson": 0.8948189879951673,
+   "mean_within_context_rank_corr": 0.6452911779290903,
+   "n_identical_ordering": 222
+  }
+ },
+ "best_by_criterion": {
+  "C1": {
+   "P2": 80,
+   "P3": 418,
+   "P4": 129,
+   "P1": 21
+  },
+  "C2": {
+   "P2": 57,
+   "P3": 453,
+   "P4": 128,
+   "P1": 10
+  },
+  "C3": {
+   "P2": 80,
+   "P3": 139,
+   "P4": 429
+  }
+ }
+}

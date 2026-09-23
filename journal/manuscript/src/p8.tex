@@ -1,0 +1,52 @@
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper treated the choice among established urban routing policies as a
+per-instance decision problem and measured it on a controlled factorial of 648
+operating contexts, four policies and five paired seeds, comprising $12{,}960$
+valid microsimulation runs with no failures and no teleports.
+
+The portfolio is complementary. Three of four policies are strictly best in at
+least one context with a margin that survives replication, the reactive
+travel-time policy is never a resolved winner, and 73.0\,\% of contexts have more
+than one non-dominated policy across journey time, \CO\ and stopped delay. The
+winner map is genuinely multi-factor: no single factor predicts it above
+66.5\,\%, and the organising quantity is the product of demand and guidance
+penetration relative to the capacity of the shortest corridor.
+
+The decision value of that complementarity is small. The single best fixed policy
+leaves 0.45\,s per vehicle of headroom on a mean journey time of 474.4\,s, because
+it attains the per-context minimum in two thirds of contexts and, where it does
+not, loses 1.32\,s on average against winning by 22.47\,s where it does. By
+contrast, committing to the worst fixed policy costs 220.2\,s per vehicle, 46.4\,\%
+of the best fixed policy's mean. The first-order choice is worth roughly 490 times
+the second-order one, and tuning a single policy parameter was worth 37 times the
+entire adaptation headroom.
+
+Deployability is a third and separate question. Under leave-one-context-out
+evaluation a gradient-boosted model trained on advantage recovers 55.8\,\% of the
+headroom and more than halves the worst case, while a transparent depth-2 rule is
+more accurate than doing nothing and costs 71\,\% more; accuracy and decision
+quality order the candidate rules differently. Across eight distribution shifts
+reported separately by type, the selector helps on two, is indistinguishable on
+three and harms on three, with the worst damage under concept shift. A
+support-and-confidence gate never certified a deviation in any of the 648
+contexts, because the conformal interval is two orders of magnitude wider than the
+effect, and its support component flagged every context of three factor-level
+extrapolations but none of the domain shift, which its feature representation
+cannot see.
+
+The contribution is therefore a measurement and a set of distinctions, not an
+algorithm. Complementarity, decision value and deployability are different
+properties; they are quantitatively disconnected in this environment; and a study
+that reports the first as evidence for the third --- as is common when portfolios
+are described by how many members win somewhere --- would overstate the case for
+adaptive routing-policy selection by more than two orders of magnitude. The
+practical recommendation that follows is correspondingly modest: choose the fixed
+policy carefully, calibrate it, and add an adaptive layer only after measuring
+that the headroom it competes for exceeds the noise of the system it will act on.
+
+All results are scoped to one synthetic network and are not externally validated.
+The specification, run records, analysis code and figure scripts are available so
+that every number can be recomputed from the simulation output.
