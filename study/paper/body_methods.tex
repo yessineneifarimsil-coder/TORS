@@ -145,6 +145,11 @@ invented number.
 
 \section{Experimental methodology}
 
+All experiments run in SUMO~\cite{lopez2018sumo}, with emissions from its
+HBEFA3 implementation~\cite{krajzewicz2015emissions}. Policies act through the
+simulator's online control interface, so every routing decision is taken inside
+the running simulation from information available at that instant.
+
 \paragraph{Network.} Figure~\ref{fig:network} shows the environment. One
 origin--destination pair is served by three corridors between a common diverge
 and a common merge: a short, signalised, two-lane central arterial; a longer

@@ -212,3 +212,55 @@ outside the training envelope.}
 """).strip())
 
 print("tables written to", OUT)
+
+# ---------------------------------------------------------------- table 7
+sn = R.get("sensitivity", {})
+if sn and isinstance(sn.get("parameters"), dict):
+    prm, pref = sn["parameters"], sn["preference"]
+    st = sn.get("winner_stability", {})
+    prows = []
+    for pol, d in prm.items():
+        if not isinstance(d, dict) or "alternatives" not in d:
+            continue
+        for a, rr in d["alternatives"].items():
+            key = f"{pol}_{d['parameter']}={a}"
+            stab = st.get(key, {}).get("frac_winner_unchanged")
+            prows.append(
+                f"{pol} & \\texttt{{{d['parameter'].replace('_',chr(92)+'_')}}} "
+                f"& {d['frozen_value']} & {a} & {rr['mean_change_s']:+.2f} & "
+                f"{rr['mean_change_pct']:+.2f}\\% & "
+                f"{'--' if stab is None else pc(stab,0)}\\\\")
+    frows = []
+    for name, wts in pref["profiles"].items():
+        agree = pref["frac_profile_agrees_with_C1"][name]
+        sel = pref["selection_by_profile"][name]
+        frows.append(f"{name.capitalize()} & ({wts[0]:.2f}, {wts[1]:.2f}, "
+                     f"{wts[2]:.2f}) & " +
+                     " & ".join(str(sel.get(p, 0)) for p in K.POLICIES) +
+                     f" & {pc(agree,1)}\\\\")
+    w("tab7_sensitivity", (r"""
+\begin{table}[t]
+\caption{Sensitivity and robustness. Upper: the two policy parameters frozen
+before the experiment, the effect of changing each on that policy's own mean
+journey time, and how often the identity of the best policy is unchanged.
+Lower: the three declared preference profiles over normalised criteria, the
+policy each selects, and how often that agrees with the journey-time choice.}
+\label{tab:sensitivity}
+\centering\small
+\begin{tabular}{@{}l l r r r r r@{}}
+\toprule
+\multicolumn{7}{@{}l}{\emph{Policy parameters}}\\
+\midrule
+Policy & Parameter & Frozen & Alternative & $\Delta$ (s) & $\Delta$ (\%) & winner unchanged\\
+\midrule
+""" + "\n".join(prows) + r"""
+\midrule
+\multicolumn{7}{@{}l}{\emph{Preference profiles} (weights on normalised C1, C2, C3)}\\
+\midrule
+Profile & Weights & P1 & P2 & P3 & P4 & agrees with C1\\
+\midrule
+""" + "\n".join(frows) + r"""
+\bottomrule
+\end{tabular}
+\end{table}
+""").strip())

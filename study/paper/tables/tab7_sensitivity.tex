@@ -1,0 +1,29 @@
+\begin{table}[t]
+\caption{Sensitivity and robustness. Upper: the two policy parameters frozen
+before the experiment, the effect of changing each on that policy's own mean
+journey time, and how often the identity of the best policy is unchanged.
+Lower: the three declared preference profiles over normalised criteria, the
+policy each selects, and how often that agrees with the journey-time choice.}
+\label{tab:sensitivity}
+\centering\small
+\begin{tabular}{@{}l l r r r r r@{}}
+\toprule
+\multicolumn{7}{@{}l}{\emph{Policy parameters}}\\
+\midrule
+Policy & Parameter & Frozen & Alternative & $\Delta$ (s) & $\Delta$ (\%) & winner unchanged\\
+\midrule
+P3 & \texttt{p3\_eps} & 0.2 & 0.1 & +8.10 & +1.27\% & 84\%\\
+P3 & \texttt{p3\_eps} & 0.2 & 0.3 & -16.66 & -2.62\% & 78\%\\
+P4 & \texttt{p4\_lambda} & 1.0 & 0.5 & -0.11 & +0.00\% & 91\%\\
+P4 & \texttt{p4\_lambda} & 1.0 & 1.5 & +1.27 & +0.16\% & 98\%\\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Preference profiles} (weights on normalised C1, C2, C3)}\\
+\midrule
+Profile & Weights & P1 & P2 & P3 & P4 & agrees with C1\\
+\midrule
+Time & (0.70, 0.15, 0.15) & 19 & 76 & 406 & 147 & 92.9\%\\
+Balanced & (0.40, 0.30, 0.30) & 8 & 70 & 399 & 171 & 86.0\%\\
+Environment & (0.20, 0.55, 0.25) & 7 & 66 & 425 & 150 & 80.1\%\\
+\bottomrule
+\end{tabular}
+\end{table}

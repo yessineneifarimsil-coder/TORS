@@ -34,28 +34,36 @@ was chosen because it made a policy win; the demand levels follow from the
 
 ### A3. "The screening gate failed and you carried on anyway."
 
-**Where answered:** `results/SCREENING_REPORT.md` (deviation D-1); Results.
+**Where answered:** `results/SCREENING_REPORT.md` (deviation D-1 and its
+addendum); Results 7.2.
 **Answer.** Yes, and it is recorded as a deviation rather than dissolved by
-reinterpretation. The reasons are stated, were known at the time of the
-decision, and none is a result the campaign might produce: a selection problem
-demonstrably exists (the preferred policy reverses with resolved margins up to
-18%); the gate was written against one criterion and is blind to the
-three-criterion structure beside it, in which all four policies are
-non-dominated somewhere; and the negative finding itself rested on 16 of 648
-contexts sampled at extreme levels only, never touching the demand transition
-region. The main campaign was run to substantiate the negative result, and a
-confirmatory gate on the full data was declared before it was launched and is
-reported whatever it says.
+reinterpretation. The reasons were stated at the time and none was a result the
+campaign might produce. The confirmatory gate G1', declared in the same document
+before the campaign was launched, **passed** on all 648 contexts: three policies
+are strictly best somewhere by a resolved margin. The screen's STOP was a
+sampling artefact of a 16-context resolution-IV design at extreme factor levels
+that never sampled the demand transition region.
 
-### A4. "Your headroom is small, so the whole exercise is pointless."
+That vindicates the reasoning but does not retrospectively excuse the deviation,
+and the report says so. The design lesson is recorded with it: a complementarity
+screen must cover the interior of the factor space, not only its corners.
 
-**Where answered:** Results; Discussion.
-**Answer.** If the headroom is small, that *is* the finding, and it is reported
-with its physical magnitude in seconds rather than as a normalised percentage
-that would flatter it. A study that only reports large effects is not a study.
-The operational conclusion --- that fixed-policy operation is adequate over a
-stated region and inadequate over another --- is useful precisely because the
-region where adaptation pays is bounded and identified.
+### A4. "Your headroom is 0.45 s. Why is this publishable?"
+
+**Where answered:** Results 7.3--7.5; Discussion 8.6.
+**Answer.** Because the size of the headroom is the result, not an obstacle to
+it. Three things make it worth reporting. First, it is measured against a
+quantity that is *not* small: choosing the wrong fixed policy costs 46.4% of
+system journey time, so the paper separates a decision worth 46% from one worth
+0.12% that the literature routinely treats as the same question. Second, the
+mechanism is identified and general: the best fixed policy has an upside 18x its
+downside, and any portfolio with such a member will show the same pattern.
+Third, the diagnostic is cheap and transferable --- compare the best fixed
+policy with the retrospective best, and both with the noise floor of the same
+comparison, before choosing a model class.
+
+A study that reports only large effects is a study that has decided its
+conclusion in advance.
 
 ### A5. "GBDT beating a fixed policy is trivial. Any model would."
 
@@ -98,23 +106,28 @@ median 0.13%, indicating that the unresolved cases are genuinely near-ties.
 
 ### A9. "P4 is just P2 with an extra term. The portfolio is padded."
 
-**Where answered:** Results (complementarity); Discussion.
-**Answer.** This is tested rather than asserted. Pairwise outcome-identity is
-reported for all six policy pairs, and P2/P4 is the highest of them. Where they
-differ, the difference is quantified. If P4 turns out to be redundant on the
-primary criterion, that is reported as a finding about reliability-aware routing
-in this environment --- including the case where it is nonetheless the most
-frequently non-dominated policy because it minimises stopped delay.
+**Where answered:** Results 7.2 and 7.9; Table 4.
+**Answer.** The data say the opposite, and about a different policy. P4 is
+strictly best on journey time in 19 contexts by a resolved margin, is
+non-dominated in 81.0% of contexts, and **minimises total stopped delay in 429
+of 648 contexts** while minimising journey time in only 129. It is the
+stopped-delay specialist, and dropping it would remove the only policy that
+optimises that criterion.
+
+The policy that is redundant on journey time is **P2**, which is never a
+resolved winner anywhere in the factor space. That is reported as a finding
+about reactive travel-time routing in this environment, not hidden.
 
 ### A10. "Why no eco-routing policy, when you measure \CO{}?"
 
-**Where answered:** Section 2; Results (criterion audit).
-**Answer.** Because the evidence does not support adding one. The
-time/\CO{} correlation and the frequency with which the two criteria rank
-policies identically are measured and reported. An objective that is nearly
-monotone in travel time adds a label, not a policy. The exclusion is an
-empirical result, and the numbers supporting it are given so a referee can
-disagree with the threshold rather than with an assertion.
+**Where answered:** Section 2; Results 7.9.
+**Answer.** Because the measured evidence does not support adding one. Across
+648 contexts, journey time and \CO{} correlate at r = 0.939 and rank the four
+policies identically in 52.2% of contexts; the best policy on \CO{} differs
+from the best on journey time in 29.6%. By contrast, stopped delay disagrees in
+56.0%. An objective nearly monotone in travel time adds a label rather than a
+policy, and the numbers are given so a referee may disagree with the threshold
+rather than with an assertion.
 
 ### A11. "Insertion delay inflates your journey times."
 
@@ -163,3 +176,40 @@ couples the routing decision to traffic that is not being routed, but the
 routing choice itself is a three-way choice on one OD pair. Generalising to
 many simultaneously-routed OD pairs is the clearest next step and is named as
 such rather than implied to be covered.
+
+
+### A16. "Your safety gate never fires usefully --- B5 just equals B0."
+
+**Where answered:** Results 7.8; Discussion 8.4.
+**Answer.** That is the finding, and it is the correct behaviour. The conformal
+interval on the predicted advantage is wider than the advantage itself, so a
+gate requiring a positive lower bound cannot certify a gain. Loosening it until
+it acted would be exactly the failure mode this study is written against.
+
+What the gate buys is bounded and stated: it prevented every out-of-distribution
+harm constructed (unseen high demand 0.98 -> 0.00 s; unseen disruption regime
+2.22 -> 0.63 s), and it cost the 0.25 s in-distribution gain that the unguarded
+selector achieves. Both halves of that trade are reported.
+
+### A17. "Your support gate did not detect the domain shift in O8."
+
+**Where answered:** Results 7.8; Limitations.
+**Answer.** Correct, and the paper says so rather than omitting the split. When
+the disruption moves to a corridor that carries none in training, the support
+gate flags 0% of held-out contexts --- because the incident's *location* is not
+among the eight descriptors, so those contexts are genuinely inside the training
+support as the feature space defines it. A support gate defined on a feature
+space cannot detect a shift that leaves that space unchanged. We report it as a
+concrete instance of a limitation that is usually stated only in the abstract.
+
+### A18. "You claim a switching boundary but never resolve one."
+
+**Where answered:** Results 7.7.
+**Answer.** Exactly so, and that is what is reported. Of 19 refined brackets, 13
+are monotone and narrow the switching bracket from the 600 veh/h grid to a
+median of 150 veh/h *in point estimate*; none of the refined steps is resolved
+at five seeds, and 6 sequences are non-monotone. The paper therefore reports the
+transition as a point-estimate bracket, states that it is unresolved, and
+distinguishes the shortest-path to load-balancing reversal (monotone in all six
+cells) from the apparent reliability-aware transitions near it (non-monotone,
+consistent with noise).

@@ -1,64 +1,31 @@
-# SWFC — SHAP-Weighted Fuzzy CoCoSo for ITS Prioritisation
+# Context-Dependent Selection Among Established Urban Routing Policies
 
-Research repository for the IC_TORS'26 paper.
+The complete study is in **`study/`**: scenario, policy implementations,
+simulation campaigns, analysis, figures, manuscript and audit.
 
-## Research objective
+Start with `study/README.md` for the layout and exact reproduction steps.
 
-Develop and evaluate a data-driven framework combining:
+| | |
+|---|---|
+| Manuscript | `study/paper/main.pdf` (source: `main.tex`, `references.bib`) |
+| Frozen specification | `study/spec/FROZEN_SPEC.md` — committed before any evaluation run |
+| Screening result and protocol deviation | `study/results/SCREENING_REPORT.md` |
+| Every reported number | `study/results/results.json` |
+| Scientific audit | `study/audit/SCIENTIFIC_AUDIT.md` |
+| Contribution map | `study/audit/CONTRIBUTION_MAP.md` |
+| Reviewer attack list | `study/audit/REVIEWER_ATTACK_LIST.md` |
+| Literature audit | `study/audit/LITERATURE_AUDIT.md` |
+| Quality-control gate | `study/audit/qc_gate.py` — 17 automated checks |
 
-1. Synthetic traffic-inspired data generation
-2. XGBoost predictive modelling
-3. SHAP explainability
-4. Data-derived criteria weighting
-5. Fuzzy CoCoSo
-6. Sensitivity and robustness analysis
+## Scale
 
-## Research principle
+18,124 SUMO runs: 384 scenario-validation, 640 screening, 12,960 main
+factorial, 1,920 sensitivity, 1,080 domain-shift, 1,140 boundary-localisation.
+Zero failed runs and zero teleports in the analysed campaigns.
 
-The computational experiment must be reproducible.
+## Other directories
 
-No numerical result will be inserted into the paper unless it can be regenerated from the code and documented data.
-
-## Research stages
-
-- [ ] Define criteria and alternatives
-- [ ] Define synthetic-data generation mechanism
-- [ ] Generate benchmark dataset
-- [ ] Validate dataset
-- [ ] Train XGBoost
-- [ ] Cross-validation
-- [ ] SHAP analysis
-- [ ] Derive criteria weights
-- [ ] Construct fuzzy decision matrix
-- [ ] Fuzzy CoCoSo
-- [ ] Sensitivity analysis
-- [ ] Weight perturbation
-- [ ] Alternative MCDM comparison
-- [ ] Generate final tables
-- [ ] Generate final figures
-- [ ] Update LaTeX paper
-
-## Environment
-
-Python 3.11  
-Conda environment: `swfc`
-
-## Repository structure
-
-```text
-data/
-    raw/
-    processed/
-
-src/
-
-results/
-    tables/
-    figures/
-    models/
-
-notebooks/
-
-docs/
-
-paper/
+`routing_regime_study/` and `V2_REDESIGN/` hold earlier development material
+retained for provenance. They are not inputs to the study in `study/`, which
+builds its environment from scratch; `study/INVENTORY.md` records why their
+measurements are not protocol-compatible and are cited nowhere.
