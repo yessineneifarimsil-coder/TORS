@@ -1,0 +1,204 @@
+\section{Results}
+
+\subsection{Campaign validity}
+
+The main campaign executed \NumRuns{} runs over \NumContexts{} contexts with
+\NumPolicies{} policies and \NumSeeds{} seeds. No run failed. Every run
+completed every vehicle it generated (minimum completion rate
+\NumMinCompletion{}), and there were \NumTeleports{} teleports in the entire
+campaign, so no result rests on a vehicle the simulator removed. All
+\NumContextsAnalysed{} contexts satisfy the validity and completeness rules
+declared in advance, and none is excluded.
+
+\subsection{The portfolio is complementary, and one policy is near-dominant}
+
+Gate G1$'$ --- declared before the campaign and reported here whichever way it
+came out --- \NumGOneVerdict{}: \NumGOneNPolicies{} policies
+(\NumGOnePolicies) are strictly best in at least one context with a resolved
+margin. \textbf{P2 is never a resolved winner anywhere in the factor space.}
+Resolved winner counts are P3 \NumWinResPThree{}, P4 \NumWinResPFour{} and P1
+\NumWinResPOne{}.
+
+The winner map is multi-factor but shallow. Always naming the same policy is
+correct in \NumWinMapConst{} of contexts; the best single factor
+(\NumWinMapOneFactor) reaches \NumWinMapOne{}, and the best pair of factors
+\NumWinMapTwo{}. The regime structure is interpretable and matches the design:
+P1 wins only where the shortest corridor is uncongested \emph{and} penetration
+is high enough for the adaptive policies to over-divert; P4 wins at low demand
+and generous green; P3 wins every context at the highest demand level.
+
+\subsection{Adaptation is worth almost nothing --- but the portfolio is worth a
+great deal}
+
+These are different quantities and the difference is the central result.
+
+The single best fixed policy is \NumGlobalSBS{}, optimal in \NumSBSOptimalPct{}
+of contexts. Running it always costs \NumCostSBS~s of system mean journey time
+per vehicle; the retrospective best-per-context choice costs \NumCostVBS~s. The
+entire value of adapting the policy to the context is therefore
+\textbf{\NumHeadroom~s per vehicle}, or \NumHeadroomPct{}, with a maximum of
+\NumHeadroomMax~s in any single context.
+
+Choosing the \emph{wrong fixed policy} costs far more. Always running the
+distance-minimising policy costs \NumFixedPenPOne~s per vehicle more than
+always running the load-balancing policy --- \NumFixedPenPctPOne{}. The
+reactive and reliability-aware policies cost \NumFixedPenPTwo~s
+(\NumFixedPenPctPTwo{}) and \NumFixedPenPFour~s (\NumFixedPenPctPFour{})
+respectively.
+
+\begin{quote}
+Getting the fixed policy right is worth up to \NumFixedWorstPenaltyPct{} of
+journey time. Getting the \emph{context-dependent} choice right, given that the
+fixed policy is already the best one, is worth \NumHeadroomPct{}.
+\end{quote}
+
+\subsection{Why: an eighteen-fold asymmetry}
+
+The explanation is not that the policies behave alike. It is that the best
+fixed policy is near-dominant in a specific, measurable sense. In
+\NumAsymNotBestPct{} of contexts \NumGlobalSBS{} is not the best policy, and
+when it is not, it loses \NumAsymLoss~s on average (at most
+\NumAsymMaxLoss~s). In \NumAsymBestPct{} of contexts it is the best, and when
+it is, it wins by \NumAsymMargin~s on average (at most \NumAsymMaxMargin~s).
+Its upside is \textbf{\NumAsymRatio$\times$ its downside}.
+
+A portfolio containing such a policy has a large \emph{ranking} structure and a
+small \emph{decision} structure. Any selector that moves away from it risks a
+large loss to chase a small gain.
+
+\subsection{The effect is at the edge of what the experiment can resolve}
+
+Among the \NumResolvNContexts{} contexts where the fixed policy is not best, the
+mean headroom is \NumResolvHeadroomNZ~s against a mean two-standard-error noise
+band of \NumResolvNoiseNZ~s on the same paired comparison, and the headroom
+exceeds its own noise in \NumResolvExceeds{} of them (\NumResolvExceedsPct{}).
+Resolving the campaign-wide mean effect of \NumResolvHeadroom~s would require
+roughly \NumResolvSeedsNeeded{} seeds per context --- about
+\NumResolvRunsNeeded{} runs. We report this rather than presenting a
+sub-noise-floor improvement as an achievement.
+
+\subsection{The mechanistic rule, and why accuracy is not value}
+
+Fitted on all contexts for exposition, the depth-2 mechanistic rule splits
+first on $\NumMechFeature$, the share of the shortest corridor's capacity that
+the guided cohort alone would consume, at a threshold bracketed between
+\NumMechBracketLo{} and \NumMechBracketHi{} --- reported as a bracket, since
+the grid cannot place it more finely. The rule is physically readable: when the
+controlled flow is a small share of the arterial's capacity the decision turns
+on the effective green ratio, and when it is a large share it turns on whether
+the arterial is already oversaturated.
+
+The rule identifies the best policy in \NumMechTopOne{} of contexts, more often
+than always naming the fixed policy. Its mean decision regret is nevertheless
+\NumMechRegret~s against \NumMechFixedRegret~s for the fixed policy.
+\textbf{It is more accurate and more expensive.} Under leave-one-context-out
+evaluation the same pattern holds: B1 reaches \NumBOneTopOne{} top-1 accuracy
+against B0's \NumBZeroTopOne{}, and \NumBOneRegret~s of regret against B0's
+\NumBZeroRegret~s.
+
+This is the predict-then-optimise distinction~\cite{elmachtoub2022spo} in a
+traffic setting. A rule trained to name the winner is rewarded for being right
+in contexts where the margin is negligible and punished only mildly for being
+wrong in contexts where it is large --- exactly the wrong trade under an
+\NumAsymRatio$\times$ asymmetry.
+
+\subsection{The learned selector works, and it is not worth deploying}
+
+Table~\ref{tab:ladder} and Figure~\ref{fig:ladder} give the ladder. Predicting
+\emph{advantage} rather than identity reverses the failure: B4 reaches
+\NumBFourRegret~s of mean regret, closing \NumBFourGapClosed{} of the gap
+between the fixed policy and the retrospective best, and it does so while being
+\emph{less} accurate at naming the winner (\NumBFourTopOne{}) than the logistic
+baseline (\NumBThreeTopOne{}, \NumBThreeRegret~s). It also has the lowest
+maximum regret of any selector, \NumBFourMax~s against \NumBZeroMax~s.
+
+The primary comparison declared in advance was B4 against B1. B4 wins it
+decisively: \NumBFourRegret~s against \NumBOneRegret~s.
+
+The magnitudes are what matter operationally. B4 improves mean system journey
+time from \NumBZeroRegret~s of regret to \NumBFourRegret~s --- a saving of
+\NumBFourVsBZero~s per vehicle on a mean journey time of
+\NumFixedCostPThree~s. \textbf{That is under a tenth of one per cent.} The
+selector is real, reproducible, and below the threshold at which any operator
+would act on it.
+
+\subsection{Abstention prevents every out-of-distribution harm, and forgoes the
+in-distribution gain}
+
+The selective selector B5 abstains in \NumAbstainRate{} of contexts and returns
+exactly the fixed policy's regret, \NumBFiveRegret~s. The reason is visible in
+the mechanism rather than in a tuning choice: the conformal interval on the
+predicted advantage is wider than the advantage itself, so the requirement that
+the lower bound exceed zero is never met. \textbf{A calibrated gate, correctly
+applied, refuses to act on an effect smaller than its own uncertainty.}
+
+Table~\ref{tab:ood} and Figure~\ref{fig:ood} show why this matters. On the
+interpolation control (O3) the learned selector helps, cutting regret from
+\NumOODThreeMidBZero~s to \NumOODThreeMidBFour~s. Under extrapolation and shift
+it hurts: on unseen high demand it raises regret from
+\NumOODOneHighBZero~s to \NumOODOneHighBFour~s, and under the concept shift of
+an unseen disruption regime from \NumOODSevenIncBZero~s to
+\NumOODSevenIncBFour~s. In every one of these cases B5 recovers the fixed
+policy's performance exactly.
+
+The support gate behaves as designed: it flags \NumOODFourLagSupport{},
+\NumOODFivePenSupport{} and \NumOODSixGreenSupport{} of held-out contexts as
+outside the training envelope on the lag, penetration and green-ratio
+extrapolations respectively. The mechanistic rule degrades worst of all under
+shift, reaching \NumOODFivePenBOne~s on unseen penetration.
+
+\subsection{The criteria disagree, and the policies specialise}
+
+Over all \NumContextsAnalysed{} contexts, \NumParetoNonSingleton{} have a
+non-singleton Pareto set across the three criteria. Non-domination is not
+concentrated in one policy: P3 is non-dominated in \NumParetoPctPThree{} of
+contexts, P4 in \NumParetoPctPFour{}, P2 in \NumParetoPctPTwo{} and P1 in
+\NumParetoPctPOne{}.
+
+The criteria are not interchangeable. Journey time and \CO{} correlate at
+\NumCorrCOneCTwo{} and rank the four policies identically in
+\NumSameOrderCOneCTwo{} of contexts; journey time and stopped delay correlate at
+\NumCorrCOneCThree{} and agree on the ranking in only \NumSameOrderCOneCThree{}.
+The best policy on \CO{} differs from the best on journey time in
+\NumBestCTwoDiffersPct{} of contexts; on stopped delay it differs in
+\NumBestCThreeDiffersPct{}.
+
+The policies specialise by criterion rather than by regime. \NumSpecCOnePolicy{}
+minimises journey time in \NumSpecCOneN{} contexts and \NumSpecCTwoPolicy{}
+minimises \CO{} in \NumSpecCTwoN{}, but \textbf{\NumSpecCThreePolicy{}
+minimises stopped delay in \NumSpecCThreeN{} contexts (\NumSpecCThreePct{})}
+while minimising journey time in only \NumSpecCOnePFour{}. The
+reliability-aware policy routes towards the steady, unsignalised corridor: its
+vehicles spend less time stationary and more time moving.
+
+\textbf{This is where the portfolio's complementarity actually lives.} On the
+scalar decision cost the portfolio is near-degenerate; on the criterion vector
+it is not.
+
+\paragraph{Eco-routing remains excluded, on evidence.} \CO{} and journey time
+correlate at \NumCorrCOneCTwo{} and select the same policy in
+\NumSameOrderCOneCTwo{} of contexts. An objective nearly monotone in travel time
+adds a label rather than a policy, and the numbers supporting that judgement are
+reported here so a reader may disagree with the threshold rather than with an
+assertion.
+
+\subsection{Sensitivity}
+
+Across the three declared preference profiles the preferred policy changes in
+\NumPrefChanges{} of contexts. The journey-time choice is reproduced by the
+time-weighted profile in \NumPrefAgreeTime{} of contexts, by the balanced
+profile in \NumPrefAgreeBalanced{} and by the environment-weighted profile in
+\NumPrefAgreeEnvironment{}. The decision is therefore stable under reasonable
+preference assumptions, and where it is not, stopped delay is what moves it.
+
+The two frozen policy parameters behave differently. The dispersion weight of
+the reliability-aware policy is close to immaterial, changing that policy's own
+mean journey time by at most \NumLambdaMaxChangePct{}; across all four
+parameter changes the identity of the best policy is unchanged in
+\NumWinnerStableMin{} to \NumWinnerStableMax{} of the contexts tested. The admissibility tolerance
+of the load-balancing policy is not: loosening it from \NumEpsFrozen{} to
+\NumEpsAlt{} improves that policy's own mean journey time by
+\NumEpsGainPct{} (\NumEpsGainSec~s). The frozen value therefore
+\emph{understates} how dominant the load-balancing policy is, which strengthens
+rather than weakens the central conclusion. We report this rather than
+retrofitting the better value.

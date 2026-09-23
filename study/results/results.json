@@ -1102,5 +1102,113 @@
    "P3": 139,
    "P4": 429
   }
+ },
+ "sensitivity": {
+  "preference": {
+   "n_contexts": 648,
+   "frac_profile_changes_decision": 0.14506172839506173,
+   "selection_by_profile": {
+    "TIME": {
+     "P2": 76,
+     "P3": 406,
+     "P4": 147,
+     "P1": 19
+    },
+    "BALANCED": {
+     "P2": 70,
+     "P3": 399,
+     "P4": 171,
+     "P1": 8
+    },
+    "ENVIRONMENT": {
+     "P2": 66,
+     "P3": 425,
+     "P4": 150,
+     "P1": 7
+    }
+   },
+   "frac_profile_agrees_with_C1": {
+    "TIME": 0.9290123456790124,
+    "BALANCED": 0.8595679012345679,
+    "ENVIRONMENT": 0.8009259259259259
+   },
+   "profiles": {
+    "TIME": [
+     0.7,
+     0.15,
+     0.15
+    ],
+    "BALANCED": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "ENVIRONMENT": [
+     0.2,
+     0.55,
+     0.25
+    ]
+   }
+  },
+  "parameters": {
+   "P3": {
+    "parameter": "p3_eps",
+    "frozen_value": 0.2,
+    "alternatives": {
+     "0.1": {
+      "n_contexts": 96,
+      "mean_change_s": 8.103805522923023,
+      "median_change_s": 0.8342793907086445,
+      "max_abs_change_s": 90.06561106368099,
+      "mean_change_pct": 1.2700737720605717
+     },
+     "0.3": {
+      "n_contexts": 96,
+      "mean_change_s": -16.658612119488826,
+      "median_change_s": -4.993915893073591,
+      "max_abs_change_s": 102.67599343976292,
+      "mean_change_pct": -2.6242769882420607
+     }
+    }
+   },
+   "P4": {
+    "parameter": "p4_lambda",
+    "frozen_value": 1.0,
+    "alternatives": {
+     "0.5": {
+      "n_contexts": 96,
+      "mean_change_s": -0.105328136271113,
+      "median_change_s": 0.0,
+      "max_abs_change_s": 7.850850492390464,
+      "mean_change_pct": 0.003883413331654895
+     },
+     "1.5": {
+      "n_contexts": 96,
+      "mean_change_s": 1.2726790389115177,
+      "median_change_s": 0.0,
+      "max_abs_change_s": 31.769829901521916,
+      "mean_change_pct": 0.16383839308373474
+     }
+    }
+   }
+  },
+  "winner_stability": {
+   "P3_p3_eps=0.1": {
+    "n_contexts": 96,
+    "frac_winner_unchanged": 0.84375
+   },
+   "P3_p3_eps=0.3": {
+    "n_contexts": 96,
+    "frac_winner_unchanged": 0.78125
+   },
+   "P4_p4_lambda=0.5": {
+    "n_contexts": 96,
+    "frac_winner_unchanged": 0.90625
+   },
+   "P4_p4_lambda=1.5": {
+    "n_contexts": 96,
+    "frac_winner_unchanged": 0.9791666666666666
+   }
+  }
  }
 }

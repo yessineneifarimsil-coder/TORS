@@ -1,0 +1,118 @@
+\input{preamble}
+
+\title{Context-Dependent Selection Among Established Urban Routing Policies:\\
+Where the Decision Value Is, and Where It Is Not}
+\author{Author details to be supplied}
+\date{Conference submission draft}
+
+\begin{document}
+\maketitle
+\input{numbers}
+\input{abstract}
+
+\input{body_methods}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig1_network.pdf}
+\caption{The scenario network. One origin--destination pair is served by three
+structurally different corridors between a common diverge and merge, crossed by
+four minor streets carrying independent demand through the same signals.
+Geometry, lane counts and speed limits are read from the built network file;
+capacities are measured, not assumed.}
+\label{fig:network}
+\end{figure}
+
+\input{tables/tab1_portfolio}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig2_portfolio.pdf}
+\caption{The policy portfolio. The two right-hand entries state hypotheses
+fixed before the experiment; Section~7 reports which were observed.}
+\label{fig:portfolio}
+\end{figure}
+
+\input{tables/tab2_factors}
+\input{tables/tab3_criteria}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig3_design.pdf}
+\caption{The operating-regime design. Each factor is present to activate a
+specific policy failure mechanism. Demand levels are set by the \emph{measured}
+network capacity and span 0.31 to 1.10 of it.}
+\label{fig:design}
+\end{figure}
+
+\input{body_results}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig4_performance_pareto.pdf}
+\caption{Policy performance and complementarity. Top: system mean journey time
+against demand at each penetration level. Bottom left: how often each policy is
+non-dominated across all three criteria. Bottom centre: how often each is
+strictly best on journey time. Bottom right: how often two criteria rank the
+policies differently.}
+\label{fig:performance}
+\end{figure}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig5_regime_map.pdf}
+\caption{The regime map. Left: the resolved winner in the plane of
+shortest-corridor saturation against guidance penetration; open circles are
+contexts where the seeds do not resolve a winner. Right: the share of contexts
+each policy wins, by demand.}
+\label{fig:regime}
+\end{figure}
+
+\input{tables/tab4_complementarity}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig6_selection_regions.pdf}
+\caption{Selection regions in the mechanistic feature space: the true best
+policy, the depth-2 mechanistic rule, and the learned advantage selector.}
+\label{fig:regions}
+\end{figure}
+
+\input{tables/tab5_ladder}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig7_decision_ladder.pdf}
+\caption{Decision quality. Left: mean regret for each selector, with the
+retrospective best shown hatched because it is not deployable. Right: the share
+of contexts in which each selector is within the seed noise floor, and exactly
+optimal.}
+\label{fig:ladder}
+\end{figure}
+
+\input{tables/tab6_ood}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig8_ood.pdf}
+\caption{Distribution shift, reported separately by shift type. Top: mean
+regret on the held-out regime. Bottom: the share of held-out contexts flagged
+outside the training support, and the share on which the selective selector
+abstained.}
+\label{fig:ood}
+\end{figure}
+
+\begin{figure}[t]
+\centering\includegraphics[width=\textwidth]{fig9_risk_coverage.pdf}
+\caption{Risk--coverage behaviour. Left: mean regret among the contexts acted
+on, as coverage increases from the most confident. Right: mean regret over all
+contexts when the selector abstains below the coverage cut.}
+\label{fig:riskcoverage}
+\end{figure}
+
+\input{body_discussion}
+\input{body_limits}
+\input{body_conclusion}
+
+\section*{Reproducibility}
+All scenario, policy, simulation and analysis code, every run record, and the
+scripts that generate every number, table and figure in this paper are in the
+accompanying repository. The experiment specification was committed before any
+evaluation run was executed, and one protocol deviation is recorded with its
+reasons.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+\end{document}

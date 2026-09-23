@@ -22,6 +22,15 @@ def pct(x, d=1):
     return f"{100*float(x):.{d}f}\\%"
 
 
+DIG = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+       "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
+
+
+def w(s):
+    """LaTeX command names may not contain digits."""
+    return "".join(DIG.get(ch, ch) for ch in str(s))
+
+
 # --- environment / calibration
 m("SatArterial", f"{CAL['sat_flow_arterial_vphpl']:.0f}")
 m("SatNorth", f"{CAL['sat_flow_north_vphpl']:.0f}")
@@ -59,16 +68,16 @@ if g["resolved_margin_pct_median"] is not None:
     m("GOneResMedian", f"{g['resolved_margin_pct_median']:.2f}\\%")
     m("GOneResMax", f"{g['max_resolved_margin_pct']:.1f}\\%")
 for p, n in g["winner_counts_all"].items():
-    m(f"WinAll{p}", f"{n}")
+    m(f"WinAll{w(p)}", f"{n}")
 for p in ["P1", "P2", "P3", "P4"]:
-    m(f"WinRes{p}", f"{g['winner_counts_resolved'].get(p, 0)}")
+    m(f"WinRes{w(p)}", f"{g['winner_counts_resolved'].get(p, 0)}")
 
 # --- complementarity
 cm = R["complementarity"]
 n = cm["n_contexts"]
 for p, k in cm["pareto_membership"].items():
-    m(f"Pareto{p}", f"{k}")
-    m(f"ParetoPct{p}", pct(k / n, 0))
+    m(f"Pareto{w(p)}", f"{k}")
+    m(f"ParetoPct{w(p)}", pct(k / n, 0))
 m("ParetoNonSingleton", pct(cm["frac_non_singleton_pareto"]))
 m("MeanIdentity", pct(cm["mean_pairwise_identity"]))
 wm = cm["winner_map"]
@@ -77,18 +86,18 @@ m("StumpBestFactor", wm["best_single_factor"].replace("_", " "))
 m("StumpTwo", pct(wm["best_two_factor"]))
 m("ConstantRule", pct(wm["constant_rule"]))
 for k, v2 in cm["pairwise_identity"].items():
-    m("Ident" + k.replace("-", ""), pct(v2, 0))
+    m("Ident" + w(k.replace("-", "")), pct(v2, 0))
 for k, v2 in cm["pairwise_gap_seconds"].items():
-    m("Gap" + k.replace("-", ""), f"{v2['mean']:+.2f}")
+    m("Gap" + w(k.replace("-", "")), f"{v2['mean']:+.2f}")
 
 # --- criteria
 cr = R["criteria"]
 for a, b in [("C1", "C2"), ("C1", "C3"), ("C2", "C3")]:
     d = cr[f"{a}_vs_{b}"]
-    m(f"Corr{a}{b}", f"{d['pooled_pearson']:+.4f}")
-    m(f"SameOrder{a}{b}", pct(d["frac_identical_ordering"], 0))
-m("BestCOTwoDiffers", f"{cr['best_on_C2_differs_from_C1']['n']}")
-m("BestCOTwoDiffersPct", pct(cr["best_on_C2_differs_from_C1"]["frac"], 0))
+    m(f"Corr{w(a)}{w(b)}", f"{d['pooled_pearson']:+.4f}")
+    m(f"SameOrder{w(a)}{w(b)}", pct(d["frac_identical_ordering"], 0))
+m("BestCTwoDiffers", f"{cr['best_on_C2_differs_from_C1']['n']}")
+m("BestCTwoDiffersPct", pct(cr["best_on_C2_differs_from_C1"]["frac"], 0))
 m("BestCThreeDiffers", f"{cr['best_on_C3_differs_from_C1']['n']}")
 m("BestCThreeDiffersPct", pct(cr["best_on_C3_differs_from_C1"]["frac"], 0))
 
@@ -121,6 +130,8 @@ m("AbstainRate", pct(R["ladder_loco_abstention"]["rate"], 0))
 m("OutOfSupportRate", pct(R["ladder_loco_abstention"]["out_of_support_rate"], 0))
 b4, b1 = lad["B4_GBDT"]["mean_regret"], lad["B1_mechanistic"]["mean_regret"]
 m("BFourVsBOne", f"{b4 - b1:+.2f}")
+b0 = lad["B0_SBS"]["mean_regret"]
+m("BFourVsBZero", f"{b0 - b4:.3f}")
 m("BFourBeatsBOne", "yes" if b4 < b1 else "no")
 
 # --- OOD
@@ -147,9 +158,9 @@ if "fixed_policy_choice" in R:
     m("FixedWorstPenalty", f"{f['worst_penalty_s']:.1f}")
     m("FixedWorstPenaltyPct", f"{f['worst_penalty_pct']:.1f}\\%")
     for p in ["P1", "P2", "P3", "P4"]:
-        m(f"FixedCost{p}", f"{f['mean_cost'][p]:.1f}")
-        m(f"FixedPen{p}", f"{f['penalty_vs_sbs_s'][p]:+.1f}")
-        m(f"FixedPenPct{p}", f"{f['penalty_vs_sbs_pct'][p]:+.1f}\\%")
+        m(f"FixedCost{w(p)}", f"{f['mean_cost'][p]:.1f}")
+        m(f"FixedPen{w(p)}", f"{f['penalty_vs_sbs_s'][p]:+.1f}")
+        m(f"FixedPenPct{w(p)}", f"{f['penalty_vs_sbs_pct'][p]:+.1f}\\%")
 
 # --- asymmetry
 if "asymmetry" in R:
@@ -195,11 +206,11 @@ if "criterion_specialisation" in R:
     tot = sum(cs["C1"].values())
     for c in ("C1", "C2", "C3"):
         bestp = max(cs[c], key=cs[c].get)
-        m(f"Spec{c}Policy", bestp)
-        m(f"Spec{c}N", f"{cs[c][bestp]}")
-        m(f"Spec{c}Pct", pct(cs[c][bestp] / tot, 0))
+        m(f"Spec{w(c)}Policy", bestp)
+        m(f"Spec{w(c)}N", f"{cs[c][bestp]}")
+        m(f"Spec{w(c)}Pct", pct(cs[c][bestp] / tot, 0))
         for p in ["P1", "P2", "P3", "P4"]:
-            m(f"Spec{c}{p}", f"{cs[c][p]}")
+            m(f"Spec{w(c)}{w(p)}", f"{cs[c][p]}")
 
 # --- winner-map dimensionality
 wmv = cm["winner_map"]
@@ -209,6 +220,28 @@ m("WinMapOneFactor", wmv["best_single_factor"].replace("_", " "))
 m("WinMapTwo", pct(wmv["best_two_factor"], 1))
 
 # --- sensitivity
+if "sensitivity" in R and "parameters" in R["sensitivity"]:
+    prm = R["sensitivity"]["parameters"]
+    if isinstance(prm.get("P3"), dict) and "alternatives" in prm["P3"]:
+        d3 = prm["P3"]
+        m("EpsFrozen", f"{d3['frozen_value']:.2f}")
+        alts = d3["alternatives"]
+        bestalt = min(alts, key=lambda a: alts[a]["mean_change_pct"])
+        m("EpsAlt", f"{float(bestalt):.2f}")
+        m("EpsGainPct", f"{abs(alts[bestalt]['mean_change_pct']):.2f}\\%")
+        m("EpsGainSec", f"{abs(alts[bestalt]['mean_change_s']):.1f}")
+    if isinstance(prm.get("P4"), dict) and "alternatives" in prm["P4"]:
+        d4 = prm["P4"]
+        mx = max(abs(v["mean_change_pct"]) for v in d4["alternatives"].values())
+        m("LambdaMaxChangePct", f"{mx:.2f}\\%")
+    st = R["sensitivity"].get("winner_stability", {})
+    if isinstance(st, dict) and st:
+        vals = [v["frac_winner_unchanged"] for v in st.values()
+                if isinstance(v, dict) and v.get("frac_winner_unchanged") is not None]
+        if vals:
+            m("WinnerStableMin", pct(min(vals), 0))
+            m("WinnerStableMax", pct(max(vals), 0))
+
 if "sensitivity" in R and "preference" in R["sensitivity"]:
     sp = R["sensitivity"]["preference"]
     m("PrefChanges", pct(sp["frac_profile_changes_decision"], 1))

@@ -1,0 +1,38 @@
+\begin{abstract}
+Navigation systems implement established routing objectives --- shortest
+distance, dynamic travel time, capacity-aware load balancing, reliability-aware
+routing --- but commit to one by design rather than by traffic condition. We
+characterise that choice empirically. In \NumRuns{} SUMO runs over
+\NumContexts{} controlled contexts spanning demand, signal timing, guidance
+penetration, information lag, disruption and alternative capacity, with every
+comparison paired under common random numbers, we separate two questions that
+are routinely conflated: whether the preferred policy varies with context, and
+whether exploiting that variation is worth anything.
+
+It does vary. Three of four policies are strictly best in some context by a
+seed-resolved margin, the winner map needs more than one factor, and
+\NumParetoNonSingleton{} of contexts have a non-singleton Pareto set over
+journey time, \CO{} and stopped delay --- with the reliability-aware policy
+minimising stopped delay in \NumSpecCThreePct{} of contexts while almost never
+minimising journey time. Exploiting it is worth \NumHeadroom\,s per vehicle
+(\NumHeadroomPct{}), because the best fixed policy is near-dominant, with an
+upside \NumAsymRatio$\times$ its downside; choosing the wrong fixed policy costs
+\NumFixedWorstPenaltyPct{}. Within that margin, a selector trained to predict
+the winner's identity is \emph{more accurate and more expensive} than the fixed
+policy (\NumBOneTopOne{} vs \NumBZeroTopOne{} accuracy;
+\NumBOneRegret\,s vs \NumBZeroRegret\,s regret), whereas one trained to predict
+each policy's \emph{advantage} is less accurate and closes
+\NumBFourGapClosed{} of the available gap. Adaptation helps in-distribution and
+harms under every extrapolation and shift tested; a support-and-confidence gate
+prevented all of that harm by abstaining, correctly, because the conformal
+interval is wider than the effect.
+
+The operational finding is that the decision worth making here is which fixed
+policy to run and which criterion to optimise, not which policy to run in which
+context --- and that this can be established before any model is built, by
+comparing the best fixed policy with the retrospective best and both with the
+noise floor of the same comparison. We introduce no routing, learning or
+multi-criteria decision algorithm.
+\end{abstract}
+\textbf{Keywords:} routing-policy selection; traffic regimes; decision regret;
+algorithm selection; microsimulation; distribution shift; selective prediction.

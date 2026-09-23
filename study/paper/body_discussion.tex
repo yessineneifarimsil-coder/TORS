@@ -1,0 +1,111 @@
+\section{Discussion}
+
+\subsection{What actually drives the choice}
+
+The descriptor that organises the winner map is $\NumMechFeature = p\,D /
+\mathrm{cap}_C$: the share of the shortest corridor's capacity that the guided
+cohort alone would consume. It is a product of demand and penetration, and
+neither alone reproduces the structure --- which is why the best single-factor
+rule reaches only \NumWinMapOne{} against \NumWinMapConst{} for a constant
+rule. Demand determines whether the corridor is under pressure; penetration
+determines how much of that pressure a policy commands. A system routing 20\% of
+traffic in a saturated network and one routing 80\% in a lightly loaded one are
+different decision problems, and the descriptor says so.
+
+That is the answer to RQ2: the preference boundary is explicable in mechanistic
+terms, and the explanation is physical rather than statistical. It is also why
+the boundary must be quoted as a bracket. The grid samples
+$\NumMechFeature$ at discrete levels, and the transition sits between
+\NumMechBracketLo{} and \NumMechBracketHi{}. A point estimate would be a
+property of the fitting procedure, not of the traffic.
+
+\subsection{Does machine learning add value over the mechanistic rule?}
+
+Yes, and the reason is instructive. The mechanistic rule is \emph{more accurate
+and more expensive} than doing nothing: it names the best policy more often than
+the fixed policy does (\NumBOneTopOne{} against \NumBZeroTopOne{}) and costs
+more (\NumBOneRegret~s against \NumBZeroRegret~s). The learned selector is
+\emph{less accurate} than the logistic baseline and cheaper than everything
+except the retrospective optimum.
+
+The difference is not model capacity. It is what the model is asked to predict.
+B1, B2 and B3 predict the identity of the winner and are trained on a
+classification loss that treats every context alike. B4 predicts the
+\emph{advantage} of each policy over the fixed default, so a context where the
+margin is 20\,s contributes a hundred times the gradient of one where it is
+0.2\,s. Under an \NumAsymRatio$\times$ asymmetry between the fixed policy's
+upside and its downside, that weighting is the whole game. This is the
+predict-then-optimise argument~\cite{elmachtoub2022spo}, and it appears here not
+as a refinement but as the difference between a selector that helps and one that
+hurts.
+
+The practical corollary for anyone building such a system: report decision
+regret, and do not report selection accuracy as though it were a proxy for it.
+In this study the two rank the methods differently.
+
+\subsection{When adaptation is useful, and when a fixed policy is preferable}
+
+Adaptation helps in-distribution and hurts outside it. On the interpolation
+control the learned selector cuts regret from \NumOODThreeMidBZero~s to
+\NumOODThreeMidBFour~s; on unseen high demand it raises it from
+\NumOODOneHighBZero~s to \NumOODOneHighBFour~s, and under an unseen disruption
+regime from \NumOODSevenIncBZero~s to \NumOODSevenIncBFour~s. The value of
+adaptation is a function of regime coverage, not of model capacity, and no
+amount of capacity substitutes for having seen the regime.
+
+But the decisive observation is one of magnitude. The best deployable selector
+saves \NumBFourVsBZero~s per vehicle against the best fixed policy, on a mean
+journey time of \NumFixedCostPThree~s. Choosing the wrong fixed policy costs
+\NumFixedWorstPenaltyPct{}. The two decisions differ by nearly three orders of
+magnitude, and only one of them is worth an operator's attention.
+
+\subsection{What the abstention mechanism is really telling us}
+
+B5 abstains in \NumAbstainRate{} of contexts and never improves on the fixed
+policy. It would be easy to present this as a failure of the gate, or to loosen
+it until it acted. It is neither. The conformal interval on the predicted
+advantage is wider than the advantage, so a gate that requires a positive lower
+bound cannot certify a gain --- and should not. The gate is doing exactly what a
+calibrated instrument is supposed to do when the effect is smaller than the
+uncertainty.
+
+The cost of that correctness is the in-distribution gain: B5 forgoes the
+\NumBFourVsBZero~s that B4 achieves. That is the honest trade, and it is the
+answer to RQ4. A selective mechanism prevented every out-of-distribution harm we
+constructed, and it did so by declining to act at all.
+
+\subsection{Implications for traffic operators}
+
+Three, in decreasing order of value.
+
+First, \textbf{choose the fixed policy deliberately}. In this environment the
+gap between the best and worst fixed policy is \NumFixedWorstPenaltyPct{} of
+system journey time. That is where the engineering effort belongs.
+
+Second, \textbf{decide which criterion is being optimised, because the policies
+specialise}. The load-balancing policy minimises journey time in
+\NumSpecCOneN{} of \NumContextsAnalysed{} contexts; the reliability-aware policy
+minimises stopped delay in \NumSpecCThreeN{}. An operator whose objective is
+queue clearance at signalised junctions and one whose objective is corridor
+journey time should not deploy the same policy, and this is not a preference
+weighting --- it is a different argmin in \NumBestCThreeDiffersPct{} of
+contexts.
+
+Third, \textbf{do not build a per-context selector for this decision}. It works,
+it is reproducible, and it is worth less than a tenth of a per cent. If a
+selector is built anyway, give it a support gate and an abstention path, because
+its out-of-distribution behaviour is worse than doing nothing.
+
+\subsection{Why this is a useful negative result}
+
+The literature on route guidance contains a persistent expectation that
+context-adaptive selection should pay. What this study shows is that whether it
+pays is an empirical property of the portfolio, not a general one, and that it
+can be measured before any selector is built --- by comparing the best fixed
+policy with the retrospective best, and comparing that gap with the noise floor
+of the same comparison. Both quantities are cheap. Neither requires a model.
+
+Had that comparison been run first here, it would have shown a
+\NumHeadroomPct{} gap sitting below the resolution of a five-seed design, and
+the selector would not have been built. We suggest it as a standing first step:
+\emph{measure the headroom and the noise before choosing a model class.}
