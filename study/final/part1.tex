@@ -1,0 +1,192 @@
+\section{Introduction}
+
+A guidance system makes two decisions, not one.
+
+\begin{description}
+\item[Level 1.] Which routing \emph{policy} should be active under the current
+traffic conditions?
+\item[Level 2.] Given that policy, which route does each guided vehicle receive?
+\end{description}
+
+Level 2 is the subject of a large literature. This paper concerns Level 1, and
+treats the policies themselves as fixed, published objectives.
+
+The question matters because established policies embody different assumptions.
+Distance minimisation assumes the shortest corridor can absorb what is sent to
+it. Reactive travel-time routing assumes recent measurements predict the near
+future, which fails when a large guided cohort acts on them
+simultaneously~\cite{arnott1991information,acemoglu2018braess}. Load balancing
+assumes capacity is unevenly distributed and worth equalising. Reliability-aware
+routing assumes travel-time variability is itself a cost. Each assumption holds
+in some conditions and not others, so the policy that should be active
+plausibly depends on the traffic --- and production systems nevertheless fix it
+at design time.
+
+\paragraph{What the literature establishes, and what it does not.}
+Prior work supplies the routing objectives themselves, the traffic-feedback
+mechanisms that make them fail, the algorithm-selection framework for choosing
+among methods by instance features, the regret and hindsight-benchmark
+reference points, and the uncertainty machinery for deciding when not to act.
+Each is well developed, and Section~\ref{sec:lit} reviews them. What the
+literature does not supply is a measurement of how much a context-dependent
+choice among such policies is actually worth once they are placed in the same
+physical environment and compared on the cost of the decision rather than on
+the accuracy of a prediction.
+
+\paragraph{The research gap.}
+Showing that the preferred policy changes with conditions is not the same as
+showing that a context-aware selector is worth building. A winner map can vary
+substantially while the cost of ignoring it remains negligible, if the best
+fixed policy loses only slightly wherever it is not best. These are separate
+empirical quantities, and conflating them is easy because the first is the more
+visible. A third question is separate again: whether a selector that captures
+the available value can be trusted outside the conditions it was fitted on.
+This paper measures all three.
+
+\paragraph{Research questions.}
+\textbf{RQ1} Under which traffic, signal, information, penetration, capacity and
+disruption conditions do established routing policies exhibit complementary
+strengths?
+\textbf{RQ2} Are the preference boundaries explicable by mechanistic traffic
+variables rather than only by a statistical model?
+\textbf{RQ3} Does a learned selector identify useful selection structure beyond
+a strong mechanistic rule?
+\textbf{RQ4} When the operating context lies outside the training support, or
+uncertainty is too large, can the system abstain safely?
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item A factorial characterisation of the operating regions in which four
+established routing policies are complementary, over \NumContexts{} contexts
+and \NumRunsMain{} paired microsimulation runs.
+\item A mechanistic account of the preference boundary in dimensionless traffic
+descriptors, reported as brackets between sampled levels rather than as point
+thresholds.
+\item A decision-oriented evaluation in which the primary comparison is a
+learned selector against a mechanistic rule, not against a fixed policy, and in
+which selection accuracy and decision regret are shown to rank methods
+differently.
+\item A selective mechanism with a support gate and a confidence gate,
+evaluated separately under interpolation, extrapolation, concept shift and
+domain shift --- including one shift it does not detect.
+\end{enumerate}
+
+\paragraph{Scope and non-claims.}
+We introduce no routing algorithm, no learning algorithm and no multi-criteria
+decision method; every policy and model class used here is established and
+cited. The environment is a controlled microsimulation, not a model of any
+city, and no claim of real-world validation is made. We make no priority claim:
+each component has precedent, and Section~\ref{sec:lit} states what is and is
+not new.
+
+\paragraph{What this paper demonstrates.}
+In this benchmark the four policies are genuinely complementary on the
+three-criterion outcome vector, yet the entire decision value of exploiting
+that complementarity is \NumHeadroom~s of system mean journey time per vehicle
+--- \NumHeadroomPct{} of the mean journey time achieved by the single best
+fixed policy --- because that policy is near-dominant. Selecting the wrong
+fixed policy costs \NumFixedPenPctAbsPOne{} of the same baseline. Within that
+narrow margin, what a selector is trained to predict determines whether it
+helps or hurts, and a selector that captures the available value is not
+uniformly reliable once the operating conditions leave the training range.
+
+\section{Literature Review}
+\label{sec:lit}
+
+\subsection{Dynamic and Traffic-Aware Routing}
+
+Route choice under congestion rests on the equilibrium tradition founded by
+Wardrop~\cite{wardrop1952}, in which drivers minimising their own travel time
+reach a state that need not minimise total travel time. Shortest-path routing
+on a static cost is the limiting case in which no traffic state is observed at
+all; it is the zero-information reference against which any adaptive policy
+must justify its infrastructure.
+
+Reactive guidance --- routing on recently measured link travel times --- is the
+operational descendant of that tradition, and its central difficulty is well
+documented. Providing information to drivers need not reduce congestion,
+because the response to the information changes the state it
+described~\cite{arnott1991information}. Acemoglu et
+al.~\cite{acemoglu2018braess} give this a sharp game-theoretic form, showing
+that additional information can strictly worsen equilibrium outcomes. The
+severity depends on how much of the demand responds, which makes guidance
+penetration a first-order variable rather than an implementation
+detail~\cite{yang1998penetration}, and on how stale the information is when it
+is acted upon.
+
+Two policy families respond to these failures directly. Load-balancing guidance
+distributes vehicles over a set of travel-time-acceptable alternatives
+according to predicted link load, rather than sending every vehicle to the
+current best path; we use the flow-balanced $k$-shortest-path construction of
+Pan et al.~\cite{pan2013proactive}. Reliability-aware guidance treats
+travel-time variability as a cost in its own right, adding a dispersion term to
+expected travel time, following the mean-variance formulation of Sen et
+al.~\cite{sen2001meanvariance}. Both are established families with published
+objectives, and we take them as given rather than modifying them.
+
+\subsection{Environmental, Multi-Criteria, and Context-Dependent Routing}
+
+Eco-routing minimises an emissions proxy rather than travel
+time~\cite{boriboonsomsin2012eco}. Whether such an objective is \emph{distinct}
+from a temporal one is a property of the network and the fleet, not of the
+objective: where emissions are nearly monotone in travel time, an
+environmental policy reproduces a time-based one under a different name. We
+therefore treat the question as a measurement rather than an assumption, and
+report the correlation and the frequency of disagreement rather than asserting
+either.
+
+More generally, comparing routing policies on a single scalar hides the
+structure that multiple criteria expose. Where criteria disagree, the identity
+of the preferred policy depends on which criterion is chosen, and a Pareto
+analysis makes that dependence visible before any weighting is applied. We
+adopt that ordering --- dominance first, scalarisation only as sensitivity ---
+and avoid monetary valuation entirely, since no verified value of time, value
+of reliability or carbon price was available for this setting; inventing one
+would make the conclusion an artefact of the invented constant.
+
+Context dependence enters when the operating conditions vary. Demand, signal
+timing, guidance penetration, information lag, capacity distribution and
+disruption each change which of the failure modes above is active. The
+literature on route guidance establishes that these conditions matter for a
+\emph{given} policy. What is less settled is whether they matter enough to
+change \emph{which} policy should be running, and by how much.
+
+\subsection{Algorithm Selection and Decision-Oriented Evaluation}
+
+Choosing among algorithms by instance features is Rice's algorithm-selection
+problem~\cite{rice1976}, with a mature methodology developed largely in
+combinatorial search~\cite{xu2008satzilla,smithmiles2009,kotthoff2014survey}.
+That literature supplies two reference points we adopt directly: the
+\emph{single best solver}, the one fixed method with the lowest mean cost, and
+the \emph{virtual best solver}, the retrospective per-instance
+optimum~\cite{bischl2016aslib}. Instance-space analysis asks where in a feature
+space each algorithm is strong~\cite{smithmiles2014instance}, which is
+precisely the form RQ1 takes for routing policies.
+
+Two further strands matter here. First, evaluating a predictor by the cost of
+the decision it induces rather than by its predictive error is the
+predict-then-optimise distinction of Elmachtoub and
+Grigas~\cite{elmachtoub2022spo}; we show below that the two criteria rank
+methods differently in this setting. Second, declining to decide is
+classical~\cite{chow1970reject}, and split conformal prediction supplies
+distribution-free intervals with which to decide when~\cite{vovk2005alrw,%
+lei2018conformal}. Its coverage guarantee rests on exchangeability, which
+covariate shift breaks~\cite{shimodaira2000,tibshirani2019covshift}. We treat
+that as a design constraint rather than a caveat: a conformal gate is a
+calibrated instrument in-distribution and a heuristic outside it.
+
+\paragraph{Positioning.}
+The components above exist separately and are each well developed: the routing
+objectives, the feedback mechanisms that make them fail, the selection
+framework, the regret and hindsight reference points, and the uncertainty
+machinery. What is missing is a measurement that puts them together. This study
+combines them into a single empirical policy-selection evaluation, run under a
+controlled factorial of traffic conditions in a physical microsimulation, and
+reports decision regret rather than selection accuracy as the primary quantity.
+
+We do not claim that regime-dependent routing has not been studied, nor that no
+prior work has combined any subset of these ideas. The contribution is the
+measurement and its interpretation: how much decision value a context-dependent
+choice among established policies carries when every component is held fixed and
+known, and whether a selector capturing that value can be relied on outside the
+conditions it was fitted on.

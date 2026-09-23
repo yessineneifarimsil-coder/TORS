@@ -1,0 +1,244 @@
+\section{Problem Formulation}
+
+\paragraph{Objects.}
+A \emph{context} $x \in \mathcal{X}$ is a set of operating conditions known
+before a policy is activated: demand, signal timing, guidance penetration,
+information lag, disruption regime and alternative capacity. A \emph{policy}
+$a \in \mathcal{A} = \{\mathrm{P1},\dots,\mathrm{P4}\}$ maps individual vehicles
+to routes according to its own published objective. Running policy $a$ in
+context $x$ produces an outcome vector; we write $C(x,a)$ for the scalar
+decision cost, system mean journey time, and treat the other two criteria by
+dominance (Section~\ref{sec:criteria}).
+
+\paragraph{The two levels.}
+The decision studied here is the map
+\begin{equation}
+\pi : \mathcal{X} \to \mathcal{A},
+\qquad
+x \;\xrightarrow{\ \pi\ }\; a \;\xrightarrow{\ \text{policy } a\ }\;
+\text{routes} \;\longrightarrow\; \text{traffic outcome}.
+\end{equation}
+Level~1 is $\pi$, the object of study. Level~2 is the policy's own route
+assignment, which is fixed and not learned. This is not route prediction, not
+vehicle-level action learning, not signal control, and not joint
+routing--signal optimisation.
+
+\paragraph{Reference points.}
+Two quantities from the algorithm-selection literature~\cite{bischl2016aslib}
+bound what any $\pi$ can achieve. The \emph{single-best policy} (SBS) is the one
+fixed policy with the lowest mean cost, chosen on training contexts only:
+\begin{equation}
+a_{\mathrm{SBS}} \;=\; \arg\min_{a \in \mathcal{A}}\
+\mathbb{E}_{x \in \mathcal{X}_{\mathrm{train}}}\,[\,C(x,a)\,].
+\end{equation}
+It is what a deployed fixed-policy system achieves, and the baseline any
+selector must beat to be worth building. The \emph{virtual-best policy} (VBS)
+chooses per context using that context's realised outcomes,
+$C_{\mathrm{VBS}}(x) = \min_{a} C(x,a)$. \emph{VBS is retrospective: it is not
+an algorithm, cannot be deployed, and is used only as an upper reference.}
+
+\paragraph{Regret and headroom.}
+The regret of selecting $a$ in context $x$, and the mean regret of a selector,
+are
+\begin{equation}
+R(x,a) \;=\; C(x,a) - \min_{b \in \mathcal{A}} C(x,b),
+\qquad
+\bar{R}(\pi) \;=\; \mathbb{E}_x\,[\,R(x,\pi(x))\,].
+\end{equation}
+The \emph{headroom} is the total decision value available to any selector:
+\begin{equation}
+H \;=\; \bar{R}(a_{\mathrm{SBS}})
+   \;=\; \mathbb{E}_x\big[\,C(x,a_{\mathrm{SBS}}) - \min_b C(x,b)\,\big].
+\label{eq:headroom}
+\end{equation}
+$H$ decides whether context-dependent selection is worth attempting at all, and
+it is measurable without building a selector. We report it in seconds per
+vehicle and, where a percentage is given, always as
+$H / \mathbb{E}_x[C(x,a_{\mathrm{SBS}})]$ --- the aggregate decision headroom
+relative to the single-best fixed policy, with that denominator stated
+alongside. It is a share of an achievable decision cost, not a claim that any
+vehicle's travel time improves by that fraction.
+
+\paragraph{Three distinct questions.}
+The paper keeps apart three properties that are often merged:
+\begin{center}
+\textbf{complementarity} $\;\neq\;$ \textbf{decision value} $\;\neq\;$
+\textbf{deployability.}
+\end{center}
+Complementarity asks whether $\arg\min_a C(x,a)$ varies with $x$. Decision value
+asks how large $H$ is. Deployability asks whether an estimate $\hat{\pi}$ built
+from finite data retains that value outside the conditions it was fitted on. A
+portfolio can be strongly complementary, carry little decision value, and still
+produce a selector that is unreliable under shift. Distinguishing the three is
+what the remainder of the paper does.
+
+\section{Methodology}
+
+\subsection{Simulation Environment and Network}
+
+All experiments run in SUMO~\cite{lopez2018sumo}; \CO{} comes from its HBEFA3
+implementation~\cite{krajzewicz2015emissions}. Policies act through the
+simulator's online control interface, so every routing decision is taken inside
+the running simulation from information available at that instant.
+
+Figure~\ref{fig:network} shows the environment: one origin--destination pair
+served by three structurally different corridors between a common diverge and
+merge, crossed by four minor streets carrying independent demand through the
+same signals, so a policy that loads a corridor also delays traffic it does not
+route. Because every junction permits straight-through movements only, the
+loopless path set is exactly these three --- the candidate catalogue is
+complete, not a $k$-shortest approximation.
+
+Two structural choices were fixed before any evaluation run, both identified by
+capacity validation. The destination portal gives each approach a dedicated
+exit lane, so an alternative corridor is not penalised by junction priority
+rather than by its own capacity; and the diverge carries no turn-radius speed
+ceiling, which in schematic node geometry would cap the bypass at a value
+belonging to the drawing rather than to the road.
+
+\paragraph{Measured capacity.} Each corridor was driven to saturation alone and
+its discharge measured: \NumSatArterial~veh/h/lane on the arterial and
+\NumSatNorth~veh/h/lane on the slower street, consistent to within
+\NumSatSpread{} across green ratios, and \NumCapBypass~veh/h on the
+uninterrupted bypass --- below queue-discharge saturation flow, as free-flow
+headways require. The demand levels of Table~\ref{tab:factors} follow from these
+measurements rather than from a textbook constant.
+
+\subsection{Routing Policy Portfolio}
+
+Table~\ref{tab:portfolio} gives each policy's objective, information
+requirement, intended strength and expected failure mode. \emph{The failure
+modes were specified before any evaluation run}, and each experimental factor
+exists to make one of them reachable: P1 $\rightarrow$ capacity shortage on the
+shortest corridor; P2 $\rightarrow$ information lag and herding of the guided
+cohort; P3 $\rightarrow$ unevenly distributed alternative capacity;
+P4 $\rightarrow$ travel-time variability under disruption.
+
+All four read traffic state from one shared observation buffer. A policy acting
+at time $t$ may read link travel times sampled no later than $t-\Delta$ over a
+120\,s window, falling back to free-flow values before any admissible sample
+exists. No policy sees the future, and none sees any realised outcome of the
+run it is part of. Policy parameters were frozen before any evaluation run: a
+travel-time admissibility tolerance $\varepsilon=\NumEpsFrozen$ and a 120\,s
+assignment window for P3, and a dispersion weight $\lambda=1.0$ for P4.
+
+Each policy was validated before use by twelve known-answer tests covering the
+observation lag, the free-flow fallback and each policy's defining behaviour. A
+two-path integration test inside the simulator, with equal path lengths and a
+2:1 capacity ratio, confirms that P3 splits demand \NumTwoPathRatio{} against
+that ratio while P1 commits the entire cohort to one path.
+
+\subsection{Decision Criteria}
+\label{sec:criteria}
+
+Three criteria (Table~\ref{tab:criteria}) capture different burdens.
+\textbf{C1, mean journey time}, is the travel burden per vehicle, including
+insertion delay: a policy that oversaturates the network produces vehicles that
+cannot enter it, and excluding their wait would credit the policy for the queue
+it caused. \textbf{C2, \CO{}}, is the environmental outcome. \textbf{C3, total
+stopped delay}, is the stationary burden --- time spent below 0.1\,m/s in
+queues, which is distinct from time spent travelling slowly.
+
+All three are measured over every vehicle in the network, guided or not, with
+intended departure inside the measurement window, so a policy cannot be
+rewarded for helping guided vehicles at the expense of background traffic.
+
+Policies are compared by \textbf{Pareto dominance first}. The scalar cost used
+for regret is C1, which requires no weights. Scalarisation appears only as
+sensitivity, through three preference profiles declared before any evaluation
+run and applied to within-context min--max normalised criteria. No monetary
+value of time, value of reliability or carbon price is used.
+
+\subsection{Mechanistic Rule}
+
+A selector that fires on raw demand explains nothing, so each context is
+expressed through eight dimensionless descriptors computable before activation:
+network saturation $x_1$; shortest-corridor saturation
+$x_2 = D/\mathrm{cap}_C$; alternative capacity share $x_3$; effective green
+ratio $x_4$; penetration $x_5$; information staleness
+$x_6 = \Delta/T^{\mathrm{ff}}_C$, the lag as a fraction of the free-flow trip
+time it describes; incident regime $x_7$; and controlled-flow saturation
+$x_8 = p\,D/\mathrm{cap}_C$, the share of the shortest corridor's capacity that
+the guided cohort alone would consume. Capacities are the measured values, so
+$x_1$, $x_2$ and $x_8$ are genuine degrees of saturation rather than scaled
+demand. A route-overlap index is omitted: the three corridors share only access
+and egress edges, so overlap is structurally constant here and carries no
+information.
+
+The mechanistic rule, denoted B1, is an axis-aligned region rule on
+$x_1$--$x_8$ of depth at most two, fitted on training contexts only. Its
+thresholds are reported as \emph{brackets between adjacent sampled levels},
+since a grid cannot locate a boundary more finely than its own spacing.
+
+\subsection{Context-Aware Selector}
+
+The learned selector predicts \emph{advantage}, not identity:
+\begin{equation}
+\Delta_a(x) \;=\; C(x, a_{\mathrm{SBS}}) - C(x,a),
+\qquad \hat{\pi}(x) = \arg\max_a \hat{\Delta}_a(x),
+\label{eq:advantage}
+\end{equation}
+with $a_{\mathrm{SBS}}$ determined on training contexts only. A positive
+$\Delta_a$ means $a$ beats the fixed policy a deployed system would otherwise
+run, so the learned quantity is the one a decision-maker needs. The model is
+gradient-boosted decision trees~\cite{friedman2001gbm,ke2017lightgbm}, one
+regressor per policy, with hyperparameters fixed before any evaluation run and
+never tuned on a test fold. With a few hundred context-level instances and full
+feedback from every policy, higher capacity is neither needed nor defensible;
+we use no graph neural network, deep network, reinforcement learning or
+contextual bandit.
+
+The baseline ladder is B0, the single best fixed policy; B1, the mechanistic
+rule; B2, a depth-3 decision tree; B3, multinomial logistic regression; B4, the
+advantage selector; and B5, its selective variant, with the hindsight benchmark
+VBS as reference. \textbf{The primary comparison is B4 against B1}: B0 is a low
+bar, and beating it shows only that the decision varies with context at all.
+
+\subsection{Validation and Distribution-Shift Framework}
+
+Evaluation is leave-one-context-out. Inside each fold, standardisation, the
+identity of the single best policy, tree thresholds, conformal quantiles and
+the support envelope are recomputed from training data alone. No seed of a
+held-out context appears in training, and no realised outcome is used as a
+feature --- the eight descriptors are functions of the context definition and
+cannot be computed from an outcome.
+
+\paragraph{Two gates.} B5 acts only if both pass. The \emph{support gate}
+measures mean distance to the five nearest training contexts in standardised
+descriptor space and abstains above the 95th percentile of the training fold's
+own such distances; it is a feature-space extrapolation detector. The
+\emph{confidence gate} is a split-conformal interval on the predicted advantage
+($\alpha=0.10$, calibrated on 30\% of the training fold); the selector acts only
+when the lower bound on the advantage over the fixed policy is positive, and it
+is calibrated under exchangeability, hence in-distribution. If either gate
+fails, the fixed policy is used.
+
+Neither gate detects concept shift, and the conformal guarantee does not survive
+covariate shift~\cite{shimodaira2000,tibshirani2019covshift}. We therefore
+report gate behaviour rather than coverage guarantees outside the training
+distribution, and the support gate is not presented as a general
+out-of-distribution detector.
+
+\subsection{Statistical Definitions and Evaluation Metrics}
+\label{sec:stats}
+
+The experimental unit is the context, not the vehicle. An advantage of policy
+$a$ over policy $b$ in a context is \emph{resolved} only when the paired seed
+differences $d_i = C_i(x,a) - C_i(x,b)$ satisfy
+\begin{equation}
+|\overline{d}| \;>\; 2\,\mathrm{SE}(\overline{d}),
+\qquad
+\mathrm{SE}(\overline{d}) = s_d / \sqrt{n},
+\label{eq:resolved}
+\end{equation}
+with $n$ the number of paired seeds. Differences that fail this criterion are
+treated as ties throughout, so no claim rests on a difference the seeds cannot
+separate. We report this resolution criterion rather than $p$-values: it is a
+descriptive threshold on paired replications, and we make no claim of
+statistical significance in the hypothesis-testing sense.
+
+Selector quality is reported as decision regret (mean, median, maximum and
+CVaR$_{90}$ over contexts), the share of contexts within the seed noise floor,
+the share exactly optimal, and the fraction of the available headroom closed.
+Selection accuracy --- how often the selector names the true best policy --- is
+reported separately and never used as a proxy for regret.

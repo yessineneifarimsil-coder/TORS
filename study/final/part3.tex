@@ -1,0 +1,141 @@
+\section{Experiments}
+
+\subsection{Experimental Factors and Full Factorial Design}
+
+Six factors are crossed fully (Table~\ref{tab:factors}), giving
+\NumContexts{} contexts. Each factor exists to activate one of the policy
+failure modes of Section~4.2: corridor demand and green ratio govern capacity
+shortage; penetration governs how much of the demand a policy actually
+commands, and hence the scope for herding; information lag governs staleness;
+the incident regime supplies travel-time risk; and the alternative-capacity
+factor determines whether there is uneven capacity to balance.
+
+The demand levels span uncongested to oversaturated conditions relative to the
+measured network capacity (Figure~\ref{fig:design}), and follow from that
+measurement rather than from a chosen range.
+
+\subsection{Common Random Numbers and Replications}
+
+Each context is run with \NumSeeds{} paired seeds and all four policies, giving
+\NumRunsMain{} runs in the main campaign.
+
+The vehicle set, departure times, guided/unguided labelling, habitual corridor
+choice, background traffic and the incident realisation depend on the seed and
+the context alone, never on the policy. Two runs of a context under different
+policies therefore face identical vehicles, and every comparison in this paper
+is paired. Unguided drivers follow a habitual corridor drawn once from a logit
+over free-flow path times fixed before any evaluation run; at penetration $p$, a
+fraction $1-p$ of corridor demand is inert with respect to the policy under
+test, which is what makes penetration a meaningful factor rather than a scaling
+of demand.
+
+\paragraph{Disruption as risk, not as a known event.} When the incident regime
+is active, one lane closure is drawn --- location, onset and duration --- from a
+declared distribution seeded by the run seed. Within a context and seed the
+realisation is identical across all four policies, preserving the pairing;
+across the seeds of a context it differs, so the context carries travel-time
+risk that no policy can know in advance. An incident occurring at an identical
+time and place in every replication would be a known event rather than a risk,
+and could not test a reliability-aware policy at all.
+
+\subsection{Main Campaign}
+
+The main campaign is the full factorial of Section~5.1 at \NumSeeds{} seeds:
+\NumRunsMain{} runs, from which every result in Section~\ref{sec:results}
+derives unless the text says otherwise. Runs are validated against criteria
+fixed in advance --- a completion rate of at least 0.98 and no teleported
+vehicles --- and a context enters the analysis only if all four policies have
+the full seed set.
+
+\subsection{Distribution-Shift Experiments}
+
+Eight held-out splits are evaluated separately and never pooled: demand above
+and below the training range; an interior demand level as an interpolation
+control; unseen information lag; unseen penetration; unseen green ratio;
+training without disruption and testing under it; and a disruption located on a
+corridor that carries none in training. Pooling them would average an
+interpolation control together with a domain shift and hide the only thing the
+experiment can say about them, which is that they differ.
+
+The first seven splits are held out from the main campaign. The eighth requires
+its own campaign, because no main-campaign context places a disruption on that
+corridor; it comprises \NumRunsOODNorth{} additional runs.
+
+\subsection{Boundary Refinement and Sensitivity Experiments}
+
+Where the main grid shows the preferred policy changing between adjacent demand
+levels, three intermediate demand levels were run in each of the \NumBoundN{}
+widest-margin cells, a further \NumRunsBoundary{} runs. The purpose is to ask
+whether the switching boundary can be located more finely than the
+\NumBoundGrid~veh/h grid spacing.
+
+Sensitivity to the two policy parameters fixed in advance --- the
+load-balancing admissibility tolerance and the reliability dispersion weight ---
+was measured on a declared subset of contexts, a further \NumRunsSens{} runs.
+Sensitivity to the preference weighting is computed from the main campaign and
+requires no additional simulation.
+
+\subsection{Experimental Integrity and Protocol Deviations}
+\label{sec:integrity}
+
+\paragraph{What was fixed, and when.} The experiment specification --- factors
+and levels, criteria, seed count, the resolution criterion of
+Eq.~\ref{eq:resolved}, screening gates, baseline ladder, model class and
+hyperparameters, abstention rules and shift splits --- was written and committed
+to version control \emph{before any evaluation run was executed}. Policy
+parameters were fixed at the same time and varied afterwards only as
+sensitivity. No factor level was chosen because it produced a particular
+outcome; the demand levels follow from measured capacity.
+
+\paragraph{Execution reconciliation.} The main campaign comprises
+\NumRunsMain{} valid runs
+($\NumContexts \times \NumPolicies \times \NumSeeds$), and this is the number
+underlying every result unless stated otherwise. The project executed
+\NumRunsTotalAttempted{} simulations in total, of which
+\NumRunsTotalSucceeded{} succeeded: \NumRunsValidate{} scenario-validation,
+\NumRunsScreen{} screening, \NumRunsMain{} main, \NumRunsSens{} sensitivity,
+\NumRunsOODNorth{} domain-shift and \NumRunsBoundary{} boundary-refinement runs,
+plus \NumRunsFailedBypass{} runs that failed for the reason given below. These
+counts are distinct and are not interchangeable.
+
+\paragraph{Protocol deviation D-1.} The pre-specified complementarity screen did
+not satisfy criterion G1 and therefore triggered the declared stopping rule. The
+main campaign was nevertheless executed, under the documented protocol deviation
+D-1. The reasons for continuation were recorded before campaign launch: a
+selection problem demonstrably existed; G1 was written against the scalar
+criterion and was blind to the three-criterion structure beside it; and the
+negative finding rested on 16 of \NumContexts{} contexts sampled at extreme
+factor levels only. A confirmatory criterion G1$'$, declared before the main
+campaign and identical in definition to G1, was then evaluated on all
+\NumContexts{} contexts. G1$'$ \NumGOneVerdict{}; the result is reported in
+Section~\ref{sec:complementarity}.
+
+We do not present G1$'$ as erasing the deviation, and we do not describe the
+original screen as having passed. It did not. The methodological lesson is that
+the screen sampled corner conditions and did not sample the interior transition
+region, so it had power to detect near-ties but not coverage to find where the
+minority policies win. A resolution-IV fraction at extreme levels is an
+efficient design for estimating main effects and a poor one for discovering
+where a winner map changes. That is a limitation of the screening design, not a
+justification for having continued.
+
+\paragraph{An infeasible shift split and its replacement.} One declared shift
+split placed the disruption on the bypass corridor. The bypass is single-lane,
+so the specified capacity-reducing lane closure does not constrain it --- it
+disconnects it, leaving vehicles already routed there without a valid path. All
+\NumRunsFailedBypass{} attempted runs failed for this reason. The split was
+replaced by the nearest feasible construction, a disruption on the two-lane
+north corridor, which preserves the intent --- a corridor carrying no disruption
+in any training context --- while remaining a capacity reduction rather than a
+severance. A guard now refuses any incident on a single-lane edge. The
+replacement is reported as split O8 and is \emph{not} the originally declared
+split.
+
+\paragraph{Traceability.} Every numeric value reported in this paper is
+generated from a single machine-readable results file by a script; a build-time
+check fails if the manuscript references a quantity the analysis did not
+produce. Automated quality-control checks cover leakage discipline,
+training-fold-only baseline selection, freeze ordering, shift reporting and
+citation completeness. All \NumRefs{} references were verified against publisher
+records; DOIs that could not be confirmed directly were omitted rather than
+inferred.
