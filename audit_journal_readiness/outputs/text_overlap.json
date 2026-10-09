@@ -1,0 +1,65 @@
+{
+ "journal": 12200,
+ "conf648": 7857,
+ "conf432": 7031,
+ "journal~conf648 n=6": {
+  "shared": 235,
+  "frac_of_first": 0.0196,
+  "frac_of_second": 0.0306
+ },
+ "journal~conf648 n=8": {
+  "shared": 141,
+  "frac_of_first": 0.0117,
+  "frac_of_second": 0.0182
+ },
+ "journal~conf648 n=10": {
+  "shared": 92,
+  "frac_of_first": 0.0076,
+  "frac_of_second": 0.0118
+ },
+ "journal~conf648 n=12": {
+  "shared": 66,
+  "frac_of_first": 0.0054,
+  "frac_of_second": 0.0085
+ },
+ "journal~conf432 n=6": {
+  "shared": 76,
+  "frac_of_first": 0.0064,
+  "frac_of_second": 0.0109
+ },
+ "journal~conf432 n=8": {
+  "shared": 29,
+  "frac_of_first": 0.0024,
+  "frac_of_second": 0.0041
+ },
+ "journal~conf432 n=10": {
+  "shared": 11,
+  "frac_of_first": 0.0009,
+  "frac_of_second": 0.0016
+ },
+ "journal~conf432 n=12": {
+  "shared": 4,
+  "frac_of_first": 0.0003,
+  "frac_of_second": 0.0006
+ },
+ "conf648~conf432 n=6": {
+  "shared": 28,
+  "frac_of_first": 0.0036,
+  "frac_of_second": 0.004
+ },
+ "conf648~conf432 n=8": {
+  "shared": 7,
+  "frac_of_first": 0.0009,
+  "frac_of_second": 0.001
+ },
+ "conf648~conf432 n=10": {
+  "shared": 3,
+  "frac_of_first": 0.0004,
+  "frac_of_second": 0.0004
+ },
+ "conf648~conf432 n=12": {
+  "shared": 1,
+  "frac_of_first": 0.0001,
+  "frac_of_second": 0.0001
+ }
+}

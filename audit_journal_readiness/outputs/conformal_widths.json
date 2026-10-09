@@ -1,0 +1,23 @@
+{
+ "folds_sampled": 24,
+ "conformal_halfwidth_mean_by_policy": {
+  "P1": 26.370579050065377,
+  "P2": 9.787778791895015,
+  "P3": 0.0,
+  "P4": 12.058900032093751
+ },
+ "max_predicted_advantage_mean": 0.0851654776234051,
+ "positive_true_advantage_mean_where_positive": {
+  "P1": 2.559385239321668,
+  "P2": 0.738870449515532,
+  "P3": 0.0,
+  "P4": 1.1570005372085073
+ },
+ "true_advantage_p90_by_policy": {
+  "P1": -2.0970372073677077,
+  "P2": 0.25943959139747835,
+  "P3": 0.0,
+  "P4": 0.7408462074882324
+ },
+ "seed_sd_of_SBS_mean_over_contexts": 7.504733355606639
+}

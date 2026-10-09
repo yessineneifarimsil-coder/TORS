@@ -1,0 +1,166 @@
+{
+ "n_contexts": 648,
+ "seeds": [
+  1001,
+  1002,
+  1003,
+  1004,
+  1005
+ ],
+ "sbs": "P3",
+ "fixed_policy_mean_cost": {
+  "P1": 694.5582860994776,
+  "P2": 490.6912122105254,
+  "P3": 474.3526735139371,
+  "P4": 492.6888044812304
+ },
+ "wrong_fixed_penalty_vs_sbs": {
+  "P1": 220.20561258554056,
+  "P2": 16.33853869658833,
+  "P3": 0.0,
+  "P4": 18.336130967293343
+ },
+ "A_insample_headroom": {
+  "mean": 0.4508575659163588,
+  "median": 0.0,
+  "n_positive": 222,
+  "pct_of_sbs_mean_cost": 0.09504691152607407,
+  "share_top1pct": 0.26682066748878847,
+  "share_top5pct": 0.6422052713592327,
+  "share_top10pct": 0.8133897625281284,
+  "n_contexts_carrying_half": 20,
+  "max": 17.193959283031006
+ },
+ "B_crossfit_vbs_headroom": {
+  "mean": 0.23822928836984794,
+  "per_seed": [
+   0.1874720559511348,
+   0.22275590632975273,
+   0.19657620715564117,
+   0.48948323496741764,
+   0.09485903744529324
+  ],
+  "se_over_seeds": 0.06642073317128752,
+  "note": "positive = an oracle that picks the per-context winner from 4 seeds beats SBS on the 5th"
+ },
+ "C_null_headroom_if_all_policies_equal": {
+  "mean": 6.012541801052914,
+  "p95": 6.49454543467682,
+  "note": "headroom the in-sample VBS would report if policies were identical to SBS in truth and differed only by the observed paired seed noise"
+ },
+ "D_realised_gain_vs_SBS": {
+  "B0_SBS": {
+   "mean_gain": 0.0,
+   "per_seed": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "se_over_seeds": 0.0,
+   "min_seed": 0.0,
+   "n_deviate": 0,
+   "deviate_better_5seedmean": 0,
+   "deviate_worse_5seedmean": 0,
+   "deviate_sign_consistent_all_seeds": 0
+  },
+  "B1_mechanistic": {
+   "mean_gain": -0.32207628003912775,
+   "per_seed": [
+    -0.37330379693258875,
+    -0.22779824918121355,
+    -0.31877469064086467,
+    -0.21063452150397718,
+    -0.47987014193699457
+   ],
+   "se_over_seeds": 0.04941744351953076,
+   "min_seed": -0.47987014193699457,
+   "n_deviate": 333,
+   "deviate_better_5seedmean": 166,
+   "deviate_worse_5seedmean": 155,
+   "deviate_sign_consistent_all_seeds": 50
+  },
+  "B2_tree3": {
+   "mean_gain": 0.10738865697268589,
+   "per_seed": [
+    0.23443642335589382,
+    0.07354224776163808,
+    0.15445726935032403,
+    0.15926093028219282,
+    -0.08475358588661927
+   ],
+   "se_over_seeds": 0.05436521997559681,
+   "min_seed": -0.08475358588661927,
+   "n_deviate": 166,
+   "deviate_better_5seedmean": 111,
+   "deviate_worse_5seedmean": 45,
+   "deviate_sign_consistent_all_seeds": 14
+  },
+  "B3_logit": {
+   "mean_gain": 0.16838165914933778,
+   "per_seed": [
+    0.21804129554009283,
+    0.1527342370184936,
+    0.120097828678857,
+    0.25557762792974875,
+    0.09545730657949676
+   ],
+   "se_over_seeds": 0.02996944090235072,
+   "min_seed": 0.09545730657949676,
+   "n_deviate": 201,
+   "deviate_better_5seedmean": 134,
+   "deviate_worse_5seedmean": 56,
+   "deviate_sign_consistent_all_seeds": 21
+  },
+  "B4_GBDT": {
+   "mean_gain": 0.2515539428362928,
+   "per_seed": [
+    0.21369936731696182,
+    0.1633441298480666,
+    0.167257211013884,
+    0.4986988282985669,
+    0.2147701777039847
+   ],
+   "se_over_seeds": 0.06275090388933655,
+   "min_seed": 0.1633441298480666,
+   "n_deviate": 233,
+   "deviate_better_5seedmean": 146,
+   "deviate_worse_5seedmean": 78,
+   "deviate_sign_consistent_all_seeds": 29
+  },
+  "B5_selective": {
+   "mean_gain": 0.0,
+   "per_seed": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "se_over_seeds": 0.0,
+   "min_seed": 0.0,
+   "n_deviate": 0,
+   "deviate_better_5seedmean": 0,
+   "deviate_worse_5seedmean": 0,
+   "deviate_sign_consistent_all_seeds": 0
+  }
+ },
+ "D_B4_concentration": {
+  "total": 0.2515539428362928,
+  "top10_contexts_share": 0.6208931599211973,
+  "top20_share": 0.8970567652313609,
+  "sum_positive": 0.3772651984392358,
+  "sum_negative": -0.125711255602943
+ },
+ "E_gate": {
+  "abstain_rate": 0.3595679012345679,
+  "out_of_support": 0.04938271604938271,
+  "b5_equals_b0_all": true,
+  "b4_deviates": 233,
+  "abstains_exactly_where_b4_deviates": true
+ },
+ "F_resolution": {
+  "mean_sd_paired_diff_best_vs_sbs": 1.8014887265545305
+ }
+}
